@@ -11,18 +11,8 @@ function tierId(tier: FirmTier): string {
   return 'tier-' + tier.toLowerCase().replace(/\s+/g, '-');
 }
 
-const TIER_JUMP: Record<FirmTier, string> = {
-  'Magic Circle':
-    'border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-950/40',
-  'Silver Circle':
-    'border-violet-200 dark:border-violet-800 text-violet-700 dark:text-violet-300 hover:bg-violet-50 dark:hover:bg-violet-950/40',
-  'International':
-    'border-teal-200 dark:border-teal-800 text-teal-700 dark:text-teal-300 hover:bg-teal-50 dark:hover:bg-teal-950/40',
-  'US Firms':
-    'border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/40',
-  'Boutique':
-    'border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-950/40',
-};
+const TIER_JUMP_CLASS =
+  'border-stone-200 dark:border-stone-700 text-stone-500 dark:text-stone-400 hover:border-stone-400 dark:hover:border-stone-500 hover:text-stone-900 dark:hover:text-stone-100';
 
 export function FirmsDirectory({ firms }: { firms: FirmProfile[] }) {
   const [query, setQuery] = useState('');
@@ -82,7 +72,7 @@ export function FirmsDirectory({ firms }: { firms: FirmProfile[] }) {
             <a
               key={tier}
               href={`#${tierId(tier)}`}
-              className={`text-[10px] font-sans font-semibold tracking-[0.1em] uppercase px-2.5 py-1 rounded-sm border transition-colors ${TIER_JUMP[tier]}`}
+              className={`text-[10px] font-sans font-semibold tracking-[0.1em] uppercase px-2.5 py-1 rounded-sm border transition-colors ${TIER_JUMP_CLASS}`}
             >
               {tier}
             </a>
