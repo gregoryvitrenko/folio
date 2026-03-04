@@ -70,7 +70,7 @@ export function Header({ date, isArchive = false, archiveDate }: HeaderProps) {
               </Link>
               <Link href="/saved" className={NAV_LINK}>
                 <Bookmark size={11} />
-                Saved
+                Bookmarks
               </Link>
               <Link href="/firms" className={NAV_LINK}>
                 <Building2 size={11} />

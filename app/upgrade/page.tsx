@@ -6,11 +6,12 @@ import { useUser } from '@clerk/nextjs';
 import { CheckCircle2 } from 'lucide-react';
 
 const PREMIUM_FEATURES = [
-  'Full articles — analysis, talking points, why it matters',
-  'Daily quiz — 18 questions testing your recall',
-  'Audio briefing — human voice, listen on your commute',
-  'Full archive — every past briefing',
-  'Bookmarks + notes — save stories with your own annotations',
+  'In-depth articles — structured talking points so you always have something sharp to say',
+  'Daily quiz — 21 questions to lock in the facts before your application',
+  'Firm profiles — deadlines, salaries & culture notes for 37 City firms',
+  'Sector Primers — deep-dive explainers on M&A, Capital Markets, Disputes & more',
+  'Audio briefing — listen on your commute, arrive at the interview informed',
+  'Full archive + bookmarks — build your commercial knowledge base over time',
 ];
 
 export default function UpgradePage() {
@@ -64,7 +65,7 @@ export default function UpgradePage() {
               £4 / month
             </h2>
             <p className="text-[14px] text-zinc-500 dark:text-zinc-400">
-              Everything you need to walk into any interview prepared.
+              The fastest way to become the candidate who actually knows their stuff.
             </p>
           </div>
 

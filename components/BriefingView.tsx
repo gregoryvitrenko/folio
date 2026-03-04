@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import type { Briefing } from '@/lib/types';
 import { StoryGrid } from './StoryGrid';
 import { SectorWatch } from './SectorWatch';
@@ -13,11 +14,49 @@ export function BriefingView({ briefing, subscribed = false }: BriefingViewProps
   return (
     <main className="max-w-5xl mx-auto px-4 sm:px-6 pt-10 pb-28">
 
+      {/* Strapline — always visible, orients new visitors */}
+      <p className="font-sans text-[13px] text-stone-400 dark:text-stone-500 mb-8 leading-relaxed">
+        Daily commercial law briefings for future City trainees — curated stories, talking points, and firm intelligence, every morning.
+      </p>
+
       {/* Podcast player */}
       <PodcastPlayer briefing={briefing} />
 
       {/* Daily quiz entry point */}
       <QuizBanner date={briefing.date} />
+
+      {/* Start Here callouts — guide non-subscribers to high-value content */}
+      {!subscribed && (
+        <div className="mb-8">
+          <p className="font-mono text-[10px] tracking-widest uppercase text-stone-400 dark:text-stone-500 mb-3">
+            Start here
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <Link
+              href="/primers"
+              className="group block px-4 py-3 border border-stone-200 dark:border-stone-800 rounded-sm hover:border-stone-400 dark:hover:border-stone-600 transition-colors"
+            >
+              <span className="font-mono text-[9px] tracking-widest uppercase text-stone-400 dark:text-stone-500 block mb-1">
+                Sector Primers
+              </span>
+              <p className="text-[13px] font-semibold text-stone-800 dark:text-stone-100 group-hover:text-stone-900 dark:group-hover:text-stone-50 leading-snug">
+                Background on M&amp;A, Capital Markets, Disputes &amp; more →
+              </p>
+            </Link>
+            <Link
+              href="/firms"
+              className="group block px-4 py-3 border border-stone-200 dark:border-stone-800 rounded-sm hover:border-stone-400 dark:hover:border-stone-600 transition-colors"
+            >
+              <span className="font-mono text-[9px] tracking-widest uppercase text-stone-400 dark:text-stone-500 block mb-1">
+                Firm Profiles
+              </span>
+              <p className="text-[13px] font-semibold text-stone-800 dark:text-stone-100 group-hover:text-stone-900 dark:group-hover:text-stone-50 leading-snug">
+                Deadlines, salaries &amp; culture notes for 37 City firms →
+              </p>
+            </Link>
+          </div>
+        </div>
+      )}
 
       {/* Story grid with practice group tabs */}
       <div className="mb-12">

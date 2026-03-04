@@ -5,6 +5,7 @@ import { isSubscribed } from './subscription';
 // Call at the top of any premium server page.
 // Redirects to /sign-up if unauthenticated, /upgrade if not subscribed.
 export async function requireSubscription() {
+  if (process.env.PREVIEW_MODE === 'true') return; // bypass for preview sessions
   const { userId } = await auth();
   if (!userId) {
     redirect('/sign-up');
@@ -17,6 +18,7 @@ export async function requireSubscription() {
 
 // Use this when you want to conditionally render content rather than redirect.
 export async function getSubscriptionStatus(): Promise<'subscribed' | 'free' | 'unauthenticated'> {
+  if (process.env.PREVIEW_MODE === 'true') return 'subscribed'; // bypass for preview sessions
   const { userId } = await auth();
   if (!userId) return 'unauthenticated';
   const subscribed = await isSubscribed(userId);
