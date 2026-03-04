@@ -317,9 +317,9 @@ export function TestSession({ testType, mode }: TestSessionProps) {
       <div className="flex items-center justify-between px-5 py-3 border-b border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950 shrink-0">
         <Link
           href={`/tests/${testType}`}
-          className="inline-flex items-center gap-1.5 text-[11px] text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-300 transition-colors"
+          className="inline-flex items-center gap-1.5 text-[13px] font-medium text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 border border-stone-200 dark:border-stone-700 hover:border-stone-400 dark:hover:border-stone-500 rounded-sm px-3 py-1.5 transition-colors"
         >
-          <ChevronLeft size={12} />
+          <ChevronLeft size={14} />
           Exit
         </Link>
         <span className="font-mono text-[10px] tracking-widest uppercase text-stone-400 dark:text-stone-500">
@@ -366,9 +366,9 @@ export function TestSession({ testType, mode }: TestSessionProps) {
           <p className="text-[14px] text-rose-600 dark:text-rose-400">{errorMsg}</p>
           <Link
             href={`/tests/${testType}`}
-            className="inline-flex items-center gap-2 text-[12px] font-semibold text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200"
+            className="inline-flex items-center gap-1.5 text-[13px] font-medium text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 border border-stone-200 dark:border-stone-700 hover:border-stone-400 dark:hover:border-stone-500 rounded-sm px-3 py-1.5 transition-colors"
           >
-            <ChevronLeft size={12} /> Back to overview
+            <ChevronLeft size={14} /> Back to overview
           </Link>
         </div>
       </Shell>
@@ -461,9 +461,9 @@ export function TestSession({ testType, mode }: TestSessionProps) {
             </Link>
             <Link
               href={`/tests/${testType}`}
-              className="inline-flex items-center gap-2 px-4 py-2 border border-stone-200 dark:border-stone-700 text-[12px] font-semibold text-stone-700 dark:text-stone-300 rounded-sm hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
+              className="inline-flex items-center gap-1.5 text-[13px] font-medium text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 border border-stone-200 dark:border-stone-700 hover:border-stone-400 dark:hover:border-stone-500 rounded-sm px-3 py-1.5 transition-colors"
             >
-              <ChevronLeft size={12} />
+              <ChevronLeft size={14} />
               Back to overview
             </Link>
           </div>

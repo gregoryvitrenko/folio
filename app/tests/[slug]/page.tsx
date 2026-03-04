@@ -29,9 +29,9 @@ export default async function TestPage({
         {/* Back link */}
         <Link
           href="/tests"
-          className="inline-flex items-center gap-1.5 text-[11px] text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-300 transition-colors mb-6"
+          className="inline-flex items-center gap-1.5 text-[13px] font-medium text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 border border-stone-200 dark:border-stone-700 hover:border-stone-400 dark:hover:border-stone-500 rounded-sm px-3 py-1.5 transition-colors mb-8"
         >
-          <ChevronLeft size={12} />
+          <ChevronLeft size={14} />
           All tests
         </Link>
 
