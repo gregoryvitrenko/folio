@@ -168,7 +168,7 @@ Generate exactly ${count} questions.`;
 
 // ── Bank building ─────────────────────────────────────────────────────────────
 
-const BANK_BATCHES: Record<string, number> = { 'watson-glaser': 3, 'sjt': 2 };
+const BANK_BATCHES: Record<string, number> = { 'watson-glaser': 7, 'sjt': 7 };
 export const BANK_TTL_DAYS = 7;
 
 /** Build a full question bank for a test type by running parallel batches. */
@@ -201,7 +201,7 @@ export async function generateAptitudeQuestions(
 
   const completion = await anthropic.messages.create({
     model: 'claude-haiku-4-5-20251001',
-    max_tokens: 6000,
+    max_tokens: 8000,
     system: 'You are a test-setter for UK law firm aptitude assessments. Generate realistic, challenging practice questions that accurately reflect real Watson Glaser and SJT formats.',
     messages: [{ role: 'user', content: prompt }],
   });

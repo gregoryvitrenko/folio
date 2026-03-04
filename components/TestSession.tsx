@@ -155,6 +155,7 @@ export function TestSession({ testType, mode }: TestSessionProps) {
 
   const [uiState, setUiState] = useState<UIState>('loading');
   const [questions, setQuestions] = useState<AptitudeQuestion[]>([]);
+  const [allSeen, setAllSeen] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
   const [schedule, setSchedule] = useState<ScheduleItem[]>([]);
@@ -175,13 +176,17 @@ export function TestSession({ testType, mode }: TestSessionProps) {
 
     async function load() {
       try {
+        const seenKey = `ca_seen:${testType}`;
+        const seenIds = JSON.parse(localStorage.getItem(seenKey) ?? '[]') as string[];
+
         const res = await fetch('/api/aptitude-questions', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ testType, count: 10 }),
+          body: JSON.stringify({ testType, seenIds }),
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json() as { questions: AptitudeQuestion[] };
+        const data = await res.json() as { questions: AptitudeQuestion[]; allSeen: boolean };
+        setAllSeen(data.allSeen ?? false);
         if (cancelled) return;
 
         const qs = data.questions;
@@ -237,6 +242,23 @@ export function TestSession({ testType, mode }: TestSessionProps) {
     const id = setTimeout(() => setTimeLeft((t) => t - 1), 1000);
     return () => clearTimeout(id);
   });
+
+  // ── Persist seen question IDs on session end ───────────────────────────────
+
+  useEffect(() => {
+    if (uiState !== 'results' || questions.length === 0) return;
+    const seenKey = `ca_seen:${testType}`;
+    if (allSeen) {
+      // We've now cycled through everything — reset so next session starts fresh
+      localStorage.removeItem(seenKey);
+    } else {
+      const ids = questions.map((q) => q.id);
+      const existing = JSON.parse(localStorage.getItem(seenKey) ?? '[]') as string[];
+      const merged = Array.from(new Set([...existing, ...ids]));
+      localStorage.setItem(seenKey, JSON.stringify(merged));
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [uiState]);
 
   const formatTime = (secs: number) => {
     const m = Math.floor(secs / 60).toString().padStart(2, '0');

@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
   if (!subscribed) return NextResponse.json({ error: 'Subscription required' }, { status: 403 });
 
   const body = await request.json();
-  const { testType } = body as { testType?: string };
+  const { testType, seenIds = [] } = body as { testType?: string; seenIds?: string[] };
 
   if (testType !== 'watson-glaser' && testType !== 'sjt') {
     return NextResponse.json({ error: 'testType must be "watson-glaser" or "sjt"' }, { status: 400 });
@@ -51,5 +51,11 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  return NextResponse.json({ questions: sampleRandom(bank, Math.min(10, bank.length)) });
+  // Filter out already-seen questions; fall back to full bank if too few unseen remain
+  const unseen = seenIds.length > 0 ? bank.filter((q) => !seenIds.includes(q.id)) : bank;
+  const allSeen = unseen.length < 5;
+  const pool = allSeen ? bank : unseen;
+  const questions = sampleRandom(pool, Math.min(10, pool.length));
+
+  return NextResponse.json({ questions, allSeen });
 }
