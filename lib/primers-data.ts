@@ -161,7 +161,87 @@ export const PRIMERS: Primer[] = [
       'Capital markets work is central to the practice of most City law firms and is a staple interview topic. Understanding the difference between equity and debt, being able to explain what a prospectus does, and following a recent IPO or bond issuance signals the commercial awareness that recruiters are testing for. Many trainees rotate through a capital markets seat, so familiarity with the landscape gives you a genuine head start.',
   },
 
-  // ─── 3. Energy & Tech ───────────────────────────────────────────────────────
+  // ─── 3. Banking & Finance ─────────────────────────────────────────────────────
+  {
+    slug: 'banking-and-finance',
+    title: 'Banking & Finance',
+    category: 'Banking & Finance',
+    strapline:
+      'How companies borrow money — from bilateral loans to billion-pound leveraged buyouts.',
+    readTimeMinutes: 12,
+    sections: [
+      {
+        heading: 'What Is Banking & Finance Law?',
+        body: '**Banking and finance** (often shortened to B&F) is the practice area that deals with lending transactions — the legal architecture through which companies borrow money from banks and institutional lenders. While capital markets focuses on raising funds by issuing securities to investors, banking and finance covers the private, negotiated lending that sits alongside (and often funds) those deals. The work ranges from straightforward **bilateral loans** (a single bank lending to a single borrower) to immensely complex **syndicated facilities** involving dozens of lenders, multiple tranches of debt, and intercreditor arrangements. At Magic Circle and US firms, banking and finance is one of the largest practice groups by headcount and revenue, and it touches almost every major transaction the firm handles.',
+      },
+      {
+        heading: 'Loan Structures and Facility Agreements',
+        body: 'The core document in any lending transaction is the **facility agreement** — the contract between the borrower and its lenders. Most large facilities in the UK and European markets are documented on **LMA** (Loan Market Association) standard forms, which provide a widely recognised baseline that lawyers then negotiate and tailor. A facility agreement typically includes **term loans** (a lump sum drawn down at the outset and repaid by maturity), **revolving credit facilities** (an RCF — a flexible pot the borrower can draw down and repay repeatedly, like an overdraft on a larger scale), and sometimes **capex facilities** or **acquisition facilities** for specific purposes. Key negotiation points include the **margin** (the interest rate above the benchmark — typically **SONIA** in sterling or **SOFR** in dollars), the **commitment fee** on undrawn amounts, the **maturity date**, and the circumstances in which lenders can demand early repayment.',
+      },
+      {
+        heading: 'Leveraged Finance',
+        body: '**Leveraged finance** is the engine room of private equity. When a **PE sponsor** acquires a company via a **leveraged buyout** (LBO), the purchase price is funded with a mix of the sponsor\'s own equity and significant amounts of borrowed money — often 50–70% debt. The debt package typically includes **senior secured term loans** (ranking first in the repayment waterfall), a **revolving credit facility** for working capital, and sometimes **mezzanine debt** or **high-yield bonds** sitting behind the senior debt. The **security package** — charges over the target\'s shares, assets, and bank accounts — is what gives senior lenders their priority. Lawyers drafting these structures must navigate the **financial assistance** rules (under **s.678–680 Companies Act 2006**), which restrict a target company from providing security for the debt used to acquire it. The standard workaround — known as **whitewash** — involves the target\'s directors confirming the company is solvent and that the assistance is in the company\'s interest.',
+      },
+      {
+        heading: 'Covenants, Events of Default, and Intercreditor Agreements',
+        body: 'Lenders protect themselves through **covenants** — contractual restrictions on the borrower\'s behaviour. **Financial covenants** require the borrower to maintain specified financial ratios — for example, a **leverage ratio** (net debt to EBITDA) or an **interest cover ratio** (EBITDA to interest expense). If a ratio is breached, the borrower is in default. **Information covenants** require regular delivery of financial statements and compliance certificates. **General undertakings** restrict the borrower from doing things like disposing of major assets, incurring additional debt, or changing its business without lender consent. When there are multiple layers of debt, an **intercreditor agreement** (ICA) governs the relationship between different classes of lender — who gets paid first if things go wrong, who can enforce security, and what happens in a restructuring. The ICA is often the most heavily negotiated document in a leveraged deal.',
+      },
+      {
+        heading: 'The Lawyer\'s Role',
+        body: 'Banking and finance lawyers act for either the **lender side** or the **borrower side**, and the perspective shapes the work fundamentally. **Lender-side** counsel drafts the facility agreement and related security documents, negotiates covenant packages, manages the condition precedent (CP) process before drawdown, and advises on enforcement options if things go wrong. **Borrower-side** counsel pushes for flexibility — wider baskets and exceptions to covenants, fewer restrictions on the borrower\'s operational freedom, and borrower-friendly default cure rights. In practice, a junior associate on a B&F deal spends significant time on the **CP checklist** — coordinating the delivery of board resolutions, legal opinions, officer certificates, auditor comfort letters, and corporate structure charts before the facility can be drawn. This work is detail-intensive and time-pressured: the client wants the money, and every missing document holds up drawdown.',
+      },
+      {
+        heading: 'Recent Trends',
+        body: '**Private credit** — lending by non-bank institutions such as direct lending funds — has exploded in the past five years, now rivalling the syndicated loan market for mid-cap leveraged buyouts. Direct lenders like **Ares**, **HPS**, and **Owl Rock** offer speed and certainty of execution, though typically at a higher margin than bank debt. The **benchmark rate transition** from LIBOR to risk-free rates (**SONIA** in the UK, **SOFR** in the US) is now largely complete, but legacy contracts and fallback mechanics still generate work. **ESG-linked loans** — where the margin adjusts if the borrower hits sustainability targets — have become common, though scrutiny of the rigour of those targets is intensifying. On the restructuring side, the UK\'s **Restructuring Plan** (introduced by the **Corporate Insolvency and Governance Act 2020**) has given distressed borrowers a powerful new tool, allowing courts to impose a restructuring on dissenting creditor classes — a mechanism already tested in major cases like **Virgin Active** and **Adler Group**.',
+      },
+    ],
+    keyTerms: [
+      {
+        term: 'Facility Agreement',
+        definition:
+          'The core lending contract between borrower and lenders, setting out the terms of the loan including amount, interest rate, repayment schedule, covenants, and events of default.',
+      },
+      {
+        term: 'Syndicated Loan',
+        definition:
+          'A loan provided by a group of lenders (the syndicate), coordinated by an arranging bank, spreading the credit risk of a large facility across multiple institutions.',
+      },
+      {
+        term: 'LMA (Loan Market Association)',
+        definition:
+          'The trade body that publishes standard-form loan documentation used as the starting point for most European syndicated loan and leveraged finance transactions.',
+      },
+      {
+        term: 'Leveraged Buyout (LBO)',
+        definition:
+          'An acquisition funded predominantly with borrowed money, typically by a private equity sponsor, where the debt is secured against the acquired company\'s assets and cash flows.',
+      },
+      {
+        term: 'SONIA',
+        definition:
+          'The Sterling Overnight Index Average — the near risk-free benchmark interest rate that replaced LIBOR for sterling lending, based on actual overnight transactions in the sterling money market.',
+      },
+      {
+        term: 'Intercreditor Agreement (ICA)',
+        definition:
+          'A contract between different classes of lender governing priority of repayment, rights to enforce security, and conduct during a restructuring — critical in leveraged deals with multiple debt tranches.',
+      },
+      {
+        term: 'Financial Covenant',
+        definition:
+          'A clause requiring the borrower to maintain specified financial ratios (e.g., leverage, interest cover) tested at regular intervals, breach of which constitutes an event of default.',
+      },
+      {
+        term: 'Security Package',
+        definition:
+          'The bundle of charges, pledges, and assignments granted by the borrower and its group companies over their assets in favour of lenders, providing collateral for the loan.',
+      },
+    ],
+    whyItMatters:
+      'Banking and finance is one of the largest and most active practice areas at every major City firm, yet many applicants neglect it in favour of M&A or disputes. Being able to explain how a facility agreement works, what financial covenants do, and why an intercreditor agreement matters in a leveraged buyout immediately sets you apart. Firms see hundreds of candidates who can discuss a recent M&A deal — far fewer who can articulate the debt side of the same transaction. If you can connect a headline PE deal to its financing structure, you demonstrate the kind of joined-up commercial thinking that partners look for.',
+  },
+
+  // ─── 4. Energy & Tech ───────────────────────────────────────────────────────
   {
     slug: 'energy-and-technology',
     title: 'Energy & Technology',
@@ -241,7 +321,7 @@ export const PRIMERS: Primer[] = [
       'Energy and technology are the two sectors generating the most new legal work across the City. Firms are hiring aggressively in both areas, and interviewers expect you to have a view on the energy transition, data regulation, and how technology is reshaping deal activity. Being able to discuss a recent offshore wind deal or explain why AI raises competition concerns shows you understand where the profession is heading.',
   },
 
-  // ─── 4. Financial Regulation ────────────────────────────────────────────────
+  // ─── 5. Financial Regulation ────────────────────────────────────────────────
   {
     slug: 'financial-regulation',
     title: 'Financial Regulation',
@@ -321,7 +401,7 @@ export const PRIMERS: Primer[] = [
       'Financial regulation underpins every transaction that touches the City of London. Whether you end up in M&A, capital markets, or banking, you will encounter regulatory constraints daily. Interviewers at firms with strong regulatory practices — and that includes most of the Magic Circle — expect you to know who the FCA and PRA are, understand what market abuse means, and have a view on how the UK\'s post-Brexit regulatory landscape is evolving.',
   },
 
-  // ─── 5. Disputes ────────────────────────────────────────────────────────────
+  // ─── 6. Disputes ────────────────────────────────────────────────────────────
   {
     slug: 'commercial-disputes',
     title: 'Commercial Disputes',
@@ -401,7 +481,7 @@ export const PRIMERS: Primer[] = [
       'Dispute resolution is one of the largest practice areas by headcount at City firms, and many trainees are drawn to the intellectual challenge of advocacy and strategic case management. Even if you aim for a transactional practice, understanding how disputes arise from deals — warranty claims, shareholder disputes, regulatory investigations — makes you a better deal lawyer. Interviewers value candidates who can discuss a recent high-profile case and explain its commercial implications.',
   },
 
-  // ─── 6. International ───────────────────────────────────────────────────────
+  // ─── 7. International ───────────────────────────────────────────────────────
   {
     slug: 'international-transactions',
     title: 'International Transactions',
@@ -481,7 +561,7 @@ export const PRIMERS: Primer[] = [
       'Every Magic Circle and international firm operates across multiple jurisdictions, and understanding how cross-border deals work is essential. Interviewers want to see that you grasp why governing law matters, how sanctions affect deal execution, and what challenges arise when multiple legal systems interact. Discussing a recent cross-border deal or geopolitical development — and articulating its legal implications — demonstrates the global perspective these firms value.',
   },
 
-  // ─── 7. AI & Law ────────────────────────────────────────────────────────────
+  // ─── 8. AI & Law ────────────────────────────────────────────────────────────
   {
     slug: 'ai-and-law',
     title: 'AI & Law',
