@@ -405,14 +405,84 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
   const elapsed = duration != null ? progress * duration : null;
   const hasVoices = voices.length > 0;
 
+  // ── Helpers ───────────────────────────────────────────────────────────────
+
+  function formatCoverDate(dateStr: string): string {
+    const [year, month, day] = dateStr.split('-').map(Number);
+    return new Date(year, month - 1, day).toLocaleDateString('en-GB', {
+      day: 'numeric', month: 'long', year: 'numeric',
+    });
+  }
+
   // ── Render ────────────────────────────────────────────────────────────────
 
   return (
-    <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-sm overflow-hidden">
+    <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl overflow-hidden shadow-sm">
 
-      {/* Voice panel — slides in above the bar */}
+      {/* ── Cover art ──────────────────────────────────────────────────────── */}
+      <div className="relative bg-stone-950 aspect-square flex flex-col items-center justify-center overflow-hidden select-none">
+
+        {/* Dot-grid texture */}
+        <div
+          className="absolute inset-0 opacity-[0.06]"
+          style={{
+            backgroundImage: 'radial-gradient(circle, #d6d3d1 1px, transparent 1px)',
+            backgroundSize: '22px 22px',
+          }}
+        />
+
+        {/* Soft radial vignette */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,#0c0a09_100%)]" />
+
+        {/* Content */}
+        <div className="relative z-10 flex flex-col items-center gap-8 px-8 text-center">
+
+          {/* Large EQ bars / spinner */}
+          {isLoading ? (
+            <Loader2 className="w-10 h-10 text-stone-500 animate-spin" />
+          ) : (
+            <div className="flex items-end gap-[4px] h-[52px]">
+              {[
+                { anim: 'eq-a', dur: '0.9s',  delay: '0s',    staticH: '8px'  },
+                { anim: 'eq-b', dur: '0.65s', delay: '0.1s',  staticH: '36px' },
+                { anim: 'eq-c', dur: '1.1s',  delay: '0.05s', staticH: '18px' },
+                { anim: 'eq-d', dur: '0.75s', delay: '0.15s', staticH: '28px' },
+                { anim: 'eq-a', dur: '0.85s', delay: '0.08s', staticH: '12px' },
+              ].map((bar, i) => (
+                <div
+                  key={i}
+                  className={`w-[5px] rounded-[2px] transition-colors duration-300 ${
+                    isPlaying ? 'bg-stone-300' : 'bg-stone-600'
+                  }`}
+                  style={{
+                    height: bar.staticH,
+                    animation: isPlaying
+                      ? `${bar.anim} ${bar.dur} ease-in-out ${bar.delay} infinite`
+                      : 'none',
+                  }}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* Brand + date */}
+          <div>
+            <p className="font-mono text-[9px] tracking-[0.22em] uppercase text-stone-500 mb-2">
+              Commercial Awareness Daily
+            </p>
+            <p className="font-serif text-2xl text-white leading-tight">
+              Daily Briefing
+            </p>
+            <p className="font-mono text-[9px] text-stone-500 mt-2 tracking-wide">
+              {isLoading ? 'Writing script…' : formatCoverDate(briefing.date)}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Voice panel ────────────────────────────────────────────────────── */}
       {isOpen && (
-        <div className="border-b border-stone-100 dark:border-stone-800 px-4 pt-3 pb-2 space-y-2">
+        <div className="border-b border-stone-100 dark:border-stone-800 px-5 pt-3 pb-3 space-y-2">
           {errorMsg && (
             <p className="text-[11px] font-sans text-rose-500 break-all">{errorMsg}</p>
           )}
@@ -443,127 +513,126 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
         </div>
       )}
 
-      {/* Progress bar — full-width scrubber flush to the top of the bar */}
+      {/* ── Progress scrubber ──────────────────────────────────────────────── */}
       <div
         ref={progressBarRef}
-        className="relative h-1 bg-stone-100 dark:bg-stone-800 cursor-pointer select-none touch-none group"
+        className="relative h-1.5 bg-stone-100 dark:bg-stone-800 cursor-pointer select-none touch-none group"
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerCancel}
       >
         <div
-          className="absolute inset-y-0 left-0 bg-stone-400 dark:bg-stone-500 group-hover:bg-stone-500 dark:group-hover:bg-stone-400 transition-colors"
+          className="absolute inset-y-0 left-0 bg-stone-500 dark:bg-stone-400 group-hover:bg-stone-700 dark:group-hover:bg-stone-300 transition-colors"
           style={{ width: `${progress * 100}%` }}
+        />
+        {/* Scrubber thumb */}
+        <div
+          className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-stone-900 dark:bg-stone-100 shadow opacity-0 group-hover:opacity-100 transition-opacity -translate-x-1/2"
+          style={{ left: `${progress * 100}%` }}
         />
       </div>
 
-      {/* Main control row */}
-      <div className="flex items-center gap-3 px-4 sm:px-6 h-14">
+      {/* ── Time stamps ────────────────────────────────────────────────────── */}
+      <div className="flex justify-between px-5 pt-2 pb-0">
+        <span className="text-[10px] font-mono tabular-nums text-stone-400 dark:text-stone-500">
+          {elapsed != null ? formatTime(elapsed) : '0:00'}
+        </span>
+        <span className="text-[10px] font-mono tabular-nums text-stone-400 dark:text-stone-500">
+          {duration != null ? formatTime(duration) : '--:--'}
+        </span>
+      </div>
 
-        {/* EQ bars / loader */}
-        <div className="flex-shrink-0">
-          {isLoading ? (
-            <Loader2 className="w-4 h-4 text-stone-400 dark:text-stone-500 animate-spin" />
-          ) : (
-            <EqBars active={isPlaying} />
-          )}
-        </div>
+      {/* ── Controls ───────────────────────────────────────────────────────── */}
+      <div className="flex items-center justify-between px-5 pt-3 pb-5">
 
-        {/* Title + time */}
-        <div className="flex-1 min-w-0">
-          <p className="text-[12px] font-sans font-semibold text-stone-800 dark:text-stone-200 leading-tight truncate">
-            Daily Briefing Podcast
-          </p>
-          <p className="text-[10px] font-mono tabular-nums text-stone-400 dark:text-stone-500 leading-tight">
-            {isLoading
-              ? 'Writing script…'
-              : elapsed != null && duration != null
-              ? `${formatTime(elapsed)} / ${formatTime(duration)}`
-              : duration != null
-              ? `~${formatTime(duration)}`
-              : '~4 min'}
-          </p>
-        </div>
+        {/* Speed */}
+        <button
+          onClick={cycleSpeed}
+          className="w-10 h-10 flex items-center justify-center text-[12px] font-mono font-semibold text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-200 transition-colors tabular-nums"
+          aria-label="Change playback speed"
+          title="Playback speed"
+        >
+          {speed}×
+        </button>
 
-        {/* Controls */}
-        <div className="flex items-center gap-2 flex-shrink-0">
-
-          {/* Stop */}
+        {/* Centre: Stop + Play/Pause */}
+        <div className="flex items-center gap-3">
           {isActive && (
             <button
               onClick={handleStop}
-              className="w-8 h-8 flex items-center justify-center text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-300 transition-colors"
+              className="w-9 h-9 flex items-center justify-center text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-200 transition-colors"
               aria-label="Stop"
             >
-              <Square className="w-4 h-4" />
+              <Square className="w-5 h-5" />
             </button>
           )}
 
-          {/* Play / Pause / Retry */}
           {status === 'error' ? (
             <button
               onClick={() => { updateStatus('idle'); setErrorMsg(null); handlePlay(); }}
-              className="flex items-center gap-1.5 text-[11px] font-sans font-semibold text-rose-500 hover:text-rose-600 transition-colors px-2"
+              className="flex items-center gap-1.5 text-[12px] font-sans font-semibold text-rose-500 hover:text-rose-600 transition-colors px-3 h-14"
             >
-              <Play className="w-3.5 h-3.5" /> Retry
+              <Play className="w-4 h-4" /> Retry
             </button>
           ) : (
             <button
               onClick={isPlaying ? handlePause : handlePlay}
               disabled={isLoading}
-              className="w-9 h-9 flex items-center justify-center rounded-full bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 hover:bg-stone-700 dark:hover:bg-stone-300 disabled:opacity-40 transition-colors"
+              className="w-14 h-14 flex items-center justify-center rounded-full bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 hover:bg-stone-700 dark:hover:bg-stone-300 disabled:opacity-40 transition-colors shadow-md"
               aria-label={isPlaying ? 'Pause' : 'Play'}
             >
               {isLoading ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
+                <Loader2 className="w-5 h-5 animate-spin" />
               ) : isPlaying ? (
-                <Pause className="w-4 h-4" />
+                <Pause className="w-5 h-5" />
               ) : (
-                <Play className="w-4 h-4 translate-x-[1px]" />
+                <Play className="w-5 h-5 translate-x-[1px]" />
               )}
             </button>
           )}
+        </div>
 
-          {/* Download — only when audio cached */}
+        {/* Right: Download + Voice */}
+        <div className="flex items-center gap-1">
           {audioReady && (
             <a
               href={`/api/podcast-audio?date=${briefing.date}&download=true`}
               download={`commercial-awareness-${briefing.date}.mp3`}
-              className="w-8 h-8 flex items-center justify-center text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-300 transition-colors"
+              className="w-10 h-10 flex items-center justify-center text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-200 transition-colors"
               aria-label="Download audio"
             >
               <Download className="w-4 h-4" />
             </a>
           )}
-
-          {/* Speed */}
-          <button
-            onClick={cycleSpeed}
-            className="h-8 px-2 text-[11px] font-mono font-semibold text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-200 transition-colors tabular-nums"
-            aria-label="Change playback speed"
-            title="Playback speed"
-          >
-            {speed === 1 ? '1×' : `${speed}×`}
-          </button>
-
-          {/* Voice selector toggle — only when ElevenLabs voices exist */}
           {(hasVoices || voicesLoading) && (
             <button
               onClick={toggleVoicePanel}
-              className={`w-8 h-8 flex items-center justify-center transition-colors ${
+              className={`w-10 h-10 flex items-center justify-center transition-colors ${
                 isOpen
                   ? 'text-stone-700 dark:text-stone-200'
-                  : 'text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-300'
+                  : 'text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-200'
               }`}
               aria-label="Voice settings"
             >
               <SlidersHorizontal className="w-4 h-4" />
             </button>
           )}
-
+          {/* Placeholder to keep layout balanced when no right-side buttons */}
+          {!audioReady && !hasVoices && !voicesLoading && (
+            <div className="w-10 h-10" />
+          )}
         </div>
+
       </div>
+
+      {/* ── Error message ──────────────────────────────────────────────────── */}
+      {errorMsg && !isOpen && (
+        <p className="text-[11px] font-sans text-rose-500 text-center px-5 pb-4 -mt-2 break-all">
+          {errorMsg}
+        </p>
+      )}
+
     </div>
   );
 }
