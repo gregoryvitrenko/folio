@@ -1,0 +1,571 @@
+import type { Primer } from './types';
+
+export const PRIMERS: Primer[] = [
+  // ─── 1. Mergers & Acquisitions ──────────────────────────────────────────────
+  {
+    slug: 'mergers-and-acquisitions',
+    title: 'Mergers & Acquisitions',
+    category: 'M&A',
+    strapline:
+      'How companies buy, sell, and combine — and what lawyers actually do on a deal.',
+    readTimeMinutes: 12,
+    sections: [
+      {
+        heading: 'What Is M&A?',
+        body: '**Mergers and acquisitions** is an umbrella term for transactions where ownership of a business changes hands. A **merger** combines two entities into one, while an **acquisition** sees a buyer purchase a target outright. Deals may also take the form of disposals (selling a division), management buyouts (**MBOs**), or joint ventures. Private M&A — where neither party is publicly listed — accounts for the vast majority of deal volume and is where most junior lawyers cut their teeth. Public M&A, governed by the **Takeover Code**, attracts the headlines but follows a distinct, more rigid procedural framework.',
+      },
+      {
+        heading: 'The Deal Lifecycle',
+        body: 'A typical private acquisition moves through several stages. It begins with **origination** — a client deciding to buy or sell — followed by preliminary negotiations and the signing of a **non-disclosure agreement** (NDA). The buyer then conducts **due diligence**: a forensic review of the target\'s contracts, litigation exposure, regulatory position, and finances. Once the parties agree on commercial terms, lawyers draft the core transaction documents, negotiate protections, and progress towards **signing**. If the deal has conditions — such as regulatory clearances — there will be a gap before **completion**, when legal title and funds actually transfer.',
+      },
+      {
+        heading: 'Key Documents',
+        body: 'The centrepiece of any acquisition is the **share purchase agreement** (SPA) or, for asset deals, an asset purchase agreement. The SPA sets out the price, payment mechanics (often **completion accounts** or a **locked box** structure), and the warranties and indemnities that allocate risk between buyer and seller. The **disclosure letter** qualifies the warranties by setting out known issues — if the seller fails to disclose a material fact, the buyer may have a warranty claim. Ancillary documents include tax covenants, transitional services agreements, and any **restrictive covenants** preventing the seller from competing post-completion.',
+      },
+      {
+        heading: 'The Lawyer\'s Role',
+        body: 'Lawyers on an M&A deal are not bystanders drafting paperwork — they shape deal structure and risk allocation from day one. **Buyer-side** counsel runs due diligence, negotiates warranty and indemnity protections, and advises on conditions precedent. **Seller-side** counsel prepares the disclosure letter, pushes back on overly broad warranties, and manages the data room. In practice, junior associates spend significant time on DD workstreams — reviewing hundreds of contracts, flagging change-of-control provisions, and summarising findings for the partner. Understanding the commercial context behind each clause is what separates a strong trainee from a competent one.',
+      },
+      {
+        heading: 'Public Takeovers',
+        body: 'When a listed company is the target, the **Takeover Code** — enforced by the **Takeover Panel** — imposes strict procedural and timing rules. A bidder must announce a firm intention to make an offer once a certain threshold is crossed, and the board of the target must obtain independent advice on whether the offer is fair. **Hostile bids**, where the target\'s board opposes the acquisition, generate the most dramatic M&A stories — think defence tactics, rival bidders, and regulatory intervention. The **Competition and Markets Authority** (CMA) and, for larger deals, the **European Commission** may also need to clear the transaction before it can complete.',
+      },
+      {
+        heading: 'Recent Trends',
+        body: '**Private equity** firms now account for a significant share of global M&A activity, using leveraged buyout structures to acquire and restructure businesses. National security reviews have become a major consideration: the UK\'s **National Security and Investment Act 2021** gives the government power to scrutinise and block deals in sensitive sectors. ESG considerations increasingly feature in due diligence, and **warranty and indemnity insurance** (W&I insurance) has become standard in European deal-making, shifting risk from the seller to an insurer. Cross-border deals face additional complexity from diverging sanctions regimes and foreign direct investment screening.',
+      },
+    ],
+    keyTerms: [
+      {
+        term: 'SPA (Share Purchase Agreement)',
+        definition:
+          'The primary contract governing the sale and purchase of shares in a target company, setting out price, warranties, and completion mechanics.',
+      },
+      {
+        term: 'Due Diligence',
+        definition:
+          'The investigation process where a buyer examines a target\'s legal, financial, tax, and commercial position before committing to a transaction.',
+      },
+      {
+        term: 'Warranty',
+        definition:
+          'A contractual statement of fact by the seller about the target company — if untrue, the buyer may claim damages for the resulting loss.',
+      },
+      {
+        term: 'Indemnity',
+        definition:
+          'A pound-for-pound reimbursement obligation for a specific identified risk, offering stronger protection than a warranty claim.',
+      },
+      {
+        term: 'Completion Accounts',
+        definition:
+          'A price adjustment mechanism where the final purchase price is determined by accounts drawn up shortly after completion, reflecting the target\'s actual financial position.',
+      },
+      {
+        term: 'Locked Box',
+        definition:
+          'An alternative pricing mechanism where the price is fixed by reference to a set of accounts at an agreed date before signing, with protections against value leakage.',
+      },
+      {
+        term: 'Condition Precedent',
+        definition:
+          'A requirement that must be satisfied (e.g., regulatory approval) before the parties are obliged to complete the transaction.',
+      },
+      {
+        term: 'Material Adverse Change (MAC)',
+        definition:
+          'A clause allowing a buyer to walk away if a significant negative event affects the target between signing and completion — heavily negotiated and rarely invoked.',
+      },
+    ],
+    whyItMatters:
+      'M&A is the flagship practice area at most commercial law firms and the one interviewers most expect you to understand. Being able to articulate the deal lifecycle, explain the difference between warranties and indemnities, and discuss a recent transaction you have followed demonstrates exactly the kind of commercial fluency firms look for at vacation scheme and training contract interviews.',
+  },
+
+  // ─── 2. Capital Markets ─────────────────────────────────────────────────────
+  {
+    slug: 'capital-markets',
+    title: 'Capital Markets',
+    category: 'Capital Markets',
+    strapline:
+      'How companies and governments raise money — through shares, bonds, and everything in between.',
+    readTimeMinutes: 11,
+    sections: [
+      {
+        heading: 'What Are Capital Markets?',
+        body: '**Capital markets** are the venues and mechanisms through which companies and governments raise long-term funding by issuing securities — shares or debt instruments — to investors. The **primary market** is where new securities are created and sold for the first time (an IPO or a bond issuance), while the **secondary market** is where existing securities are traded between investors (the London Stock Exchange, for instance). The distinction matters because lawyers advising on a primary market transaction focus on disclosure, structuring, and regulatory compliance, whereas secondary market work centres on trading rules, market abuse, and ongoing obligations.',
+      },
+      {
+        heading: 'Equity Capital Markets',
+        body: 'An **initial public offering** (IPO) is the process by which a private company lists its shares on a stock exchange for the first time. The company appoints **underwriters** (investment banks) who commit to buying any unsold shares, guaranteeing the fundraise. A detailed **prospectus** must be prepared and approved by the **FCA**, disclosing the company\'s business, financials, risks, and management. The **bookbuilding** process gauges investor demand at various price points before the final offer price is set. Beyond IPOs, listed companies may raise additional equity through **rights issues** (offering existing shareholders new shares pro rata) or **placings** (selling new shares to institutional investors).',
+      },
+      {
+        heading: 'Debt Capital Markets',
+        body: 'Instead of selling ownership, companies can raise funds by issuing **bonds** — debt instruments that promise to pay investors a fixed or floating **coupon** (interest rate) and return the principal at **maturity**. **Investment-grade bonds** are issued by highly rated borrowers and carry lower yields, while **high-yield bonds** (often called junk bonds) offer higher returns to compensate for greater credit risk. Bonds may be listed on exchanges like the **London Stock Exchange** or traded over-the-counter. The documentation — typically an offering circular or prospectus — is heavily negotiated, with **covenants** restricting what the issuer can do (e.g., limits on further borrowing or asset disposals) to protect bondholders.',
+      },
+      {
+        heading: 'The Prospectus and Disclosure',
+        body: 'The prospectus is the cornerstone document of any capital markets offering and carries significant legal liability. Under **FSMA** and the **UK Prospectus Regulation**, it must contain all information necessary for an investor to make an informed assessment of the issuer\'s financial position and prospects. Lawyers play a central role in drafting and verifying the prospectus, conducting a **verification process** where every factual statement is traced to a source. Inadequate disclosure can expose the issuer, its directors, and the underwriters to civil liability — making accuracy not just a best practice but a legal obligation.',
+      },
+      {
+        heading: 'Key Parties',
+        body: 'A capital markets transaction involves a web of professional advisers. The **issuer** is the company or government raising funds. **Underwriters** (or bookrunners) are the investment banks managing the offering and assuming distribution risk. A **sponsor** (required for premium listings on the LSE) vouches for the issuer\'s compliance with listing rules. Lawyers advise on both sides — issuer\'s counsel and underwriters\' counsel — each with distinct responsibilities around disclosure, due diligence, and regulatory filings. **Auditors** verify financial information, and **registrars** manage the share register.',
+      },
+      {
+        heading: 'Recent Trends',
+        body: '**ESG bonds** — green bonds, social bonds, and sustainability-linked bonds — have surged as issuers seek to align financing with environmental commitments, though concerns about **greenwashing** have prompted tighter disclosure standards. The UK\'s post-Brexit overhaul of its **listing regime** (the new UKLR rules effective 2024) simplified the premium/standard distinction into a single listing category, aiming to make London more competitive for IPOs. **Direct listings**, where companies list without raising new capital or using underwriters, offer an alternative to the traditional IPO but have seen limited uptake outside the US. Meanwhile, the rise of **private credit** markets has given companies another route to raise debt outside public bond markets.',
+      },
+    ],
+    keyTerms: [
+      {
+        term: 'IPO (Initial Public Offering)',
+        definition:
+          'The first sale of a company\'s shares to the public, marking its transition from a private to a publicly listed entity.',
+      },
+      {
+        term: 'Prospectus',
+        definition:
+          'A legal document disclosing all material information about the issuer and the offering, required for public offers of securities.',
+      },
+      {
+        term: 'Underwriting',
+        definition:
+          'The commitment by an investment bank to purchase all or part of a securities offering, guaranteeing the issuer raises its target funds.',
+      },
+      {
+        term: 'Bookbuilding',
+        definition:
+          'The process of gauging investor demand at different price levels to determine the final offer price of an IPO or bond.',
+      },
+      {
+        term: 'Coupon',
+        definition:
+          'The periodic interest payment made to a bondholder, expressed as an annual percentage of the bond\'s face value.',
+      },
+      {
+        term: 'Covenant',
+        definition:
+          'A binding promise in a bond\'s terms restricting the issuer\'s conduct (e.g., caps on additional debt) to protect investors.',
+      },
+      {
+        term: 'Free Float',
+        definition:
+          'The proportion of a listed company\'s shares that are available for public trading, excluding shares held by insiders or strategic investors.',
+      },
+      {
+        term: 'Yield',
+        definition:
+          'The annual return an investor earns on a bond, accounting for its coupon payments and the price paid for it.',
+      },
+    ],
+    whyItMatters:
+      'Capital markets work is central to the practice of most City law firms and is a staple interview topic. Understanding the difference between equity and debt, being able to explain what a prospectus does, and following a recent IPO or bond issuance signals the commercial awareness that recruiters are testing for. Many trainees rotate through a capital markets seat, so familiarity with the landscape gives you a genuine head start.',
+  },
+
+  // ─── 3. Energy & Tech ───────────────────────────────────────────────────────
+  {
+    slug: 'energy-and-technology',
+    title: 'Energy & Technology',
+    category: 'Energy & Tech',
+    strapline:
+      'The energy transition and the tech sector — where regulation, investment, and innovation collide.',
+    readTimeMinutes: 11,
+    sections: [
+      {
+        heading: 'The Energy Transition',
+        body: 'The shift from fossil fuels to renewable energy sources is reshaping entire industries and creating vast new areas of legal work. The UK\'s legally binding commitment to reach **net zero** greenhouse gas emissions by 2050 (under the **Climate Change Act 2008**, as amended) drives policy across planning, tax, and energy regulation. Lawyers advise on the development of **offshore wind farms**, solar installations, battery storage, and hydrogen projects — each involving complex permitting, grid connection agreements, and construction contracts. The transition is not just about building new assets; it also involves decommissioning legacy infrastructure, managing stranded asset risk, and navigating the politics of energy security.',
+      },
+      {
+        heading: 'Project Finance',
+        body: 'Large energy and infrastructure projects are typically funded through **project finance** — a structure where lenders are repaid from the project\'s own cash flows rather than the sponsor\'s balance sheet. The project is housed in a **special purpose vehicle** (SPV), ring-fencing risk. A key concept is **bankability**: whether the project\'s contracts and risk allocation are robust enough for lenders to commit capital. Lawyers draft and negotiate the full suite of project documents — the **power purchase agreement** (PPA), the construction contract (often on an EPC basis), and the financing agreements. Getting the risk allocation right between sponsors, contractors, offtakers, and lenders is the core of the work.',
+      },
+      {
+        heading: 'Technology M&A and Venture Capital',
+        body: 'The technology sector generates a huge volume of deal activity, from **venture capital** funding rounds for early-stage startups to multi-billion-pound acquisitions by established tech companies. Lawyers advising tech clients need to understand IP licensing, open-source software compliance, data protection obligations, and the regulatory risks specific to digital platforms. **Venture capital** transactions involve negotiating term sheets, preference share structures, anti-dilution protections, and investor consent rights. On the M&A side, tech acquisitions often raise competition concerns — particularly where a dominant platform acquires a nascent competitor — attracting scrutiny from the **CMA** and international regulators.',
+      },
+      {
+        heading: 'Data Protection and Digital Regulation',
+        body: 'The **UK GDPR** and **Data Protection Act 2018** impose detailed obligations on how organisations collect, process, and transfer personal data. Lawyers advise on compliance frameworks, data processing agreements, and the rules governing international data transfers following Brexit. Beyond data protection, the **Online Safety Act 2023** creates new duties for platforms to protect users from illegal and harmful content, with **Ofcom** as the regulator. The **Digital Markets, Competition and Consumers Act 2024** introduces a new regulatory regime for firms with **Strategic Market Status**, giving the CMA enhanced powers to set conduct requirements for dominant digital platforms.',
+      },
+      {
+        heading: 'Infrastructure and PPP',
+        body: 'Major infrastructure projects — transport, utilities, social housing — often involve partnerships between the public and private sectors. The UK moved away from the **Private Finance Initiative** (PFI) model following criticism of value for money, but public-private collaboration continues under different frameworks, including the **Regulated Asset Base** (RAB) model used for Hinkley Point C and proposed for other major projects. Lawyers in this space work on procurement processes, concession agreements, and the regulatory frameworks that govern sectors like water, rail, and telecoms. Understanding how risk is shared between government and private investors is the central challenge.',
+      },
+      {
+        heading: 'Recent Trends',
+        body: 'Investment in **AI infrastructure** — data centres, chip fabrication, and cloud capacity — has become the dominant theme in tech, with major deals driven by the compute demands of large language models. In energy, the **hydrogen economy** is attracting serious capital, with governments offering production subsidies to make green hydrogen competitive. **Carbon capture and storage** (CCS) is moving from pilot to commercial scale, with the UK licensing its first transport and storage networks. Meanwhile, the convergence of energy and tech — smart grids, AI-optimised energy trading, and digital twins for infrastructure — is creating genuinely new categories of legal work.',
+      },
+    ],
+    keyTerms: [
+      {
+        term: 'SPV (Special Purpose Vehicle)',
+        definition:
+          'A legally separate entity created to isolate the financial risk of a specific project, so that the sponsor\'s other assets are not exposed if the project fails.',
+      },
+      {
+        term: 'PPA (Power Purchase Agreement)',
+        definition:
+          'A long-term contract between an energy generator and a buyer, fixing the price and volume of electricity to be supplied — essential for project bankability.',
+      },
+      {
+        term: 'Net Zero',
+        definition:
+          'The target of balancing greenhouse gas emissions produced with those removed from the atmosphere, legally binding in the UK by 2050.',
+      },
+      {
+        term: 'Bankability',
+        definition:
+          'Whether a project\'s risk profile and contractual framework are acceptable to lenders for the purpose of providing project finance.',
+      },
+      {
+        term: 'UK GDPR',
+        definition:
+          'The UK\'s retained version of the EU General Data Protection Regulation, governing the processing of personal data by organisations operating in the UK.',
+      },
+      {
+        term: 'RAB (Regulated Asset Base)',
+        definition:
+          'A funding model where investors earn a regulated return on capital deployed during construction, reducing risk and lowering the cost of finance for large infrastructure projects.',
+      },
+      {
+        term: 'EPC Contract',
+        definition:
+          'An Engineering, Procurement, and Construction contract under which a single contractor takes responsibility for delivering a project to a fixed price, time, and specification.',
+      },
+      {
+        term: 'Carbon Credit',
+        definition:
+          'A tradeable certificate representing the right to emit one tonne of carbon dioxide, used in compliance and voluntary carbon markets.',
+      },
+    ],
+    whyItMatters:
+      'Energy and technology are the two sectors generating the most new legal work across the City. Firms are hiring aggressively in both areas, and interviewers expect you to have a view on the energy transition, data regulation, and how technology is reshaping deal activity. Being able to discuss a recent offshore wind deal or explain why AI raises competition concerns shows you understand where the profession is heading.',
+  },
+
+  // ─── 4. Financial Regulation ────────────────────────────────────────────────
+  {
+    slug: 'financial-regulation',
+    title: 'Financial Regulation',
+    category: 'Regulation',
+    strapline:
+      'How the UK regulates its financial markets — the FCA, PRA, and the rules that govern the City.',
+    readTimeMinutes: 11,
+    sections: [
+      {
+        heading: 'The UK Regulatory Framework',
+        body: 'Following the 2008 financial crisis, the UK replaced the **Financial Services Authority** (FSA) with a **twin-peak** model. The **Financial Conduct Authority** (FCA) regulates conduct across the financial services industry — how firms treat customers and maintain market integrity. The **Prudential Regulation Authority** (PRA), a subsidiary of the Bank of England, supervises the safety and soundness of banks, insurers, and major investment firms. This division means a single bank might answer to both regulators: the PRA for its capital adequacy and the FCA for its sales practices. The overarching legislative framework is the **Financial Services and Markets Act 2000** (FSMA), as substantially amended by the Financial Services Act 2012 and subsequent legislation.',
+      },
+      {
+        heading: 'Authorisation and Regulated Activities',
+        body: 'Any firm wishing to carry on a **regulated activity** in the UK — such as accepting deposits, managing investments, or arranging insurance — must obtain authorisation from the FCA (or PRA, for dual-regulated firms) under **Part 4A of FSMA**. Operating without authorisation is a criminal offence. The **Regulated Activities Order** (RAO) defines the precise scope of activities that trigger this requirement. Lawyers advise clients on whether their business model falls within the regulatory perimeter — a question that has become increasingly complex as fintech, crypto, and platform-based models blur traditional boundaries. The authorisation process itself involves demonstrating adequate resources, competent management, and appropriate systems and controls.',
+      },
+      {
+        heading: 'Market Abuse',
+        body: 'The UK **Market Abuse Regulation** (UK MAR) prohibits three core forms of market misconduct: **insider dealing** (trading on material non-public information), **unlawful disclosure** of inside information, and **market manipulation** (artificially influencing the price of a financial instrument). These are civil offences enforced by the FCA, which can impose unlimited fines. Separate criminal offences under the **Criminal Justice Act 1993** and FSMA carry custodial sentences. For lawyers advising on M&A or capital markets transactions, managing the flow of inside information — through **insider lists**, trading restrictions, and carefully timed announcements — is a critical part of the role.',
+      },
+      {
+        heading: 'Anti-Money Laundering',
+        body: 'The **Money Laundering Regulations 2017** (MLRs) require regulated firms — including law firms — to conduct **know-your-customer** (KYC) checks, monitor transactions for suspicious activity, and file **suspicious activity reports** (SARs) with the National Crime Agency. The UK\'s anti-money laundering regime sits within a broader framework including the **Proceeds of Crime Act 2002** and the **Terrorism Act 2000**. Lawyers occupy a dual role: they advise clients on AML compliance while being subject to AML obligations themselves. Failing to report knowledge or suspicion of money laundering is itself a criminal offence, creating real tension between client confidentiality and reporting duties.',
+      },
+      {
+        heading: 'Sanctions and Financial Crime',
+        body: 'UK sanctions are administered by the **Office of Financial Sanctions Implementation** (OFSI), part of HM Treasury. Since Russia\'s invasion of Ukraine, the UK has imposed its most extensive sanctions regime to date, targeting individuals, entities, and entire sectors of the Russian economy. Lawyers advise clients on screening counterparties, structuring transactions to ensure sanctions compliance, and applying for licences where activity would otherwise be prohibited. The **Economic Crime and Corporate Transparency Act 2023** introduced a new "failure to prevent fraud" offence for large organisations, expanding corporate criminal liability. Sanctions compliance has become one of the fastest-growing areas of legal practice.',
+      },
+      {
+        heading: 'Recent Trends',
+        body: 'The **Consumer Duty** (effective July 2023) represents the FCA\'s most significant conduct reform in years, requiring firms to deliver good outcomes for retail customers across four key areas: products, price, understanding, and support. The **Edinburgh Reforms** and subsequent legislation aim to tailor the UK\'s post-Brexit regulatory framework for competitiveness, replacing retained EU law with UK-specific rules — a process often called the **Smarter Regulatory Framework**. Crypto regulation is being brought within the FSMA perimeter, with stablecoins and certain crypto-asset activities now requiring FCA authorisation. Operational resilience — the ability of financial firms to prevent, respond to, and recover from disruptions — has emerged as a regulatory priority following high-profile IT failures.',
+      },
+    ],
+    keyTerms: [
+      {
+        term: 'FCA (Financial Conduct Authority)',
+        definition:
+          'The UK regulator responsible for the conduct of financial services firms and the integrity of financial markets.',
+      },
+      {
+        term: 'PRA (Prudential Regulation Authority)',
+        definition:
+          'The Bank of England subsidiary that supervises the financial safety and soundness of banks, building societies, insurers, and major investment firms.',
+      },
+      {
+        term: 'FSMA (Financial Services and Markets Act 2000)',
+        definition:
+          'The primary legislation governing the regulation of financial services in the UK, establishing the framework within which the FCA and PRA operate.',
+      },
+      {
+        term: 'UK MAR (Market Abuse Regulation)',
+        definition:
+          'The UK regulation prohibiting insider dealing, unlawful disclosure of inside information, and market manipulation in respect of financial instruments.',
+      },
+      {
+        term: 'KYC (Know Your Customer)',
+        definition:
+          'The process by which regulated firms verify the identity and assess the risk profile of their clients before establishing a business relationship.',
+      },
+      {
+        term: 'SAR (Suspicious Activity Report)',
+        definition:
+          'A report filed with the National Crime Agency when a firm knows or suspects that a transaction or activity involves the proceeds of crime or terrorist financing.',
+      },
+      {
+        term: 'Consumer Duty',
+        definition:
+          'The FCA\'s overarching standard requiring firms to act to deliver good outcomes for retail customers, covering products, price, understanding, and support.',
+      },
+      {
+        term: 'Operational Resilience',
+        definition:
+          'The ability of a financial firm to prevent, adapt to, respond to, recover from, and learn from operational disruptions.',
+      },
+    ],
+    whyItMatters:
+      'Financial regulation underpins every transaction that touches the City of London. Whether you end up in M&A, capital markets, or banking, you will encounter regulatory constraints daily. Interviewers at firms with strong regulatory practices — and that includes most of the Magic Circle — expect you to know who the FCA and PRA are, understand what market abuse means, and have a view on how the UK\'s post-Brexit regulatory landscape is evolving.',
+  },
+
+  // ─── 5. Disputes ────────────────────────────────────────────────────────────
+  {
+    slug: 'commercial-disputes',
+    title: 'Commercial Disputes',
+    category: 'Disputes',
+    strapline:
+      'When deals go wrong — litigation, arbitration, and the art of resolving high-stakes disagreements.',
+    readTimeMinutes: 11,
+    sections: [
+      {
+        heading: 'The English Courts System',
+        body: 'Commercial disputes in England and Wales are primarily heard in the **High Court of Justice**, specifically the **Business and Property Courts** — an umbrella that includes the Commercial Court, the Technology and Construction Court (TCC), and the Chancery Division. The **Commercial Court** handles the most complex business disputes, often involving international parties who have chosen English law and jurisdiction. Appeals go to the **Court of Appeal** and, on points of law of general public importance, to the **Supreme Court**. The English courts\' reputation for judicial expertise, procedural fairness, and enforceable judgments makes London one of the world\'s leading dispute resolution centres.',
+      },
+      {
+        heading: 'Anatomy of a Commercial Dispute',
+        body: 'Before proceedings are issued, parties are expected to comply with the relevant **Pre-Action Protocol**, which encourages early exchange of information and attempts at settlement. Once proceedings begin, the key stages include filing of statements of case (particulars of claim and defence), **disclosure** (each party revealing relevant documents to the other), exchange of witness statements and expert reports, and finally **trial**. The **Civil Procedure Rules** (CPR) govern the process and emphasise proportionality, case management, and active judicial involvement. Most commercial disputes settle before trial — often at a **mediation** — but the litigation process shapes the negotiating dynamics throughout.',
+      },
+      {
+        heading: 'International Arbitration',
+        body: '**International arbitration** is the primary mechanism for resolving cross-border commercial and investment disputes outside national courts. The parties agree — usually in a contract clause — to submit disputes to a neutral tribunal. Leading institutional rules include those of the **LCIA** (London Court of International Arbitration), the **ICC** (International Chamber of Commerce), and **ICSID** (for investor-state disputes). A critical advantage of arbitration is **enforceability**: awards made in any of the 170+ signatory states to the **New York Convention** can be enforced in other signatory states, whereas court judgments require separate enforcement arrangements. London and Paris are the two most popular **seats** (legal homes) for international arbitration.',
+      },
+      {
+        heading: 'Alternative Dispute Resolution',
+        body: '**Mediation** is the most commonly used form of ADR in England and Wales. A neutral mediator facilitates negotiation between the parties, who retain control over the outcome — unlike in arbitration or litigation, where a third party imposes a decision. Courts actively encourage mediation, and an unreasonable refusal to mediate can result in **adverse costs orders** even if the refusing party wins the case. Other ADR mechanisms include **expert determination** (where an independent expert resolves a specific technical or valuation dispute) and **adjudication** (mandatory in construction disputes under the Housing Grants Act 1996). Choosing the right dispute resolution mechanism is a strategic decision that lawyers advise on at the contract drafting stage.',
+      },
+      {
+        heading: 'Key Remedies',
+        body: '**Damages** — monetary compensation — are the default remedy in English law, but courts have a range of additional tools. An **injunction** is a court order requiring a party to do or refrain from doing something — commonly used to enforce restrictive covenants or restrain breaches of confidence. A **freezing order** (formerly a Mareva injunction) prevents a defendant from dissipating assets before judgment, and a **search order** (formerly an Anton Piller order) allows premises to be searched for evidence. **Specific performance** compels a party to fulfil its contractual obligations but is granted only where damages would be inadequate — most commonly in real estate transactions.',
+      },
+      {
+        heading: 'Recent Trends',
+        body: '**Litigation funding** — where a third party finances a claimant\'s legal costs in exchange for a share of any recovery — has transformed access to justice for complex commercial claims, though the Supreme Court\'s decision in **PACCAR** (2023) temporarily disrupted the market by classifying certain funding agreements as damages-based agreements. **Group litigation** and collective proceedings (particularly under the Competition Act 1998) are growing in scale and frequency. The rise of **remote and hybrid hearings**, accelerated by the pandemic, has permanently changed court procedure. **Disclosure** reform — particularly the mandatory use of the Disclosure Pilot Scheme in the Business and Property Courts — aims to reduce the cost and burden of the traditionally most expensive stage of litigation.',
+      },
+    ],
+    keyTerms: [
+      {
+        term: 'Disclosure',
+        definition:
+          'The process by which each party to litigation reveals to the other the documents relevant to the issues in dispute.',
+      },
+      {
+        term: 'Injunction',
+        definition:
+          'A court order compelling a party to do something (mandatory) or refrain from doing something (prohibitory), breach of which is contempt of court.',
+      },
+      {
+        term: 'Freezing Order',
+        definition:
+          'A court order preventing a party from dealing with or dissipating its assets, designed to preserve funds for a potential future judgment.',
+      },
+      {
+        term: 'Arbitral Award',
+        definition:
+          'The binding decision issued by an arbitral tribunal, enforceable internationally under the New York Convention.',
+      },
+      {
+        term: 'Seat of Arbitration',
+        definition:
+          'The legal jurisdiction governing the arbitration proceedings (as distinct from the physical venue), determining the courts with supervisory jurisdiction.',
+      },
+      {
+        term: 'Third-Party Funding',
+        definition:
+          'An arrangement where an external funder finances a party\'s legal costs in exchange for a percentage of any damages recovered.',
+      },
+      {
+        term: 'Pre-Action Protocol',
+        definition:
+          'Rules requiring parties to exchange information and attempt settlement before issuing court proceedings, with cost penalties for non-compliance.',
+      },
+      {
+        term: 'Without Prejudice',
+        definition:
+          'A legal privilege protecting statements made in genuine settlement negotiations from being disclosed to the court.',
+      },
+    ],
+    whyItMatters:
+      'Dispute resolution is one of the largest practice areas by headcount at City firms, and many trainees are drawn to the intellectual challenge of advocacy and strategic case management. Even if you aim for a transactional practice, understanding how disputes arise from deals — warranty claims, shareholder disputes, regulatory investigations — makes you a better deal lawyer. Interviewers value candidates who can discuss a recent high-profile case and explain its commercial implications.',
+  },
+
+  // ─── 6. International ───────────────────────────────────────────────────────
+  {
+    slug: 'international-transactions',
+    title: 'International Transactions',
+    category: 'International',
+    strapline:
+      'How deals cross borders — the legal frameworks governing global commerce, trade, and investment.',
+    readTimeMinutes: 11,
+    sections: [
+      {
+        heading: 'Why Transactions Cross Borders',
+        body: 'Modern businesses operate across multiple jurisdictions, and their legal needs follow. A UK-headquartered company acquiring a target in Germany with operations in Singapore involves at least three legal systems. **Cross-border transactions** require lawyers to navigate different regulatory regimes, tax systems, employment laws, and commercial practices simultaneously. The growth of global supply chains, multinational corporate groups, and international capital flows means that even mid-market deals increasingly have an international dimension. Understanding how legal systems interact — and where they conflict — is fundamental to commercial practice at any international firm.',
+      },
+      {
+        heading: 'Cross-Border M&A',
+        body: 'An international acquisition involves **multi-jurisdictional due diligence**, where local counsel in each relevant country reviews the target\'s compliance, contracts, and litigation exposure. **Regulatory clearances** may be required from multiple competition authorities — the CMA in the UK, the European Commission in the EU, and DOJ/FTC in the US — each with different thresholds, timelines, and substantive tests. The transaction documents must address **governing law** (which country\'s law governs the contract) and **jurisdiction** (which courts resolve disputes), choices that can have significant practical consequences. Tax structuring is often the most complex aspect, as buyers seek to minimise the overall tax cost of the acquisition while complying with **transfer pricing** rules and anti-avoidance legislation in each jurisdiction.',
+      },
+      {
+        heading: 'International Trade and Sanctions',
+        body: 'International trade is governed by a framework of multilateral rules (the **WTO** agreements), bilateral **free trade agreements** (FTAs), and domestic legislation. Since Brexit, the UK has been building its own network of FTAs, independent of the EU\'s common commercial policy. **Export controls** restrict the transfer of military and dual-use goods and technology — an area of growing importance as geopolitical competition intensifies around semiconductor technology and advanced materials. **Sanctions** — restrictions imposed on countries, entities, or individuals for foreign policy or national security reasons — add a further layer of compliance that must be assessed in any transaction with an international element.',
+      },
+      {
+        heading: 'Sovereign Debt and Development Finance',
+        body: 'Governments borrow internationally by issuing **sovereign bonds** on global capital markets, governed by English or New York law. When sovereign borrowers face financial difficulty, the restructuring process is politically and legally complex — there is no international insolvency framework for states. Institutions such as the **IMF** (International Monetary Fund) and **World Bank** play central roles in providing emergency lending and supporting structural reform programmes. **Development finance institutions** (DFIs), such as the UK\'s British International Investment, finance infrastructure and private sector development in emerging markets, often alongside commercial banks. Lawyers advising in this space work at the intersection of public international law, finance, and policy.',
+      },
+      {
+        heading: 'Choice of Law and Jurisdiction',
+        body: 'Every cross-border contract must specify its **governing law** (the legal system that determines the parties\' rights and obligations) and the mechanism for resolving disputes (court litigation or arbitration, and where). English law is the most widely chosen governing law for international commercial contracts, thanks to its well-developed body of case law, certainty, and the expertise of the English courts. The choice is governed by **common law principles** in the UK and the **Rome I Regulation** (retained in modified form post-Brexit). Jurisdiction clauses determine which courts can hear a dispute, and their enforceability depends on the specific rules of the relevant legal systems. Getting these clauses right at the drafting stage prevents enormously expensive satellite litigation later.',
+      },
+      {
+        heading: 'Recent Trends',
+        body: '**De-globalisation** — or, more precisely, the reorganisation of global trade along geopolitical lines — is reshaping cross-border commercial activity. Concepts like **friend-shoring** (relocating supply chains to allied countries) and **near-shoring** (moving operations closer to home) reflect a shift from pure cost efficiency towards resilience and political alignment. **Bilateral investment treaty** (BIT) arbitration, where foreign investors bring claims against host states for expropriation or unfair treatment, has grown steadily — often involving claims worth billions. The proliferation of **foreign direct investment screening** regimes across the G7 means that cross-border deals increasingly face government review on national security grounds, adding time and uncertainty to transaction timetables.',
+      },
+    ],
+    keyTerms: [
+      {
+        term: 'Governing Law',
+        definition:
+          'The legal system chosen by the parties to determine their contractual rights and obligations — English law is the most common choice for international commercial contracts.',
+      },
+      {
+        term: 'Jurisdiction Clause',
+        definition:
+          'A contractual provision specifying which courts have the power to hear disputes arising from the agreement.',
+      },
+      {
+        term: 'Sanctions',
+        definition:
+          'Restrictions imposed by governments on trade, financial transactions, or dealings with specific countries, entities, or individuals for foreign policy or security reasons.',
+      },
+      {
+        term: 'Export Controls',
+        definition:
+          'Laws restricting the export of military, dual-use, and sensitive goods and technology to certain destinations or end-users.',
+      },
+      {
+        term: 'BIT (Bilateral Investment Treaty)',
+        definition:
+          'An agreement between two states establishing protections for foreign investors, including rights to fair treatment and compensation for expropriation.',
+      },
+      {
+        term: 'ISDS (Investor-State Dispute Settlement)',
+        definition:
+          'The arbitration mechanism through which foreign investors bring claims against host states under bilateral or multilateral investment treaties.',
+      },
+      {
+        term: 'Transfer Pricing',
+        definition:
+          'The rules governing how transactions between related entities in different jurisdictions are priced, designed to prevent profit shifting to low-tax jurisdictions.',
+      },
+      {
+        term: 'Force Majeure',
+        definition:
+          'A contractual clause excusing performance when extraordinary events beyond the parties\' control (war, natural disaster, pandemic) make it impossible or impracticable.',
+      },
+    ],
+    whyItMatters:
+      'Every Magic Circle and international firm operates across multiple jurisdictions, and understanding how cross-border deals work is essential. Interviewers want to see that you grasp why governing law matters, how sanctions affect deal execution, and what challenges arise when multiple legal systems interact. Discussing a recent cross-border deal or geopolitical development — and articulating its legal implications — demonstrates the global perspective these firms value.',
+  },
+
+  // ─── 7. AI & Law ────────────────────────────────────────────────────────────
+  {
+    slug: 'ai-and-law',
+    title: 'AI & Law',
+    category: 'AI & Law',
+    strapline:
+      'How artificial intelligence is regulated, litigated, and reshaping the practice of law itself.',
+    readTimeMinutes: 10,
+    sections: [
+      {
+        heading: 'AI in Legal Practice',
+        body: 'Law firms are deploying AI tools across their operations. **Contract review** platforms use natural language processing to extract and compare clauses across thousands of documents in a fraction of the time it would take a human team. **Legal research** tools powered by large language models can summarise case law, identify relevant precedents, and draft first-pass memoranda. **Due diligence** is being partly automated, with AI flagging change-of-control provisions, unusual liability clauses, and missing documents in data rooms. The profession is moving from scepticism to strategic adoption, but the critical question remains: how do you supervise AI output effectively, and where does professional liability sit when the machine gets it wrong?',
+      },
+      {
+        heading: 'The EU AI Act and UK Approach',
+        body: 'The **EU AI Act** — which entered into force in August 2024 with phased implementation through 2027 — is the world\'s first comprehensive AI regulation. It classifies AI systems by risk level: **unacceptable risk** (banned outright, e.g., social scoring), **high risk** (subject to conformity assessments, human oversight, and transparency obligations), and lower-risk systems (lighter requirements). The UK has taken a deliberately different path, adopting a **pro-innovation, principles-based** framework that empowers existing sectoral regulators (FCA, Ofcom, CMA, ICO) to apply AI-specific guidance within their domains rather than creating a single AI regulator. For firms operating in both the UK and EU, navigating these divergent approaches is a growing compliance challenge.',
+      },
+      {
+        heading: 'Intellectual Property and AI',
+        body: 'AI raises fundamental questions about intellectual property. Can an AI system be an **inventor** for patent purposes? The UK Supreme Court said no in **Thaler v Comptroller-General** (2023), holding that only natural persons can be inventors under the Patents Act 1977. Who owns the **copyright** in AI-generated works? Under current UK law, copyright in computer-generated works belongs to the person who made the arrangements necessary for the work\'s creation — but this provision was drafted long before generative AI and its application is deeply uncertain. Meanwhile, the use of copyrighted material as **training data** for AI models is the subject of intense debate, proposed legislation, and litigation on both sides of the Atlantic.',
+      },
+      {
+        heading: 'Liability and AI',
+        body: 'When an AI system causes harm — a flawed medical diagnosis, a discriminatory hiring decision, a self-driving car accident — determining legal liability is complex. Traditional **negligence** principles require identifying a duty of care and a breach, but where does the fault lie when the decision-making process is opaque? **Product liability** under the Consumer Protection Act 1987 may apply if AI is treated as a product, but its application to software and AI-as-a-service models is unsettled. The EU\'s proposed **AI Liability Directive** would introduce a presumption of causation where a defendant has failed to comply with AI-specific regulations, easing the burden on claimants. The UK has not signalled equivalent legislation, leaving liability to develop through existing common law principles and case-by-case judicial interpretation.',
+      },
+      {
+        heading: 'AI in Financial Services',
+        body: 'The financial sector is one of the most intensive users of AI, from **algorithmic trading** systems executing thousands of trades per second to **credit scoring** models that determine who can borrow. The FCA and PRA are focused on **model risk management** — ensuring firms understand, validate, and can explain the AI models they rely on. **Robo-advisers** offering automated investment recommendations must comply with the same suitability and disclosure requirements as human advisers. The emergence of AI-driven fraud — deepfake audio for CEO impersonation, synthetic identity creation — is prompting regulators to consider whether existing financial crime frameworks are adequate for the AI age.',
+      },
+      {
+        heading: 'Recent Trends',
+        body: '**Generative AI** — systems like large language models that create text, code, images, and audio — has moved from novelty to enterprise deployment in under three years. Law firms are building bespoke tools on top of foundation models, and the question has shifted from "should we use AI?" to "how do we govern it?" The proliferation of **AI governance frameworks** — internal policies covering procurement, use, data handling, and human oversight of AI tools — is creating a new area of advisory work. **Deepfakes** and AI-generated misinformation pose challenges for evidence law, defamation, and electoral regulation. Meanwhile, competition regulators globally are scrutinising the market structure of foundation model development, where a small number of companies control the compute, data, and distribution layers.',
+      },
+    ],
+    keyTerms: [
+      {
+        term: 'Large Language Model (LLM)',
+        definition:
+          'An AI system trained on vast text datasets to generate, summarise, and analyse human language — the technology behind tools like ChatGPT and legal AI assistants.',
+      },
+      {
+        term: 'EU AI Act',
+        definition:
+          'The European Union\'s comprehensive regulation classifying AI systems by risk level and imposing corresponding obligations on developers and deployers.',
+      },
+      {
+        term: 'Algorithmic Bias',
+        definition:
+          'Systematic errors in AI decision-making that produce unfair outcomes for particular groups, often reflecting biases present in training data.',
+      },
+      {
+        term: 'Explainability',
+        definition:
+          'The degree to which the internal logic of an AI model can be understood and communicated to humans — a key requirement for high-risk AI under many regulatory frameworks.',
+      },
+      {
+        term: 'Training Data',
+        definition:
+          'The dataset used to teach an AI model to recognise patterns and generate outputs — its quality and composition directly determine the model\'s capabilities and biases.',
+      },
+      {
+        term: 'Model Risk',
+        definition:
+          'The risk of adverse consequences arising from decisions based on AI or statistical models that are incorrect, misused, or inadequately understood.',
+      },
+      {
+        term: 'AI Governance',
+        definition:
+          'The internal policies, processes, and controls an organisation puts in place to manage the development, procurement, and use of AI systems responsibly.',
+      },
+      {
+        term: 'Deepfake',
+        definition:
+          'Synthetic media — typically video or audio — generated by AI to convincingly depict events that did not occur, raising concerns in fraud, evidence, and defamation.',
+      },
+    ],
+    whyItMatters:
+      'AI is transforming both the substance and the practice of law simultaneously. Firms want trainees who understand the legal questions AI raises — IP ownership, liability, regulatory classification — and who can engage intelligently with the AI tools the firm itself is adopting. This is no longer a niche topic: it appears in client work across every practice area, and being conversant with the EU AI Act, the UK\'s approach, and the key IP and liability questions gives you a genuine edge in interviews and on the job.',
+  },
+];
+
+// ─── Lookup helpers ──────────────────────────────────────────────────────────
+
+const PRIMER_MAP = new Map(PRIMERS.map((p) => [p.slug, p]));
+
+export function getPrimerBySlug(slug: string): Primer | undefined {
+  return PRIMER_MAP.get(slug);
+}

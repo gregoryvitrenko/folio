@@ -125,6 +125,32 @@ export interface FirmProfile {
   forageUrl?: string;
 }
 
+// ─── Sector Primers ──────────────────────────────────────────────────────────
+
+export interface PrimerSection {
+  heading: string;
+  /** Supports **bold** markers — render with renderBold() */
+  body: string;
+}
+
+export interface PrimerKeyTerm {
+  term: string;
+  definition: string;
+}
+
+export interface Primer {
+  slug: string;
+  title: string;
+  category: TopicCategory;
+  /** One-sentence teaser shown on the card */
+  strapline: string;
+  readTimeMinutes: number;
+  sections: PrimerSection[];
+  keyTerms: PrimerKeyTerm[];
+  /** 2–3 sentences on why this matters for law students */
+  whyItMatters: string;
+}
+
 // ─── Topic Styles ─────────────────────────────────────────────────────────────
 
 export const TOPIC_STYLES: Record<
