@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ThemeToggle } from './ThemeToggle';
 import { AuthButtons } from './AuthButtons';
-import { Archive, PenLine, Bookmark, Building2, BookOpen } from 'lucide-react';
+import { Archive, PenLine, Bookmark, Building2, BookOpen, Newspaper, Headphones } from 'lucide-react';
 
 interface HeaderProps {
   date: string;
@@ -64,6 +64,10 @@ export function Header({ date, isArchive = false, archiveDate }: HeaderProps) {
             </>
           ) : (
             <>
+              <Link href="/" className={NAV_LINK}>
+                <Newspaper size={11} />
+                Briefing
+              </Link>
               <Link href="/quiz" className={NAV_LINK}>
                 <PenLine size={11} />
                 Quiz
@@ -83,6 +87,10 @@ export function Header({ date, isArchive = false, archiveDate }: HeaderProps) {
               <Link href="/archive" className={NAV_LINK}>
                 <Archive size={11} />
                 Archive
+              </Link>
+              <Link href="/podcast" className={NAV_LINK}>
+                <Headphones size={11} />
+                Podcast
               </Link>
             </>
           )}

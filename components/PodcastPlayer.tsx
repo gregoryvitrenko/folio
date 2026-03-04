@@ -387,11 +387,11 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
   // ── Render ────────────────────────────────────────────────────────────────
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-stone-900 border-t border-stone-200 dark:border-stone-800 shadow-[0_-4px_20px_rgba(0,0,0,0.07)]">
+    <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-sm overflow-hidden">
 
       {/* Voice panel — slides in above the bar */}
       {isOpen && (
-        <div className="border-b border-stone-100 dark:border-stone-800 px-4 pt-3 pb-2 max-w-5xl mx-auto space-y-2">
+        <div className="border-b border-stone-100 dark:border-stone-800 px-4 pt-3 pb-2 space-y-2">
           {errorMsg && (
             <p className="text-[11px] font-sans text-rose-500 break-all">{errorMsg}</p>
           )}
@@ -438,7 +438,7 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
       </div>
 
       {/* Main control row */}
-      <div className="flex items-center gap-3 px-4 sm:px-6 h-14 max-w-5xl mx-auto">
+      <div className="flex items-center gap-3 px-4 sm:px-6 h-14">
 
         {/* EQ bars / loader */}
         <div className="flex-shrink-0">
