@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { auth } from '@clerk/nextjs/server';
 import { generateBriefing } from '@/lib/generate';
 import { saveBriefing, getBriefing, getTodayDate } from '@/lib/storage';
 
@@ -6,7 +7,12 @@ export const maxDuration = 300; // 5-minute timeout for generation
 
 function isCronAuthorized(request: NextRequest): boolean {
   const cronSecret = process.env.CRON_SECRET;
-  if (!cronSecret) return true;
+  // Fail-closed: if CRON_SECRET is not configured, deny all cron requests.
+  // This prevents unauthenticated access to expensive AI generation in any environment.
+  if (!cronSecret) {
+    console.error('[generate] CRON_SECRET is not set — cron access denied. Set CRON_SECRET in .env.local and Vercel environment variables.');
+    return false;
+  }
   const authHeader = request.headers.get('authorization');
   return authHeader === `Bearer ${cronSecret}`;
 }
@@ -36,8 +42,7 @@ async function handleGenerate(request: NextRequest, force = false) {
     });
   } catch (error) {
     console.error('[generate] Error:', error);
-    const message = error instanceof Error ? error.message : 'Unknown error';
-    return NextResponse.json({ error: message }, { status: 500 });
+    return NextResponse.json({ error: 'Briefing generation failed. Check server logs for details.' }, { status: 500 });
   }
 }
 
@@ -49,9 +54,13 @@ export async function GET(request: NextRequest) {
   return handleGenerate(request);
 }
 
-// Manual UI trigger uses POST — open (personal tool, no public auth needed)
-// Pass ?force=true to regenerate even if today's briefing already exists
+// Manual UI trigger uses POST — requires a signed-in Clerk session.
+// Pass ?force=true to regenerate even if today's briefing already exists.
 export async function POST(request: NextRequest) {
+  const { userId } = await auth();
+  if (!userId) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
   const force = request.nextUrl.searchParams.get('force') === 'true';
   return handleGenerate(request, force);
 }

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ThemeToggle } from './ThemeToggle';
-import { Archive } from 'lucide-react';
+import { AuthButtons } from './AuthButtons';
+import { Archive, PenLine, Bookmark, Building2 } from 'lucide-react';
 
 interface HeaderProps {
   date: string;
@@ -8,66 +9,79 @@ interface HeaderProps {
   archiveDate?: string;
 }
 
-function formatDisplayDate(dateStr: string): string {
+function formatShortDate(dateStr: string): string {
   const [year, month, day] = dateStr.split('-').map(Number);
   const d = new Date(year, month - 1, day);
   return d.toLocaleDateString('en-GB', {
-    weekday: 'long',
+    weekday: 'short',
     day: 'numeric',
-    month: 'long',
+    month: 'short',
     year: 'numeric',
   });
 }
+
+const NAV_LINK = 'flex items-center gap-1.5 flex-1 justify-center py-2 text-[11px] font-sans font-semibold tracking-[0.1em] uppercase text-stone-400 dark:text-stone-500 hover:text-stone-900 dark:hover:text-stone-100 transition-colors';
 
 export function Header({ date, isArchive = false, archiveDate }: HeaderProps) {
   const displayDate = archiveDate ?? date;
 
   return (
-    <header className="sticky top-0 z-40 bg-white dark:bg-zinc-950 border-b border-zinc-200 dark:border-zinc-800">
+    <header className="sticky top-0 z-40 bg-stone-50 dark:bg-stone-950 border-b border-stone-200 dark:border-stone-800">
+      {/* Thick top rule */}
+      <div className="h-[3px] bg-stone-900 dark:bg-stone-100" />
+
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
 
-        {/* Masthead row */}
-        <div className="flex items-center justify-between h-12">
-          <Link href="/" className="flex items-center gap-3">
-            <span className="font-mono text-[12px] font-bold tracking-[0.18em] uppercase text-zinc-900 dark:text-zinc-100">
-              Commercial Awareness Daily
-            </span>
-            {isArchive && (
-              <span className="hidden sm:inline font-mono text-[9px] tracking-widest uppercase text-zinc-400 dark:text-zinc-500 border border-zinc-200 dark:border-zinc-700 px-1.5 py-0.5 rounded">
-                Archive
-              </span>
-            )}
+        {/* Row 1: Brand left · date + auth right */}
+        <div className="flex items-center justify-between py-3">
+          <Link href="/" className="group">
+            <h1 className="font-serif text-[22px] sm:text-[26px] font-bold tracking-tight text-stone-900 dark:text-stone-50 group-hover:opacity-75 transition-opacity">
+              Commercial Awareness
+            </h1>
           </Link>
-
-          <div className="flex items-center gap-1">
-            {isArchive ? (
-              <Link
-                href="/"
-                className="px-3 py-1.5 text-xs font-mono text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
-              >
-                ← Today
-              </Link>
-            ) : (
-              <Link
-                href="/archive"
-                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
-              >
-                <Archive size={11} />
-                Archive
-              </Link>
-            )}
+          <div className="flex items-center gap-3">
+            <span className="hidden sm:block font-mono text-[11px] text-stone-400 dark:text-stone-500 tracking-wide">
+              {formatShortDate(displayDate)}
+            </span>
             <ThemeToggle />
+            <AuthButtons />
           </div>
         </div>
 
-        {/* Date row */}
-        <div className="border-t border-zinc-100 dark:border-zinc-800/80 py-3">
-          <h1 className="text-2xl sm:text-[28px] font-bold text-zinc-900 dark:text-zinc-50 tracking-tight leading-tight">
-            {formatDisplayDate(displayDate)}
-          </h1>
-          <p className="font-mono text-[10px] text-zinc-400 dark:text-zinc-500 tracking-widest uppercase mt-1">
-            Morning Briefing · 08:30 GMT
-          </p>
+        {/* Row 2: Nav full-width */}
+        <div className="flex items-center border-t border-stone-200 dark:border-stone-800">
+          {isArchive ? (
+            <>
+              <span className="flex-1 font-mono text-[10px] tracking-[0.15em] uppercase text-stone-400 dark:text-stone-500 py-2">
+                Archive Edition
+              </span>
+              <Link
+                href="/"
+                className="font-sans text-[11px] font-semibold tracking-[0.1em] uppercase text-stone-400 dark:text-stone-500 hover:text-stone-900 dark:hover:text-stone-100 transition-colors py-2"
+              >
+                ← Today
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link href="/quiz" className={NAV_LINK}>
+                <PenLine size={11} />
+                Quiz
+              </Link>
+              <Link href="/saved" className={NAV_LINK}>
+                <Bookmark size={11} />
+                Saved
+              </Link>
+              <Link href="/firms" className={NAV_LINK}>
+                <Building2 size={11} />
+                Firms
+              </Link>
+              <Link href="/archive" className={NAV_LINK}>
+                <Archive size={11} />
+                Archive
+              </Link>
+            </>
+          )}
         </div>
 
       </div>

@@ -39,10 +39,10 @@ export function GenerateButton({ onGenerated }: GenerateButtonProps) {
         onClick={handleGenerate}
         disabled={status === 'loading'}
         className="
-          inline-flex items-center gap-2 px-4 py-2 rounded-md text-sm font-mono tracking-wide
-          bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100
-          border border-zinc-200 dark:border-zinc-700
-          hover:bg-zinc-200 dark:hover:bg-zinc-700
+          inline-flex items-center gap-2 px-4 py-2 rounded-sm text-sm font-sans tracking-wide
+          bg-stone-100 dark:bg-stone-800 text-stone-900 dark:text-stone-100
+          border border-stone-200 dark:border-stone-700
+          hover:bg-stone-200 dark:hover:bg-stone-700
           disabled:opacity-50 disabled:cursor-not-allowed
           transition-all duration-200
         "
@@ -55,8 +55,8 @@ export function GenerateButton({ onGenerated }: GenerateButtonProps) {
       </button>
       {message && (
         <p
-          className={`text-xs font-mono ${
-            status === 'error' ? 'text-rose-400' : 'text-emerald-400'
+          className={`text-xs font-sans ${
+            status === 'error' ? 'text-rose-600 dark:text-rose-400' : 'text-emerald-700 dark:text-emerald-400'
           }`}
         >
           {message}

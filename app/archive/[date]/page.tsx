@@ -2,6 +2,8 @@ import { notFound } from 'next/navigation';
 import { getBriefing } from '@/lib/storage';
 import { Header } from '@/components/Header';
 import { BriefingView } from '@/components/BriefingView';
+import { requireSubscription } from '@/lib/paywall';
+import { isValidDate } from '@/lib/security';
 
 interface Params {
   params: Promise<{ date: string }>;
@@ -17,9 +19,10 @@ export async function generateMetadata({ params }: Params) {
 export const dynamic = 'force-dynamic';
 
 export default async function ArchiveDatePage({ params }: Params) {
+  await requireSubscription();
   const { date } = await params;
 
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+  if (!isValidDate(date)) {
     notFound();
   }
 

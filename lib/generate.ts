@@ -1,8 +1,8 @@
-import Groq from 'groq-sdk';
-import type { Briefing, Story, TopicCategory } from './types';
+import Anthropic from '@anthropic-ai/sdk';
+import type { Briefing, Story, TopicCategory, WhyItMatters, SectorWatchData, OneToFollowData } from './types';
 import { getBriefing } from './storage';
 
-const SYSTEM_PROMPT = `You are a Commercial Awareness Agent producing daily briefings for a first-year LLB student in London targeting Magic Circle, Silver Circle, and elite US law firms. Your briefings are sharp, factually accurate, and commercially sophisticated. You write for a reader who is intelligent but time-pressed — think briefing a sharp trainee solicitor, not filing a memo.`;
+const SYSTEM_PROMPT = `You are a Commercial Awareness Agent producing daily briefings for a first-year LLB student in London targeting Magic Circle, Silver Circle, and elite US law firms. Your briefings are grounded in the specific facts, figures, names, and details from the news sources provided. Every claim — deal value, adviser name, regulatory body, timeline, financing term — must be traceable to a source article. You write with the precision of a senior lawyer who has read the originals, not a generalist who has skimmed headlines.`;
 
 function buildExclusionBlock(previousBriefing: Briefing | null): string {
   if (!previousBriefing || previousBriefing.stories.length === 0) return '';
@@ -34,14 +34,15 @@ function buildUserPrompt(
 ): string {
   return `Today is ${dateStr}.
 ${exclusionBlock}
-Using the news sources provided below, identify the 5–8 highest-signal commercial and legal stories published TODAY. Prioritise stories in this order:
+Using the news sources provided below, produce exactly 7 stories — one for each of the practice areas below. You MUST cover all seven; omitting any area is an error. Select the highest-signal story available from TODAY's news in each area:
 
-1. M&A and private equity deals with significant UK/European nexus
-2. Capital markets, IPOs, restructuring, banking & finance
-3. Energy, infrastructure, tech and AI with regulatory or transactional relevance
-4. Competition law and financial regulation developments
-5. Commercially significant disputes or arbitration
-6. Global moves clearly relevant to international firms operating in London
+1. M&A — private equity and M&A deals with UK/European nexus
+2. Capital Markets — IPOs, debt issuance, restructuring, banking & finance
+3. Energy & Tech — energy, infrastructure, or technology with regulatory or transactional relevance (exclude AI — covered separately)
+4. Regulation — competition law, financial regulation, or regulatory enforcement
+5. Disputes — commercially significant litigation, arbitration, or enforcement action
+6. International — cross-border deals, trade law, or global moves relevant to London firms
+7. AI & Law — artificial intelligence in legal practice (firm AI strategies, AI tool adoption, AI-related regulation such as the EU AI Act, generative AI in deal-making or litigation, or AI literacy requirements in trainee recruitment)
 
 Return a raw JSON object (no markdown fences, no preamble) with this exact structure:
 
@@ -50,21 +51,34 @@ Return a raw JSON object (no markdown fences, no preamble) with this exact struc
     {
       "topic": "M&A",
       "headline": "One sharp, declarative sentence — name the parties, deal value, and type of transaction",
-      "summary": "10–14 sentences. This is the most important field — write it like a detailed briefing note. Cover: (1) who the parties are and their context, (2) what precisely happened, (3) deal value and structure if known, (4) advisers on each side by name, (5) regulatory approvals required and timeline, (6) financing structure or terms, (7) strategic rationale for both sides, (8) broader market context and what drove this deal now, (9) any complications, conditions, or open questions.",
-      "whyItMatters": "6–8 sentences. Explain in depth: (1) which specific practice areas this engages and why, (2) what it means for deal flow and client advisory pipelines at the leading firms, (3) the regulatory or policy dimension and what it signals, (4) what a trainee or junior associate would actually work on in this matter, (5) how it connects to broader market themes or cycles, (6) any precedent it sets or question it raises for future transactions.",
-      "talkingPoint": "2–3 confident, analytically sharp sentences suitable for a TC interview or vacation scheme partner chat. Lead with a bold observation, then give the so-what for law firms.",
-      "sources": ["https://example.com/article-url"]
+      "summary": "10–14 sentences. Write as a senior lawyer who has read the source articles. You MUST include: exact deal value (or 'undisclosed' if not reported), named advisers on each side with their roles (e.g. 'Freshfields advised the target; Linklaters advised the acquirer'), specific regulatory bodies and the exact approval timeline stated in the sources, the precise financing structure (debt/equity split, debt providers named if known), named parties with a line on who they are and why they matter, the strategic rationale as articulated by the principals or as evidenced by the facts, market context grounded in specific numbers or comparables from the sources, and any explicit conditions, break fees, or open questions mentioned. Do not round figures or omit specifics that appear in the source material.",
+      "whyItMatters": {
+        "ukFirms": "3–4 sentences. Name the specific Magic Circle firms (Freshfields Bruckhaus Deringer, Linklaters, Allen & Overy Shearman, Clifford Chance, Slaughter and May) or Silver Circle firms (Herbert Smith Freehills, Ashurst, Hogan Lovells, Travers Smith, Macfarlies) best positioned on this matter and explain precisely why — which practice group has the track record, which office has the client relationship, which partner team wins this type of mandate. Note any Takeover Panel, CMA clearance, or FCA authorisation requirements that give UK firms the edge.",
+        "usFirms": "2–3 sentences. Name which elite US firms in London (Kirkland & Ellis, Latham & Watkins, Sullivan & Cromwell, Skadden Arps, Paul Weiss, Weil Gotshal & Manges, Davis Polk, Cleary Gottlieb) are the natural choice for the PE sponsor, the leveraged finance package, or the cross-border structuring work, and explain the specific competitive advantage (e.g. Kirkland's dominance of UK PE fund formation, Latham's leveraged finance bench in London). Note any tension with UK firms for the same mandate.",
+        "onTheGround": "2–3 sentences. State exactly what a first-seat trainee or NQ at a Magic Circle, Silver Circle, or US firm would do day-to-day on this matter (e.g. drafting CP checklists, running disclosure verification, preparing CMA filing documents, reviewing lock-up agreements). End with one specific data point connecting this to a named broader market cycle or structural trend."
+      },
+      "talkingPoint": "2–3 confident, analytically sharp sentences suitable for a TC interview or vacation scheme partner chat. Lead with a specific bold observation drawn from the facts (name the deal, the figure, the firm), then give the so-what for law firms and the market.",
+      "sources": ["https://example.com/article-url"],
+      "firms": ["Freshfields", "Linklaters"]
     }
   ],
-  "sectorWatch": "3–4 sentences on the most important broader trend worth tracking this week — name specific firms, regulators, or deals driving it.",
-  "oneToFollow": "2 sentences: identify the developing story to monitor and explain precisely why it matters for commercial lawyers."
+  "sectorWatch": {
+    "trend": "3–6 word label for the macro trend, e.g. 'PE Pipeline Unclogging' or 'CMA Fintech Crackdown' — short, sharp, no filler",
+    "body": "3–4 sentences on the most important broader trend worth tracking this week — name specific firms, regulators, or deals driving it."
+  },
+  "oneToFollow": {
+    "story": "One sharp sentence naming the specific developing story — name the case, deal, regulatory process, or firm move",
+    "why": "2 sentences explaining precisely why this matters for commercial lawyers and which practice groups it will affect most."
+  }
 }
 
 Rules:
-- topic must be exactly one of: "M&A", "Capital Markets", "Energy & Tech", "Regulation", "Disputes", "International"
-- sources must be an array of 1–3 real URLs drawn from the SOURCE lines in the news context below. Only include URLs that actually appear in the sources provided.
+- You MUST produce exactly 7 stories. Each of the seven topics must appear exactly once: "M&A", "Capital Markets", "Energy & Tech", "Regulation", "Disputes", "International", "AI & Law"
+- sources must be an array of 1–3 real URLs drawn from the SOURCE lines in the news context below. Only include URLs that actually appear in the sources provided. Each URL must be a direct article-level link (e.g. ft.com/content/abc123, reuters.com/markets/deals/...) — NEVER a section page, category index, or homepage (e.g. never ft.com/mergers-acquisitions, never bloomberg.com/markets). If the only available URL for a story is a section/category page, omit it and use [].
 - Every story must be from TODAY's news — do not recycle stories from previous days
 - Name specific law firms, banks, and advisers wherever the sources mention them
+- If a practice area has no strong story from the provided sources, use your training knowledge to produce a credible, current-feeling story for that area — but still mark sources as []
+- firms must be an array of 2–5 short law firm names explicitly mentioned in this story (e.g. "Freshfields", "Linklaters", "Kirkland"). Use short names only — no "& Partners", no "LLP". If no firms are named, use []
 
 Tone: Intelligent but not stuffy. Brief a sharp colleague, not a filing report. Zero filler phrases ("it is worth noting", "this highlights the importance of", "in conclusion"). If a number is imprecise, say so briefly rather than omitting it.
 
@@ -83,6 +97,24 @@ function extractJSON(text: string): string {
   throw new Error('No JSON object found in model response');
 }
 
+function parseSectorWatch(raw: unknown): SectorWatchData | string {
+  if (typeof raw === 'string') return raw;
+  if (raw && typeof raw === 'object' && 'trend' in raw && 'body' in raw) {
+    const r = raw as Record<string, unknown>;
+    return { trend: String(r.trend ?? ''), body: String(r.body ?? '') };
+  }
+  return String(raw ?? '');
+}
+
+function parseOneToFollow(raw: unknown): OneToFollowData | string {
+  if (typeof raw === 'string') return raw;
+  if (raw && typeof raw === 'object' && 'story' in raw && 'why' in raw) {
+    const r = raw as Record<string, unknown>;
+    return { story: String(r.story ?? ''), why: String(r.why ?? '') };
+  }
+  return String(raw ?? '');
+}
+
 function buildBriefing(parsed: Record<string, unknown>, date: string): Briefing {
   const rawStories = (parsed.stories as Record<string, unknown>[]) ?? [];
 
@@ -91,17 +123,18 @@ function buildBriefing(parsed: Record<string, unknown>, date: string): Briefing 
     topic: (s.topic as TopicCategory) ?? 'International',
     headline: (s.headline as string) ?? '',
     summary: (s.summary as string) ?? '',
-    whyItMatters: (s.whyItMatters as string) ?? '',
+    whyItMatters: (s.whyItMatters as WhyItMatters | string) ?? '',
     talkingPoint: (s.talkingPoint as string) ?? '',
     sources: (s.sources as string[]) ?? [],
+    firms: (s.firms as string[]) ?? [],
   }));
 
   return {
     date,
     generatedAt: new Date().toISOString(),
     stories,
-    sectorWatch: (parsed.sectorWatch as string) ?? '',
-    oneToFollow: (parsed.oneToFollow as string) ?? '',
+    sectorWatch: parseSectorWatch(parsed.sectorWatch),
+    oneToFollow: parseOneToFollow(parsed.oneToFollow),
   };
 }
 
@@ -116,6 +149,8 @@ async function searchNews(dateLabel: string): Promise<string> {
     `UK EU competition law financial regulation ${dateLabel}`,
     `energy infrastructure technology AI legal news ${dateLabel}`,
     `UK commercial litigation arbitration dispute ${dateLabel}`,
+    `cross-border international trade deal London law firms ${dateLabel}`,
+    `AI artificial intelligence law firms legal practice regulation ${dateLabel}`,
   ];
 
   const results = await Promise.all(
@@ -126,25 +161,31 @@ async function searchNews(dateLabel: string): Promise<string> {
         body: JSON.stringify({
           api_key: apiKey,
           query: q,
-          search_depth: 'basic',
-          max_results: 3,
+          search_depth: 'advanced',
+          max_results: 5,
           include_answer: false,
         }),
       }).then((r) => r.json())
     )
   );
 
+  const CONTENT_LIMIT = 800;
   const items = results
     .flatMap((r) => (r.results ?? []) as { url: string; title: string; content: string }[])
-    .map((item) => `SOURCE: ${item.url}\nTITLE: ${item.title}\nCONTENT: ${item.content}`)
+    .map((item) => {
+      const content = item.content.length > CONTENT_LIMIT
+        ? item.content.slice(0, CONTENT_LIMIT).trimEnd() + '…'
+        : item.content;
+      return `SOURCE: ${item.url}\nTITLE: ${item.title}\nCONTENT: ${content}`;
+    })
     .join('\n\n---\n\n');
 
   return items || '(no search results returned)';
 }
 
 export async function generateBriefing(): Promise<Briefing> {
-  const apiKey = process.env.GROQ_API_KEY;
-  if (!apiKey) throw new Error('GROQ_API_KEY environment variable is not set');
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) throw new Error('ANTHROPIC_API_KEY environment variable is not set');
 
   const today = new Date().toISOString().split('T')[0];
   const dateStr = new Date().toLocaleDateString('en-GB', {
@@ -183,19 +224,18 @@ export async function generateBriefing(): Promise<Briefing> {
     ? await searchNews(dateStr)
     : '(web search disabled — using training data only)';
 
-  const groq = new Groq({ apiKey });
+  const anthropic = new Anthropic({ apiKey });
 
-  const completion = await groq.chat.completions.create({
-    model: 'llama-3.3-70b-versatile',
+  const completion = await anthropic.messages.create({
+    model: 'claude-sonnet-4-6',
+    max_tokens: 10000,
+    system: SYSTEM_PROMPT,
     messages: [
-      { role: 'system', content: SYSTEM_PROMPT },
       { role: 'user', content: buildUserPrompt(dateStr, searchContext, exclusionBlock) },
     ],
-    max_tokens: 8192,
-    temperature: 0.4, // lower = more disciplined, less likely to repeat familiar narrative patterns
   });
 
-  const text = completion.choices[0]?.message?.content ?? '';
+  const text = completion.content[0]?.type === 'text' ? completion.content[0].text : '';
   const jsonStr = extractJSON(text);
   return buildBriefing(JSON.parse(jsonStr), today);
 }

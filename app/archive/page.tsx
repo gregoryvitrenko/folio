@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { listBriefings, getTodayDate } from '@/lib/storage';
 import { Header } from '@/components/Header';
 import { Calendar, ChevronRight } from 'lucide-react';
+import { requireSubscription } from '@/lib/paywall';
 
 export const dynamic = 'force-dynamic';
 
@@ -34,6 +35,7 @@ function formatMonthHeading(key: string): string {
 }
 
 export default async function ArchivePage() {
+  await requireSubscription();
   const today = getTodayDate();
   const dates = await listBriefings();
   const groups = groupByMonth(dates);

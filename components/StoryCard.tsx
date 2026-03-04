@@ -1,113 +1,119 @@
-'use client';
-
-import { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
-import { CopyButton } from './CopyButton';
+import Link from 'next/link';
+import { Lock } from 'lucide-react';
 import { TOPIC_STYLES, type Story } from '@/lib/types';
+import { BookmarkButton } from './BookmarkButton';
+import { firmNameToSlug } from '@/lib/firms-data';
 
 interface StoryCardProps {
   story: Story;
   index: number;
+  date: string;
+  subscribed?: boolean;
 }
 
-export function StoryCard({ story, index }: StoryCardProps) {
-  const [expanded, setExpanded] = useState(false);
+export function StoryCard({ story, date, subscribed = false }: StoryCardProps) {
   const styles = TOPIC_STYLES[story.topic] ?? TOPIC_STYLES['International'];
-  const num = String(index + 1).padStart(2, '0');
 
-  return (
-    <article
-      className={`flex flex-col rounded-md overflow-hidden bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 ${styles.topBorder}`}
-    >
-      {/* Header — always visible, click to expand */}
-      <button
-        onClick={() => setExpanded(!expanded)}
-        className="flex flex-col text-left w-full px-5 pt-4 pb-4 hover:bg-zinc-50 dark:hover:bg-zinc-800/30 transition-colors cursor-pointer"
-      >
-        <div className="flex items-center justify-between gap-3 mb-2.5">
-          <div className="flex items-center gap-2">
-            <span className="font-mono text-[10px] text-zinc-400 dark:text-zinc-500 tabular-nums">
-              {num}
-            </span>
-            <span className="text-zinc-300 dark:text-zinc-700 select-none">·</span>
-            <span className={`font-mono text-[10px] font-semibold tracking-widest uppercase ${styles.badge}`}>
-              {story.topic}
-            </span>
-          </div>
-          <ChevronDown
-            className={`w-4 h-4 text-zinc-400 flex-shrink-0 transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`}
-          />
-        </div>
-        <h2 className="text-[17px] font-bold leading-snug text-zinc-900 dark:text-zinc-50 tracking-tight">
-          {story.headline}
-        </h2>
-      </button>
+  const excerpt =
+    story.summary.length > 180
+      ? story.summary.slice(0, 177).trimEnd() + '…'
+      : story.summary;
 
-      {/* Expandable content */}
-      {expanded && (
-        <div className="border-t border-zinc-100 dark:border-zinc-800">
+  const talkingPointTeaser = story.talkingPoint.length > 110
+    ? story.talkingPoint.slice(0, 107).trimEnd() + '…'
+    : story.talkingPoint;
 
-          {/* Summary */}
-          <div className="px-5 py-5">
-            <p className="text-[15px] text-zinc-700 dark:text-zinc-300 leading-relaxed">
-              {story.summary}
-            </p>
-          </div>
+  const cardInner = (
+    <article className="relative flex flex-col bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-sm overflow-hidden px-5 pt-5 pb-6 h-full transition-colors hover:bg-stone-50 dark:hover:bg-stone-800/40">
 
-          {/* Why it matters */}
-          <div className="px-5 pb-5">
-            <div className="border-t border-zinc-100 dark:border-zinc-800 pt-5">
-              <p className={`text-[10px] font-mono font-semibold tracking-widest uppercase mb-3 ${styles.label}`}>
-                Why it matters to law firms
-              </p>
-              <p className="text-[15px] text-zinc-700 dark:text-zinc-300 leading-relaxed">
-                {story.whyItMatters}
-              </p>
-            </div>
-          </div>
+      {/* Bookmark button — top-right corner, stops link propagation */}
+      <div className="absolute top-3 right-3">
+        <BookmarkButton
+          storyId={story.id}
+          date={date}
+          headline={story.headline}
+          topic={story.topic}
+          excerpt={excerpt}
+          variant="card"
+        />
+      </div>
 
-          {/* Talking point */}
-          <div className="px-5 pb-5">
-            <div className="border-t border-zinc-100 dark:border-zinc-800 pt-5">
-              <div className="flex items-center justify-between gap-2 mb-3">
-                <p className="text-[10px] font-mono font-semibold tracking-widest uppercase text-zinc-400 dark:text-zinc-500">
-                  Interview talking point
-                </p>
-                <CopyButton text={story.talkingPoint} />
-              </div>
-              <blockquote className="text-[15px] italic text-zinc-700 dark:text-zinc-300 leading-relaxed border-l-2 border-zinc-200 dark:border-zinc-700 pl-4">
-                &ldquo;{story.talkingPoint}&rdquo;
-              </blockquote>
-            </div>
-          </div>
+      {/* Category label */}
+      <div className="flex items-center gap-2 mb-3">
+        <span className={`inline-block w-1.5 h-1.5 rounded-full flex-shrink-0 ${styles.dot}`} />
+        <span className={`text-[10px] font-sans font-semibold tracking-[0.12em] uppercase ${styles.label}`}>
+          {story.topic}
+        </span>
+      </div>
 
-          {/* Sources */}
-          {story.sources && story.sources.length > 0 && (
-            <div className="px-5 pb-5">
-              <div className="border-t border-zinc-100 dark:border-zinc-800 pt-4">
-                <p className="text-[10px] font-mono font-semibold tracking-widest uppercase text-zinc-400 dark:text-zinc-500 mb-2">
-                  Sources
-                </p>
-                <ul className="space-y-1">
-                  {story.sources.map((src, i) => (
-                    <li key={i}>
-                      <a
-                        href={src}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-xs text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 underline underline-offset-2 break-all transition-colors"
-                      >
-                        {src}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          )}
+      {/* Headline — padded right so it clears the bookmark icon */}
+      <h2 className="font-serif text-[19px] sm:text-[21px] font-bold leading-snug text-stone-900 dark:text-stone-50 tracking-tight mb-3 group-hover:underline decoration-stone-400 dark:decoration-stone-500 underline-offset-2 pr-6">
+        {story.headline}
+      </h2>
 
+      {/* Excerpt */}
+      <p className="text-[13px] text-stone-500 dark:text-stone-400 leading-[1.65] line-clamp-3">
+        {excerpt}
+      </p>
+
+      {/* Firm tags */}
+      {story.firms && story.firms.length > 0 && (
+        <div className="flex flex-wrap gap-1.5 mt-3">
+          {story.firms.map((firm) => {
+            const firmSlug = firmNameToSlug(firm);
+            const chipClass =
+              'inline-block text-[10px] font-sans font-medium px-2 py-0.5 rounded-sm bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400 border border-stone-200 dark:border-stone-700';
+            return firmSlug ? (
+              <Link
+                key={firm}
+                href={`/firms/${firmSlug}`}
+                onClick={(e) => e.stopPropagation()}
+                className={`${chipClass} hover:bg-stone-200 dark:hover:bg-stone-700 transition-colors`}
+              >
+                {firm}
+              </Link>
+            ) : (
+              <span key={firm} className={chipClass}>
+                {firm}
+              </span>
+            );
+          })}
         </div>
       )}
+
+      {/* Interview angle teaser */}
+      {story.talkingPoint && (
+        <p className="mt-3 pt-3 border-t border-stone-100 dark:border-stone-800 text-[11px] italic text-stone-400 dark:text-stone-500 leading-relaxed line-clamp-2 flex-shrink-0">
+          &ldquo;{talkingPointTeaser}&rdquo;
+        </p>
+      )}
+
+      {/* Read more indicator */}
+      <p className="mt-4 text-[11px] font-sans font-medium tracking-wide text-stone-400 dark:text-stone-500 group-hover:text-stone-600 dark:group-hover:text-stone-300 transition-colors flex items-center gap-1.5">
+        {subscribed ? (
+          'Read article →'
+        ) : (
+          <>
+            <Lock className="w-3 h-3" />
+            Subscribe to read →
+          </>
+        )}
+      </p>
+
     </article>
+  );
+
+  if (!subscribed) {
+    return (
+      <Link href="/upgrade" className="block group">
+        {cardInner}
+      </Link>
+    );
+  }
+
+  return (
+    <Link href={`/story/${story.id}`} className="block group">
+      {cardInner}
+    </Link>
   );
 }

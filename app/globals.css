@@ -10,22 +10,17 @@
   html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
-
-  /* Smooth scrolling */
-  html {
     scroll-behavior: smooth;
   }
 
-  /* Selection colour */
+  /* Warm editorial selection */
   ::selection {
-    background-color: rgb(59 130 246 / 0.25);
+    background-color: rgb(180 140 80 / 0.20);
     color: inherit;
   }
 }
 
 @layer utilities {
-  /* For browsers that don't support `scrollbar-gutter` */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }

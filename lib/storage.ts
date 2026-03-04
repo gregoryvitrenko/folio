@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import type { Briefing } from './types';
+import type { Briefing, DailyQuiz } from './types';
+import { isValidDate } from './security';
 
 // ─── Backend detection ────────────────────────────────────────────────────────
 // Uses Upstash Redis when env vars are present (production on Vercel).
@@ -97,6 +98,7 @@ export async function saveBriefing(briefing: Briefing): Promise<void> {
 }
 
 export async function getBriefing(date: string): Promise<Briefing | null> {
+  if (!isValidDate(date)) return null;
   if (useRedis()) return redisGet(date);
   return fsGet(date);
 }
@@ -114,4 +116,50 @@ export async function getLatestBriefing(): Promise<Briefing | null> {
 
 export function getTodayDate(): string {
   return new Date().toISOString().split('T')[0];
+}
+
+// ─── Quiz storage ─────────────────────────────────────────────────────────────
+
+async function redisSaveQuiz(quiz: DailyQuiz): Promise<void> {
+  const redis = getRedis();
+  await redis.set(`quiz:${quiz.date}`, JSON.stringify(quiz));
+}
+
+async function redisGetQuiz(date: string): Promise<DailyQuiz | null> {
+  const redis = getRedis();
+  const data = await redis.get(`quiz:${date}`);
+  if (!data) return null;
+  return typeof data === 'string' ? JSON.parse(data) : data;
+}
+
+function fsSaveQuiz(quiz: DailyQuiz): void {
+  ensureDir();
+  fs.writeFileSync(
+    path.join(DATA_DIR, `${quiz.date}-quiz.json`),
+    JSON.stringify(quiz, null, 2),
+    'utf-8'
+  );
+}
+
+function fsGetQuiz(date: string): DailyQuiz | null {
+  try {
+    const content = fs.readFileSync(path.join(DATA_DIR, `${date}-quiz.json`), 'utf-8');
+    return JSON.parse(content) as DailyQuiz;
+  } catch {
+    return null;
+  }
+}
+
+export async function saveQuiz(quiz: DailyQuiz): Promise<void> {
+  if (useRedis()) {
+    await redisSaveQuiz(quiz);
+  } else {
+    fsSaveQuiz(quiz);
+  }
+}
+
+export async function getQuiz(date: string): Promise<DailyQuiz | null> {
+  if (!isValidDate(date)) return null;
+  if (useRedis()) return redisGetQuiz(date);
+  return fsGetQuiz(date);
 }

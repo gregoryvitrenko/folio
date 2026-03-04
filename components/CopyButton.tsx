@@ -32,12 +32,12 @@ export function CopyButton({ text }: CopyButtonProps) {
     <button
       onClick={handleCopy}
       className={`
-        inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-mono tracking-wide
+        inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm text-[11px] font-sans tracking-wide
         border transition-all duration-200 shrink-0
         ${
           copied
-            ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-            : 'bg-zinc-800 text-zinc-400 border-zinc-700 hover:bg-zinc-700 hover:text-zinc-200 hover:border-zinc-600 dark:bg-zinc-800 dark:border-zinc-700'
+            ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/20'
+            : 'bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400 border-stone-200 dark:border-stone-700 hover:bg-stone-200 dark:hover:bg-stone-700 hover:text-stone-700 dark:hover:text-stone-200'
         }
       `}
       title="Copy talking point"

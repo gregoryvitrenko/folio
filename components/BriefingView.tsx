@@ -1,36 +1,38 @@
 import type { Briefing } from '@/lib/types';
-import { StoryCard } from './StoryCard';
+import { StoryGrid } from './StoryGrid';
 import { SectorWatch } from './SectorWatch';
 import { PodcastPlayer } from './PodcastPlayer';
+import { QuizBanner } from './QuizBanner';
 
 interface BriefingViewProps {
   briefing: Briefing;
+  subscribed?: boolean;
 }
 
-export function BriefingView({ briefing }: BriefingViewProps) {
+export function BriefingView({ briefing, subscribed = false }: BriefingViewProps) {
   return (
-    <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+    <main className="max-w-5xl mx-auto px-4 sm:px-6 pt-10 pb-28">
 
       {/* Podcast player */}
       <PodcastPlayer briefing={briefing} />
 
-      {/* Story grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-10">
-        {briefing.stories.map((story, i) => (
-          <div key={story.id} id={`story-${story.id}`}>
-            <StoryCard story={story} index={i} />
-          </div>
-        ))}
+      {/* Daily quiz entry point */}
+      <QuizBanner date={briefing.date} />
+
+      {/* Story grid with practice group tabs */}
+      <div className="mb-12">
+        <StoryGrid stories={briefing.stories} date={briefing.date} subscribed={subscribed} />
       </div>
 
       {/* Bigger Picture */}
       {(briefing.sectorWatch || briefing.oneToFollow) && (
-        <section>
-          <div className="flex items-center gap-4 mb-5">
-            <span className="font-mono text-[10px] tracking-widest uppercase text-zinc-400 dark:text-zinc-500 flex-shrink-0">
+        <section className="mb-12">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="h-px flex-1 bg-stone-200 dark:bg-stone-800" />
+            <span className="text-[10px] font-semibold tracking-[0.2em] uppercase text-stone-400 dark:text-stone-500 font-sans flex-shrink-0">
               Bigger Picture
             </span>
-            <div className="h-px flex-1 bg-zinc-200 dark:bg-zinc-800" />
+            <div className="h-px flex-1 bg-stone-200 dark:bg-stone-800" />
           </div>
           <SectorWatch
             sectorWatch={briefing.sectorWatch}
@@ -40,9 +42,9 @@ export function BriefingView({ briefing }: BriefingViewProps) {
       )}
 
       {/* Footer */}
-      <footer className="mt-12 pt-6 border-t border-zinc-200 dark:border-zinc-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-        <p className="font-mono text-[10px] text-zinc-400 dark:text-zinc-600 tracking-wide">
-          Generated{' '}
+      <footer className="pt-6 border-t border-stone-200 dark:border-stone-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+        <p className="font-mono text-[10px] text-stone-400 dark:text-stone-600 tracking-wide">
+          Updated{' '}
           {new Date(briefing.generatedAt).toLocaleTimeString('en-GB', {
             hour: '2-digit',
             minute: '2-digit',
@@ -50,7 +52,7 @@ export function BriefingView({ briefing }: BriefingViewProps) {
           })}{' '}
           GMT · {briefing.stories.length} stories
         </p>
-        <p className="font-mono text-[10px] text-zinc-400 dark:text-zinc-600 tracking-wide">
+        <p className="font-serif text-[11px] text-stone-400 dark:text-stone-600 italic">
           Commercial Awareness Daily
         </p>
       </footer>

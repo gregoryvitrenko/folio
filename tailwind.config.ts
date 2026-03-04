@@ -11,14 +11,9 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        mono: ['var(--font-mono)', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+        serif: ['var(--font-serif)', 'Georgia', 'Times New Roman', 'serif'],
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
-      },
-      colors: {
-        zinc: {
-          925: '#111114',
-          950: '#0a0a0f',
-        },
+        mono: ['var(--font-mono)', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       },
       animation: {
         'fade-in': 'fadeIn 0.4s ease-out',
@@ -32,20 +27,16 @@ const config: Config = {
     },
   },
   safelist: [
-    // top borders
-    'border-t-2',
-    'border-t-blue-500', 'border-t-violet-500', 'border-t-emerald-500',
-    'border-t-amber-500', 'border-t-rose-500', 'border-t-cyan-500',
-    // text colours
-    'text-blue-600', 'dark:text-blue-400',
-    'text-violet-600', 'dark:text-violet-400',
-    'text-emerald-600', 'dark:text-emerald-400',
-    'text-amber-600', 'dark:text-amber-400',
-    'text-rose-600', 'dark:text-rose-400',
-    'text-cyan-600', 'dark:text-cyan-400',
-    // legacy (kept for any cached builds)
-    'text-blue-400', 'text-violet-400', 'text-emerald-400',
-    'text-amber-400', 'text-rose-400', 'text-cyan-400',
+    // topic label text colours (muted editorial palette)
+    'text-blue-800', 'text-violet-800', 'text-emerald-800',
+    'text-amber-800', 'text-rose-800', 'text-teal-800',
+    'dark:text-blue-300', 'dark:text-violet-300', 'dark:text-emerald-300',
+    'dark:text-amber-300', 'dark:text-rose-300', 'dark:text-teal-300',
+    // topic dot colours
+    'bg-blue-700', 'bg-violet-700', 'bg-emerald-700',
+    'bg-amber-700', 'bg-rose-700', 'bg-teal-700',
+    'dark:bg-blue-400', 'dark:bg-violet-400', 'dark:bg-emerald-400',
+    'dark:bg-amber-400', 'dark:bg-rose-400', 'dark:bg-teal-400',
   ],
   plugins: [],
 };

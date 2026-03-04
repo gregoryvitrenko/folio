@@ -1,21 +1,59 @@
 import { NextRequest, NextResponse } from 'next/server';
-import Groq from 'groq-sdk';
+import Anthropic from '@anthropic-ai/sdk';
+import fs from 'fs';
+import path from 'path';
+import { auth } from '@clerk/nextjs/server';
 import { getBriefing, getTodayDate } from '@/lib/storage';
+import { isValidDate } from '@/lib/security';
 
 export const maxDuration = 60;
 
+const DATA_DIR = path.join(process.cwd(), 'data', 'briefings');
+
+function scriptFile(date: string): string {
+  return path.join(DATA_DIR, `${date}-podcast.txt`);
+}
+
+function getCachedScript(date: string): string | null {
+  try {
+    return fs.readFileSync(scriptFile(date), 'utf-8');
+  } catch {
+    return null;
+  }
+}
+
+function saveScript(date: string, script: string): void {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+  fs.writeFileSync(scriptFile(date), script, 'utf-8');
+}
+
 export async function POST(request: NextRequest) {
-  const body = await request.json();
-  const targetDate = body.date ?? getTodayDate();
+  const { userId } = await auth();
+  if (!userId) {
+    console.warn('[podcast] POST — unauthenticated request rejected');
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const body = await request.json().catch(() => ({}));
+  const rawDate = body.date ?? getTodayDate();
+  const targetDate = isValidDate(rawDate) ? rawDate : getTodayDate();
+  const hasElevenLabs = !!process.env.ELEVENLABS_API_KEY;
+
+  // ── Return cached script immediately — no Claude call, no ElevenLabs charge ──
+  const cached = getCachedScript(targetDate);
+  if (cached) {
+    return NextResponse.json({ script: cached, hasElevenLabs });
+  }
 
   const briefing = await getBriefing(targetDate);
   if (!briefing) {
     return NextResponse.json({ error: 'No briefing found for this date' }, { status: 404 });
   }
 
-  const apiKey = process.env.GROQ_API_KEY;
+  const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
-    return NextResponse.json({ error: 'GROQ_API_KEY not set' }, { status: 500 });
+    console.error('[podcast] ANTHROPIC_API_KEY is not configured.');
+    return NextResponse.json({ error: 'Podcast generation is currently unavailable.' }, { status: 500 });
   }
 
   const dateStr = new Date(targetDate + 'T00:00:00').toLocaleDateString('en-GB', {
@@ -36,7 +74,7 @@ export async function POST(request: NextRequest) {
     2
   );
 
-  const prompt = `You are writing a podcast script for "Commercial Awareness Daily", a morning briefing for law students targeting Magic Circle and elite US law firms — modelled closely on the FT News Briefing.
+  const prompt = `You are writing a podcast script for "Commercial Awareness Daily", a morning briefing for law students targeting Magic Circle, Silver Circle and elite US law firms — modelled closely on the FT News Briefing.
 
 Write a 3–4 minute podcast script (roughly 450–550 words of spoken content) based on the stories below for ${dateStr}.
 
@@ -58,15 +96,19 @@ ${storiesJson}
 Sector Watch: ${briefing.sectorWatch}
 One to Follow: ${briefing.oneToFollow}`;
 
-  const groq = new Groq({ apiKey });
+  const anthropic = new Anthropic({ apiKey });
 
-  const completion = await groq.chat.completions.create({
-    model: 'llama-3.3-70b-versatile',
-    messages: [{ role: 'user', content: prompt }],
+  const message = await anthropic.messages.create({
+    model: 'claude-sonnet-4-5',
     max_tokens: 2048,
+    messages: [{ role: 'user', content: prompt }],
   });
 
-  const script = completion.choices[0]?.message?.content ?? '';
-  const hasElevenLabs = !!process.env.ELEVENLABS_API_KEY;
+  const block = message.content[0];
+  const script = block.type === 'text' ? block.text : '';
+
+  // Persist to disk — subsequent requests return this cached version
+  saveScript(targetDate, script);
+
   return NextResponse.json({ script, hasElevenLabs });
 }

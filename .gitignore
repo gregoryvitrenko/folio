@@ -25,5 +25,14 @@ next-env.d.ts
 .DS_Store
 *.pem
 
-# Briefing data (optional — commit these if you want a permanent archive)
+# User data — never commit (dev-only fallbacks; production uses Upstash Redis)
+data/subscriptions.json
+data/bookmarks.json
+
+# Generated briefing cache (optional — uncomment to exclude)
 # data/briefings/*.json
+# data/briefings/*-quiz.json
+# data/briefings/*-podcast.txt
+
+# clerk configuration (can include secrets)
+/.clerk/

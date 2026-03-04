@@ -4,58 +4,159 @@ export type TopicCategory =
   | 'Energy & Tech'
   | 'Regulation'
   | 'Disputes'
-  | 'International';
+  | 'International'
+  | 'AI & Law';
+
+export interface WhyItMatters {
+  ukFirms: string;
+  usFirms: string;
+  onTheGround: string;
+}
 
 export interface Story {
   id: string;
   topic: TopicCategory;
   headline: string;
   summary: string;
-  whyItMatters: string;
+  /** Structured object for new briefings; plain string for legacy saved briefings */
+  whyItMatters: WhyItMatters | string;
   talkingPoint: string;
   sources?: string[];
+  /** Law firms explicitly named in the story (e.g. ["Freshfields", "Linklaters"]) */
+  firms?: string[];
+}
+
+export interface SectorWatchData {
+  /** Short trend label, 3–6 words — rendered as serif headline */
+  trend: string;
+  /** 3–4 sentence analysis of the macro trend */
+  body: string;
+}
+
+export interface OneToFollowData {
+  /** One sentence naming the specific developing story */
+  story: string;
+  /** 2 sentences on implications for commercial lawyers */
+  why: string;
 }
 
 export interface Briefing {
   date: string;        // YYYY-MM-DD
   generatedAt: string; // ISO 8601
   stories: Story[];
-  sectorWatch: string;
-  oneToFollow: string;
+  /** Structured for new briefings; plain string for legacy saved briefings */
+  sectorWatch: string | SectorWatchData;
+  /** Structured for new briefings; plain string for legacy saved briefings */
+  oneToFollow: string | OneToFollowData;
 }
+
+export interface QuizOption {
+  letter: 'A' | 'B' | 'C' | 'D';
+  text: string;
+}
+
+export interface QuizQuestion {
+  /** e.g. "1-1", "1-2", "2-1" (storyId-questionIndex) */
+  id: string;
+  /** matches Story.id */
+  storyId: string;
+  question: string;
+  options: QuizOption[];
+  correctLetter: 'A' | 'B' | 'C' | 'D';
+  /** Shown after answering — re-teaches the fact in context */
+  explanation: string;
+}
+
+export interface DailyQuiz {
+  date: string;        // YYYY-MM-DD
+  generatedAt: string; // ISO 8601
+  questions: QuizQuestion[];
+}
+
+export interface Comment {
+  id: string;        // crypto.randomUUID()
+  storyId: string;
+  date: string;      // briefing date YYYY-MM-DD
+  userId: string;    // Clerk userId
+  userName: string;  // "First L." or email prefix
+  text: string;      // 1–500 chars
+  createdAt: string; // ISO 8601
+}
+
+// ─── Firm Profiles ────────────────────────────────────────────────────────────
+
+export type FirmTier =
+  | 'Magic Circle'
+  | 'Silver Circle'
+  | 'International'
+  | 'US Firms'
+  | 'Boutique';
+
+export interface FirmDeadline {
+  label: string;      // e.g. "Summer Vacation Scheme 2026"
+  typically: string;  // e.g. "Opens October · Closes January"
+  applyUrl: string;   // Official application page URL
+}
+
+export interface FirmProfile {
+  slug: string;           // URL segment e.g. "clifford-chance"
+  name: string;           // Full legal name
+  shortName: string;      // e.g. "CC"
+  aliases: string[];      // All names story.firms[] might contain for this firm
+  tier: FirmTier;
+  website: string;
+  hq: string;
+  offices: string[];
+  practiceAreas: string[];
+  knownFor: string;       // 1–2 sentences, manually written — no runtime AI
+  culture: string;        // 2–3 sentences, manually written
+  interviewFocus: string; // 2 sentences — what the firm probes at interview
+  trainingContract: {
+    seats: number;
+    intakeSizeNote: string;  // e.g. "c.85 per year"
+    tcSalaryNote: string;    // e.g. "~£52,000 – £58,000"
+    nqSalaryNote: string;    // e.g. "~£170,000"
+    deadlines: FirmDeadline[];
+    applyUrl: string;
+    lastVerified: string;    // YYYY-MM-DD — update each recruitment cycle
+  };
+  accentColor: string;   // Tailwind text class for tier badge
+  /** Forage virtual experience URL — undefined if no programme exists */
+  forageUrl?: string;
+}
+
+// ─── Topic Styles ─────────────────────────────────────────────────────────────
 
 export const TOPIC_STYLES: Record<
   TopicCategory,
-  { badge: string; topBorder: string; label: string }
+  { label: string; dot: string }
 > = {
   'M&A': {
-    badge: 'text-blue-600 dark:text-blue-400',
-    topBorder: 'border-t-2 border-t-blue-500',
-    label: 'text-blue-600 dark:text-blue-400',
+    label: 'text-blue-800 dark:text-blue-300',
+    dot: 'bg-blue-700 dark:bg-blue-400',
   },
   'Capital Markets': {
-    badge: 'text-violet-600 dark:text-violet-400',
-    topBorder: 'border-t-2 border-t-violet-500',
-    label: 'text-violet-600 dark:text-violet-400',
+    label: 'text-violet-800 dark:text-violet-300',
+    dot: 'bg-violet-700 dark:bg-violet-400',
   },
   'Energy & Tech': {
-    badge: 'text-emerald-600 dark:text-emerald-400',
-    topBorder: 'border-t-2 border-t-emerald-500',
-    label: 'text-emerald-600 dark:text-emerald-400',
+    label: 'text-emerald-800 dark:text-emerald-300',
+    dot: 'bg-emerald-700 dark:bg-emerald-400',
   },
   'Regulation': {
-    badge: 'text-amber-600 dark:text-amber-400',
-    topBorder: 'border-t-2 border-t-amber-500',
-    label: 'text-amber-600 dark:text-amber-400',
+    label: 'text-amber-800 dark:text-amber-300',
+    dot: 'bg-amber-700 dark:bg-amber-400',
   },
   'Disputes': {
-    badge: 'text-rose-600 dark:text-rose-400',
-    topBorder: 'border-t-2 border-t-rose-500',
-    label: 'text-rose-600 dark:text-rose-400',
+    label: 'text-rose-800 dark:text-rose-300',
+    dot: 'bg-rose-700 dark:bg-rose-400',
   },
   'International': {
-    badge: 'text-cyan-600 dark:text-cyan-400',
-    topBorder: 'border-t-2 border-t-cyan-500',
-    label: 'text-cyan-600 dark:text-cyan-400',
+    label: 'text-teal-800 dark:text-teal-300',
+    dot: 'bg-teal-700 dark:bg-teal-400',
+  },
+  'AI & Law': {
+    label: 'text-indigo-800 dark:text-indigo-300',
+    dot: 'bg-indigo-700 dark:bg-indigo-400',
   },
 };
