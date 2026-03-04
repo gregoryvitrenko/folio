@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { generateBriefing } from '@/lib/generate';
 import { saveBriefing, getBriefing, getTodayDate } from '@/lib/storage';
+import { generateAndSavePodcastScript } from '@/lib/podcast';
 
 export const maxDuration = 300; // 5-minute timeout for generation
 
@@ -34,6 +35,12 @@ async function handleGenerate(request: NextRequest, force = false) {
   try {
     const briefing = await generateBriefing();
     await saveBriefing(briefing);
+
+    // Auto-generate podcast script immediately after briefing — fire-and-forget
+    // so a podcast failure never blocks the briefing response.
+    generateAndSavePodcastScript(briefing).catch((err) =>
+      console.error('[generate] Podcast auto-generation failed:', err)
+    );
 
     return NextResponse.json({
       message: 'Briefing generated successfully',
