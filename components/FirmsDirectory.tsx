@@ -103,7 +103,7 @@ export function FirmsDirectory({ firms }: { firms: FirmProfile[] }) {
           if (q && tierFirms.length === 0) return null;
           return (
             <div key={tier} id={tierId(tier)} className="scroll-mt-28">
-              <h3 className="font-mono text-[10px] tracking-widest uppercase text-stone-400 dark:text-stone-500 mb-3">
+              <h3 className="font-mono text-xs tracking-widest uppercase text-stone-400 dark:text-stone-500 mb-3">
                 {tier}
                 {q && (
                   <span className="ml-2 font-sans normal-case tracking-normal text-stone-400 dark:text-stone-500">
