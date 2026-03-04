@@ -5,11 +5,17 @@ import { GenerateButton } from '@/components/GenerateButton';
 import { LandingHero } from '@/components/LandingHero';
 import { UpgradeBanner } from '@/components/UpgradeBanner';
 import { getSubscriptionStatus } from '@/lib/paywall';
+import { auth } from '@clerk/nextjs/server';
+
+const ADMIN_USER_ID = 'user_3AR29PSfsNfmy9wxcyjCvplC7hH';
 
 export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
   const today = getTodayDate();
+  const { userId } = await auth();
+  const isAdmin = userId === ADMIN_USER_ID;
+
   const [briefing, subscriptionStatus] = await Promise.all([
     getBriefing(today).then((b) => b ?? getLatestBriefing()),
     getSubscriptionStatus(),
@@ -32,7 +38,7 @@ export default async function HomePage() {
               Generate your first briefing using live web search and AI synthesis.
             </p>
           </div>
-          <GenerateButton />
+          {isAdmin && <GenerateButton />}
         </main>
       </>
     );
@@ -52,7 +58,7 @@ export default async function HomePage() {
             <p className="text-xs text-amber-700 dark:text-amber-400">
               Showing briefing from {briefing.date} — today&apos;s hasn&apos;t been generated yet.
             </p>
-            <GenerateButton />
+            {isAdmin && <GenerateButton />}
           </div>
         </div>
       )}
