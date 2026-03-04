@@ -21,7 +21,7 @@ export default async function PrimerPage({
 
   return (
     <>
-      <Header date={today} isArchive />
+      <Header date={today} />
       <main className="max-w-3xl mx-auto px-4 sm:px-6 py-8">
         <PrimerView primer={primer} />
       </main>
