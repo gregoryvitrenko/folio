@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import type { Briefing, DailyQuiz } from './types';
+import type { AptitudeQuestion } from './aptitude';
 import { isValidDate } from './security';
 
 // ─── Backend detection ────────────────────────────────────────────────────────
@@ -162,4 +163,54 @@ export async function getQuiz(date: string): Promise<DailyQuiz | null> {
   if (!isValidDate(date)) return null;
   if (useRedis()) return redisGetQuiz(date);
   return fsGetQuiz(date);
+}
+
+// ─── Aptitude question cache ───────────────────────────────────────────────────
+// One set per (date, testType) — shared across all users, same as quiz caching.
+
+async function redisSaveAptitude(date: string, testType: string, questions: AptitudeQuestion[]): Promise<void> {
+  const redis = getRedis();
+  await redis.set(`aptitude:${date}:${testType}`, JSON.stringify(questions));
+}
+
+async function redisGetAptitude(date: string, testType: string): Promise<AptitudeQuestion[] | null> {
+  const redis = getRedis();
+  const data = await redis.get(`aptitude:${date}:${testType}`);
+  if (!data) return null;
+  return typeof data === 'string' ? JSON.parse(data) : data;
+}
+
+function fsSaveAptitude(date: string, testType: string, questions: AptitudeQuestion[]): void {
+  ensureDir();
+  fs.writeFileSync(
+    path.join(DATA_DIR, `${date}-aptitude-${testType}.json`),
+    JSON.stringify(questions, null, 2),
+    'utf-8',
+  );
+}
+
+function fsGetAptitude(date: string, testType: string): AptitudeQuestion[] | null {
+  try {
+    const content = fs.readFileSync(
+      path.join(DATA_DIR, `${date}-aptitude-${testType}.json`),
+      'utf-8',
+    );
+    return JSON.parse(content) as AptitudeQuestion[];
+  } catch {
+    return null;
+  }
+}
+
+export async function saveAptitudeQuestions(date: string, testType: string, questions: AptitudeQuestion[]): Promise<void> {
+  if (useRedis()) {
+    await redisSaveAptitude(date, testType, questions);
+  } else {
+    fsSaveAptitude(date, testType, questions);
+  }
+}
+
+export async function getAptitudeQuestions(date: string, testType: string): Promise<AptitudeQuestion[] | null> {
+  if (!isValidDate(date)) return null;
+  if (useRedis()) return redisGetAptitude(date, testType);
+  return fsGetAptitude(date, testType);
 }

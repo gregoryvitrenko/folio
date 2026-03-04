@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { isSubscribed } from '@/lib/subscription';
 import { generateAptitudeQuestions } from '@/lib/aptitude';
+import { getAptitudeQuestions, saveAptitudeQuestions, getTodayDate } from '@/lib/storage';
 
 export const maxDuration = 30;
 
@@ -26,11 +27,20 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  const today = getTodayDate();
+
+  // Check cache first — one set per day per test type, shared across all users
+  const cached = await getAptitudeQuestions(today, testType);
+  if (cached && cached.length > 0) {
+    return NextResponse.json({ questions: cached, cached: true });
+  }
+
   const questionCount = Math.min(Math.max(count ?? 10, 5), 15);
 
   try {
     const questions = await generateAptitudeQuestions(testType, questionCount);
-    return NextResponse.json({ questions });
+    await saveAptitudeQuestions(today, testType, questions);
+    return NextResponse.json({ questions, cached: false });
   } catch (err) {
     console.error('[aptitude-questions] Generation failed:', err);
     return NextResponse.json(
