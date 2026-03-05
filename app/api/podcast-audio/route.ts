@@ -169,7 +169,11 @@ export async function POST(request: NextRequest) {
 
   // ── Save and return ──
   const audioBuffer = Buffer.from(await res.arrayBuffer());
-  await recordUsage(charCount);
+  try {
+    await recordUsage(charCount);
+  } catch (err) {
+    console.error('[podcast-audio] Failed to record char usage (Redis not configured?):', err);
+  }
 
   let savedUrl: string | null = null;
   try {
