@@ -140,8 +140,8 @@ export async function POST(request: NextRequest) {
 
   // ── Monthly character budget check ──
   const charCount = script.length;
-  if (!hasCapacity(charCount)) {
-    const { used, limit } = getMonthlyUsage();
+  if (!(await hasCapacity(charCount))) {
+    const { used, limit } = await getMonthlyUsage();
     console.warn(`[podcast-audio] Monthly quota reached: ${used.toLocaleString()} / ${limit.toLocaleString()} chars used.`);
     return NextResponse.json(
       { error: 'Monthly audio generation quota reached. Please try again next month.' },
@@ -190,7 +190,7 @@ export async function POST(request: NextRequest) {
   const audioBuffer = Buffer.from(await res.arrayBuffer());
   fs.mkdirSync(DATA_DIR, { recursive: true });
   fs.writeFileSync(audioFile(date, resolvedVoiceId), audioBuffer);
-  recordUsage(charCount);
+  await recordUsage(charCount);
 
   return new Response(audioBuffer, {
     headers: {
