@@ -22,6 +22,8 @@ Disallow: /primers/
 Disallow: /podcast
 Disallow: /tests
 Disallow: /tests/
+Disallow: /interview
+Disallow: /interview/
 Disallow: /onboarding
 Disallow: /success
 
