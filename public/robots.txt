@@ -34,4 +34,4 @@ Disallow: /success
 # Block all API routes from crawlers
 Disallow: /api/
 
-Sitemap: https://commercialawareness.co.uk/sitemap.xml
+Sitemap: https://folioapp.co.uk/sitemap.xml
