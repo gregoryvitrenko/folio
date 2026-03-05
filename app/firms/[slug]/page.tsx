@@ -569,11 +569,18 @@ export default async function FirmProfilePage({
 
           {/* ── Practice Interview Questions ──────────────────────────────────── */}
           <SectionCard accent={tierAccent}>
-            <SectionHeading icon={<HelpCircle size={13} />} label="Practice Interview Questions" />
-            <p className="text-[12px] text-stone-400 dark:text-stone-500 mb-5 leading-relaxed">
-              10 questions tailored to {firm.shortName} — drawn from the firm&apos;s profile,
-              practice areas, and recent news. Try answering each one aloud before reading on.
-            </p>
+            <div className="flex items-start justify-between gap-4 mb-5">
+              <div>
+                <SectionHeading icon={<HelpCircle size={13} />} label="Practice Interview Questions" />
+                <p className="text-[12px] text-stone-400 dark:text-stone-500 leading-relaxed -mt-1">
+                  10 questions tailored to {firm.shortName} — drawn from the firm&apos;s profile,
+                  practice areas, and recent news. Try answering each one aloud before reading on.
+                </p>
+              </div>
+              <span className="shrink-0 mt-0.5 inline-block text-[9px] font-mono font-medium tracking-widest uppercase px-2 py-1 rounded-sm bg-stone-100 dark:bg-stone-800 text-stone-400 dark:text-stone-500 border border-stone-200 dark:border-stone-700">
+                Refreshes weekly
+              </span>
+            </div>
 
             {interviewPack && interviewPack.practiceQuestions.length > 0 ? (
               <ol className="space-y-4">
@@ -596,16 +603,6 @@ export default async function FirmProfilePage({
             ) : (
               <p className="text-[13px] text-stone-400 dark:text-stone-500 italic">
                 Interview questions are being generated — refresh the page in a moment.
-              </p>
-            )}
-
-            {interviewPack && (
-              <p className="text-[10px] font-mono text-stone-300 dark:text-stone-600 mt-6">
-                Generated {new Date(interviewPack.generatedAt).toLocaleDateString('en-GB', {
-                  day: 'numeric',
-                  month: 'short',
-                  year: 'numeric',
-                })} · refreshes weekly
               </p>
             )}
           </SectionCard>
