@@ -14,9 +14,11 @@ const CURATED: { id: string; name: string; label: string }[] = [
 
 // SECURITY FIX: require auth — previously unauthenticated requests could enumerate
 // ElevenLabs account voices and waste API quota.
+// PREVIEW_MODE bypass: dev environment has no Clerk session but needs voices for testing.
 export async function GET() {
+  const isDevPreview = process.env.PREVIEW_MODE === 'true';
   const { userId } = await auth();
-  if (!userId) {
+  if (!isDevPreview && !userId) {
     return NextResponse.json({ voices: [] }, { status: 401 });
   }
   const apiKey = process.env.ELEVENLABS_API_KEY;
