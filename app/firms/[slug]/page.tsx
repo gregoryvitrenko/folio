@@ -18,6 +18,7 @@ import {
   Lightbulb,
 } from 'lucide-react';
 import { Header } from '@/components/Header';
+import { PrintButton } from '@/components/PrintButton';
 import { getFirmBySlug } from '@/lib/firms-data';
 import { getDiversitySchemes } from '@/lib/diversity-data';
 import { requireSubscription } from '@/lib/paywall';
@@ -95,6 +96,7 @@ function SectionCard({
 }) {
   return (
     <div
+      data-print-section
       className={`bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-sm px-6 py-5
         ${accent ? `border-l-[3px] ${accent}` : ''}
         ${className}`}
@@ -192,14 +194,18 @@ export default async function FirmProfilePage({
       <Header date={today} />
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
 
-        {/* Back link */}
-        <Link
-          href="/firms"
-          className="inline-flex items-center gap-1.5 text-[11px] text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-300 transition-colors mb-6"
-        >
-          <ChevronLeft size={12} />
-          All firms
-        </Link>
+        {/* Back link + print button */}
+        <div className="flex items-center justify-between mb-6">
+          <Link
+            href="/firms"
+            data-print-hide
+            className="inline-flex items-center gap-1.5 text-[11px] text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-300 transition-colors"
+          >
+            <ChevronLeft size={12} />
+            All firms
+          </Link>
+          <PrintButton />
+        </div>
 
         {/* ── Hero ──────────────────────────────────────────────────────────── */}
         <div className={`mb-8 pl-5 border-l-[4px] ${tierAccent}`}>
@@ -240,6 +246,7 @@ export default async function FirmProfilePage({
             href={firm.website}
             target="_blank"
             rel="noopener noreferrer"
+            data-print-hide
             className="inline-flex items-center gap-1.5 text-[11px] text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-300 transition-colors"
           >
             <ExternalLink size={11} />
@@ -314,6 +321,7 @@ export default async function FirmProfilePage({
                 <SectionHeading icon={<GraduationCap size={13} />} label="Online Assessments" />
                 <Link
                   href="/tests"
+                  data-print-hide
                   className="shrink-0 inline-flex items-center gap-1.5 text-[10px] font-mono font-medium px-2.5 py-1 rounded-sm bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400 border border-stone-200 dark:border-stone-700 hover:bg-stone-200 dark:hover:bg-stone-700 transition-colors -mt-0.5"
                 >
                   Practice tests →
@@ -404,6 +412,7 @@ export default async function FirmProfilePage({
               href={firm.trainingContract.applyUrl}
               target="_blank"
               rel="noopener noreferrer"
+              data-print-hide
               className="inline-flex items-center gap-1.5 text-[12px] font-medium px-4 py-2 rounded-sm bg-stone-900 dark:bg-stone-100 text-stone-50 dark:text-stone-900 hover:opacity-80 transition-opacity"
             >
               Apply for Training Contract
@@ -419,6 +428,7 @@ export default async function FirmProfilePage({
                 href="https://app.the-trackr.com/uk-law/"
                 target="_blank"
                 rel="noopener noreferrer"
+                data-print-hide
                 className="shrink-0 inline-flex items-center gap-1.5 text-[10px] font-mono font-medium px-2.5 py-1 rounded-sm bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400 border border-stone-200 dark:border-stone-700 hover:bg-stone-200 dark:hover:bg-stone-700 transition-colors -mt-0.5"
               >
                 <ExternalLink size={10} />
@@ -443,6 +453,7 @@ export default async function FirmProfilePage({
                     href={deadline.applyUrl}
                     target="_blank"
                     rel="noopener noreferrer"
+                    data-print-hide
                     className="shrink-0 inline-flex items-center gap-1.5 text-[11px] font-medium px-3 py-1.5 rounded-sm border border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-700 transition-colors"
                   >
                     Apply →
@@ -463,6 +474,7 @@ export default async function FirmProfilePage({
                 href={firm.forageUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-print-hide
                 className="inline-flex items-center gap-1.5 text-[12px] font-medium px-4 py-2 rounded-sm border border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-stone-800 transition-colors"
               >
                 View Forage simulations
@@ -503,6 +515,7 @@ export default async function FirmProfilePage({
                       href={scheme.applyUrl}
                       target="_blank"
                       rel="noopener noreferrer"
+                      data-print-hide
                       className="shrink-0 inline-flex items-center gap-1.5 text-[11px] font-medium px-3 py-1.5 rounded-sm border border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-700 transition-colors"
                     >
                       Apply →
@@ -600,7 +613,7 @@ export default async function FirmProfilePage({
                   practice areas, and recent news. Try answering each one aloud before reading on.
                 </p>
               </div>
-              <span className="shrink-0 mt-0.5 inline-block text-[9px] font-mono font-medium tracking-widest uppercase px-2 py-1 rounded-sm bg-stone-100 dark:bg-stone-800 text-stone-400 dark:text-stone-500 border border-stone-200 dark:border-stone-700">
+              <span className="shrink-0 mt-0.5 inline-block text-[9px] font-mono font-medium tracking-widest uppercase px-2 py-1 rounded-sm bg-stone-100 dark:bg-stone-800 text-stone-400 dark:text-stone-500 border border-stone-200 dark:border-stone-700 print:hidden">
                 Refreshes weekly
               </span>
             </div>
@@ -641,6 +654,19 @@ export default async function FirmProfilePage({
             </p>
           </div>
 
+        </div>
+
+        {/* Print-only footer */}
+        <div
+          data-print-footer
+          className="hidden mt-8 pt-4 border-t border-stone-200 text-[10px] font-mono text-stone-400"
+        >
+          <p>
+            Generated by Folio — folioapp.co.uk · {new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+          </p>
+          <p className="mt-0.5">
+            Salary and deadline information is approximate. Always verify with the firm&apos;s official graduate recruitment page.
+          </p>
         </div>
       </main>
     </>
