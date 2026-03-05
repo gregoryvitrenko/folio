@@ -2,9 +2,74 @@ import Link from 'next/link';
 import { getBriefing, getLatestBriefing, getQuiz, getTodayDate, listBriefings } from '@/lib/storage';
 import { Header } from '@/components/Header';
 import { QuizInterface } from '@/components/QuizInterface';
+import type { CountdownData } from '@/components/QuizInterface';
 import type { TopicCategory } from '@/lib/types';
 import { PenLine, ChevronRight } from 'lucide-react';
 import { requireSubscription } from '@/lib/paywall';
+import { auth } from '@clerk/nextjs/server';
+import { getOnboarding } from '@/lib/onboarding';
+import { FIRMS } from '@/lib/firms-data';
+
+// ── Firm deadline countdown helpers ───────────────────────────────────────────
+
+/** Extract close month (1-based) from "Opens October · Closes November" */
+function parseCloseMonth(typically: string): number | null {
+  const match = typically.match(/[Cc]loses?\s+([A-Za-z]+)/);
+  if (!match) return null;
+  const months = [
+    'January','February','March','April','May','June',
+    'July','August','September','October','November','December',
+  ];
+  const idx = months.findIndex((m) => m.toLowerCase() === match[1].toLowerCase());
+  return idx >= 0 ? idx + 1 : null;
+}
+
+/** Days until the last day of the given 1-based month (this or next year) */
+function daysUntilCloseMonth(month: number): number {
+  const now = new Date();
+  // new Date(year, month, 0) → last day of that 1-based month
+  let deadline = new Date(now.getFullYear(), month, 0);
+  if (deadline < now) {
+    deadline = new Date(now.getFullYear() + 1, month, 0);
+  }
+  return Math.ceil((deadline.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+}
+
+/** Find the nearest upcoming firm deadline across the user's target firms */
+async function getCountdown(userId: string): Promise<CountdownData | null> {
+  try {
+    const onboarding = await getOnboarding(userId);
+    if (!onboarding || !onboarding.targetFirms.length) return null;
+
+    const firmMap = new Map(FIRMS.map((f) => [f.slug, f]));
+    let best: CountdownData | null = null;
+
+    for (const slug of onboarding.targetFirms) {
+      const firm = firmMap.get(slug);
+      if (!firm) continue;
+
+      for (const deadline of firm.trainingContract.deadlines) {
+        const closeMonth = parseCloseMonth(deadline.typically);
+        if (!closeMonth) continue;
+
+        const daysLeft = daysUntilCloseMonth(closeMonth);
+        if (!best || daysLeft < best.daysLeft) {
+          best = {
+            firmName: firm.name,
+            shortName: firm.shortName,
+            label: deadline.label,
+            daysLeft,
+            slug,
+          };
+        }
+      }
+    }
+
+    return best;
+  } catch {
+    return null;
+  }
+}
 
 export const dynamic = 'force-dynamic';
 
@@ -22,9 +87,12 @@ function formatDisplayDate(dateStr: string): string {
 export default async function QuizPage() {
   await requireSubscription();
   const today = getTodayDate();
-  const [briefing, dates] = await Promise.all([
+  const { userId } = await auth();
+
+  const [briefing, dates, countdown] = await Promise.all([
     getBriefing(today).then((b) => b ?? getLatestBriefing()),
     listBriefings(),
+    userId ? getCountdown(userId) : Promise.resolve(null),
   ]);
 
   const activeDate = briefing?.date ?? today;
@@ -136,6 +204,7 @@ export default async function QuizPage() {
           date={briefing.date}
           initialQuiz={quiz}
           storyMeta={storyMeta}
+          countdown={countdown}
         />
       </main>
     </>

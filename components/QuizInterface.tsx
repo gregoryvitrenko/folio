@@ -8,11 +8,27 @@ import { TOPIC_STYLES } from '@/lib/types';
 
 // ── localStorage schema ───────────────────────────────────────────────────────
 
+export interface CountdownData {
+  firmName: string;
+  shortName: string;
+  label: string;
+  daysLeft: number;
+  slug: string;
+}
+
 interface StoredResult {
   score: number;
   total: number;
   answers: Record<string, 'A' | 'B' | 'C' | 'D'>;
   completedAt: string;
+}
+
+interface LastResultData {
+  score: number;
+  total: number;
+  pct: number;
+  date: string;
+  prevPct?: number; // pct from the session before (for ↑↓→ trend)
 }
 
 interface StreakData {
@@ -58,6 +74,32 @@ function isStreakDoneToday(date: string): boolean {
   } catch {
     return false;
   }
+}
+
+// ── Global last-result (cross-day score history) ───────────────────────────
+
+function loadLastResult(): LastResultData | null {
+  try {
+    const raw = localStorage.getItem('cad-quiz-last-result');
+    return raw ? (JSON.parse(raw) as LastResultData) : null;
+  } catch {
+    return null;
+  }
+}
+
+function saveLastResult(score: number, total: number, date: string): void {
+  try {
+    const pct = Math.round((score / total) * 100);
+    const prev = loadLastResult();
+    const entry: LastResultData = {
+      score,
+      total,
+      pct,
+      date,
+      prevPct: prev ? prev.pct : undefined,
+    };
+    localStorage.setItem('cad-quiz-last-result', JSON.stringify(entry));
+  } catch {}
 }
 
 // Records today's streak completion; returns the new streak count.
@@ -152,12 +194,13 @@ interface QuizInterfaceProps {
   date: string;
   initialQuiz: DailyQuiz | null;
   storyMeta: StoryMeta[];
+  countdown?: CountdownData | null;
 }
 
 type QuizMode = 'streak' | 'deep';
 type UIState = 'idle' | 'loading' | 'quiz' | 'results';
 
-export function QuizInterface({ date, initialQuiz, storyMeta }: QuizInterfaceProps) {
+export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizInterfaceProps) {
   // Streak only applies to today's quiz — not archive dates
   const isToday = date === new Date().toLocaleDateString('en-CA');
 
@@ -177,6 +220,9 @@ export function QuizInterface({ date, initialQuiz, storyMeta }: QuizInterfacePro
   const [streakDone, setStreakDone] = useState(false);
   const [justEarnedStreak, setJustEarnedStreak] = useState(0); // count shown in results
 
+  // Cross-session last result (for score hero on Daily card)
+  const [lastResult, setLastResult] = useState<LastResultData | null>(null);
+
   useEffect(() => {
     const saved = loadResult(date);
     setPreviousResult(saved);
@@ -184,6 +230,8 @@ export function QuizInterface({ date, initialQuiz, storyMeta }: QuizInterfacePro
     const streak = loadStreak();
     setStreakCount(streak.count);
     setStreakDone(isStreakDoneToday(date));
+
+    setLastResult(loadLastResult());
   }, [date]);
 
   // How many questions each mode will use (for labelling before quiz loads)
@@ -277,10 +325,12 @@ export function QuizInterface({ date, initialQuiz, storyMeta }: QuizInterfacePro
           (q) => merged.answers[q.id] === q.correctLetter
         ).length;
         saveResult(date, merged);
+        saveLastResult(merged.score, merged.total, date);
         setPreviousResult(merged);
         setAnswers(merged.answers);
       } else {
         saveResult(date, result);
+        saveLastResult(result.score, result.total, date);
         setPreviousResult(result);
         setAnswers(nextAnswers);
       }
@@ -335,6 +385,11 @@ export function QuizInterface({ date, initialQuiz, storyMeta }: QuizInterfacePro
                   <span className="text-[10px] font-mono text-zinc-400 dark:text-zinc-500">
                     {streakCount_}q
                   </span>
+                  {isToday && streakCount > 0 && (
+                    <span className="text-[10px] font-mono text-amber-500 dark:text-amber-400">
+                      · 🔥{streakCount}
+                    </span>
+                  )}
                 </div>
                 {isToday && streakDone && (
                   <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-medium">
@@ -343,35 +398,53 @@ export function QuizInterface({ date, initialQuiz, storyMeta }: QuizInterfacePro
                 )}
               </div>
 
-              {/* Hero: streak number */}
-              <div className="flex items-end gap-3 min-h-[52px]">
-                {isToday && streakCount > 0 ? (
-                  <>
-                    <span className="text-5xl font-bold text-zinc-900 dark:text-zinc-50 tracking-tight leading-none">
-                      {streakCount}
-                    </span>
-                    <div className="pb-1 leading-tight">
-                      <p className="text-[10px] font-mono font-semibold tracking-[0.14em] uppercase text-amber-500 dark:text-amber-400">day</p>
-                      <p className="text-[10px] font-mono font-semibold tracking-[0.14em] uppercase text-amber-500 dark:text-amber-400">streak</p>
+              {/* Hero: last score (or description if no history) */}
+              {(() => {
+                const displayResult = previousResult ?? lastResult;
+                if (!displayResult) {
+                  return (
+                    <div className="flex items-end min-h-[52px]">
+                      <span className="text-[13px] text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                        One question per practice area. Keeps your streak alive.
+                      </span>
                     </div>
+                  );
+                }
+                const pct = Math.round((displayResult.score / displayResult.total) * 100);
+                const showTrend = !previousResult && lastResult?.prevPct !== undefined;
+                const trend = showTrend
+                  ? (pct > lastResult!.prevPct! ? '↑' : pct < lastResult!.prevPct! ? '↓' : '→')
+                  : null;
+                const trendColor = trend === '↑'
+                  ? 'text-emerald-500 dark:text-emerald-400'
+                  : trend === '↓'
+                  ? 'text-rose-500 dark:text-rose-400'
+                  : 'text-zinc-400 dark:text-zinc-500';
+                return (
+                  <>
+                    <div className="flex items-end gap-3 min-h-[52px]">
+                      <span className="text-5xl font-bold text-zinc-900 dark:text-zinc-50 tracking-tight leading-none">
+                        {pct}%
+                      </span>
+                      <div className="pb-1 leading-tight">
+                        <p className="text-[10px] font-mono font-semibold tracking-[0.14em] uppercase text-amber-500 dark:text-amber-400">
+                          {displayResult.score}/{displayResult.total}
+                        </p>
+                        {trend && (
+                          <p className={`text-[10px] font-mono font-semibold tracking-[0.14em] uppercase ${trendColor}`}>
+                            {trend} trend
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <p className="text-[12px] text-zinc-500 dark:text-zinc-400 leading-relaxed -mt-1">
+                      {previousResult
+                        ? (streakDone ? 'Done for today — come back tomorrow.' : 'Today\'s score')
+                        : 'Beat it today →'}
+                    </p>
                   </>
-                ) : (
-                  <span className="text-[13px] text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                    {streakDone
-                      ? "Done for today — come back tomorrow to keep your streak."
-                      : "One question per practice area. Keeps your streak alive."}
-                  </span>
-                )}
-              </div>
-
-              {/* Subtitle (only when streak number is shown) */}
-              {isToday && streakCount > 0 && (
-                <p className="text-[12px] text-zinc-500 dark:text-zinc-400 leading-relaxed -mt-1">
-                  {streakDone
-                    ? "Done for today — come back tomorrow."
-                    : "One question per practice area. Keeps your streak alive."}
-                </p>
-              )}
+                );
+              })()}
 
               {errorMsg && (
                 <p className="text-[12px] font-mono text-rose-500 dark:text-rose-400">
@@ -437,19 +510,32 @@ export function QuizInterface({ date, initialQuiz, storyMeta }: QuizInterfacePro
                 </span>
               </div>
 
-              {/* Hero: question count */}
+              {/* Hero: firm countdown or question count */}
               <div className="flex items-end gap-3 min-h-[52px]">
                 <span className="text-5xl font-bold text-zinc-900 dark:text-zinc-50 tracking-tight leading-none">
-                  {deepCount}
+                  {countdown ? countdown.daysLeft : deepCount}
                 </span>
                 <div className="pb-1 leading-tight">
-                  <p className="text-[10px] font-mono font-semibold tracking-[0.14em] uppercase text-violet-500 dark:text-violet-400">full</p>
-                  <p className="text-[10px] font-mono font-semibold tracking-[0.14em] uppercase text-violet-500 dark:text-violet-400">questions</p>
+                  {countdown ? (
+                    <>
+                      <p className="text-[10px] font-mono font-semibold tracking-[0.14em] uppercase text-violet-500 dark:text-violet-400">days to</p>
+                      <p className="text-[10px] font-mono font-semibold tracking-[0.14em] uppercase text-violet-500 dark:text-violet-400 max-w-[88px] truncate">
+                        {countdown.shortName}
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <p className="text-[10px] font-mono font-semibold tracking-[0.14em] uppercase text-violet-500 dark:text-violet-400">full</p>
+                      <p className="text-[10px] font-mono font-semibold tracking-[0.14em] uppercase text-violet-500 dark:text-violet-400">questions</p>
+                    </>
+                  )}
                 </div>
               </div>
 
               <p className="text-[12px] text-zinc-500 dark:text-zinc-400 leading-relaxed -mt-1">
-                All 3 questions per practice area. Full recall drill.
+                {countdown
+                  ? `${countdown.label} deadline — keep prepping daily.`
+                  : 'All 3 questions per practice area. Full recall drill.'}
               </p>
 
               {/* Action */}
