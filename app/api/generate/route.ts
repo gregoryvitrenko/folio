@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { generateBriefing } from '@/lib/generate';
-import { saveBriefing, getBriefing, getTodayDate, getAptitudeBank, saveAptitudeBank } from '@/lib/storage';
+import { saveBriefing, getBriefing, getTodayDate, getAptitudeBank, saveAptitudeBank, saveQuiz } from '@/lib/storage';
 import { generateAndSavePodcastScript } from '@/lib/podcast';
+import { generateQuiz } from '@/lib/quiz';
 import { buildAptitudeBank, BANK_TTL_DAYS } from '@/lib/aptitude';
 import { checkRateLimit } from '@/lib/rate-limit';
+import type { Briefing } from '@/lib/types';
 
 export const maxDuration = 300; // 5-minute timeout for generation
 
@@ -30,6 +32,12 @@ async function refreshStaleBanks(today: string): Promise<void> {
       console.error(`[generate] Aptitude bank refresh failed for ${testType}:`, err);
     }
   }
+}
+
+async function generateAndSaveQuiz(briefing: Briefing): Promise<void> {
+  const quiz = await generateQuiz(briefing);
+  await saveQuiz(quiz);
+  console.log(`[generate] Quiz auto-generated: ${quiz.questions.length} questions for ${briefing.date}`);
 }
 
 function isCronAuthorized(request: NextRequest): boolean {
@@ -61,6 +69,11 @@ async function handleGenerate(request: NextRequest, force = false) {
   try {
     const briefing = await generateBriefing();
     await saveBriefing(briefing);
+
+    // Auto-generate quiz — fire-and-forget
+    generateAndSaveQuiz(briefing).catch((err) =>
+      console.error('[generate] Quiz auto-generation failed:', err)
+    );
 
     // Auto-generate podcast script — fire-and-forget
     generateAndSavePodcastScript(briefing).catch((err) =>
