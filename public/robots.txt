@@ -6,6 +6,7 @@ Allow: /sign-in
 Allow: /sign-up
 Allow: /terms
 Allow: /privacy
+Allow: /firm-fit
 
 # Block premium content routes from indexing
 Disallow: /quiz
