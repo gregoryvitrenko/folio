@@ -17,7 +17,7 @@ Clean, newspaper-style design (light mode default, dark opt-in). The free tier i
 - **Storage**: Upstash Redis (production) / local filesystem (dev) — dual-backend pattern in `lib/storage.ts`
 - **Auth**: Clerk (ClerkProvider in layout.tsx, clerkMiddleware in middleware.ts)
 - **Payments**: Stripe — Price ID `price_1T6rKa3l9MshmbvXJQ5qATOU` (£4/month), webhooks, subscription status in Redis
-- **Audio (TTS)**: ElevenLabs Creator tier (100k chars/month) — **active, API key in .env.local**. 5 curated voices (Daniel/Brian/George/Sarah/Matilda). Per-voice MP3 caching.
+- **Audio (TTS)**: ElevenLabs Creator tier (100k chars/month) — **active, API key in .env.local**. **Voice locked to Daniel only** (`onwK4e9ZLuTAKqWW03F9`) — multi-voice would multiply ElevenLabs spend against the 100k/month cap. No voice picker UI in PodcastPlayer.tsx.
 - **Email**: Resend — welcome email triggered on subscription activation
 - **Icons**: lucide-react
 - **Theme**: next-themes (defaultTheme="light")
@@ -60,7 +60,7 @@ Clean, newspaper-style design (light mode default, dark opt-in). The free tier i
 | Daily quiz (24 questions, cached) | ✅ | `/quiz`, `/quiz/[date]` |
 | Quiz streak (daily 🔥) + deep practice (⚡) | ✅ | `/quiz` |
 | Bookmarks + notes (server-side Redis) | ✅ | `/saved` |
-| Podcast player (ElevenLabs, 5 voices) | ✅ | `/podcast` |
+| Podcast player (ElevenLabs, Daniel voice) | ✅ | `/podcast` |
 | Firm profiles (38 firms) + interview packs | ✅ | `/firms`, `/firms/[slug]` |
 | Sector primers (8 topics) | ✅ | `/primers`, `/primers/[slug]` |
 | Aptitude tests (Watson Glaser + SJT) | ✅ | `/tests`, `/tests/[slug]/practice` |
@@ -131,7 +131,7 @@ Owner budget cap: £50/month (excluding Claude subscription).
 - Character usage tracked in Redis: `elevenlabs:chars:{YYYY-MM}` (see `lib/char-usage.ts`)
 - Before generation: check remaining budget. If script would exceed monthly remaining, skip audio for that day (briefing still works).
 - Audio cached as MP3 per voice — generated once, served indefinitely.
-- 5 curated voices: Daniel, Brian, George, Sarah, Matilda
+- **Voice locked to Daniel** (`onwK4e9ZLuTAKqWW03F9`). No voice picker. Multi-voice would multiply monthly spend.
 - Upgrade path: when revenue justifies it, move to Pro plan (500k chars/mo ~£78/mo)
 
 ---
