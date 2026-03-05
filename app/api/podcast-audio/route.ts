@@ -86,21 +86,25 @@ export async function GET(request: NextRequest) {
 // ── POST — generate or return cached audio ────────────────────────────────────
 export async function POST(request: NextRequest) {
   // Require an active subscription — ElevenLabs credits are finite and costly
+  const isDevPreview = process.env.PREVIEW_MODE === 'true';
   const { userId } = await auth();
-  if (!userId) {
-    console.warn('[podcast-audio] POST — unauthenticated request rejected');
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-  const subscribed = await isSubscribed(userId);
-  if (!subscribed) {
-    console.warn(`[podcast-audio] POST — unsubscribed user ${userId} attempted audio generation`);
-    return NextResponse.json({ error: 'Subscription required' }, { status: 403 });
+
+  if (!isDevPreview) {
+    if (!userId) {
+      console.warn('[podcast-audio] POST — unauthenticated request rejected');
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    const subscribed = await isSubscribed(userId);
+    if (!subscribed) {
+      console.warn(`[podcast-audio] POST — unsubscribed user ${userId} attempted audio generation`);
+      return NextResponse.json({ error: 'Subscription required' }, { status: 403 });
+    }
   }
 
   // Rate limit: 5 audio generation requests per hour per user.
   // ElevenLabs credits are finite (100k chars/month on Creator plan). The monthly
   // budget check prevents overage, but rate limiting prevents hammering the endpoint.
-  const limited = await checkRateLimit(userId, 'podcast-audio', 5, 3600);
+  const limited = await checkRateLimit(userId ?? 'preview-dev', 'podcast-audio', 5, 3600);
   if (limited) return limited;
 
   const apiKey = process.env.ELEVENLABS_API_KEY;

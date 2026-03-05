@@ -22,14 +22,17 @@ function sampleRandom(questions: AptitudeQuestion[], n: number): AptitudeQuestio
 }
 
 export async function POST(request: NextRequest) {
+  const isDevPreview = process.env.PREVIEW_MODE === 'true';
   const { userId } = await auth();
-  if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const subscribed = await isSubscribed(userId);
-  if (!subscribed) return NextResponse.json({ error: 'Subscription required' }, { status: 403 });
+  if (!isDevPreview) {
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const subscribed = await isSubscribed(userId);
+    if (!subscribed) return NextResponse.json({ error: 'Subscription required' }, { status: 403 });
+  }
 
   // Rate limit: 30 requests per hour — generous for legitimate use, throttles abuse
-  const limited = await checkRateLimit(userId, 'aptitude', 30, 3600);
+  const limited = await checkRateLimit(userId ?? 'preview-dev', 'aptitude', 30, 3600);
   if (limited) return limited;
 
   const body = await request.json();

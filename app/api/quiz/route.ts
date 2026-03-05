@@ -9,23 +9,27 @@ import { checkRateLimit } from '@/lib/rate-limit';
 export const maxDuration = 60;
 
 export async function POST(request: NextRequest) {
+  // PREVIEW_MODE=true is the dev-only bypass (safe: paywall.ts throws in production)
+  const isDevPreview = process.env.PREVIEW_MODE === 'true';
   const { userId } = await auth();
-  if (!userId) {
-    console.warn('[quiz] POST — unauthenticated request rejected');
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
 
-  // SECURITY FIX: quiz is a premium feature — enforce subscription at API level,
-  // not just at the page level. Page-only gating is trivially bypassed via direct API calls.
-  const subscribed = await isSubscribed(userId);
-  if (!subscribed) {
-    console.warn(`[quiz] POST — unsubscribed user ${userId} blocked`);
-    return NextResponse.json({ error: 'Subscription required' }, { status: 403 });
+  if (!isDevPreview) {
+    if (!userId) {
+      console.warn('[quiz] POST — unauthenticated request rejected');
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    // SECURITY FIX: quiz is a premium feature — enforce subscription at API level,
+    // not just at the page level. Page-only gating is trivially bypassed via direct API calls.
+    const subscribed = await isSubscribed(userId);
+    if (!subscribed) {
+      console.warn(`[quiz] POST — unsubscribed user ${userId} blocked`);
+      return NextResponse.json({ error: 'Subscription required' }, { status: 403 });
+    }
   }
 
   // Rate limit: 20 quiz generations per hour per user (generous — quiz is cached so
   // most calls return immediately; this only throttles generation attempts)
-  const limited = await checkRateLimit(userId, 'quiz', 20, 3600);
+  const limited = await checkRateLimit(userId ?? 'preview-dev', 'quiz', 20, 3600);
   if (limited) return limited;
 
   const body = await request.json().catch(() => ({}));
