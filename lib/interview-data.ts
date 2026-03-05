@@ -1021,7 +1021,7 @@ export const INTERVIEW_QUESTIONS: InterviewQuestion[] = [
     ],
     tips: [
       'Sources that work well: FT (even 10 minutes a day), Bloomberg Law briefings, firm deal announcements, The Economist, specific sector publications if you have a real interest.',
-      'Actively engaging with a platform like Commercial Awareness Daily (if you use it) is worth mentioning honestly.',
+      'Actively engaging with a platform like Folio (if you use it) is worth mentioning honestly.',
       'The best answer describes how you make what you read stick: discussing with friends, noting interesting stories, connecting to modules.',
       'If you listen to business podcasts on your commute — say so. It shows you integrate this into your actual life.',
     ],

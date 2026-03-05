@@ -52,7 +52,7 @@ export async function generateAndSavePodcastScript(briefing: Briefing): Promise<
     2
   );
 
-  const prompt = `You are writing a podcast script for "Commercial Awareness Daily" — a morning audio briefing for law students targeting Magic Circle, Silver Circle, and elite US law firms.
+  const prompt = `You are writing a podcast script for "Folio Daily" — a morning audio briefing for law students targeting Magic Circle, Silver Circle, and elite US law firms.
 
 Write a 3–4 minute script (450–550 words of spoken content) for ${dateStr}.
 
@@ -77,7 +77,7 @@ STRUCTURE:
 - For each story: one headline fact, one "so what for law firms" line, done. Two to three sentences max per story.
 - Address the listener directly at least twice: "Worth knowing for interviews." "If a partner asks you about this — here's your line."
 - Close with Sector Watch and One to Follow as a quick "what to watch" segment — 2 sentences each, max.
-- Sign off: "That's your Commercial Awareness Daily for ${dateStr}. Good morning."
+- Sign off: "That's your Folio Daily for ${dateStr}. Good morning."
 
 BANNED PATTERNS — these sound robotic when read aloud:
 - "This highlights the importance of..." — just say what matters.

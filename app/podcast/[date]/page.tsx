@@ -14,7 +14,7 @@ interface Params {
 export async function generateMetadata({ params }: Params) {
   const { date } = await params;
   return {
-    title: `${date} Podcast · Commercial Awareness Daily`,
+    title: `${date} Podcast · Folio`,
   };
 }
 

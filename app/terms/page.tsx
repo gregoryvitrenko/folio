@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Terms of Service · Commercial Awareness Daily',
+  title: 'Terms of Service · Folio',
 };
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
@@ -27,7 +27,7 @@ export default function TermsPage() {
         <div className="h-[3px] bg-stone-900 dark:bg-stone-100" />
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <Link href="/" className="font-serif text-[20px] font-bold tracking-tight text-stone-900 dark:text-stone-50 hover:opacity-75 transition-opacity">
-            Commercial Awareness Daily
+            Folio
           </Link>
           <Link href="/" className="font-mono text-[11px] text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-300 transition-colors">
             ← Home
@@ -51,7 +51,7 @@ export default function TermsPage() {
 
         <Section title="About this service">
           <p>
-            Commercial Awareness Daily (&quot;the Service&quot;) is operated by an individual based in the United Kingdom. It provides daily commercial law briefings, quiz content, firm profiles, and related educational materials for law students.
+            Folio (&quot;the Service&quot;) is operated by an individual based in the United Kingdom. It provides daily commercial law briefings, quiz content, firm profiles, and related educational materials for law students.
           </p>
           <p>
             By accessing or using the Service you agree to these Terms. If you do not agree, please do not use the Service.
@@ -75,7 +75,7 @@ export default function TermsPage() {
             Under the Consumer Contracts Regulations 2013, you have a right to cancel a digital service within 14 days of purchase. By accessing paid features immediately after subscribing, you acknowledge that the service has begun and agree that the 14-day right to cancel is waived for the period already used.
           </p>
           <p>
-            If you experience a technical issue that prevents you from accessing the service, please contact us at <a href="mailto:hello@[YOURDOMAIN]" className="underline underline-offset-2">hello@[YOURDOMAIN]</a> and we will review the situation fairly.
+            If you experience a technical issue that prevents you from accessing the service, please contact us at <a href="mailto:hello@folioapp.co.uk" className="underline underline-offset-2">hello@folioapp.co.uk</a> and we will review the situation fairly.
           </p>
         </Section>
 
@@ -122,8 +122,8 @@ export default function TermsPage() {
         <Section title="Contact">
           <p>
             For questions about these Terms, contact us at{' '}
-            <a href="mailto:hello@[YOURDOMAIN]" className="underline underline-offset-2 text-stone-700 dark:text-stone-300">
-              hello@[YOURDOMAIN]
+            <a href="mailto:hello@folioapp.co.uk" className="underline underline-offset-2 text-stone-700 dark:text-stone-300">
+              hello@folioapp.co.uk
             </a>.
           </p>
         </Section>

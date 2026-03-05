@@ -1,7 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import type { Briefing, DailyQuiz, QuizQuestion } from './types';
 
-const SYSTEM_PROMPT = `You are a quiz-setter for Commercial Awareness Daily, a briefing for LLB students targeting Magic Circle, Silver Circle, and elite US law firms. Your questions test whether the student has read and understood today's briefing — not general legal knowledge.`;
+const SYSTEM_PROMPT = `You are a quiz-setter for Folio, a legal prep platform for LLB students targeting Magic Circle, Silver Circle, and elite US law firms. Your questions test whether the student has read and understood today's briefing — not general legal knowledge.`;
 
 function buildStoryBlock(story: { id: string; topic: string; headline: string; summary: string; whyItMatters: unknown; talkingPoint: string }): string {
   const wim =

@@ -445,7 +445,7 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
           {/* Brand + title + date */}
           <div>
             <p className="font-mono text-[8px] tracking-[0.3em] uppercase text-amber-600/70 mb-2">
-              Commercial Awareness Daily
+              Folio Daily
             </p>
             <p className="font-serif text-3xl text-white/95 leading-tight tracking-tight">
               Daily Briefing

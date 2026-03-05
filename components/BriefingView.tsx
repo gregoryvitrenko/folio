@@ -135,7 +135,7 @@ export function BriefingView({ briefing, subscribed = false }: BriefingViewProps
           GMT · {briefing.stories.length} stories
         </p>
         <p className="font-serif text-[11px] text-stone-400 dark:text-stone-600 italic">
-          Commercial Awareness Daily
+          Folio
         </p>
       </footer>
 

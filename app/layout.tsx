@@ -25,9 +25,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Commercial Awareness Daily',
+  title: 'Folio — Legal prep, done properly.',
   description:
-    'Daily commercial awareness briefings for LLB students targeting Magic Circle, Silver Circle, and elite US law firms. Stories, quiz, firm profiles, and audio — every morning.',
+    'Daily commercial awareness briefings, aptitude tests, firm profiles, and interview prep for law students targeting Magic Circle, Silver Circle, and elite US law firms.',
 };
 
 export const viewport: Viewport = {

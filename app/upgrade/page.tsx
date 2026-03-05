@@ -47,7 +47,7 @@ export default function UpgradePage() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 text-center">
           <Link href="/">
             <h1 className="font-serif text-[22px] sm:text-[28px] font-bold tracking-tight text-stone-900 dark:text-stone-50 hover:opacity-75 transition-opacity">
-              Commercial Awareness
+              Folio
             </h1>
           </Link>
         </div>

@@ -2,7 +2,7 @@ import Anthropic from '@anthropic-ai/sdk';
 import type { Briefing, Story, TopicCategory, WhyItMatters, TalkingPoints, SectorWatchData, OneToFollowData } from './types';
 import { getBriefing } from './storage';
 
-const SYSTEM_PROMPT = `You are a Commercial Awareness Agent producing daily briefings for a first-year LLB student in London targeting Magic Circle, Silver Circle, and elite US law firms. Your briefings are grounded in the specific facts, figures, names, and details from the news sources provided. Every claim — deal value, adviser name, regulatory body, timeline, financing term — must be traceable to a source article. You write with the precision of a senior lawyer who has read the originals, not a generalist who has skimmed headlines.`;
+const SYSTEM_PROMPT = `You are the briefing engine for Folio, a legal-prep platform producing daily commercial awareness briefings for a first-year LLB student in London targeting Magic Circle, Silver Circle, and elite US law firms. Your briefings are grounded in the specific facts, figures, names, and details from the news sources provided. Every claim — deal value, adviser name, regulatory body, timeline, financing term — must be traceable to a source article. You write with the precision of a senior lawyer who has read the originals, not a generalist who has skimmed headlines.`;
 
 function buildExclusionBlock(previousBriefing: Briefing | null): string {
   if (!previousBriefing || previousBriefing.stories.length === 0) return '';

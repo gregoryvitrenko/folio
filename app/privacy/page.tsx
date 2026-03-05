@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy · Commercial Awareness Daily',
+  title: 'Privacy Policy · Folio',
 };
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
@@ -27,7 +27,7 @@ export default function PrivacyPage() {
         <div className="h-[3px] bg-stone-900 dark:bg-stone-100" />
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <Link href="/" className="font-serif text-[20px] font-bold tracking-tight text-stone-900 dark:text-stone-50 hover:opacity-75 transition-opacity">
-            Commercial Awareness Daily
+            Folio
           </Link>
           <Link href="/" className="font-mono text-[11px] text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-300 transition-colors">
             ← Home
@@ -51,12 +51,12 @@ export default function PrivacyPage() {
 
         <Section title="Who we are">
           <p>
-            Commercial Awareness Daily (&quot;the Service&quot;, &quot;we&quot;, &quot;us&quot;) is operated by an individual based in the United Kingdom. For data protection purposes under UK GDPR, we are the controller of your personal data.
+            Folio (&quot;the Service&quot;, &quot;we&quot;, &quot;us&quot;) is operated by an individual based in the United Kingdom. For data protection purposes under UK GDPR, we are the controller of your personal data.
           </p>
           <p>
             To contact us about your data, email{' '}
-            <a href="mailto:hello@[YOURDOMAIN]" className="underline underline-offset-2 text-stone-700 dark:text-stone-300">
-              hello@[YOURDOMAIN]
+            <a href="mailto:hello@folioapp.co.uk" className="underline underline-offset-2 text-stone-700 dark:text-stone-300">
+              hello@folioapp.co.uk
             </a>.
           </p>
         </Section>
@@ -147,8 +147,8 @@ export default function PrivacyPage() {
           </ul>
           <p>
             To exercise any of these rights, contact us at{' '}
-            <a href="mailto:hello@[YOURDOMAIN]" className="underline underline-offset-2 text-stone-700 dark:text-stone-300">
-              hello@[YOURDOMAIN]
+            <a href="mailto:hello@folioapp.co.uk" className="underline underline-offset-2 text-stone-700 dark:text-stone-300">
+              hello@folioapp.co.uk
             </a>. We will respond within 30 days. You also have the right to lodge a complaint with the Information Commissioner&apos;s Office (ICO) at{' '}
             <a href="https://ico.org.uk" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 text-stone-700 dark:text-stone-300">
               ico.org.uk

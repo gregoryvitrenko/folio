@@ -35,7 +35,7 @@ export function Header({ date, isArchive = false, archiveDate }: HeaderProps) {
         <div className="flex items-center justify-between py-3">
           <Link href="/" className="group">
             <h1 className="font-serif text-[22px] sm:text-[26px] font-bold tracking-tight text-stone-900 dark:text-stone-50 group-hover:opacity-75 transition-opacity">
-              Commercial Awareness
+              Folio
             </h1>
           </Link>
           <div className="flex items-center gap-3">

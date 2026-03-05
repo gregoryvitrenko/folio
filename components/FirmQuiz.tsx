@@ -55,7 +55,7 @@ function IntroScreen({ onStart }: { onStart: (format: 'short' | 'long') => void 
           </Link>
           <Link href="/">
             <h1 className="font-serif text-[22px] sm:text-[28px] font-bold tracking-tight text-stone-900 dark:text-stone-50 hover:opacity-75 transition-opacity">
-              Commercial Awareness
+              Folio
             </h1>
           </Link>
           <div className="w-[52px]" /> {/* spacer to center title */}
@@ -278,7 +278,7 @@ function ResultsScreen({ result, onRestart }: { result: QuizResult; onRestart: (
           </Link>
           <Link href="/">
             <h1 className="font-serif text-[22px] sm:text-[28px] font-bold tracking-tight text-stone-900 dark:text-stone-50 hover:opacity-75 transition-opacity">
-              Commercial Awareness
+              Folio
             </h1>
           </Link>
           <div className="w-[52px]" />

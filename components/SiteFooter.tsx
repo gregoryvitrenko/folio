@@ -8,7 +8,7 @@ export function SiteFooter() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
 
         <p className="font-mono text-[10px] text-stone-400 dark:text-stone-600 tracking-wide">
-          © {year} Commercial Awareness Daily
+          © {year} Folio
         </p>
 
         <nav className="flex items-center gap-6">
@@ -25,7 +25,7 @@ export function SiteFooter() {
             Privacy
           </Link>
           <a
-            href="mailto:hello@[YOURDOMAIN]"
+            href="mailto:hello@folioapp.co.uk"
             className="font-mono text-[10px] text-stone-400 dark:text-stone-600 hover:text-stone-700 dark:hover:text-stone-300 transition-colors tracking-wide"
           >
             Contact

@@ -1,6 +1,6 @@
 import { Resend } from 'resend';
 
-const FROM = process.env.EMAIL_FROM ?? 'Commercial Awareness Daily <onboarding@resend.dev>';
+const FROM = process.env.EMAIL_FROM ?? 'Folio <hello@folioapp.co.uk>';
 
 function welcomeHtml(firstName: string, todayUrl: string): string {
   const name = firstName ? firstName : 'there';
@@ -9,7 +9,7 @@ function welcomeHtml(firstName: string, todayUrl: string): string {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to Commercial Awareness Daily</title>
+  <title>Welcome to Folio</title>
 </head>
 <body style="margin:0;padding:0;background:#f4f4f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f5;padding:40px 16px;">
@@ -21,7 +21,7 @@ function welcomeHtml(firstName: string, todayUrl: string): string {
           <tr>
             <td style="background:#09090b;border-radius:12px 12px 0 0;padding:28px 36px;">
               <p style="margin:0;font-size:11px;font-family:'Courier New',monospace;letter-spacing:0.12em;text-transform:uppercase;color:#71717a;">
-                Commercial Awareness Daily
+                Folio
               </p>
             </td>
           </tr>
@@ -33,7 +33,7 @@ function welcomeHtml(firstName: string, todayUrl: string): string {
                 You&rsquo;re in, ${name}.
               </h1>
               <p style="margin:0 0 24px;font-size:15px;color:#52525b;line-height:1.6;">
-                Your Commercial Awareness Daily subscription is active. Every morning you get a concise briefing on the deals, disputes, and regulatory moves that matter to Magic Circle, Silver Circle and US firm interviews.
+                Your Folio subscription is active. Every morning you get a concise briefing on the deals, disputes, and regulatory moves that matter to training contract and vacation scheme applications.
               </p>
 
               <!-- Feature list -->
@@ -77,7 +77,7 @@ function welcomeHtml(firstName: string, todayUrl: string): string {
           <tr>
             <td style="background:#fafafa;border:1px solid #e4e4e7;border-top:none;border-radius:0 0 12px 12px;padding:20px 36px;">
               <p style="margin:0;font-size:12px;color:#a1a1aa;line-height:1.6;">
-                You&rsquo;re receiving this because you subscribed to Commercial Awareness Daily.
+                You&rsquo;re receiving this because you subscribed to Folio.
                 Manage your subscription at any time from your account settings.
               </p>
             </td>
@@ -106,7 +106,7 @@ export async function sendWelcomeEmail(to: string, firstName?: string): Promise<
   const { error } = await resend.emails.send({
     from: FROM,
     to,
-    subject: 'Welcome to Commercial Awareness Daily',
+    subject: 'Welcome to Folio',
     html: welcomeHtml(firstName ?? '', todayUrl),
   });
 
