@@ -1,4 +1,5 @@
 import { auth } from '@clerk/nextjs/server';
+import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { isSubscribed } from './subscription';
 
@@ -25,6 +26,9 @@ function assertPreviewModeIsSafe(): void {
 export async function requireSubscription() {
   assertPreviewModeIsSafe();
   if (process.env.PREVIEW_MODE === 'true') return; // dev-only bypass (safe: guard above ran)
+  // Temporary review bypass — cookie set by middleware when ?review_key=SECRET is visited
+  const cookieStore = await cookies();
+  if (cookieStore.get('folio-review-access')?.value === '1') return;
   const { userId } = await auth();
   if (!userId) {
     redirect('/sign-up');
@@ -41,6 +45,8 @@ export async function requireSubscription() {
 export async function getSubscriptionStatus(): Promise<'subscribed' | 'free' | 'unauthenticated'> {
   assertPreviewModeIsSafe();
   if (process.env.PREVIEW_MODE === 'true') return 'subscribed'; // dev-only bypass (safe: guard above ran)
+  const cookieStore = await cookies();
+  if (cookieStore.get('folio-review-access')?.value === '1') return 'subscribed';
   const { userId } = await auth();
   if (!userId) return 'unauthenticated';
   // Admin bypass
