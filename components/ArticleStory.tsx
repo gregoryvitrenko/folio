@@ -3,7 +3,7 @@ import { CopyLinkButton } from './CopyLinkButton';
 import { BookmarkButton } from './BookmarkButton';
 import { StoryNote } from './StoryNote';
 import { CommentsSection } from './CommentsSection';
-import { TOPIC_STYLES, type Story, type WhyItMatters } from '@/lib/types';
+import { TOPIC_STYLES, type Story, type WhyItMatters, type TalkingPoints } from '@/lib/types';
 import { renderBold, stripBold } from '@/lib/bold';
 
 function isStructured(w: WhyItMatters | string): w is WhyItMatters {
@@ -104,17 +104,64 @@ export function ArticleStory({ story, date, subscribed = true, currentUserId }: 
         )}
       </div>
 
-      {/* Talking point */}
+      {/* Talking points */}
       <div className="mb-8">
-        <div className="flex items-center justify-between gap-2 mb-4">
-          <p className="text-[10px] font-sans font-semibold tracking-[0.15em] uppercase text-stone-400 dark:text-stone-500">
-            Interview talking point
-          </p>
-          <CopyButton text={stripBold(story.talkingPoint)} />
-        </div>
-        <blockquote className="font-serif text-[16px] italic text-stone-700 dark:text-stone-300 leading-[1.75] border-l-2 border-stone-300 dark:border-stone-600 pl-5">
-          &ldquo;{renderBold(story.talkingPoint)}&rdquo;
-        </blockquote>
+        <p className={`text-[10px] font-sans font-semibold tracking-[0.15em] uppercase mb-5 ${styles.label}`}>
+          Interview talking points
+        </p>
+
+        {story.talkingPoints ? (
+          <div className="space-y-5">
+            {/* Soundbite */}
+            <div className="rounded-lg bg-stone-50 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700 px-5 py-4">
+              <div className="flex items-center justify-between gap-2 mb-2">
+                <p className="text-[10px] font-sans font-semibold tracking-[0.15em] uppercase text-stone-400 dark:text-stone-500">
+                  Soundbite
+                </p>
+                <CopyButton text={stripBold(story.talkingPoints.soundbite)} />
+              </div>
+              <p className="font-serif text-[17px] font-semibold text-stone-900 dark:text-stone-100 leading-snug">
+                {renderBold(story.talkingPoints.soundbite)}
+              </p>
+            </div>
+
+            {/* Partner answer */}
+            <div className="rounded-lg bg-stone-50 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700 px-5 py-4">
+              <div className="flex items-center justify-between gap-2 mb-2">
+                <p className="text-[10px] font-sans font-semibold tracking-[0.15em] uppercase text-stone-400 dark:text-stone-500">
+                  Partner-length answer
+                </p>
+                <CopyButton text={stripBold(story.talkingPoints.partnerAnswer)} />
+              </div>
+              <p className="text-[15px] text-stone-700 dark:text-stone-300 leading-[1.75]">
+                {renderBold(story.talkingPoints.partnerAnswer)}
+              </p>
+            </div>
+
+            {/* Full commercial */}
+            <div className="rounded-lg bg-stone-50 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700 px-5 py-4">
+              <div className="flex items-center justify-between gap-2 mb-2">
+                <p className="text-[10px] font-sans font-semibold tracking-[0.15em] uppercase text-stone-400 dark:text-stone-500">
+                  Full commercial answer
+                </p>
+                <CopyButton text={stripBold(story.talkingPoints.fullCommercial)} />
+              </div>
+              <p className="text-[15px] text-stone-700 dark:text-stone-300 leading-[1.75]">
+                {renderBold(story.talkingPoints.fullCommercial)}
+              </p>
+            </div>
+          </div>
+        ) : (
+          /* Legacy single talking point (briefings before 2026-03-05) */
+          <div>
+            <div className="flex items-center justify-end gap-2 mb-3">
+              <CopyButton text={stripBold(story.talkingPoint)} />
+            </div>
+            <blockquote className="font-serif text-[16px] italic text-stone-700 dark:text-stone-300 leading-[1.75] border-l-2 border-stone-300 dark:border-stone-600 pl-5">
+              &ldquo;{renderBold(story.talkingPoint)}&rdquo;
+            </blockquote>
+          </div>
+        )}
       </div>
 
       {/* Sources */}

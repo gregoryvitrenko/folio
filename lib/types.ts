@@ -14,6 +14,15 @@ export interface WhyItMatters {
   onTheGround: string;
 }
 
+export interface TalkingPoints {
+  /** ~15 words. One sharp sentence for a cover letter or networking chat. */
+  soundbite: string;
+  /** ~50 words. A partner-level answer: bold observation + so-what + firm implication. */
+  partnerAnswer: string;
+  /** ~100 words. Full commercial explanation for an interview deep-dive. */
+  fullCommercial: string;
+}
+
 export interface Story {
   id: string;
   topic: TopicCategory;
@@ -21,7 +30,10 @@ export interface Story {
   summary: string;
   /** Structured object for new briefings; plain string for legacy saved briefings */
   whyItMatters: WhyItMatters | string;
+  /** Soundbite for new briefings; full talking point for legacy. Always populated. */
   talkingPoint: string;
+  /** 3-tier talking points — present on briefings generated after 2026-03-05 */
+  talkingPoints?: TalkingPoints;
   sources?: string[];
   /** Law firms explicitly named in the story (e.g. ["Freshfields", "Linklaters"]) */
   firms?: string[];

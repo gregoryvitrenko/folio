@@ -25,7 +25,9 @@ export function StoryCard({ story, date, subscribed = false }: StoryCardProps) {
       ? plainSummary.slice(0, 177).trimEnd() + '…'
       : plainSummary;
 
-  const plainTalkingPoint = stripBold(story.talkingPoint);
+  // Prefer soundbite (short, punchy) for the card teaser; fall back to legacy talkingPoint
+  const talkingPointRaw = story.talkingPoints?.soundbite ?? story.talkingPoint;
+  const plainTalkingPoint = stripBold(talkingPointRaw);
   const talkingPointTeaser = plainTalkingPoint.length > 110
     ? plainTalkingPoint.slice(0, 107).trimEnd() + '…'
     : plainTalkingPoint;
@@ -89,7 +91,7 @@ export function StoryCard({ story, date, subscribed = false }: StoryCardProps) {
       )}
 
       {/* Interview angle teaser */}
-      {story.talkingPoint && (
+      {(story.talkingPoints || story.talkingPoint) && (
         <p className="mt-3 pt-3 border-t border-stone-100 dark:border-stone-800 text-[11px] italic text-stone-400 dark:text-stone-500 leading-relaxed line-clamp-2 flex-shrink-0">
           &ldquo;{talkingPointTeaser}&rdquo;
         </p>

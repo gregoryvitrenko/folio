@@ -1,5 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
-import type { Briefing, Story, TopicCategory, WhyItMatters, SectorWatchData, OneToFollowData } from './types';
+import type { Briefing, Story, TopicCategory, WhyItMatters, TalkingPoints, SectorWatchData, OneToFollowData } from './types';
 import { getBriefing } from './storage';
 
 const SYSTEM_PROMPT = `You are a Commercial Awareness Agent producing daily briefings for a first-year LLB student in London targeting Magic Circle, Silver Circle, and elite US law firms. Your briefings are grounded in the specific facts, figures, names, and details from the news sources provided. Every claim — deal value, adviser name, regulatory body, timeline, financing term — must be traceable to a source article. You write with the precision of a senior lawyer who has read the originals, not a generalist who has skimmed headlines.`;
@@ -58,7 +58,11 @@ Return a raw JSON object (no markdown fences, no preamble) with this exact struc
         "usFirms": "2–3 sentences. Name which elite US firms in London (Kirkland & Ellis, Latham & Watkins, Sullivan & Cromwell, Skadden Arps, Paul Weiss, Weil Gotshal & Manges, Davis Polk, Cleary Gottlieb) are the natural choice for the PE sponsor, the leveraged finance package, or the cross-border structuring work, and explain the specific competitive advantage (e.g. Kirkland's dominance of UK PE fund formation, Latham's leveraged finance bench in London). Note any tension with UK firms for the same mandate.",
         "onTheGround": "2–3 sentences. State exactly what a first-seat trainee or NQ at a Magic Circle, Silver Circle, or US firm would do day-to-day on this matter (e.g. drafting CP checklists, running disclosure verification, preparing CMA filing documents, reviewing lock-up agreements). End with one specific data point connecting this to a named broader market cycle or structural trend."
       },
-      "talkingPoint": "2–3 confident, analytically sharp sentences suitable for a TC interview or vacation scheme partner chat. Lead with a specific bold observation drawn from the facts (name the deal, the figure, the firm), then give the so-what for law firms and the market.",
+      "talkingPoints": {
+        "soundbite": "ONE sentence, max 15 words. A sharp, quotable line you could drop into a cover letter or networking chat. Name the deal or firm and the single most striking fact.",
+        "partnerAnswer": "2–3 sentences, ~50 words. The kind of answer a strong candidate gives in a 2-minute partner chat: lead with a specific bold observation drawn from the facts (name the deal, the figure, the firm), then give the so-what for law firms.",
+        "fullCommercial": "4–5 sentences, ~100 words. A full interview-ready commercial explanation: open with the headline fact, explain the strategic context, connect it to the broader market trend, name the firms best positioned, and end with why this matters for the legal industry."
+      },
       "sources": ["https://example.com/article-url"],
       "firms": ["Freshfields", "Linklaters"]
     }
@@ -120,16 +124,31 @@ function parseOneToFollow(raw: unknown): OneToFollowData | string {
 function buildBriefing(parsed: Record<string, unknown>, date: string): Briefing {
   const rawStories = (parsed.stories as Record<string, unknown>[]) ?? [];
 
-  const stories: Story[] = rawStories.map((s, i) => ({
-    id: String(i + 1),
-    topic: (s.topic as TopicCategory) ?? 'International',
-    headline: (s.headline as string) ?? '',
-    summary: (s.summary as string) ?? '',
-    whyItMatters: (s.whyItMatters as WhyItMatters | string) ?? '',
-    talkingPoint: (s.talkingPoint as string) ?? '',
-    sources: (s.sources as string[]) ?? [],
-    firms: (s.firms as string[]) ?? [],
-  }));
+  const stories: Story[] = rawStories.map((s, i) => {
+    // Parse 3-tier talking points (new format) or fall back to legacy string
+    const rawTP = s.talkingPoints as Record<string, unknown> | undefined;
+    const talkingPoints: TalkingPoints | undefined =
+      rawTP && typeof rawTP === 'object' && 'soundbite' in rawTP
+        ? {
+            soundbite: String(rawTP.soundbite ?? ''),
+            partnerAnswer: String(rawTP.partnerAnswer ?? ''),
+            fullCommercial: String(rawTP.fullCommercial ?? ''),
+          }
+        : undefined;
+
+    return {
+      id: String(i + 1),
+      topic: (s.topic as TopicCategory) ?? 'International',
+      headline: (s.headline as string) ?? '',
+      summary: (s.summary as string) ?? '',
+      whyItMatters: (s.whyItMatters as WhyItMatters | string) ?? '',
+      // Soundbite populates talkingPoint for backward compat (quiz gen, firm pages, etc.)
+      talkingPoint: talkingPoints?.soundbite ?? (s.talkingPoint as string) ?? '',
+      talkingPoints,
+      sources: (s.sources as string[]) ?? [],
+      firms: (s.firms as string[]) ?? [],
+    };
+  });
 
   return {
     date,
