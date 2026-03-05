@@ -146,11 +146,13 @@ interface Answer {
 interface TestSessionProps {
   testType: string;
   mode: 'feedback' | 'official';
+  questionCount?: number;
+  format?: 'quick' | 'full';
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
-export function TestSession({ testType, mode }: TestSessionProps) {
+export function TestSession({ testType, mode, questionCount = 10, format = 'quick' }: TestSessionProps) {
   const isWG = testType === 'watson-glaser';
 
   const [uiState, setUiState] = useState<UIState>('loading');
@@ -182,7 +184,7 @@ export function TestSession({ testType, mode }: TestSessionProps) {
         const res = await fetch('/api/aptitude-questions', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ testType, seenIds }),
+          body: JSON.stringify({ testType, seenIds, count: questionCount }),
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json() as { questions: AptitudeQuestion[]; allSeen: boolean };
@@ -206,7 +208,7 @@ export function TestSession({ testType, mode }: TestSessionProps) {
             sched.push({ type: 'intro', subtype });
             for (const idx of indices) sched.push({ type: 'question', questionIndex: idx });
           }
-          setTimeLeft(900);
+          setTimeLeft(questionCount >= 40 ? 1800 : 900);
           setTimerActive(true);
         } else {
           sched.push({ type: 'sjt-intro' });
@@ -347,7 +349,9 @@ export function TestSession({ testType, mode }: TestSessionProps) {
         <span className="font-mono text-[10px] tracking-widest uppercase text-stone-400 dark:text-stone-500">
           {testType === 'watson-glaser' ? 'Watson Glaser' : 'Situational Judgement'}
           {' · '}
-          {mode === 'feedback' ? 'Feedback mode' : 'Official practice'}
+          {format === 'full' ? 'Full simulation' : 'Quick practice'}
+          {' · '}
+          {mode === 'feedback' ? 'Feedback' : 'Official'}
         </span>
         {isWG && uiState === 'quiz' ? (
           <div className={`flex items-center gap-1.5 font-mono text-[12px] ${timeLeft < 120 ? 'text-rose-500 dark:text-rose-400' : 'text-stone-400 dark:text-stone-500'}`}>
@@ -475,7 +479,7 @@ export function TestSession({ testType, mode }: TestSessionProps) {
           {/* Actions */}
           <div className="flex gap-3">
             <Link
-              href={`/tests/${testType}/practice?mode=${mode}`}
+              href={`/tests/${testType}/practice?format=${format}&mode=${mode}`}
               className="inline-flex items-center gap-2 px-4 py-2 bg-stone-900 dark:bg-stone-100 text-stone-50 dark:text-stone-900 text-[12px] font-semibold rounded-sm hover:opacity-90 transition-opacity"
             >
               <RotateCcw size={12} />

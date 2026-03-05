@@ -11,7 +11,7 @@ import { checkRateLimit } from '@/lib/rate-limit';
 // an O(n²) filter loop, causing CPU spikes on every request.
 const MAX_SEEN_IDS = 200;
 
-export const maxDuration = 60;
+export const maxDuration = 120;
 
 function daysBetween(a: string, b: string): number {
   return Math.abs((new Date(a).getTime() - new Date(b).getTime()) / (1000 * 60 * 60 * 24));
@@ -38,6 +38,7 @@ export async function POST(request: NextRequest) {
   const body = await request.json();
   const rawSeenIds = body.seenIds;
   const { testType } = body as { testType?: string };
+  const count = typeof body.count === 'number' ? Math.min(Math.max(body.count, 1), 50) : 10;
 
   // SECURITY FIX: cap seenIds to prevent large array DoS via O(n²) filter
   const seenIds: string[] = Array.isArray(rawSeenIds)
@@ -74,7 +75,7 @@ export async function POST(request: NextRequest) {
   const unseen = seenIds.length > 0 ? bank.filter((q) => !seenIds.includes(q.id)) : bank;
   const allSeen = unseen.length < 5;
   const pool = allSeen ? bank : unseen;
-  const questions = sampleRandom(pool, Math.min(10, pool.length));
+  const questions = sampleRandom(pool, Math.min(count, pool.length));
 
   return NextResponse.json({ questions, allSeen });
 }

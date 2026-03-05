@@ -168,7 +168,7 @@ Generate exactly ${count} questions.`;
 
 // ── Bank building ─────────────────────────────────────────────────────────────
 
-const BANK_BATCHES: Record<string, number> = { 'watson-glaser': 7, 'sjt': 7 };
+const BANK_BATCHES: Record<string, number> = { 'watson-glaser': 24, 'sjt': 24 };
 export const BANK_TTL_DAYS = 7;
 
 /** Build a full question bank for a test type by running parallel batches. */
