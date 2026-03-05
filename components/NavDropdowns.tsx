@@ -59,8 +59,6 @@ export function NavDropdowns() {
         <div
           key={group.label}
           className="relative"
-          onMouseEnter={() => setOpen(group.label)}
-          onMouseLeave={() => setOpen(null)}
         >
           <button
             onClick={() => setOpen(open === group.label ? null : group.label)}

@@ -1,5 +1,7 @@
 import type { NextConfig } from 'next';
 
+const isProd = process.env.NODE_ENV === 'production';
+
 // ─── Content Security Policy ───────────────────────────────────────────────────
 // Tightly scoped to the third-party domains this app actually uses.
 // 'unsafe-inline' for styles is required by Tailwind CSS and Clerk's widget.
@@ -29,8 +31,9 @@ const CSP = [
   "form-action 'self' https://checkout.stripe.com",
   // Prevent this page from being framed (supersedes X-Frame-Options for modern browsers)
   "frame-ancestors 'none'",
-  // Upgrade accidental HTTP sub-resource requests
-  "upgrade-insecure-requests",
+  // upgrade-insecure-requests: production only — on localhost (HTTP) this causes Safari
+  // to upgrade all CSS/JS/font requests to HTTPS, breaking the dev server entirely.
+  ...(isProd ? ["upgrade-insecure-requests"] : []),
 ].join('; ');
 
 // ─── Security Headers ──────────────────────────────────────────────────────────
@@ -42,8 +45,10 @@ const securityHeaders = [
   // X-XSS-Protection is deprecated and can introduce vulns — explicitly disabled.
   { key: 'X-XSS-Protection',         value: '0' },
   { key: 'Referrer-Policy',           value: 'strict-origin-when-cross-origin' },
-  // HSTS: 1 year. Add `; preload` after submitting to https://hstspreload.org/
-  { key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains' },
+  // HSTS: production only — sending this on localhost causes Safari to permanently
+  // force HTTPS for localhost, breaking the HTTP dev server for up to 1 year.
+  // Chrome exempts localhost from HSTS; Safari does not.
+  ...(isProd ? [{ key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains' }] : []),
   {
     key: 'Permissions-Policy',
     value: 'camera=(), microphone=(), geolocation=()',
