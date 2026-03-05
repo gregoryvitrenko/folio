@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import {
-  Newspaper, Headphones, BookOpen, Building2, Archive,
+  Newspaper, Headphones, BookOpen, Building2, Calendar,
   PenLine, GraduationCap, Bookmark, ChevronDown, MessageSquare, Compass, Scale,
 } from 'lucide-react';
 
@@ -23,7 +23,14 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { label: 'Primers', href: '/primers', Icon: BookOpen },
       { label: 'Firms', href: '/firms', Icon: Building2 },
-      { label: 'Archive', href: '/archive', Icon: Archive },
+    ],
+  },
+  {
+    label: 'Archive',
+    items: [
+      { label: 'Briefings', href: '/archive', Icon: Calendar },
+      { label: 'Podcasts', href: '/podcast/archive', Icon: Headphones },
+      { label: 'Quizzes', href: '/quiz/archive', Icon: PenLine },
     ],
   },
   {

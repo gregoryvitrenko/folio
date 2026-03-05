@@ -165,6 +165,52 @@ export async function getQuiz(date: string): Promise<DailyQuiz | null> {
   return fsGetQuiz(date);
 }
 
+// ─── Quiz date listing ────────────────────────────────────────────────────────
+
+function fsListQuizDates(): string[] {
+  ensureDir();
+  try {
+    return fs
+      .readdirSync(DATA_DIR)
+      .filter((f) => f.endsWith('-quiz.json'))
+      .map((f) => f.replace('-quiz.json', ''))
+      .filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d))
+      .sort((a, b) => b.localeCompare(a));
+  } catch {
+    return [];
+  }
+}
+
+export async function listQuizDates(): Promise<string[]> {
+  // In Redis mode, quiz dates align with briefing dates — use briefing index.
+  if (useRedis()) return redisList();
+  return fsListQuizDates();
+}
+
+// ─── Podcast date listing ─────────────────────────────────────────────────────
+
+function fsListPodcastDates(): string[] {
+  ensureDir();
+  try {
+    const files = fs.readdirSync(DATA_DIR);
+    const seen = new Set<string>();
+    for (const f of files) {
+      // Matches YYYY-MM-DD-podcast-{voiceId}.mp3 and YYYY-MM-DD-podcast.mp3
+      const m = f.match(/^(\d{4}-\d{2}-\d{2})-podcast/);
+      if (m) seen.add(m[1]);
+    }
+    return [...seen].sort((a, b) => b.localeCompare(a));
+  } catch {
+    return [];
+  }
+}
+
+export async function listPodcastDates(): Promise<string[]> {
+  // MP3s are on the filesystem even in production. On Vercel (read-only FS)
+  // this returns [] until podcast caching is moved to object storage.
+  return fsListPodcastDates();
+}
+
 // ─── Aptitude question bank ────────────────────────────────────────────────────
 // Persistent pool of questions per test type, refreshed weekly.
 // All users draw random subsets from the same bank — no per-user API calls.
