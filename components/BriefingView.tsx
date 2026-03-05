@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { Briefing } from '@/lib/types';
 import { StoryGrid } from './StoryGrid';
 import { SectorWatch } from './SectorWatch';
+import { FileText, GraduationCap, Building2, Headphones } from 'lucide-react';
 
 interface BriefingViewProps {
   briefing: Briefing;
@@ -69,6 +70,56 @@ export function BriefingView({ briefing, subscribed = false }: BriefingViewProps
             sectorWatch={briefing.sectorWatch}
             oneToFollow={briefing.oneToFollow}
           />
+        </section>
+      )}
+
+      {/* Post-briefing upgrade block — non-subscribed users only */}
+      {!subscribed && (
+        <section className="mb-10">
+          <div className="border border-stone-200 dark:border-stone-800 rounded-sm px-6 py-7 text-center">
+            <p className="font-mono text-[9px] tracking-[0.22em] uppercase text-stone-400 dark:text-stone-500 mb-3">
+              Subscriber access
+            </p>
+            <h3 className="font-serif text-[22px] font-bold text-stone-900 dark:text-stone-50 tracking-tight mb-2 leading-snug">
+              You&apos;ve read today&apos;s headlines.
+            </h3>
+            <p className="text-[13px] text-stone-500 dark:text-stone-400 leading-relaxed mb-5 max-w-sm mx-auto">
+              Turn them into confident interview answers — with full analysis, firm intelligence, and daily practice.
+            </p>
+
+            {/* Feature chips */}
+            <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
+              {[
+                { icon: FileText,      label: 'Full articles' },
+                { icon: GraduationCap, label: 'Daily quiz' },
+                { icon: Building2,     label: 'Firm interview packs' },
+                { icon: Headphones,    label: 'Podcast' },
+              ].map(({ icon: Icon, label }) => (
+                <span
+                  key={label}
+                  className="inline-flex items-center gap-1.5 text-[11px] font-medium px-2.5 py-1 rounded-sm bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 border border-stone-200 dark:border-stone-700"
+                >
+                  <Icon size={11} className="text-stone-400 dark:text-stone-500" />
+                  {label}
+                </span>
+              ))}
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <Link
+                href="/upgrade"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-sm bg-stone-900 dark:bg-stone-100 text-stone-50 dark:text-stone-900 text-[13px] font-medium hover:opacity-80 transition-opacity"
+              >
+                Subscribe — £4 / month →
+              </Link>
+              <Link
+                href="/sign-in"
+                className="text-[12px] text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-300 transition-colors"
+              >
+                Already subscribed? Sign in
+              </Link>
+            </div>
+          </div>
         </section>
       )}
 
