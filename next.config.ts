@@ -11,7 +11,7 @@ const CSP = [
   "default-src 'self'",
   // Next.js hydration + Clerk widget + Stripe.js
   // 'unsafe-eval' is required in dev for Next.js Fast Refresh / HMR — omitted in production.
-  `script-src 'self' 'unsafe-inline'${isProd ? '' : " 'unsafe-eval'"} https://js.stripe.com https://checkout.stripe.com https://clerk.com https://*.clerk.com https://*.clerk.accounts.dev`,
+  `script-src 'self' 'unsafe-inline'${isProd ? '' : " 'unsafe-eval'"} https://js.stripe.com https://checkout.stripe.com https://clerk.com https://*.clerk.com https://*.clerk.accounts.dev https://clerk.folioapp.co.uk`,
   // Tailwind / Clerk widget inline styles
   "style-src 'self' 'unsafe-inline'",
   // User avatars from Clerk, Stripe images
@@ -21,7 +21,7 @@ const CSP = [
   // Stripe checkout/billing iframes
   "frame-src 'self' https://js.stripe.com https://checkout.stripe.com https://billing.stripe.com https://hooks.stripe.com",
   // API calls from browser: Clerk, Stripe, Vercel Blob CDN
-  "connect-src 'self' https://*.clerk.com https://clerk.com wss://*.clerk.com https://clerk.accounts.dev https://*.clerk.accounts.dev https://api.stripe.com https://checkout.stripe.com https://errors.stripe.com https://*.public.blob.vercel-storage.com",
+  "connect-src 'self' https://*.clerk.com https://clerk.com wss://*.clerk.com https://clerk.accounts.dev https://*.clerk.accounts.dev https://clerk.folioapp.co.uk https://accounts.folioapp.co.uk https://api.stripe.com https://checkout.stripe.com https://errors.stripe.com https://*.public.blob.vercel-storage.com",
   // Audio: local blobs (dev) + Vercel Blob CDN (prod)
   "media-src 'self' blob: https://*.public.blob.vercel-storage.com",
   // Web workers used by Next.js
