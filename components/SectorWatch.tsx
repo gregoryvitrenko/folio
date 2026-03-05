@@ -1,5 +1,6 @@
 import { TrendingUp } from 'lucide-react';
 import type { SectorWatchData, OneToFollowData } from '@/lib/types';
+import { renderBold } from '@/lib/bold';
 
 interface SectorWatchProps {
   sectorWatch: string | SectorWatchData;
@@ -33,10 +34,10 @@ export function SectorWatch({ sectorWatch, oneToFollow }: SectorWatchProps) {
         {isSWData(sectorWatch) ? (
           <>
             <h3 className="font-serif text-[20px] font-bold leading-tight text-stone-900 dark:text-stone-50 mb-3">
-              {sectorWatch.trend}
+              {renderBold(sectorWatch.trend)}
             </h3>
             <p className="text-[14px] text-stone-600 dark:text-stone-400 leading-[1.75]">
-              {sectorWatch.body}
+              {renderBold(sectorWatch.body)}
             </p>
           </>
         ) : (
@@ -62,10 +63,10 @@ export function SectorWatch({ sectorWatch, oneToFollow }: SectorWatchProps) {
         {isOTFData(oneToFollow) ? (
           <>
             <p className="text-[15px] font-semibold text-stone-900 dark:text-stone-50 leading-snug mb-3">
-              {oneToFollow.story}
+              {renderBold(oneToFollow.story)}
             </p>
             <p className="text-[13px] text-stone-500 dark:text-stone-400 leading-[1.65]">
-              {oneToFollow.why}
+              {renderBold(oneToFollow.why)}
             </p>
           </>
         ) : (
