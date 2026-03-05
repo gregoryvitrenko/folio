@@ -29,6 +29,8 @@ export async function requireSubscription() {
   if (!userId) {
     redirect('/sign-up');
   }
+  // Admin bypass — ADMIN_USER_ID always has full access
+  if (userId === process.env.ADMIN_USER_ID) return;
   const subscribed = await isSubscribed(userId);
   if (!subscribed) {
     redirect('/upgrade');
@@ -41,6 +43,8 @@ export async function getSubscriptionStatus(): Promise<'subscribed' | 'free' | '
   if (process.env.PREVIEW_MODE === 'true') return 'subscribed'; // dev-only bypass (safe: guard above ran)
   const { userId } = await auth();
   if (!userId) return 'unauthenticated';
+  // Admin bypass
+  if (userId === process.env.ADMIN_USER_ID) return 'subscribed';
   const subscribed = await isSubscribed(userId);
   return subscribed ? 'subscribed' : 'free';
 }
