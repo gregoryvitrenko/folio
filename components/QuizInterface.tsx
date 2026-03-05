@@ -328,7 +328,8 @@ export function QuizInterface({ date, initialQuiz, storyMeta }: QuizInterfacePro
 
         <div className="rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 overflow-hidden">
           {/* ── Daily (streak) mode ──────────────────────────────────────── */}
-          <div className="px-5 py-5 border-b border-zinc-100 dark:border-zinc-800">
+          <div className="relative px-5 py-5 border-b border-zinc-100 dark:border-zinc-800">
+            <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-amber-400 dark:bg-amber-500/70" />
             <div className="flex items-start justify-between gap-4">
               <div className="min-w-0">
                 <div className="flex items-center gap-2 mb-1">
@@ -391,7 +392,8 @@ export function QuizInterface({ date, initialQuiz, storyMeta }: QuizInterfacePro
           </div>
 
           {/* ── Deep practice mode ───────────────────────────────────────── */}
-          <div className="px-5 py-5">
+          <div className="relative px-5 py-5">
+            <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-violet-400 dark:bg-violet-500/70" />
             <div className="flex items-start justify-between gap-4">
               <div className="min-w-0">
                 <div className="flex items-center gap-2 mb-1">

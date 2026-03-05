@@ -33,6 +33,7 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState<number | null>(null);
   const [audioReady, setAudioReady] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const scriptRef = useRef<string | null>(null);
   const hasElevenLabsRef = useRef(false);
@@ -318,6 +319,37 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
     isDraggingRef.current = false;
   }
 
+  // ── Download ──────────────────────────────────────────────────────────────
+
+  async function handleDownload() {
+    setIsDownloading(true);
+    try {
+      const res = await fetch('/api/podcast-audio', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ date: briefing.date, voiceId: VOICE_ID }),
+      });
+      if (!res.ok) {
+        setErrorMsg('Download failed — try playing the audio first.');
+        return;
+      }
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `commercial-awareness-${briefing.date}.mp3`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      setAudioReady(true);
+    } catch {
+      setErrorMsg('Download failed.');
+    } finally {
+      setIsDownloading(false);
+    }
+  }
+
   // ── Derived values ────────────────────────────────────────────────────────
 
   const isPlaying = status === 'playing';
@@ -510,18 +542,15 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
         </div>
 
         {/* Right: Download */}
-        {audioReady ? (
-          <a
-            href={`/api/podcast-audio?date=${briefing.date}&voiceId=${VOICE_ID}&download=true`}
-            download={`commercial-awareness-${briefing.date}.mp3`}
-            className="w-10 h-10 flex items-center justify-center text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-200 transition-colors"
-            aria-label="Download audio"
-          >
-            <Download className="w-4 h-4" />
-          </a>
-        ) : (
-          <div className="w-10 h-10" />
-        )}
+        <button
+          onClick={handleDownload}
+          disabled={isDownloading}
+          className="w-10 h-10 flex items-center justify-center text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-200 transition-colors disabled:opacity-40"
+          aria-label="Download audio"
+          title={audioReady ? 'Download MP3' : 'Generate and download MP3'}
+        >
+          {isDownloading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+        </button>
 
       </div>
 

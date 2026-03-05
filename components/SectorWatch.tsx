@@ -47,7 +47,7 @@ export function SectorWatch({ sectorWatch, oneToFollow }: SectorWatchProps) {
       </div>
 
       {/* ── One to Follow ── */}
-      <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-sm px-6 pt-5 pb-6 flex flex-col">
+      <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-sm px-6 pt-5 pb-6">
         <div className="flex items-center gap-2 mb-4">
           {/* Pulsing amber dot — signals developing/live story */}
           <span className="relative flex h-2 w-2 flex-shrink-0">
@@ -64,7 +64,7 @@ export function SectorWatch({ sectorWatch, oneToFollow }: SectorWatchProps) {
             <p className="text-[15px] font-semibold text-stone-900 dark:text-stone-50 leading-snug mb-3">
               {oneToFollow.story}
             </p>
-            <p className="text-[13px] text-stone-500 dark:text-stone-400 leading-[1.65] mt-auto">
+            <p className="text-[13px] text-stone-500 dark:text-stone-400 leading-[1.65]">
               {oneToFollow.why}
             </p>
           </>
