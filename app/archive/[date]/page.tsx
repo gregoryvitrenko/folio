@@ -32,7 +32,7 @@ export default async function ArchiveDatePage({ params }: Params) {
   return (
     <>
       <Header date={new Date().toISOString().split('T')[0]} isArchive archiveDate={date} />
-      <BriefingView briefing={briefing} />
+      <BriefingView briefing={briefing} subscribed={true} />
     </>
   );
 }
