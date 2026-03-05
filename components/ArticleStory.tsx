@@ -1,4 +1,5 @@
 import { CopyButton } from './CopyButton';
+import { CopyLinkButton } from './CopyLinkButton';
 import { BookmarkButton } from './BookmarkButton';
 import { StoryNote } from './StoryNote';
 import { CommentsSection } from './CommentsSection';
@@ -35,14 +36,17 @@ export function ArticleStory({ story, date, subscribed = true, currentUserId }: 
             {story.topic}
           </span>
         </div>
-        <BookmarkButton
-          storyId={story.id}
-          date={date}
-          headline={story.headline}
-          topic={story.topic}
-          excerpt={excerpt}
-          variant="article"
-        />
+        <div className="flex items-center gap-2">
+          <CopyLinkButton />
+          <BookmarkButton
+            storyId={story.id}
+            date={date}
+            headline={story.headline}
+            topic={story.topic}
+            excerpt={excerpt}
+            variant="article"
+          />
+        </div>
       </div>
 
       {/* Headline */}

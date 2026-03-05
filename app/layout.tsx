@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Playfair_Display, Inter, JetBrains_Mono } from 'next/font/google';
 import { ClerkProvider } from '@clerk/nextjs';
 import { Providers } from './providers';
+import { ScrollToTop } from '@/components/ScrollToTop';
 import './globals.css';
 
 const inter = Inter({
@@ -52,6 +53,7 @@ export default function RootLayout({
       >
         <body className="bg-stone-50 dark:bg-stone-950 text-stone-900 dark:text-stone-100 font-sans min-h-screen transition-colors duration-200">
           <Providers>{children}</Providers>
+          <ScrollToTop />
         </body>
       </html>
     </ClerkProvider>
