@@ -40,12 +40,12 @@ function welcomeHtml(firstName: string, todayUrl: string): string {
               <table cellpadding="0" cellspacing="0" style="margin-bottom:28px;">
                 <tr>
                   <td style="padding:5px 0;font-size:14px;color:#3f3f46;line-height:1.5;">
-                    <span style="color:#16a34a;margin-right:8px;font-weight:600;">✓</span>Daily briefing — 6 curated stories each morning
+                    <span style="color:#16a34a;margin-right:8px;font-weight:600;">✓</span>Daily briefing — 8 curated stories each morning
                   </td>
                 </tr>
                 <tr>
                   <td style="padding:5px 0;font-size:14px;color:#3f3f46;line-height:1.5;">
-                    <span style="color:#16a34a;margin-right:8px;font-weight:600;">✓</span>Quiz — 18 questions to test your recall
+                    <span style="color:#16a34a;margin-right:8px;font-weight:600;">✓</span>Quiz — 24 questions to test your recall
                   </td>
                 </tr>
                 <tr>
