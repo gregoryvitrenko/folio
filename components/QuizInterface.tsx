@@ -36,27 +36,33 @@ interface StreakData {
   count: number;
 }
 
-function resultKey(date: string) {
-  return `quiz-result-${date}`;
-}
+// Per-mode storage keys (streak and deep are kept separate so each card shows
+// its own result. Legacy key quiz-result-${date} kept as fallback for existing data.)
+function streakResultKey(date: string) { return `quiz-streak-result-${date}`; }
+function deepResultKey(date: string)   { return `quiz-deep-result-${date}`; }
+function legacyResultKey(date: string) { return `quiz-result-${date}`; }
 
 function streakDoneKey(date: string) {
   return `quiz-streak-done-${date}`;
 }
 
-function loadResult(date: string): StoredResult | null {
+function loadStreakResult(date: string): StoredResult | null {
   try {
-    const raw = localStorage.getItem(resultKey(date));
-    return raw ? JSON.parse(raw) : null;
+    const raw =
+      localStorage.getItem(streakResultKey(date)) ??
+      localStorage.getItem(legacyResultKey(date)); // backward-compat fallback
+    return raw ? (JSON.parse(raw) as StoredResult) : null;
   } catch {
     return null;
   }
 }
 
-function saveResult(date: string, result: StoredResult): void {
-  try {
-    localStorage.setItem(resultKey(date), JSON.stringify(result));
-  } catch {}
+function saveStreakResult(date: string, result: StoredResult): void {
+  try { localStorage.setItem(streakResultKey(date), JSON.stringify(result)); } catch {}
+}
+
+function saveDeepResult(date: string, result: StoredResult): void {
+  try { localStorage.setItem(deepResultKey(date), JSON.stringify(result)); } catch {}
 }
 
 function loadStreak(): StreakData {
@@ -212,7 +218,10 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
   const [answers, setAnswers] = useState<Record<string, 'A' | 'B' | 'C' | 'D'>>({});
   const [chosen, setChosen] = useState<'A' | 'B' | 'C' | 'D' | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  // previousResult: tracks whatever quiz was last completed (streak OR deep) — used for retry logic
   const [previousResult, setPreviousResult] = useState<StoredResult | null>(null);
+  // streakResult: tracks only the streak quiz result — used to display score on Daily card
+  const [streakResult, setStreakResult] = useState<StoredResult | null>(null);
   const [isRetry, setIsRetry] = useState(false);
 
   // Streak state
@@ -224,8 +233,10 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
   const [lastResult, setLastResult] = useState<LastResultData | null>(null);
 
   useEffect(() => {
-    const saved = loadResult(date);
-    setPreviousResult(saved);
+    // Load streak-specific result for the daily card — never overwritten by deep practice
+    const saved = loadStreakResult(date);
+    setStreakResult(saved);
+    setPreviousResult(saved); // initialise retry base with streak result
 
     const streak = loadStreak();
     setStreakCount(streak.count);
@@ -314,23 +325,35 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
         completedAt: new Date().toISOString(),
       };
 
-      if (isRetry && previousResult) {
+      if (isRetry) {
+        // For streak retry: merge against streak answers. For deep retry: merge against previousResult.
+        const mergeBase = (quizMode === 'streak' ? (streakResult ?? previousResult) : previousResult)!;
         const merged: StoredResult = {
           score: 0,
-          total: previousResult.total,
-          answers: { ...previousResult.answers, ...nextAnswers },
+          total: mergeBase.total,
+          answers: { ...mergeBase.answers, ...nextAnswers },
           completedAt: result.completedAt,
         };
         merged.score = quiz!.questions.filter(
           (q) => merged.answers[q.id] === q.correctLetter
         ).length;
-        saveResult(date, merged);
-        saveLastResult(merged.score, merged.total, date);
+        if (quizMode === 'streak') {
+          saveStreakResult(date, merged);
+          saveLastResult(merged.score, merged.total, date);
+          setStreakResult(merged);
+        } else {
+          saveDeepResult(date, merged);
+        }
         setPreviousResult(merged);
         setAnswers(merged.answers);
       } else {
-        saveResult(date, result);
-        saveLastResult(result.score, result.total, date);
+        if (quizMode === 'streak') {
+          saveStreakResult(date, result);
+          saveLastResult(result.score, result.total, date);
+          setStreakResult(result);
+        } else {
+          saveDeepResult(date, result);
+        }
         setPreviousResult(result);
         setAnswers(nextAnswers);
       }
@@ -352,8 +375,9 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
   // ── Idle / loading state ───────────────────────────────────────────────────
 
   if (uiState === 'idle' || uiState === 'loading') {
-    const alreadyDone = previousResult !== null;
-    const missedCount = previousResult ? previousResult.total - previousResult.score : 0;
+    // Daily card always uses streak-specific result — never contaminated by deep practice
+    const alreadyDone = streakResult !== null;
+    const missedCount = streakResult ? streakResult.total - streakResult.score : 0;
 
     return (
       <div>
@@ -400,7 +424,8 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
 
               {/* Hero: last score (or description if no history) */}
               {(() => {
-                const displayResult = previousResult ?? lastResult;
+                // streakResult = today's streak quiz result; lastResult = previous day's streak result
+                const displayResult = streakResult ?? lastResult;
                 if (!displayResult) {
                   return (
                     <div className="flex items-end min-h-[52px]">
@@ -411,7 +436,8 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
                   );
                 }
                 const pct = Math.round((displayResult.score / displayResult.total) * 100);
-                const showTrend = !previousResult && lastResult?.prevPct !== undefined;
+                // Only show trend when displaying a previous day's result (streakResult is null = not done today)
+                const showTrend = !streakResult && lastResult?.prevPct !== undefined;
                 const trend = showTrend
                   ? (pct > lastResult!.prevPct! ? '↑' : pct < lastResult!.prevPct! ? '↓' : '→')
                   : null;
@@ -438,7 +464,7 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
                       </div>
                     </div>
                     <p className="text-[12px] text-zinc-500 dark:text-zinc-400 leading-relaxed -mt-1">
-                      {previousResult
+                      {streakResult
                         ? (streakDone ? 'Done for today — come back tomorrow.' : 'Today\'s score')
                         : 'Beat it today →'}
                     </p>
@@ -463,7 +489,12 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
                   <>
                     {missedCount > 0 && (
                       <button
-                        onClick={(e) => { e.stopPropagation(); fetchAndStart('streak', true); }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          // Ensure retry uses streak answers (not deep practice answers)
+                          if (streakResult) setPreviousResult(streakResult);
+                          fetchAndStart('streak', true);
+                        }}
                         className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 text-[13px] font-sans font-medium hover:opacity-80 transition-opacity"
                       >
                         <RotateCcw className="w-3.5 h-3.5" />
