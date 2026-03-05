@@ -10,7 +10,8 @@ const isProd = process.env.NODE_ENV === 'production';
 const CSP = [
   "default-src 'self'",
   // Next.js hydration + Clerk widget + Stripe.js
-  "script-src 'self' 'unsafe-inline' https://js.stripe.com https://checkout.stripe.com https://clerk.com https://*.clerk.com https://*.clerk.accounts.dev",
+  // 'unsafe-eval' is required in dev for Next.js Fast Refresh / HMR — omitted in production.
+  `script-src 'self' 'unsafe-inline'${isProd ? '' : " 'unsafe-eval'"} https://js.stripe.com https://checkout.stripe.com https://clerk.com https://*.clerk.com https://*.clerk.accounts.dev`,
   // Tailwind / Clerk widget inline styles
   "style-src 'self' 'unsafe-inline'",
   // User avatars from Clerk, Stripe images
