@@ -29,6 +29,7 @@ next-env.d.ts
 data/subscriptions.json
 data/bookmarks.json
 data/comments.json
+data/onboarding.json
 
 # Generated firm interview packs (AI-generated cache; production uses Redis)
 data/firms/
