@@ -1,8 +1,9 @@
 /**
  * firm-pack.ts
  *
- * Generates and caches per-firm interview packs (10 practice questions).
- * Questions are tailored to the firm's identity and recent news stories.
+ * Generates and caches per-firm interview packs:
+ *   - 10 practice interview questions
+ *   - 3–4 "Why this firm?" crib sheet bullets (deal-anchored talking points)
  *
  * Cache TTL: 7 days — stale packs are regenerated on next page visit.
  * Storage: Redis (prod) / data/firms/{slug}-pack.json (dev).
@@ -17,8 +18,9 @@ import type { FirmProfile } from './types';
 
 export interface FirmInterviewPack {
   firmSlug: string;
-  generatedAt: string;         // ISO 8601
-  practiceQuestions: string[]; // exactly 10
+  generatedAt: string;          // ISO 8601
+  practiceQuestions: string[];   // exactly 10
+  whyThisFirm?: string[];        // 3–4 deal-anchored talking points (absent in old cached packs)
 }
 
 // ─── Config ───────────────────────────────────────────────────────────────────
@@ -41,8 +43,10 @@ function getRedis() {
   });
 }
 
-function isStale(generatedAt: string): boolean {
-  return Date.now() - new Date(generatedAt).getTime() > PACK_TTL_MS;
+function isStale(pack: FirmInterviewPack): boolean {
+  // Also treat packs without whyThisFirm as stale so they regenerate once
+  if (!pack.whyThisFirm || pack.whyThisFirm.length === 0) return true;
+  return Date.now() - new Date(pack.generatedAt).getTime() > PACK_TTL_MS;
 }
 
 // ─── Filesystem backend ───────────────────────────────────────────────────────
@@ -92,11 +96,11 @@ async function generatePack(
 
   const headlinesBlock =
     recentHeadlines.length > 0
-      ? `Recent news stories mentioning ${firm.shortName} (use these for specific commercial awareness questions):\n${recentHeadlines
+      ? `Recent news stories mentioning ${firm.shortName} (use for specific deal references):\n${recentHeadlines
           .slice(0, 8)
           .map((h, i) => `${i + 1}. ${h}`)
           .join('\n')}`
-      : `No recent stories tagged to ${firm.shortName} this week — base all questions on the firm's profile and market position.`;
+      : `No recent stories tagged to ${firm.shortName} this week — base on the firm's profile and market position.`;
 
   const prompt = `You are helping a UK law student prepare for a ${firm.name} (${firm.tier}) training contract interview.
 
@@ -109,39 +113,67 @@ Firm profile:
 
 ${headlinesBlock}
 
-Generate exactly 10 interview practice questions for this specific firm. Use this exact mix:
-- 2 questions: "Why ${firm.shortName}?" — specific to this firm's identity, strategy, or recent developments. Not generic "why law" questions.
-- 3 questions: Commercial awareness — tied to the firm's practice areas and/or the recent stories above. Ask about deal trends, regulatory shifts, or market dynamics relevant to what this firm actually does.
-- 2 questions: Culture and working style — relevant to this firm's specific environment, not boilerplate.
-- 2 questions: Deal or market awareness — ask the candidate to analyse a specific type of transaction or regulatory development this firm handles.
-- 1 question: A harder, probing question — tests genuine depth of commercial knowledge, not surface-level prep.
+Produce two things and return them as a single JSON object:
 
-Rules:
-- Every question must be specific to ${firm.shortName}. Avoid generic questions applicable to any law firm.
-- Phrase as an interviewer asking directly (second person: "How would you...?", "What is your view on...?", "Walk me through...").
-- Do not number the questions. One question per line. No bullet points.
-- No introductory text, no section labels, no explanations — 10 questions only.
+1. "whyThisFirm": An array of 3–4 concise bullet points (1–2 sentences each) a student can use to answer "Why ${firm.shortName}?" in an interview. Rules:
+   - Each bullet must be SPECIFIC to this firm — not generic statements applicable to any firm.
+   - Where recent stories are provided, at least one bullet must reference a specific deal or matter from those headlines, naming the transaction and why it is relevant to what this firm does.
+   - Cover a mix of: distinctive market position, a specific recent deal/matter, training quality or practice area strength, and (if applicable) culture or pro bono.
+   - Write as objective facts/observations the student can deploy as evidence (NOT as "I feel..." or "I believe..." — the student will adapt to their own voice).
+   - Each bullet should be a standalone talking point, not a flowing essay.
 
-Output: 10 lines, one question per line.`;
+2. "practiceQuestions": An array of exactly 10 interview practice questions for this specific firm. Mix:
+   - 2 "Why ${firm.shortName}?" questions — specific to this firm's identity or recent developments
+   - 3 commercial awareness questions — tied to the firm's practice areas and/or the recent stories
+   - 2 culture and working style questions — specific to this firm's environment
+   - 2 deal or market awareness questions — ask the candidate to analyse a transaction or regulatory development this firm handles
+   - 1 harder probing question — tests genuine depth of commercial knowledge
+
+Rules for questions:
+- Every question must be specific to ${firm.shortName}. No generic questions.
+- Phrase as an interviewer asking directly (second person).
+- No numbering, no bullet points, no labels — just the question text.
+
+Return ONLY valid JSON in this exact format, no other text:
+{
+  "whyThisFirm": ["bullet 1", "bullet 2", "bullet 3"],
+  "practiceQuestions": ["question 1", "question 2", ...]
+}`;
 
   const message = await client.messages.create({
     model: 'claude-haiku-4-5-20251001',
-    max_tokens: 900,
+    max_tokens: 1400,
     messages: [{ role: 'user', content: prompt }],
   });
 
-  const raw = message.content[0].type === 'text' ? message.content[0].text.trim() : '';
+  const raw = message.content[0].type === 'text' ? message.content[0].text.trim() : '{}';
 
-  const questions = raw
-    .split('\n')
-    .map((l) => l.replace(/^\d+[\.\)]\s*/, '').replace(/^[-•]\s*/, '').trim())
+  // Parse JSON response
+  let parsed: { whyThisFirm?: string[]; practiceQuestions?: string[] } = {};
+  try {
+    // Strip possible markdown code fences
+    const cleaned = raw.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/, '').trim();
+    parsed = JSON.parse(cleaned);
+  } catch {
+    // Fallback: try to extract questions from raw text if JSON parse fails
+    parsed = { practiceQuestions: [], whyThisFirm: [] };
+  }
+
+  const questions = (parsed.practiceQuestions ?? [])
+    .map((l) => String(l).replace(/^\d+[\.\)]\s*/, '').replace(/^[-•]\s*/, '').trim())
     .filter((l) => l.length > 15)
     .slice(0, 10);
+
+  const whyBullets = (parsed.whyThisFirm ?? [])
+    .map((l) => String(l).trim())
+    .filter((l) => l.length > 20)
+    .slice(0, 4);
 
   return {
     firmSlug: firm.slug,
     generatedAt: new Date().toISOString(),
     practiceQuestions: questions,
+    whyThisFirm: whyBullets,
   };
 }
 
@@ -160,7 +192,7 @@ export async function getFirmInterviewPack(
     ? await redisGetPack(firm.slug)
     : fsGetPack(firm.slug);
 
-  if (cached && !isStale(cached.generatedAt)) {
+  if (cached && !isStale(cached)) {
     return cached;
   }
 

@@ -15,6 +15,7 @@ import {
   GraduationCap,
   MessageSquare,
   HelpCircle,
+  Lightbulb,
 } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { getFirmBySlug } from '@/lib/firms-data';
@@ -283,6 +284,28 @@ export default async function FirmProfilePage({
               </p>
             </div>
           </SectionCard>
+
+          {/* ── Why This Firm? ──────────────────────────────────────────────── */}
+          {interviewPack && interviewPack.whyThisFirm && interviewPack.whyThisFirm.length > 0 && (
+            <SectionCard accent={tierAccent}>
+              <SectionHeading icon={<Lightbulb size={13} />} label="Why This Firm?" />
+              <p className="text-[12px] text-stone-400 dark:text-stone-500 mb-4 leading-relaxed">
+                Concrete talking points for &ldquo;Why {firm.shortName}?&rdquo; — anchored to the firm&apos;s market position and recent deals. Adapt to your own voice.
+              </p>
+              <ul className="space-y-3">
+                {interviewPack.whyThisFirm.map((bullet, i) => (
+                  <li key={i} className="flex gap-3">
+                    <span className={`shrink-0 font-mono text-[10px] font-bold mt-0.5 ${tierText}`}>
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <p className="text-[14px] text-stone-700 dark:text-stone-300 leading-[1.7]">
+                      {bullet}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </SectionCard>
+          )}
 
           {/* ── Assessments ─────────────────────────────────────────────────── */}
           {firm.assessments && firm.assessments.length > 0 && (
