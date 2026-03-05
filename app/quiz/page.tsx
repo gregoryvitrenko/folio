@@ -28,7 +28,10 @@ export default async function QuizPage() {
   ]);
 
   const activeDate = briefing?.date ?? today;
-  const questionCount = briefing ? ((await getQuiz(briefing.date))?.questions.length ?? 18) : 18;
+  const quizQuestions = briefing ? ((await getQuiz(briefing.date))?.questions ?? []) : [];
+  const deepCount = quizQuestions.length || 24;
+  // streak count = 1 question per story
+  const storyCount = briefing?.stories.length ?? 8;
 
   const dateList = dates.length > 0 && (
     <div className="mb-8">
@@ -125,7 +128,7 @@ export default async function QuizPage() {
             Daily Quiz
           </h2>
           <span className="font-mono text-[10px] text-zinc-400 dark:text-zinc-500 tracking-widest uppercase bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded">
-            {questionCount} questions
+            {storyCount} daily · {deepCount} deep
           </span>
         </div>
         {dateList}

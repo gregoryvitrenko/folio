@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Loader2, CheckCircle2, XCircle, RotateCcw, ArrowLeft, Trophy } from 'lucide-react';
+import { Loader2, CheckCircle2, XCircle, RotateCcw, ArrowLeft, Trophy, Flame, Zap } from 'lucide-react';
 import type { DailyQuiz, QuizQuestion, TopicCategory } from '@/lib/types';
 import { TOPIC_STYLES } from '@/lib/types';
 
@@ -15,8 +15,17 @@ interface StoredResult {
   completedAt: string;
 }
 
+interface StreakData {
+  lastCompleted: string; // YYYY-MM-DD
+  count: number;
+}
+
 function resultKey(date: string) {
   return `quiz-result-${date}`;
+}
+
+function streakDoneKey(date: string) {
+  return `quiz-streak-done-${date}`;
 }
 
 function loadResult(date: string): StoredResult | null {
@@ -34,12 +43,64 @@ function saveResult(date: string, result: StoredResult): void {
   } catch {}
 }
 
+function loadStreak(): StreakData {
+  try {
+    const raw = localStorage.getItem('quiz-streak');
+    return raw ? JSON.parse(raw) : { lastCompleted: '', count: 0 };
+  } catch {
+    return { lastCompleted: '', count: 0 };
+  }
+}
+
+function isStreakDoneToday(date: string): boolean {
+  try {
+    return localStorage.getItem(streakDoneKey(date)) === '1';
+  } catch {
+    return false;
+  }
+}
+
+// Records today's streak completion; returns the new streak count.
+function recordStreakCompletion(date: string): number {
+  try { localStorage.setItem(streakDoneKey(date), '1'); } catch {}
+
+  const current = loadStreak();
+  const d = new Date(date + 'T12:00:00Z');
+  d.setDate(d.getDate() - 1);
+  const yesterday = d.toISOString().split('T')[0];
+
+  let newCount: number;
+  if (current.lastCompleted === yesterday) {
+    newCount = current.count + 1; // streak continues
+  } else if (current.lastCompleted === date) {
+    newCount = current.count; // already recorded today — no double-count
+  } else {
+    newCount = 1; // streak broken or first ever
+  }
+
+  try {
+    localStorage.setItem('quiz-streak', JSON.stringify({ lastCompleted: date, count: newCount }));
+  } catch {}
+
+  return newCount;
+}
+
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 interface StoryMeta {
   id: string;
   topic: TopicCategory;
   headline: string;
+}
+
+// Pick the first question from each story — used for streak (daily) mode.
+function getStreakQuestions(questions: QuizQuestion[]): QuizQuestion[] {
+  const seen = new Set<string>();
+  return questions.filter((q) => {
+    if (seen.has(q.storyId)) return false;
+    seen.add(q.storyId);
+    return true;
+  });
 }
 
 // ── Per-topic result row (archive-style) ──────────────────────────────────────
@@ -93,10 +154,15 @@ interface QuizInterfaceProps {
   storyMeta: StoryMeta[];
 }
 
+type QuizMode = 'streak' | 'deep';
 type UIState = 'idle' | 'loading' | 'quiz' | 'results';
 
 export function QuizInterface({ date, initialQuiz, storyMeta }: QuizInterfaceProps) {
+  // Streak only applies to today's quiz — not archive dates
+  const isToday = date === new Date().toLocaleDateString('en-CA');
+
   const [uiState, setUIState] = useState<UIState>('idle');
+  const [quizMode, setQuizMode] = useState<QuizMode>('streak');
   const [quiz, setQuiz] = useState<DailyQuiz | null>(initialQuiz);
   const [activeQuestions, setActiveQuestions] = useState<QuizQuestion[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -106,14 +172,28 @@ export function QuizInterface({ date, initialQuiz, storyMeta }: QuizInterfacePro
   const [previousResult, setPreviousResult] = useState<StoredResult | null>(null);
   const [isRetry, setIsRetry] = useState(false);
 
+  // Streak state
+  const [streakCount, setStreakCount] = useState(0);
+  const [streakDone, setStreakDone] = useState(false);
+  const [justEarnedStreak, setJustEarnedStreak] = useState(0); // count shown in results
+
   useEffect(() => {
     const saved = loadResult(date);
     setPreviousResult(saved);
+
+    const streak = loadStreak();
+    setStreakCount(streak.count);
+    setStreakDone(isStreakDoneToday(date));
   }, [date]);
 
-  async function fetchAndStart(retryMissed = false) {
+  // How many questions each mode will use (for labelling before quiz loads)
+  const deepCount = initialQuiz?.questions.length ?? 24;
+  const streakCount_ = initialQuiz ? getStreakQuestions(initialQuiz.questions).length : storyMeta.length;
+
+  async function fetchAndStart(mode: QuizMode, retryMissed = false) {
     setErrorMsg(null);
     setIsRetry(retryMissed);
+    setQuizMode(mode);
 
     let resolvedQuiz = quiz;
 
@@ -137,6 +217,10 @@ export function QuizInterface({ date, initialQuiz, storyMeta }: QuizInterfacePro
     }
 
     let questions = resolvedQuiz.questions;
+
+    if (mode === 'streak') {
+      questions = getStreakQuestions(questions);
+    }
 
     if (retryMissed && previousResult) {
       questions = questions.filter(
@@ -201,6 +285,16 @@ export function QuizInterface({ date, initialQuiz, storyMeta }: QuizInterfacePro
         setAnswers(nextAnswers);
       }
 
+      // Record streak if completing streak mode for today (not an archive date, not a retry)
+      if (quizMode === 'streak' && isToday && !isRetry && !streakDone) {
+        const newCount = recordStreakCompletion(date);
+        setStreakCount(newCount);
+        setStreakDone(true);
+        setJustEarnedStreak(newCount);
+      } else {
+        setJustEarnedStreak(0);
+      }
+
       setUIState('results');
     }
   }
@@ -214,46 +308,63 @@ export function QuizInterface({ date, initialQuiz, storyMeta }: QuizInterfacePro
     return (
       <div>
         <h3 className="font-mono text-[10px] tracking-widest uppercase text-zinc-400 dark:text-zinc-500 mb-3">
-          {alreadyDone ? 'Completed' : "Today's quiz"}
+          {alreadyDone ? 'Completed' : isToday ? "Today's quiz" : 'Practice quiz'}
         </h3>
+
+        {/* ── Streak badge (today only) ──────────────────────────────────── */}
+        {isToday && streakCount > 0 && (
+          <div className="mb-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/40">
+            <Flame className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
+            <span className="text-[12px] font-mono font-semibold text-amber-700 dark:text-amber-400">
+              {streakCount}-day streak
+            </span>
+            {streakDone && (
+              <span className="text-[10px] font-mono text-amber-500 dark:text-amber-500 ml-0.5">
+                · done today ✓
+              </span>
+            )}
+          </div>
+        )}
+
         <div className="rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 overflow-hidden">
-          <div className="px-5 py-6 space-y-4">
-            <div>
-              {alreadyDone && previousResult ? (
-                <p className="text-lg font-bold text-zinc-900 dark:text-zinc-50 tracking-tight">
-                  You scored {previousResult.score}/{previousResult.total}
+          {/* ── Daily (streak) mode ──────────────────────────────────────── */}
+          <div className="px-5 py-5 border-b border-zinc-100 dark:border-zinc-800">
+            <div className="flex items-start justify-between gap-4">
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <Flame className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400 flex-shrink-0" />
+                  <span className="text-[11px] font-mono font-semibold tracking-widest uppercase text-zinc-900 dark:text-zinc-100">
+                    Daily
+                  </span>
+                  <span className="text-[10px] font-mono text-zinc-400 dark:text-zinc-500">
+                    {streakCount_} questions
+                  </span>
+                </div>
+                <p className="text-[12px] text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                  {streakDone
+                    ? "Done for today — come back tomorrow to keep your streak."
+                    : "One question per practice area. Keeps your streak alive."}
                 </p>
-              ) : (
-                <p className="text-lg font-bold text-zinc-900 dark:text-zinc-50 tracking-tight">
-                  {quiz ? '18 questions ready' : 'Test your recall'}
-                </p>
-              )}
-              <p className="text-[13px] text-zinc-500 dark:text-zinc-400 mt-1.5 leading-relaxed">
-                {alreadyDone
-                  ? missedCount > 0
-                    ? `${missedCount} question${missedCount !== 1 ? 's' : ''} answered incorrectly — retry to improve your score.`
-                    : 'Perfect score — all questions correct.'
-                  : '3 questions per practice area · immediate feedback · explanations after each answer'}
-              </p>
+              </div>
             </div>
 
             {errorMsg && (
-              <p className="text-[12px] font-mono text-rose-500 dark:text-rose-400">
+              <p className="mt-2 text-[12px] font-mono text-rose-500 dark:text-rose-400">
                 {errorMsg}
               </p>
             )}
 
-            <div className="flex items-center gap-3 flex-wrap pt-1">
-              {uiState === 'loading' ? (
+            <div className="flex items-center gap-3 flex-wrap mt-3">
+              {uiState === 'loading' && quizMode === 'streak' ? (
                 <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-900 dark:bg-zinc-100 text-zinc-50 dark:text-zinc-900 text-[13px] font-sans font-medium">
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  Generating questions…
+                  Generating…
                 </div>
-              ) : alreadyDone ? (
+              ) : streakDone ? (
                 <>
                   {missedCount > 0 && (
                     <button
-                      onClick={() => fetchAndStart(true)}
+                      onClick={() => fetchAndStart('streak', true)}
                       className="flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-900 dark:bg-zinc-100 text-zinc-50 dark:text-zinc-900 text-[13px] font-sans font-medium hover:opacity-80 transition-opacity"
                     >
                       <RotateCcw className="w-3.5 h-3.5" />
@@ -261,29 +372,69 @@ export function QuizInterface({ date, initialQuiz, storyMeta }: QuizInterfacePro
                     </button>
                   )}
                   <button
-                    onClick={() => fetchAndStart(false)}
+                    onClick={() => fetchAndStart('streak', false)}
                     className="px-4 py-2 rounded-lg border border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 text-[13px] font-sans hover:text-zinc-900 dark:hover:text-zinc-100 hover:border-zinc-400 dark:hover:border-zinc-500 transition-colors"
                   >
-                    Retake full quiz
+                    Retake daily quiz
                   </button>
                 </>
               ) : (
                 <button
-                  onClick={() => fetchAndStart(false)}
-                  className="px-4 py-2 rounded-lg bg-zinc-900 dark:bg-zinc-100 text-zinc-50 dark:text-zinc-900 text-[13px] font-sans font-medium hover:opacity-80 transition-opacity"
+                  onClick={() => fetchAndStart('streak', false)}
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-900 dark:bg-zinc-100 text-zinc-50 dark:text-zinc-900 text-[13px] font-sans font-medium hover:opacity-80 transition-opacity"
                 >
-                  {quiz ? 'Start quiz →' : 'Generate & start quiz →'}
+                  <Flame className="w-3.5 h-3.5 text-amber-400" />
+                  {quiz ? 'Start daily quiz →' : 'Generate & start →'}
                 </button>
               )}
-
-              <Link
-                href="/"
-                className="text-[12px] text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors"
-              >
-                ← Back to briefing
-              </Link>
             </div>
           </div>
+
+          {/* ── Deep practice mode ───────────────────────────────────────── */}
+          <div className="px-5 py-5">
+            <div className="flex items-start justify-between gap-4">
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <Zap className="w-3.5 h-3.5 text-violet-500 dark:text-violet-400 flex-shrink-0" />
+                  <span className="text-[11px] font-mono font-semibold tracking-widest uppercase text-zinc-900 dark:text-zinc-100">
+                    Deep practice
+                  </span>
+                  <span className="text-[10px] font-mono text-zinc-400 dark:text-zinc-500">
+                    {deepCount} questions
+                  </span>
+                </div>
+                <p className="text-[12px] text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                  All 3 questions per practice area. Full recall drill.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 flex-wrap mt-3">
+              {uiState === 'loading' && quizMode === 'deep' ? (
+                <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-900 dark:bg-zinc-100 text-zinc-50 dark:text-zinc-900 text-[13px] font-sans font-medium">
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Generating…
+                </div>
+              ) : (
+                <button
+                  onClick={() => fetchAndStart('deep', false)}
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 text-[13px] font-sans hover:text-zinc-900 dark:hover:text-zinc-100 hover:border-zinc-400 dark:hover:border-zinc-500 transition-colors"
+                >
+                  <Zap className="w-3.5 h-3.5 text-violet-500 dark:text-violet-400" />
+                  {quiz ? 'Start deep practice →' : 'Generate & start →'}
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-3">
+          <Link
+            href="/"
+            className="text-[12px] text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors"
+          >
+            ← Back to briefing
+          </Link>
         </div>
       </div>
     );
@@ -293,15 +444,21 @@ export function QuizInterface({ date, initialQuiz, storyMeta }: QuizInterfacePro
 
   if (uiState === 'results' && quiz) {
     const finalAnswers = answers;
-    const score = quiz.questions.filter(
+
+    // For streak mode results: only show the questions that were in scope
+    const scopedQuestions = quizMode === 'streak'
+      ? getStreakQuestions(quiz.questions)
+      : quiz.questions;
+
+    const score = scopedQuestions.filter(
       (q) => finalAnswers[q.id] === q.correctLetter
     ).length;
-    const total = quiz.questions.length;
+    const total = scopedQuestions.length;
     const missedCount = total - score;
     const pct = Math.round((score / total) * 100);
 
     const byStory: Record<string, QuizQuestion[]> = {};
-    for (const q of quiz.questions) {
+    for (const q of scopedQuestions) {
       if (!byStory[q.storyId]) byStory[q.storyId] = [];
       byStory[q.storyId].push(q);
     }
@@ -316,7 +473,7 @@ export function QuizInterface({ date, initialQuiz, storyMeta }: QuizInterfacePro
           <div className="rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 overflow-hidden">
             <div className="px-5 py-6 flex items-center gap-5">
               <Trophy className={`w-9 h-9 flex-shrink-0 ${pct >= 80 ? 'text-amber-500' : pct >= 60 ? 'text-zinc-400' : 'text-zinc-300 dark:text-zinc-600'}`} />
-              <div className="min-w-0">
+              <div className="min-w-0 flex-1">
                 <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-50 tracking-tight">
                   {score} / {total}
                 </p>
@@ -331,6 +488,21 @@ export function QuizInterface({ date, initialQuiz, storyMeta }: QuizInterfacePro
                 </p>
               </div>
             </div>
+
+            {/* Streak earned banner */}
+            {justEarnedStreak > 0 && (
+              <div className="px-5 pb-5">
+                <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-amber-50 dark:bg-amber-900/15 border border-amber-200 dark:border-amber-800/30">
+                  <Flame className="w-4 h-4 text-amber-500 dark:text-amber-400 flex-shrink-0" />
+                  <p className="text-[13px] text-amber-800 dark:text-amber-200">
+                    <span className="font-semibold">{justEarnedStreak}-day streak!</span>
+                    {justEarnedStreak === 1
+                      ? ' First daily quiz done — come back tomorrow.'
+                      : ' Keep coming back daily to extend it.'}
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -359,11 +531,20 @@ export function QuizInterface({ date, initialQuiz, storyMeta }: QuizInterfacePro
         <div className="flex items-center gap-3 flex-wrap">
           {missedCount > 0 && (
             <button
-              onClick={() => fetchAndStart(true)}
+              onClick={() => fetchAndStart(quizMode, true)}
               className="flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-900 dark:bg-zinc-100 text-zinc-50 dark:text-zinc-900 text-[13px] font-sans font-medium hover:opacity-80 transition-opacity"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               Retry {missedCount} missed
+            </button>
+          )}
+          {quizMode === 'streak' && (
+            <button
+              onClick={() => fetchAndStart('deep', false)}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg border border-violet-200 dark:border-violet-800/50 text-violet-700 dark:text-violet-400 text-[13px] font-sans hover:bg-violet-50 dark:hover:bg-violet-900/10 transition-colors"
+            >
+              <Zap className="w-3.5 h-3.5" />
+              Deep practice
             </button>
           )}
           <Link
@@ -414,10 +595,23 @@ export function QuizInterface({ date, initialQuiz, storyMeta }: QuizInterfacePro
       {/* Progress */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-[10px] font-mono text-zinc-400 dark:text-zinc-500 tracking-wide">
-            {currentIndex + 1} / {activeQuestions.length}
-            {isRetry && ' · retry mode'}
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-mono text-zinc-400 dark:text-zinc-500 tracking-wide">
+              {currentIndex + 1} / {activeQuestions.length}
+              {isRetry && ' · retry mode'}
+            </span>
+            {quizMode === 'streak' ? (
+              <span className="flex items-center gap-1 text-[10px] font-mono text-amber-500 dark:text-amber-400">
+                <Flame className="w-2.5 h-2.5" />
+                daily
+              </span>
+            ) : (
+              <span className="flex items-center gap-1 text-[10px] font-mono text-violet-500 dark:text-violet-400">
+                <Zap className="w-2.5 h-2.5" />
+                deep
+              </span>
+            )}
+          </div>
           <Link
             href="/"
             className="text-[10px] font-sans text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors"
@@ -427,7 +621,11 @@ export function QuizInterface({ date, initialQuiz, storyMeta }: QuizInterfacePro
         </div>
         <div className="h-0.5 bg-zinc-200 dark:bg-zinc-800 rounded-full">
           <div
-            className="h-full bg-zinc-900 dark:bg-zinc-100 rounded-full transition-all duration-300"
+            className={`h-full rounded-full transition-all duration-300 ${
+              quizMode === 'streak'
+                ? 'bg-amber-500 dark:bg-amber-400'
+                : 'bg-violet-500 dark:bg-violet-400'
+            }`}
             style={{ width: `${progress * 100}%` }}
           />
         </div>

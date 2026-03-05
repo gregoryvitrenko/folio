@@ -282,6 +282,14 @@ export const FIRM_ASSESSMENTS: Record<string, FirmAssessment[]> = {
     },
   ],
 
+  'covington-burling': [
+    {
+      programme: 'Vacation Scheme / Training Contract',
+      tests: ['Watson Glaser'],
+      notes: 'Watson Glaser critical thinking test used as part of the online application stage.',
+    },
+  ],
+
   // ─── Boutique ─────────────────────────────────────────────────────────────────
 
   'quinn-emanuel': [

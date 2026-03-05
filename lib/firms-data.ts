@@ -1460,6 +1460,47 @@ export const FIRMS: FirmProfile[] = [
     },
     accentColor: 'text-amber-700 dark:text-amber-400',
   },
+
+  {
+    slug: 'covington-burling',
+    name: 'Covington & Burling LLP',
+    shortName: 'Covington',
+    aliases: ['Covington & Burling', 'Covington', 'Cov', 'CovBur', 'Covington and Burling'],
+    tier: 'US Firms',
+    website: 'https://www.cov.com',
+    hq: 'Washington DC',
+    offices: ['London', 'Washington DC', 'New York', 'San Francisco', 'Los Angeles', 'Palo Alto', 'Brussels', 'Frankfurt', 'Paris', 'Beijing', 'Shanghai', 'Seoul'],
+    practiceAreas: ['Corporate & M&A', 'Life Sciences & Healthcare', 'Technology & Communications', 'Competition & Regulatory', 'Dispute Resolution', 'Investigations & White Collar', 'Employment'],
+    knownFor: "Covington & Burling occupies a unique position among US firms in London: it is the go-to firm at the intersection of regulatory strategy and transactional work, with a dominant life sciences practice that advises the world's largest pharmaceutical and biotech companies on everything from product launches to M&A. The firm also has a formidable tech regulation practice, advising major platforms on AI, data privacy and digital markets legislation in both the UK and EU.",
+    culture: "Covington is known for a distinctly collegial and intellectually rigorous culture, with a genuine commitment to pro bono work that is embedded in day-to-day practice rather than treated as an add-on. The London office is smaller and more collaborative than many US firm peers, with trainees gaining broad exposure across practice groups. The regulatory-transactional mix means trainees develop both commercial and policy-facing skills that are highly valued by clients in regulated industries.",
+    interviewFocus: "Covington interviewers expect strong awareness of regulatory trends — particularly in life sciences, technology and competition law. Candidates should be prepared to discuss recent UK and EU regulatory developments (CMA investigations, AI Act, pharma M&A) and to explain why they are drawn to the regulatory-transactional blend the firm offers. Pro bono commitment and motivation for a smaller, more specialist US firm over the Magic Circle are common discussion points.",
+    trainingContract: {
+      seats: 4,
+      intakeSizeNote: 'c.8–12 per year (London)',
+      tcSalaryNote: '~£52,000 – £58,000',
+      nqSalaryNote: '~£155,000 – £165,000',
+      deadlines: [
+        {
+          label: 'Open Day / First Year Programme',
+          typically: 'Opens September · Closes November',
+          applyUrl: 'https://www.cov.com/en/careers/london-graduate-recruitment',
+        },
+        {
+          label: 'Summer Vacation Scheme',
+          typically: 'Opens October · Closes December',
+          applyUrl: 'https://www.cov.com/en/careers/london-graduate-recruitment',
+        },
+        {
+          label: 'Training Contract (direct)',
+          typically: 'Opens October · Closes January',
+          applyUrl: 'https://www.cov.com/en/careers/london-graduate-recruitment',
+        },
+      ],
+      applyUrl: 'https://www.cov.com/en/careers/london-graduate-recruitment',
+      lastVerified: '2026-03-05',
+    },
+    accentColor: 'text-amber-700 dark:text-amber-400',
+  },
 ];
 
 // ── Lookup maps — built once at module load, O(1) thereafter ─────────────────
