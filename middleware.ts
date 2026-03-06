@@ -18,12 +18,6 @@ export default clerkMiddleware(async (auth, req) => {
     });
     return response;
   }
-}, {
-  // Proxy Clerk Frontend API through our domain to avoid Cloudflare Error 1000
-  // (cross-account CNAME conflict when both our domain and Clerk use Cloudflare).
-  frontendApiProxy: {
-    enabled: true,
-  },
 });
 
 export const config = {
@@ -31,6 +25,6 @@ export const config = {
     // Skip Next.js internals and static files
     '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
     // Always run for API routes
-    '/(api|trpc|__clerk)(.*)',
+    '/(api|trpc)(.*)',
   ],
 };

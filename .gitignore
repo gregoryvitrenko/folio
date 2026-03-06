@@ -34,6 +34,9 @@ data/onboarding.json
 # Generated firm interview packs (AI-generated cache; production uses Redis)
 data/firms/
 
+# Generated audio files (cached locally in dev; production uses Vercel Blob)
+*.mp3
+
 # Generated briefing cache (optional — uncomment to exclude)
 # data/briefings/*.json
 # data/briefings/*-quiz.json

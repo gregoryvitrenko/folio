@@ -75,6 +75,9 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  const limited = await checkRateLimit(userId, 'comments-delete', 30, 3600);
+  if (limited) return limited;
+
   const body = await request.json().catch(() => ({}));
   const { date, storyId, commentId } = body as {
     date?: string;

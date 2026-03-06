@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { auth } from '@clerk/nextjs/server';
 import { getSubscription } from '@/lib/subscription';
+import { checkRateLimit } from '@/lib/rate-limit';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -11,6 +12,9 @@ export async function POST() {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  const limited = await checkRateLimit(userId, 'stripe-portal', 10, 3600);
+  if (limited) return limited;
+
   const sub = await getSubscription(userId);
   if (!sub?.stripeCustomerId) {
     return NextResponse.json({ error: 'No subscription found' }, { status: 404 });
@@ -18,10 +22,14 @@ export async function POST() {
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3001';
 
-  const session = await stripe.billingPortal.sessions.create({
-    customer: sub.stripeCustomerId,
-    return_url: `${appUrl}/`,
-  });
-
-  return NextResponse.json({ url: session.url });
+  try {
+    const session = await stripe.billingPortal.sessions.create({
+      customer: sub.stripeCustomerId,
+      return_url: `${appUrl}/`,
+    });
+    return NextResponse.json({ url: session.url });
+  } catch (err) {
+    console.error('[stripe-portal] Failed to create portal session:', err);
+    return NextResponse.json({ error: 'Failed to create billing portal session' }, { status: 500 });
+  }
 }

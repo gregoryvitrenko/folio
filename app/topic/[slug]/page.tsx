@@ -4,10 +4,12 @@ import { SLUG_TO_TOPIC, ALL_TOPICS } from '@/lib/topics';
 import { Header } from '@/components/Header';
 import { TabBar } from '@/components/TabBar';
 import { ArticleStory } from '@/components/ArticleStory';
+import { requireSubscription } from '@/lib/paywall';
 
 export const dynamic = 'force-dynamic';
 
 export default async function TopicPage({ params }: { params: Promise<{ slug: string }> }) {
+  await requireSubscription();
   const { slug } = await params;
   const topic = SLUG_TO_TOPIC[slug];
   if (!topic) notFound();

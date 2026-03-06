@@ -60,7 +60,10 @@ export async function POST(request: NextRequest) {
       const subscriptionId = session.subscription as string;
       const customerId = session.customer as string;
 
-      if (!userId || !subscriptionId) break;
+      if (!userId || !subscriptionId) {
+        console.warn(`[webhook] checkout.session.completed missing metadata — userId: ${userId}, subscriptionId: ${subscriptionId}`);
+        break;
+      }
 
       // Fetch full subscription to get period end
       const sub = await stripe.subscriptions.retrieve(subscriptionId);
@@ -71,42 +74,65 @@ export async function POST(request: NextRequest) {
       const customerName = session.customer_details?.name ?? undefined;
       const firstName = customerName?.split(' ')[0];
 
-      await Promise.all([
-        setSubscription(userId, {
-          status: sub.status as 'active' | 'trialing',
-          stripeCustomerId: customerId,
-          stripeSubscriptionId: subscriptionId,
-          currentPeriodEnd: periodEnd,
-        }),
-        setCustomerMapping(customerId, userId),
-        customerEmail
-          ? sendWelcomeEmail(customerEmail, firstName).catch((e) =>
-              console.error('[webhook] welcome email error:', e)
-            )
-          : Promise.resolve(),
-      ]);
+      try {
+        await Promise.all([
+          setSubscription(userId, {
+            status: sub.status as 'active' | 'trialing',
+            stripeCustomerId: customerId,
+            stripeSubscriptionId: subscriptionId,
+            currentPeriodEnd: periodEnd,
+          }),
+          setCustomerMapping(customerId, userId),
+          customerEmail
+            ? sendWelcomeEmail(customerEmail, firstName).catch((e) =>
+                console.error('[webhook] welcome email error:', e)
+              )
+            : Promise.resolve(),
+        ]);
+      } catch (err) {
+        console.error('[webhook] Failed to save subscription data:', err);
+        return NextResponse.json({ error: 'Failed to process subscription' }, { status: 500 });
+      }
       break;
     }
 
+    case 'customer.subscription.created':
     case 'customer.subscription.updated': {
       const sub = event.data.object as Stripe.Subscription;
       const userId = sub.metadata?.clerkUserId;
-      if (!userId) break;
+      if (!userId) {
+        console.warn(`[webhook] ${event.type} missing clerkUserId in metadata — sub: ${sub.id}`);
+        break;
+      }
 
       const updatedPeriodEnd = (sub as any).current_period_end ?? sub.items.data[0]?.current_period_end ?? 0;
-      await setSubscription(userId, {
-        status: sub.status as 'active' | 'past_due' | 'canceled' | 'trialing',
-        stripeCustomerId: sub.customer as string,
-        stripeSubscriptionId: sub.id,
-        currentPeriodEnd: updatedPeriodEnd,
-      });
+      try {
+        await setSubscription(userId, {
+          status: sub.status as 'active' | 'past_due' | 'canceled' | 'trialing',
+          stripeCustomerId: sub.customer as string,
+          stripeSubscriptionId: sub.id,
+          currentPeriodEnd: updatedPeriodEnd,
+        });
+      } catch (err) {
+        console.error(`[webhook] Failed to update subscription for ${userId}:`, err);
+        return NextResponse.json({ error: 'Failed to update subscription' }, { status: 500 });
+      }
       break;
     }
 
     case 'customer.subscription.deleted': {
       const sub = event.data.object as Stripe.Subscription;
       const userId = sub.metadata?.clerkUserId;
-      if (userId) await removeSubscription(userId);
+      if (!userId) {
+        console.warn(`[webhook] subscription.deleted missing clerkUserId — sub: ${sub.id}`);
+        break;
+      }
+      try {
+        await removeSubscription(userId);
+      } catch (err) {
+        console.error(`[webhook] Failed to remove subscription for ${userId}:`, err);
+        return NextResponse.json({ error: 'Failed to remove subscription' }, { status: 500 });
+      }
       break;
     }
   }

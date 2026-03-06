@@ -67,6 +67,9 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  const limited = await checkRateLimit(userId, 'bookmarks-delete', 60, 3600);
+  if (limited) return limited;
+
   const body = await request.json().catch(() => null);
   if (!body || typeof body.date !== 'string' || typeof body.storyId !== 'string') {
     return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
