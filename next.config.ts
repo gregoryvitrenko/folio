@@ -72,16 +72,6 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  // Internal rewrite: /__clerk/* → /api/clerk-proxy/* (route handler proxies to Clerk).
-  // Can't use /__clerk directly as an App Router route because _ prefix = private folder.
-  async rewrites() {
-    return [
-      {
-        source: '/__clerk/:path*',
-        destination: '/api/clerk-proxy/:path*',
-      },
-    ];
-  },
 };
 
 export default nextConfig;
