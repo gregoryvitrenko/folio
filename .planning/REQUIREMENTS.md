@@ -41,8 +41,8 @@
 
 ### Analytics
 
-- [ ] **ANLYT-01**: Vercel Analytics installed and active on production
-- [ ] **ANLYT-02**: Conversion funnel events tracked: free sign-up, upgrade page view, checkout click, subscription activation
+- [x] **ANLYT-01**: Vercel Analytics installed and active on production
+- [x] **ANLYT-02**: Conversion funnel events tracked: free sign-up, upgrade page view, checkout click, subscription activation
 
 ## v2 Requirements
 
@@ -100,8 +100,8 @@
 | UTIL-03 | Phase 5 | Pending |
 | UTIL-04 | Phase 5 | Complete |
 | UTIL-05 | Phase 5 | Complete |
-| ANLYT-01 | Phase 5 | Pending |
-| ANLYT-02 | Phase 5 | Pending |
+| ANLYT-01 | Phase 5 | Complete |
+| ANLYT-02 | Phase 5 | Complete |
 
 **Coverage:**
 - v1 requirements: 21 total
