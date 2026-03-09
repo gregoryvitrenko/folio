@@ -103,6 +103,28 @@ function extractJSON(text: string): string {
   throw new Error('No JSON object found in model response');
 }
 
+function repairJSON(raw: string): string {
+  // Remove trailing commas before ] or }
+  let fixed = raw.replace(/,\s*([\]}])/g, '$1');
+  // Try parsing as-is first
+  try { JSON.parse(fixed); return fixed; } catch { /* continue */ }
+  // If truncated, try closing open brackets/braces
+  let open = 0;
+  let openBrace = 0;
+  for (const ch of fixed) {
+    if (ch === '[') open++;
+    else if (ch === ']') open--;
+    else if (ch === '{') openBrace++;
+    else if (ch === '}') openBrace--;
+  }
+  // Trim any trailing partial string/value
+  fixed = fixed.replace(/,\s*"[^"]*$/, '');
+  fixed = fixed.replace(/,\s*$/, '');
+  while (openBrace > 0) { fixed += '}'; openBrace--; }
+  while (open > 0) { fixed += ']'; open--; }
+  return fixed;
+}
+
 function parseSectorWatch(raw: unknown): SectorWatchData | string {
   if (typeof raw === 'string') return raw;
   if (raw && typeof raw === 'object' && 'trend' in raw && 'body' in raw) {
@@ -258,14 +280,19 @@ export async function generateBriefing(): Promise<Briefing> {
 
   const completion = await anthropic.messages.create({
     model: 'claude-sonnet-4-6',
-    max_tokens: 10000,
+    max_tokens: 16000,
     system: SYSTEM_PROMPT,
     messages: [
       { role: 'user', content: buildUserPrompt(dateStr, searchContext, exclusionBlock) },
     ],
   });
 
+  if (completion.stop_reason === 'max_tokens') {
+    console.warn('[generate] Claude response truncated — output hit max_tokens limit');
+  }
+
   const text = completion.content[0]?.type === 'text' ? completion.content[0].text : '';
   const jsonStr = extractJSON(text);
-  return buildBriefing(JSON.parse(jsonStr), today);
+  const repaired = repairJSON(jsonStr);
+  return buildBriefing(JSON.parse(repaired), today);
 }
