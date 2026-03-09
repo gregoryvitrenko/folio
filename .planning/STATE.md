@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 03-content-surfaces-01-PLAN.md
-last_updated: "2026-03-09T22:23:12.382Z"
+stopped_at: Completed 03-content-surfaces-02-PLAN.md
+last_updated: "2026-03-09T22:28:17.566Z"
 last_activity: 2026-03-09 — Roadmap created; 21 v1 requirements mapped across 5 phases
 progress:
   total_phases: 5
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 6
-  completed_plans: 5
+  completed_plans: 6
   percent: 0
 ---
 
@@ -55,6 +55,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 02-shell P02 | 3 | 2 tasks | 2 files |
 | Phase 03-content-surfaces P03 | 3 | 2 tasks | 3 files |
 | Phase 03-content-surfaces P01 | 3 | 2 tasks | 2 files |
+| Phase 03-content-surfaces P02 | 2 | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -80,6 +81,7 @@ Recent decisions affecting current work:
 - [Phase 03-content-surfaces]: StoryCard: text-subheading + font-bold for headlines (subheading token is 500fw, card headlines must be 700fw)
 - [Phase 03-content-surfaces]: StoryCard topic labels: text-label + explicit tracking-[0.12em], NOT .section-label (font-mono incompatible)
 - [Phase 03-content-surfaces]: Border hover added to StoryCard: hover:border-stone-300 dark:hover:border-stone-600 alongside bg shift
+- [Phase 03-content-surfaces]: text-article token (28px) replaces responsive headline pair in ArticleStory; text-[16px] locked for summary/legacy body; font-semibold kept explicitly on soundbite (subheading token is 500fw)
 
 ### Pending Todos
 
@@ -94,6 +96,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-09T22:23:12.377Z
-Stopped at: Completed 03-content-surfaces-01-PLAN.md
+Last session: 2026-03-09T22:28:17.561Z
+Stopped at: Completed 03-content-surfaces-02-PLAN.md
 Resume file: None
