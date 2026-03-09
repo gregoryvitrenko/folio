@@ -55,9 +55,11 @@ export default function RootLayout({
         className={`${inter.variable} ${playfairDisplay.variable} ${jetbrainsMono.variable} scroll-smooth`}
         suppressHydrationWarning
       >
-        <body className="bg-stone-50 dark:bg-stone-950 text-stone-900 dark:text-stone-100 font-sans min-h-screen transition-colors duration-200">
+        <body className="bg-stone-50 dark:bg-stone-950 text-stone-900 dark:text-stone-100 font-sans min-h-screen flex flex-col transition-colors duration-200">
           <Providers>
-            {children}
+            <main className="flex-1">
+              {children}
+            </main>
             <SiteFooter />
           </Providers>
           <ScrollToTop />
