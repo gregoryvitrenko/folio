@@ -58,7 +58,12 @@ Plans:
   3. BriefingView (homepage 8-story grid) lays out correctly at 375px viewport — no card overflow, no topic tabs wrapping to two lines on mobile
   4. Every interactive element in content surfaces uses semantic hover states (border colour shift for cards, background shift for buttons, underline for links) — the `hover:opacity-80` pattern is gone
   5. Typography (font size, line height, letter spacing) is consistent across all three content surfaces — no mixed leading or arbitrary sizes remain
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — Add text-article token to tailwind.config.ts and migrate StoryCard.tsx to design tokens with border hover state
+- [ ] 03-02-PLAN.md — Migrate ArticleStory.tsx to design tokens (uses text-article token from 03-01)
+- [ ] 03-03-PLAN.md — Migrate BriefingView.tsx labels to tokens, fix hover:opacity in BriefingView, StoryGrid, and Header logo
 
 ### Phase 4: Conversion Surfaces
 **Goal**: A prospective subscriber who visits the upgrade page sees a product that matches the editorial register they just experienced, reads why it matters to their TC application, and trusts the person behind it
@@ -91,6 +96,6 @@ Phases execute in strict dependency order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Design Tokens | 1/1 | Complete   | 2026-03-09 |
 | 2. Shell | 2/2 | Complete   | 2026-03-09 |
-| 3. Content Surfaces | 0/TBD | Not started | - |
+| 3. Content Surfaces | 0/3 | Not started | - |
 | 4. Conversion Surfaces | 0/TBD | Not started | - |
 | 5. Utility Pages + Analytics | 0/TBD | Not started | - |
