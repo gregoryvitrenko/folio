@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Phase 2 context gathered
-last_updated: "2026-03-09T21:30:58.225Z"
+stopped_at: Completed 02-shell 02-01-PLAN.md
+last_updated: "2026-03-09T21:49:35.231Z"
 last_activity: 2026-03-09 — Roadmap created; 21 v1 requirements mapped across 5 phases
 progress:
   total_phases: 5
-  completed_phases: 1
-  total_plans: 1
-  completed_plans: 1
+  completed_phases: 2
+  total_plans: 3
+  completed_plans: 3
   percent: 0
 ---
 
@@ -51,6 +51,7 @@ Progress: [░░░░░░░░░░] 0%
 
 *Updated after each plan completion*
 | Phase 01-design-tokens P01 | 4 | 5 tasks | 2 files |
+| Phase 02-shell P01 | 2 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -64,6 +65,9 @@ Recent decisions affecting current work:
 - [Phase 01-design-tokens]: Reduced --radius from 0.5rem to 0.25rem for flat editorial feel; rounded-sm now ~0px intentionally
 - [Phase 01-design-tokens]: Used theme.extend.fontSize to preserve all Tailwind default text-* sizes
 - [Phase 01-design-tokens]: Radius tokens use direct values not calc chains for predictability
+- [Phase 02-shell]: bg-paper replaces all bg-stone-50 dark:bg-stone-950 pairs in shell components — single dark-aware token
+- [Phase 02-shell]: text-display used for wordmark h1, removing responsive breakpoint font-size pair and redundant font-bold
+- [Phase 02-shell]: text-label used for all 10-11px mono/sans labels in header and nav triggers, bundling size and letterSpacing
 
 ### Pending Todos
 
@@ -78,6 +82,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-09T21:30:58.210Z
-Stopped at: Phase 2 context gathered
-Resume file: .planning/phases/02-shell/02-CONTEXT.md
+Last session: 2026-03-09T21:49:22.742Z
+Stopped at: Completed 02-shell 02-01-PLAN.md
+Resume file: None

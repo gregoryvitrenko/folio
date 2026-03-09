@@ -13,7 +13,7 @@
 
 ### Shell
 
-- [ ] **SHELL-01**: Header updated to use design tokens (typography, spacing) — preserve existing thick top rule and mono label pattern
+- [x] **SHELL-01**: Header updated to use design tokens (typography, spacing) — preserve existing thick top rule and mono label pattern
 - [ ] **SHELL-02**: Site footer implemented with links (feedback, terms/privacy, contact/LinkedIn) and consistent with design tokens
 
 ### Content Surfaces
@@ -84,7 +84,7 @@
 | TOKENS-01 | Phase 1 | Complete |
 | TOKENS-02 | Phase 1 | Complete |
 | TOKENS-03 | Phase 1 | Complete |
-| SHELL-01 | Phase 2 | Pending |
+| SHELL-01 | Phase 2 | Complete |
 | SHELL-02 | Phase 2 | Pending |
 | CONT-01 | Phase 3 | Pending |
 | CONT-02 | Phase 3 | Pending |
