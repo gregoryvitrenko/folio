@@ -117,10 +117,10 @@ export default async function QuizPage() {
 
   const dateList = dates.length > 0 && (
     <div className="mb-8">
-      <h3 className="font-mono text-[10px] tracking-widest uppercase text-zinc-400 dark:text-zinc-500 mb-3">
+      <h3 className="section-label mb-3">
         Available
       </h3>
-      <div className="rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 overflow-hidden divide-y divide-zinc-100 dark:divide-zinc-800">
+      <div className="rounded-card bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 overflow-hidden divide-y divide-stone-100 dark:divide-stone-800">
         {dates.map((date) => {
           const isActive = date === activeDate;
           const isToday = date === today;
@@ -132,9 +132,9 @@ export default async function QuizPage() {
 
           if (isActive) {
             return (
-              <div key={date} className="flex items-center justify-between px-5 py-4 bg-zinc-50 dark:bg-zinc-800/30">
+              <div key={date} className="flex items-center justify-between px-5 py-4 bg-stone-50 dark:bg-stone-800/30">
                 <div className="flex items-baseline gap-3">
-                  <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                  <span className="text-sm font-medium text-stone-900 dark:text-stone-100">
                     {formatDisplayDate(date)}
                   </span>
                   {badge}
@@ -147,17 +147,17 @@ export default async function QuizPage() {
             <Link
               key={date}
               href={isToday ? '/quiz' : `/quiz/${date}`}
-              className="flex items-center justify-between px-5 py-4 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors group"
+              className="flex items-center justify-between px-5 py-4 hover:bg-stone-50 dark:hover:bg-stone-800/50 transition-colors group"
             >
               <div className="flex items-baseline gap-3 min-w-0">
-                <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100 truncate group-hover:text-zinc-700 dark:group-hover:text-zinc-50">
+                <span className="text-sm font-medium text-stone-900 dark:text-stone-100 truncate group-hover:text-stone-700 dark:group-hover:text-stone-50">
                   {formatDisplayDate(date)}
                 </span>
                 {badge}
               </div>
               <ChevronRight
                 size={14}
-                className="shrink-0 text-zinc-300 dark:text-zinc-600 group-hover:text-zinc-500 dark:group-hover:text-zinc-400 transition-colors"
+                className="shrink-0 text-stone-300 dark:text-stone-600 group-hover:text-stone-500 dark:group-hover:text-stone-400 transition-colors"
               />
             </Link>
           );
@@ -172,17 +172,17 @@ export default async function QuizPage() {
         <Header date={today} />
         <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
           <div className="flex items-center gap-3 mb-8">
-            <PenLine size={16} className="text-zinc-400" />
-            <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-50 tracking-tight">
+            <PenLine size={16} className="text-stone-400" />
+            <h2 className="text-subheading font-bold text-stone-900 dark:text-stone-50 tracking-tight">
               Daily Quiz
             </h2>
           </div>
           {dateList}
           <div className="text-center py-20 space-y-2">
-            <p className="text-sm text-zinc-500 dark:text-zinc-400">No briefing available yet.</p>
+            <p className="text-sm text-stone-500 dark:text-stone-400">No briefing available yet.</p>
             <Link
               href="/"
-              className="text-sm text-zinc-400 dark:text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 underline underline-offset-4"
+              className="text-sm text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-300 underline underline-offset-4"
             >
               Generate today&apos;s briefing →
             </Link>
@@ -205,11 +205,11 @@ export default async function QuizPage() {
       <Header date={briefing.date} />
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
         <div className="flex items-center gap-3 mb-8">
-          <PenLine size={16} className="text-zinc-400" />
-          <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-50 tracking-tight">
+          <PenLine size={16} className="text-stone-400" />
+          <h2 className="text-subheading font-bold text-stone-900 dark:text-stone-50 tracking-tight">
             Daily Quiz
           </h2>
-          <span className="font-mono text-[10px] text-zinc-400 dark:text-zinc-500 tracking-widest uppercase bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded">
+          <span className="section-label bg-stone-100 dark:bg-stone-800 px-2 py-0.5 rounded-chrome">
             {storyCount} daily · {deepCount} deep
           </span>
         </div>
