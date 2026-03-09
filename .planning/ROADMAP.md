@@ -12,7 +12,7 @@ This milestone transforms Folio from a working product into a premium editorial 
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Design Tokens** - Establish the semantic token foundation (type scale, radius, CSS variables) that all subsequent phases depend on
+- [x] **Phase 1: Design Tokens** - Establish the semantic token foundation (type scale, radius, CSS variables) that all subsequent phases depend on (completed 2026-03-09)
 - [ ] **Phase 2: Shell** - Apply tokens to Header and implement the missing site footer — structures that appear on every page
 - [ ] **Phase 3: Content Surfaces** - Polish StoryCard, ArticleStory, and BriefingView — the most-visited components in the product
 - [ ] **Phase 4: Conversion Surfaces** - Align the upgrade page and landing hero to the product's design register and rewrite copy to outcome framing
@@ -29,7 +29,10 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. `tailwind.config.ts` contains named `borderRadius` tokens (card, chrome, pill, input) — the five inconsistent values currently in use are replaced by a single source of truth
   3. `globals.css` contains a CSS custom property layer with `--paper`, semantic radius vars, and documented stone-vs-zinc palette rule — light and dark mode both covered
   4. shadcn `--radius` variable is reduced to `0.25rem`, removing the generic "SaaS app" rounding from all shadcn primitives globally
-**Plans**: TBD
+**Plans**: 1 plan
+
+Plans:
+- [ ] 01-01-PLAN.md — Add CSS vars (--paper, --radius-*), fontSize scale, borderRadius tokens, and .section-label component class
 
 ### Phase 2: Shell
 **Goal**: Every page in Folio shares a consistent, token-compliant header and a functioning footer
@@ -82,7 +85,7 @@ Phases execute in strict dependency order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Design Tokens | 0/TBD | Not started | - |
+| 1. Design Tokens | 1/1 | Complete   | 2026-03-09 |
 | 2. Shell | 0/TBD | Not started | - |
 | 3. Content Surfaces | 0/TBD | Not started | - |
 | 4. Conversion Surfaces | 0/TBD | Not started | - |

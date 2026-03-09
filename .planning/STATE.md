@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Phase 1 context gathered
-last_updated: "2026-03-09T20:57:27.525Z"
+stopped_at: Completed 01-design-tokens-01-PLAN.md
+last_updated: "2026-03-09T21:15:38.277Z"
 last_activity: 2026-03-09 — Roadmap created; 21 v1 requirements mapped across 5 phases
 progress:
   total_phases: 5
-  completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
+  completed_phases: 1
+  total_plans: 1
+  completed_plans: 1
   percent: 0
 ---
 
@@ -50,6 +50,7 @@ Progress: [░░░░░░░░░░] 0%
 - Trend: -
 
 *Updated after each plan completion*
+| Phase 01-design-tokens P01 | 4 | 5 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -60,6 +61,9 @@ Recent decisions affecting current work:
 
 - Roadmap: Coarse granularity applied — 5 phases retained despite coarse setting because dependency order is a hard constraint (tokens before components before pages)
 - Roadmap: Analytics (ANLYT-01, ANLYT-02) grouped with utility pages in Phase 5 — both are "apply and verify" tasks that share the same deployment window
+- [Phase 01-design-tokens]: Reduced --radius from 0.5rem to 0.25rem for flat editorial feel; rounded-sm now ~0px intentionally
+- [Phase 01-design-tokens]: Used theme.extend.fontSize to preserve all Tailwind default text-* sizes
+- [Phase 01-design-tokens]: Radius tokens use direct values not calc chains for predictability
 
 ### Pending Todos
 
@@ -74,6 +78,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-09T20:57:27.520Z
-Stopped at: Phase 1 context gathered
-Resume file: .planning/phases/01-design-tokens/01-CONTEXT.md
+Last session: 2026-03-09T21:15:38.273Z
+Stopped at: Completed 01-design-tokens-01-PLAN.md
+Resume file: None

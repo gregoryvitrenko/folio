@@ -7,9 +7,9 @@
 
 ### Design Tokens
 
-- [ ] **TOKENS-01**: Semantic type scale defined in `tailwind.config.ts` (named slots: display, heading, subheading, body, caption, label — no arbitrary `text-[Npx]` values)
-- [ ] **TOKENS-02**: Border radius token system established (single source of truth; resolves the 5 inconsistent values currently in use)
-- [ ] **TOKENS-03**: CSS custom property token layer added to `globals.css` for design values that require runtime theming (light/dark)
+- [x] **TOKENS-01**: Semantic type scale defined in `tailwind.config.ts` (named slots: display, heading, subheading, body, caption, label — no arbitrary `text-[Npx]` values)
+- [x] **TOKENS-02**: Border radius token system established (single source of truth; resolves the 5 inconsistent values currently in use)
+- [x] **TOKENS-03**: CSS custom property token layer added to `globals.css` for design values that require runtime theming (light/dark)
 
 ### Shell
 
@@ -81,9 +81,9 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| TOKENS-01 | Phase 1 | Pending |
-| TOKENS-02 | Phase 1 | Pending |
-| TOKENS-03 | Phase 1 | Pending |
+| TOKENS-01 | Phase 1 | Complete |
+| TOKENS-02 | Phase 1 | Complete |
+| TOKENS-03 | Phase 1 | Complete |
 | SHELL-01 | Phase 2 | Pending |
 | SHELL-02 | Phase 2 | Pending |
 | CONT-01 | Phase 3 | Pending |
