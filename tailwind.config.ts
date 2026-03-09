@@ -48,7 +48,12 @@ const config: Config = {
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
-  			sm: 'calc(var(--radius) - 4px)'
+  			sm: 'calc(var(--radius) - 4px)',
+  			// Semantic radius tokens — reference CSS vars defined in globals.css
+  			card:   'var(--radius-card)',    // 2px — nearly flat editorial
+  			chrome: 'var(--radius-chrome)',  // 4px — badges, UI chrome
+  			pill:   'var(--radius-pill)',    // 9999px — tags/chips
+  			input:  'var(--radius-input)',   // 4px — form fields
   		},
   		colors: {
   			background: 'hsl(var(--background))',
@@ -90,7 +95,8 @@ const config: Config = {
   				'3': 'hsl(var(--chart-3))',
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
-  			}
+  			},
+  			paper: 'hsl(var(--paper))',  // warm page background, responds to dark mode
   		}
   	}
   },
