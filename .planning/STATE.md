@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 04-conversion-surfaces-03-PLAN.md
-last_updated: "2026-03-09T23:14:58.401Z"
+stopped_at: Completed 05-utility-pages-analytics-02-PLAN.md
+last_updated: "2026-03-09T23:56:00.071Z"
 last_activity: 2026-03-09 — Roadmap created; 21 v1 requirements mapped across 5 phases
 progress:
   total_phases: 5
   completed_phases: 4
-  total_plans: 9
-  completed_plans: 9
+  total_plans: 13
+  completed_plans: 10
   percent: 0
 ---
 
@@ -59,6 +59,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 04-conversion-surfaces P02 | 2 | 1 tasks | 1 files |
 | Phase 04-conversion-surfaces P01 | 2 | 2 tasks | 1 files |
 | Phase 04-conversion-surfaces P03 | 5 | 1 tasks | 0 files |
+| Phase 05-utility-pages-analytics P02 | 2 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -90,6 +91,8 @@ Recent decisions affecting current work:
 - [Phase 04-conversion-surfaces]: Social proof block uses placeholder copy with TODO comments — update with real count and testimonial when available
 - [Phase 04-conversion-surfaces]: Free-tier note text uses text-label (10px) to keep it visually subordinate to feature items at text-caption (13px)
 - [Phase 04-conversion-surfaces]: Phase 4 verification plan (04-03): verification-only checkpoint, no code changes — all five production checks passed confirming stone palette, social proof, flat radius, and Stripe checkout
+- [Phase 05-utility-pages-analytics]: Firms page heading uses text-subheading font-bold (not text-lg) to match heading token system
+- [Phase 05-utility-pages-analytics]: Firms count badge uses section-label component class instead of repeating inline mono/label classes
 
 ### Pending Todos
 
@@ -104,6 +107,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-09T23:11:20.906Z
-Stopped at: Completed 04-conversion-surfaces-03-PLAN.md
+Last session: 2026-03-09T23:56:00.066Z
+Stopped at: Completed 05-utility-pages-analytics-02-PLAN.md
 Resume file: None
