@@ -74,7 +74,12 @@ Plans:
   2. Every premium feature description on the upgrade page is outcome-framed ("walk into interviews knowing the market") not capability-framed ("get access to the quiz")
   3. Social proof placeholder slots are visible on the upgrade page — wired to show real student count and testimonials when data exists, clearly marked as placeholders until then
   4. The LandingHero CTA button has the correct border radius from the token system — the `rounded-xl` inconsistency is resolved
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — Migrate upgrade/page.tsx: zinc→stone palette, design tokens, outcome copy, social proof block, SiteFooter
+- [ ] 04-02-PLAN.md — Migrate LandingHero.tsx: rounded-chrome, text tokens, hover:bg fix
+- [ ] 04-03-PLAN.md — Visual and functional verification checkpoint (upgrade page + LandingHero + Stripe smoke test)
 
 ### Phase 5: Utility Pages + Analytics
 **Goal**: Every page in Folio speaks the same visual language as the core product, and the conversion funnel is observable
@@ -97,5 +102,5 @@ Phases execute in strict dependency order: 1 → 2 → 3 → 4 → 5
 | 1. Design Tokens | 1/1 | Complete   | 2026-03-09 |
 | 2. Shell | 2/2 | Complete   | 2026-03-09 |
 | 3. Content Surfaces | 2/3 | Complete    | 2026-03-09 |
-| 4. Conversion Surfaces | 0/TBD | Not started | - |
+| 4. Conversion Surfaces | 0/3 | Not started | - |
 | 5. Utility Pages + Analytics | 0/TBD | Not started | - |
