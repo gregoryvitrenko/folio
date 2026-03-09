@@ -26,7 +26,7 @@ export function Header({ date, isArchive = false, archiveDate }: HeaderProps) {
   const displayDate = archiveDate ?? date;
 
   return (
-    <header className="sticky top-0 z-40 bg-stone-50 dark:bg-stone-950 border-b border-stone-200 dark:border-stone-800">
+    <header className="sticky top-0 z-40 bg-paper border-b border-stone-200 dark:border-stone-800">
       {/* Thick top rule */}
       <div className="h-[3px] bg-stone-900 dark:bg-stone-100" />
 
@@ -34,12 +34,12 @@ export function Header({ date, isArchive = false, archiveDate }: HeaderProps) {
 
         {/* Row 1: date left · brand centre · auth right */}
         <div className="grid grid-cols-3 items-center py-3">
-          <span className="hidden sm:block font-mono text-[11px] text-stone-400 dark:text-stone-500 tracking-wide">
+          <span className="hidden sm:block font-mono text-label text-stone-400 dark:text-stone-500 tracking-wide">
             {formatShortDate(displayDate)}
           </span>
           <Link href="/" className="group flex items-center justify-center gap-2.5">
             <FolioMark size={34} className="text-stone-900 dark:text-stone-50 group-hover:opacity-75 transition-opacity flex-shrink-0" />
-            <h1 className="font-serif text-[32px] sm:text-[38px] font-bold tracking-tight text-stone-900 dark:text-stone-50 group-hover:opacity-75 transition-opacity">
+            <h1 className="font-serif text-display tracking-tight text-stone-900 dark:text-stone-50 group-hover:opacity-75 transition-opacity">
               Folio
             </h1>
           </Link>
@@ -59,13 +59,13 @@ export function Header({ date, isArchive = false, archiveDate }: HeaderProps) {
               <div className="flex items-center gap-4">
                 <Link
                   href="/archive"
-                  className="font-sans text-[11px] font-semibold tracking-[0.1em] uppercase text-stone-400 dark:text-stone-500 hover:text-stone-900 dark:hover:text-stone-100 transition-colors py-2"
+                  className="font-sans text-label font-semibold uppercase text-stone-400 dark:text-stone-500 hover:text-stone-900 dark:hover:text-stone-100 transition-colors py-2"
                 >
                   ← Archive
                 </Link>
                 <Link
                   href="/"
-                  className="font-sans text-[11px] font-semibold tracking-[0.1em] uppercase text-stone-400 dark:text-stone-500 hover:text-stone-900 dark:hover:text-stone-100 transition-colors py-2"
+                  className="font-sans text-label font-semibold uppercase text-stone-400 dark:text-stone-500 hover:text-stone-900 dark:hover:text-stone-100 transition-colors py-2"
                 >
                   Today →
                 </Link>
