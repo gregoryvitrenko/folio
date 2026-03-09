@@ -4,6 +4,7 @@ import { ClerkProvider } from '@clerk/nextjs';
 import { Providers } from './providers';
 import { ScrollToTop } from '@/components/ScrollToTop';
 import { SiteFooter } from '@/components/SiteFooter';
+import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 
 const inter = Inter({
@@ -63,6 +64,7 @@ export default function RootLayout({
             <SiteFooter />
           </Providers>
           <ScrollToTop />
+          <Analytics />
         </body>
       </html>
     </ClerkProvider>
