@@ -15,7 +15,6 @@ async function markEventProcessed(eventId: string): Promise<boolean> {
     // No Redis in dev — skip idempotency check (acceptable for local testing)
     return true;
   }
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const { Redis } = require('@upstash/redis');
   const redis = new Redis({
     url: process.env.UPSTASH_REDIS_REST_URL,

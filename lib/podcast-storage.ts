@@ -28,7 +28,6 @@ function useRedis(): boolean {
 }
 
 function getRedis() {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const { Redis } = require('@upstash/redis');
   return new Redis({
     url: process.env.UPSTASH_REDIS_REST_URL,
