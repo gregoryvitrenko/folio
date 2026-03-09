@@ -9,19 +9,22 @@ import { NextRequest, NextResponse } from 'next/server';
  * Get the Clerk Frontend API URL to proxy to.
  *
  * Priority:
- * 1. CLERK_API_URL env var (explicit override — use the .clerk.accounts.dev URL
- *    to bypass Cloudflare cross-account conflicts with custom domains)
+ * 1. CLERK_PROXY_TARGET env var (the .clerk.accounts.dev URL for the new
+ *    Clerk app that bypasses the Cloudflare cross-account conflict)
  * 2. Decoded from NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY (fallback)
+ *
+ * NOTE: We intentionally use CLERK_PROXY_TARGET (not CLERK_API_URL) because
+ * the Clerk SDK reads CLERK_API_URL internally for server-side Backend API
+ * calls (auth(), currentUser(), etc). Setting that to a Frontend API URL
+ * would break all server-side auth. These are different Clerk services.
  */
 function getClerkFrontendApi(): string {
-  // Explicit override — set this to the .clerk.accounts.dev URL
-  // to bypass Cloudflare conflicts with the custom domain
-  if (process.env.CLERK_API_URL) {
-    return process.env.CLERK_API_URL.replace(/\/$/, '');
+  if (process.env.CLERK_PROXY_TARGET) {
+    return process.env.CLERK_PROXY_TARGET.replace(/\/$/, '');
   }
 
   const key = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
-  if (!key) throw new Error('CLERK_API_URL or NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY must be set');
+  if (!key) throw new Error('CLERK_PROXY_TARGET or NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY must be set');
 
   const encoded = key.replace(/^pk_(test|live)_/, '');
   const decoded = Buffer.from(encoded, 'base64').toString('utf-8').replace(/\$$/, '');
