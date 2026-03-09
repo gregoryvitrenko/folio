@@ -11,7 +11,7 @@ const CSP = [
   "default-src 'self'",
   // Next.js hydration + Clerk widget + Stripe.js
   // 'unsafe-eval' is required in dev for Next.js Fast Refresh / HMR — omitted in production.
-  `script-src 'self' 'unsafe-inline'${isProd ? '' : " 'unsafe-eval'"} https://js.stripe.com https://checkout.stripe.com https://clerk.com https://*.clerk.com https://*.clerk.accounts.dev`,
+  `script-src 'self' 'unsafe-inline'${isProd ? '' : " 'unsafe-eval'"} https://js.stripe.com https://checkout.stripe.com https://clerk.com https://*.clerk.com https://*.clerk.accounts.dev https://challenges.cloudflare.com`,
   // Tailwind / Clerk widget inline styles
   "style-src 'self' 'unsafe-inline'",
   // User avatars from Clerk, Stripe images
@@ -19,7 +19,7 @@ const CSP = [
   // Self-hosted fonts
   "font-src 'self' data:",
   // Stripe checkout/billing iframes
-  "frame-src 'self' https://js.stripe.com https://checkout.stripe.com https://billing.stripe.com https://hooks.stripe.com",
+  "frame-src 'self' https://js.stripe.com https://checkout.stripe.com https://billing.stripe.com https://hooks.stripe.com https://challenges.cloudflare.com",
   // API calls from browser: Clerk, Stripe, Vercel Blob CDN
   "connect-src 'self' https://*.clerk.com https://clerk.com wss://*.clerk.com https://clerk.accounts.dev https://*.clerk.accounts.dev https://api.stripe.com https://checkout.stripe.com https://errors.stripe.com https://*.public.blob.vercel-storage.com",
   // Audio: local blobs (dev) + Vercel Blob CDN (prod)
