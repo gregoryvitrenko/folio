@@ -1,5 +1,5 @@
 /**
- * Static, manually-curated firm profiles for all 37 firms.
+ * Static, manually-curated firm profiles for all 46 firms.
  *
  * CREDIBILITY RULE: No field is generated at runtime by an AI.
  * All salary/deadline figures are approximate, sourced from public recruitment
@@ -512,7 +512,7 @@ export const FIRMS: FirmProfile[] = [
     accentColor: 'text-violet-700 dark:text-violet-400',
   },
 
-  // ─── Silver Circle — additional (4) ──────────────────────────────────────
+  // ─── National — large full-service (4) ───────────────────────────────────
 
   {
     slug: 'eversheds-sutherland',
