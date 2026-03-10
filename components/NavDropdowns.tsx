@@ -86,7 +86,7 @@ export function NavDropdowns() {
           </button>
 
           {open === group.label && (
-            <div className="absolute top-full left-0 z-50 min-w-[152px] rounded-b-xl rounded-tr-xl bg-paper border border-t-0 border-stone-200 dark:border-stone-800 shadow-lg shadow-stone-200/50 dark:shadow-stone-950/50 py-1 overflow-hidden">
+            <div className="absolute top-full left-0 z-50 mt-1.5 min-w-[152px] rounded-card bg-paper border border-stone-200 dark:border-stone-800 shadow-md shadow-stone-200/60 dark:shadow-stone-950/60 py-1 overflow-hidden">
               {group.items.map((item) => (
                 <Link
                   key={item.href}

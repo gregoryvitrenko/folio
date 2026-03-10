@@ -61,8 +61,8 @@ export default async function HomePage() {
       {showFirmsStrip && <YourFirmsStrip slugs={onboardingData!.targetFirms} />}
       {isStale && (
         <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-5">
-          <div className="flex items-center justify-between gap-4 px-4 py-3 rounded-sm bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/30">
-            <p className="text-xs text-amber-700 dark:text-amber-400">
+          <div className="flex items-center justify-between gap-4 px-4 py-3 rounded-card bg-stone-50 dark:bg-stone-900/50 border border-stone-200 dark:border-stone-800">
+            <p className="text-xs text-stone-500 dark:text-stone-400">
               Showing briefing from {briefing.date} — today&apos;s hasn&apos;t been generated yet.
             </p>
             {isAdmin && <GenerateButton />}

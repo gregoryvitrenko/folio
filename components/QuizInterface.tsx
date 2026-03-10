@@ -539,7 +539,7 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
                   </span>
                   {isToday && streakCount > 0 && (
                     <span className="text-label font-mono text-amber-500 dark:text-amber-400">
-                      · 🔥{streakCount}
+                      · {streakCount}d
                     </span>
                   )}
                 </div>
