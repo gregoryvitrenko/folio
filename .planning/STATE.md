@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 05-utility-pages-analytics-01-PLAN.md
-last_updated: "2026-03-09T23:59:53.425Z"
+stopped_at: Completed 06-bug-fixes-content-quality-03-PLAN.md
+last_updated: "2026-03-10T02:45:24.935Z"
 last_activity: 2026-03-09 — Roadmap created; 21 v1 requirements mapped across 5 phases
 progress:
-  total_phases: 5
-  completed_phases: 4
-  total_plans: 13
-  completed_plans: 12
+  total_phases: 6
+  completed_phases: 5
+  total_plans: 17
+  completed_plans: 14
   percent: 0
 ---
 
@@ -62,6 +62,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 05-utility-pages-analytics P02 | 2 | 2 tasks | 3 files |
 | Phase 05-utility-pages-analytics P03 | 2 | 2 tasks | 4 files |
 | Phase 05-utility-pages-analytics P01 | 6 | 3 tasks | 3 files |
+| Phase 06-bug-fixes-content-quality P03 | 5 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -100,6 +101,9 @@ Recent decisions affecting current work:
 - [Phase 05-utility-pages-analytics]: sign-up page converted to client component directly (Approach A) — SignUp from Clerk already works in client component files
 - [Phase 05-utility-pages-analytics]: QuizInterface hover tint overlay preserved — opacity-0 group-hover:opacity-100 on pointer-events-none divs is a CSS decoration layer, not the hover:opacity-* button pattern
 - [Phase 05-utility-pages-analytics]: rounded-2xl on streak/deep practice mode-selector cards preserved — marketing-style feature cards distinct from editorial content containers using rounded-card
+- [Phase 06-bug-fixes-content-quality]: talkingPoints soundbite: BAD/GOOD contrast example embedded inline to steer Claude away from generic filler headlines
+- [Phase 06-bug-fixes-content-quality]: Quiz Q1 renamed to Commercial Inference: explicitly forbids deal-price questions, requires reasoning beyond the headline
+- [Phase 06-bug-fixes-content-quality]: Quiz distractor guidance names specific real firms and regulatory bodies to prevent obviously-wrong options
 
 ### Pending Todos
 
@@ -114,6 +118,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-09T23:59:53.420Z
-Stopped at: Completed 05-utility-pages-analytics-01-PLAN.md
+Last session: 2026-03-10T02:45:24.915Z
+Stopped at: Completed 06-bug-fixes-content-quality-03-PLAN.md
 Resume file: None
