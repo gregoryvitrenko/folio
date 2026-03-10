@@ -168,7 +168,11 @@ Generate exactly ${count} questions.`;
 
 // ── Bank building ─────────────────────────────────────────────────────────────
 
-const BANK_BATCHES: Record<string, number> = { 'watson-glaser': 24, 'sjt': 24 };
+// 5 batches × 10 questions = 50 questions per bank.
+// Kept low so on-demand generation (when Redis has no bank) completes reliably
+// within the 120s Vercel function timeout. The cron refreshes weekly — once
+// the bank is warm in Redis, questions are served from cache with no API calls.
+const BANK_BATCHES: Record<string, number> = { 'watson-glaser': 5, 'sjt': 5 };
 export const BANK_TTL_DAYS = 7;
 
 /** Build a full question bank for a test type by running parallel batches. */

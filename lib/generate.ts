@@ -1,4 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
+import { jsonrepair } from 'jsonrepair';
 import type { Briefing, Story, TopicCategory, WhyItMatters, TalkingPoints, SectorWatchData, OneToFollowData } from './types';
 import { getBriefing } from './storage';
 
@@ -104,25 +105,7 @@ function extractJSON(text: string): string {
 }
 
 function repairJSON(raw: string): string {
-  // Remove trailing commas before ] or }
-  let fixed = raw.replace(/,\s*([\]}])/g, '$1');
-  // Try parsing as-is first
-  try { JSON.parse(fixed); return fixed; } catch { /* continue */ }
-  // If truncated, try closing open brackets/braces
-  let open = 0;
-  let openBrace = 0;
-  for (const ch of fixed) {
-    if (ch === '[') open++;
-    else if (ch === ']') open--;
-    else if (ch === '{') openBrace++;
-    else if (ch === '}') openBrace--;
-  }
-  // Trim any trailing partial string/value
-  fixed = fixed.replace(/,\s*"[^"]*$/, '');
-  fixed = fixed.replace(/,\s*$/, '');
-  while (openBrace > 0) { fixed += '}'; openBrace--; }
-  while (open > 0) { fixed += ']'; open--; }
-  return fixed;
+  return jsonrepair(raw);
 }
 
 function parseSectorWatch(raw: unknown): SectorWatchData | string {
@@ -293,6 +276,14 @@ export async function generateBriefing(): Promise<Briefing> {
 
   const text = completion.content[0]?.type === 'text' ? completion.content[0].text : '';
   const jsonStr = extractJSON(text);
-  const repaired = repairJSON(jsonStr);
+  let repaired: string;
+  try {
+    repaired = repairJSON(jsonStr);
+    JSON.parse(repaired); // validate before passing downstream
+  } catch (err) {
+    console.error('[generate] JSON repair failed. Raw Claude output (first 500 chars):', jsonStr.slice(0, 500));
+    console.error('[generate] JSON repair error:', err);
+    throw err;
+  }
   return buildBriefing(JSON.parse(repaired), today);
 }
