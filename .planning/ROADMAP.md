@@ -174,7 +174,12 @@ Plans:
   2. Audio generated after Blob activation is stored as a cached MP3 — subsequent requests for the same episode serve the cached file without calling ElevenLabs
   3. `/podcast/archive` lists past audio briefings grouped by date — each entry shows the date and a play button
   4. The play button on past archive entries only appears for dates where a cached MP3 exists — no play button is shown for dates with no audio
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+- [ ] 09-01-PLAN.md — Add backfillQuizIndex() to lib/storage.ts + admin POST route to populate quiz:index for pre-Phase-6 quizzes (INFRA-01)
+- [ ] 09-02-PLAN.md — Add listPodcastDatesWithStatus() to lib/podcast-storage.ts; update /podcast/archive to show all episodes with conditional play button (PODCAST-01, INFRA-01)
+- [ ] 09-03-PLAN.md — Extract shared ElevenLabs helper to lib/podcast-audio.ts; wire fire-and-forget MP3 pre-generation into the 06:00 UTC cron (INFRA-01)
 
 ### Phase 10: Primer Interview Questions
 **Goal**: Each sector primer contains 3-5 manually written interview questions with structured answer skeletons — giving subscribers a concrete edge in TC interviews, not generic questions they could find on any website
