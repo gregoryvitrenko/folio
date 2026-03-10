@@ -25,8 +25,8 @@
 
 ### Primer Interview Questions
 
-- [ ] **PRIMER-01**: Each of the 8 sector primers has 3–5 practice interview questions (manually authored, grounded in primer-specific content — not generic TC questions)
-- [ ] **PRIMER-02**: Each question has a structured answer skeleton using the Commercial Reasoning format (Context → Commercial implication → Legal angle → Current hook/your view)
+- [x] **PRIMER-01**: Each of the 8 sector primers has 3–5 practice interview questions (manually authored, grounded in primer-specific content — not generic TC questions)
+- [x] **PRIMER-02**: Each question has a structured answer skeleton using the Commercial Reasoning format (Context → Commercial implication → Legal angle → Current hook/your view)
 
 ### Podcast Archive
 
@@ -141,8 +141,8 @@
 | FIRMS-02 | Phase 8 | Complete |
 | INFRA-01 | Phase 9 | Complete |
 | PODCAST-01 | Phase 9 | Pending |
-| PRIMER-01 | Phase 10 | Pending |
-| PRIMER-02 | Phase 10 | Pending |
+| PRIMER-01 | Phase 10 | Complete |
+| PRIMER-02 | Phase 10 | Complete |
 | EVT-01 | Phase 11 | Pending |
 | EVT-02 | Phase 11 | Pending |
 | EVT-03 | Phase 11 | Pending |
