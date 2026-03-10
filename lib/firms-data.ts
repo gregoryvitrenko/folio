@@ -512,6 +512,133 @@ export const FIRMS: FirmProfile[] = [
     accentColor: 'text-violet-700 dark:text-violet-400',
   },
 
+  // ─── Silver Circle — additional (4) ──────────────────────────────────────
+
+  {
+    slug: 'eversheds-sutherland',
+    name: 'Eversheds Sutherland',
+    shortName: 'Eversheds',
+    aliases: ['Eversheds Sutherland', 'Eversheds', 'Eversheds-Sutherland', 'Eversheds Sutherland International'],
+    tier: 'Silver Circle',
+    website: 'https://www.eversheds-sutherland.com',
+    hq: 'London / Edinburgh',
+    offices: ['London', 'Edinburgh', 'Birmingham', 'Manchester', 'Leeds', 'Bristol', 'Nottingham', 'Cardiff', 'Dublin', 'Brussels', 'Paris', 'Berlin', 'New York', 'Singapore', 'Hong Kong'],
+    practiceAreas: ['Corporate / M&A', 'Banking & Finance', 'Disputes', 'Employment', 'Real Estate', 'Energy', 'Regulation', 'Tax'],
+    knownFor: 'Eversheds Sutherland is one of the largest full-service law firms in the UK with a particularly strong energy, financial services and employment practice. Its pan-UK presence across 7+ offices and international network make it a strong choice for students seeking breadth of seat experience.',
+    culture: "Collaborative and progressive, with a genuine commitment to flexible working and diversity that goes beyond box-ticking. The firm's multi-office structure means trainees can expect a mixture of London commercial work and domestic UK practice. Known for strong trainee retention and a clear pathway to qualification.",
+    interviewFocus: 'Eversheds interviews probe commercial awareness across the energy, financial services and employment sectors — know recent regulatory changes affecting the firm\'s core client industries. Be prepared to explain why you want a full-service firm rather than a Magic Circle or US firm, and demonstrate awareness of the firm\'s significant international presence.',
+    trainingContract: {
+      seats: 4,
+      intakeSizeNote: 'c.50–65 per year (UK-wide, London is largest office)',
+      tcSalaryNote: '~£42,000 – £47,000',
+      nqSalaryNote: '~£110,000',
+      deadlines: [
+        {
+          label: 'Training Contract',
+          typically: 'Opens October · Closes November',
+          applyUrl: 'https://www.eversheds-sutherland.com/en/uk/careers/students',
+        },
+      ],
+      applyUrl: 'https://www.eversheds-sutherland.com/en/uk/careers/students',
+      lastVerified: '2026-03-10',
+    },
+    accentColor: 'text-violet-700 dark:text-violet-400',
+  },
+
+  {
+    slug: 'cms',
+    name: 'CMS',
+    shortName: 'CMS',
+    aliases: ['CMS', 'CMS Cameron McKenna', 'CMS Cameron McKenna Nabarro Olswang', 'CMS UK'],
+    tier: 'Silver Circle',
+    website: 'https://cms.law',
+    hq: 'London / Vienna',
+    offices: ['London', 'Edinburgh', 'Bristol', 'Manchester', 'Vienna', 'Berlin', 'Frankfurt', 'Paris', 'Brussels', 'Amsterdam', 'Madrid', 'Milan', 'Warsaw', 'Moscow', 'Dubai', 'Singapore', 'Bogotá', 'São Paulo'],
+    practiceAreas: ['Corporate / M&A', 'Banking & Finance', 'Real Estate', 'Disputes', 'Energy', 'Technology', 'Employment', 'Tax', 'Restructuring'],
+    knownFor: "CMS is one of the largest law firms in Europe and a top-10 global firm by revenue, known for an exceptionally strong real estate, energy and technology practice. The UK firm's breadth of practice areas and extensive European network give trainees unmatched cross-border exposure within a single firm.",
+    culture: "Internationally minded and entrepreneurial, with a genuine meritocracy that rewards ambition regardless of background. The firm's unusual structure — a verein (network of national firms) — creates a distinctive cross-border culture where collaboration across jurisdictions is the norm rather than the exception. Trainees consistently highlight the firm's investment in training quality and the variety of work available across its large London office.",
+    interviewFocus: "CMS interviews test commercial awareness with an emphasis on real estate, energy transition and tech regulation — sectors where the firm has market-leading practices. The firm values candidates who can articulate why CMS's European network and sector depth appeal over the more US-focused competitors at similar salary levels.",
+    trainingContract: {
+      seats: 4,
+      intakeSizeNote: 'c.60 per year (London)',
+      tcSalaryNote: '~£40,000 – £46,000',
+      nqSalaryNote: '~£120,000',
+      deadlines: [
+        {
+          label: 'Training Contract',
+          typically: 'Rolling process — apply early in the academic year',
+          rolling: true,
+          applyUrl: 'https://cmsemergingtalent.com',
+        },
+      ],
+      applyUrl: 'https://cmsemergingtalent.com',
+      lastVerified: '2026-03-10',
+    },
+    accentColor: 'text-violet-700 dark:text-violet-400',
+  },
+
+  {
+    slug: 'addleshaw-goddard',
+    name: 'Addleshaw Goddard',
+    shortName: 'Addleshaw Goddard',
+    aliases: ['Addleshaw Goddard', 'Addleshaws', 'AG', 'Addleshaw', 'Addleshaw Goddard LLP'],
+    tier: 'Silver Circle',
+    website: 'https://www.addleshawgoddard.com',
+    hq: 'London / Leeds / Edinburgh',
+    offices: ['London', 'Leeds', 'Edinburgh', 'Manchester', 'Glasgow', 'Aberdeen', 'Singapore', 'Hong Kong', 'Doha', 'Dubai', 'Frankfurt', 'Hamburg', 'Munich'],
+    practiceAreas: ['Corporate / M&A', 'Banking & Finance', 'Real Estate', 'Disputes', 'Employment', 'Tax', 'Infrastructure', 'Restructuring'],
+    knownFor: 'Addleshaw Goddard is a leading full-service firm with a particularly strong banking and finance practice and one of the most respected real estate and infrastructure groups outside the Magic Circle. Its genuinely national presence across London, Leeds, Edinburgh and Manchester gives trainees breadth of work and client contact from the start.',
+    culture: 'Collaborative and unpretentious, with a culture that places genuine value on developing lawyers rather than generating billable hours. Trainees describe a firm where partners are approachable and where commercial quality coexists with a less intense atmosphere than the US firm peer group. The firm\'s strong presence in northern England gives it a genuinely distinctive identity compared with the pure London firms.',
+    interviewFocus: 'Addleshaw Goddard interviews focus on commercial awareness in banking, real estate and infrastructure — areas where the firm has genuine market-leading credentials. Be prepared to explain why you want a firm with a strong regional presence and a UK-focused client base, and demonstrate awareness of the firm\'s significant project finance and energy work.',
+    trainingContract: {
+      seats: 4,
+      intakeSizeNote: 'c.30–45 per year (UK-wide)',
+      tcSalaryNote: '~£40,000 – £46,000',
+      nqSalaryNote: '~£100,000',
+      deadlines: [
+        {
+          label: 'Training Contract',
+          typically: 'Opens October · Closes January',
+          applyUrl: 'https://earlycareers.addleshawgoddard.com',
+        },
+      ],
+      applyUrl: 'https://earlycareers.addleshawgoddard.com',
+      lastVerified: '2026-03-10',
+    },
+    accentColor: 'text-violet-700 dark:text-violet-400',
+  },
+
+  {
+    slug: 'pinsent-masons',
+    name: 'Pinsent Masons',
+    shortName: 'Pinsent Masons',
+    aliases: ['Pinsent Masons', 'Pinsents', 'Pinsent Masons LLP'],
+    tier: 'Silver Circle',
+    website: 'https://www.pinsentmasons.com',
+    hq: 'London / Edinburgh',
+    offices: ['London', 'Edinburgh', 'Glasgow', 'Leeds', 'Manchester', 'Birmingham', 'Bristol', 'Aberdeen', 'Dublin', 'Belfast', 'Sydney', 'Melbourne', 'Singapore', 'Hong Kong', 'Dubai', 'Johannesburg', 'Cape Town', 'Munich', 'Berlin', 'Paris'],
+    practiceAreas: ['Infrastructure', 'Energy', 'Corporate / M&A', 'Real Estate', 'Disputes', 'Employment', 'Finance', 'Technology', 'Regulation'],
+    knownFor: 'Pinsent Masons is the pre-eminent UK firm for infrastructure, energy and projects work, with a global practice spanning major construction projects, renewable energy transactions and complex regulated utilities. The firm has one of the largest trainee intakes in the UK and is known for its out-front role on infrastructure PPPs and energy transition deals.',
+    culture: "Open, inclusive and genuinely values-driven, with a culture that has won repeated recognition for its diversity and social mobility programmes. The firm's size and national spread mean trainees have real choice in where and how they develop. Known for strong investment in trainee development and a collegial atmosphere that differs markedly from the more intense US firm culture at nominally similar salary levels.",
+    interviewFocus: 'Pinsent Masons interviews are strongly sector-focused — expect questions on infrastructure project financing, energy transition, and the regulatory frameworks affecting the firm\'s core clients in construction, utilities and property. The firm values genuine enthusiasm for large-scale project work rather than generic commercial law interest.',
+    trainingContract: {
+      seats: 4,
+      intakeSizeNote: 'c.68 per year (UK-wide, one of the largest national intakes)',
+      tcSalaryNote: '~£40,000 – £46,000',
+      nqSalaryNote: '~£97,000',
+      deadlines: [
+        {
+          label: 'Training Contract',
+          typically: 'Opens October · Closes January',
+          applyUrl: 'https://www.pinsentmasons.com/careers/early-talent',
+        },
+      ],
+      applyUrl: 'https://www.pinsentmasons.com/careers/early-talent',
+      lastVerified: '2026-03-10',
+    },
+    accentColor: 'text-violet-700 dark:text-violet-400',
+  },
+
   // ─── Elite US (5) ─────────────────────────────────────────────────────────
 
   {
