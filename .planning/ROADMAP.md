@@ -16,7 +16,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Shell** - Apply tokens to Header and implement the missing site footer — structures that appear on every page (completed 2026-03-09)
 - [x] **Phase 3: Content Surfaces** - Polish StoryCard, ArticleStory, and BriefingView — the most-visited components in the product (completed 2026-03-09)
 - [x] **Phase 4: Conversion Surfaces** - Align the upgrade page and landing hero to the product's design register and rewrite copy to outcome framing (completed 2026-03-09)
-- [ ] **Phase 5: Utility Pages + Analytics** - Apply established token patterns to Archive, Firms, Quiz, Tests, and Primers; install Vercel Analytics
+- [x] **Phase 5: Utility Pages + Analytics** - Apply established token patterns to Archive, Firms, Quiz, Tests, and Primers; install Vercel Analytics (completed 2026-03-10)
+- [ ] **Phase 6: Bug Fixes + Content Quality** - Fix production bugs found in live audit; improve talking points and quiz question quality
 
 ## Phase Details
 
@@ -98,6 +99,24 @@ Plans:
 - [ ] 05-03-PLAN.md — Install @vercel/analytics and add four conversion funnel events (ANLYT-01, ANLYT-02)
 - [ ] 05-04-PLAN.md — Production deploy and visual + analytics verification checkpoint
 
+### Phase 6: Bug Fixes + Content Quality
+**Goal**: Fix all production bugs identified in live audit and lift content quality so the product delivers on its core promise
+**Depends on**: Phase 5
+**Requirements**: BUG-01, BUG-02, BUG-03, QUAL-01, QUAL-02
+**Success Criteria** (what must be TRUE):
+  1. Double footer on /upgrade is gone
+  2. Expired application deadlines on firm profiles show a "Closed" state — no live "Apply" button for past windows
+  3. Quiz generation is reliable — cached quiz data exists for recent dates, date links in /quiz lead to actual questions
+  4. Talking points in articles are sharp, specific, and genuinely usable in an interview — not generic AI summaries
+  5. Quiz questions test commercial reasoning and inference, not just deal price recall
+**Plans**: 4 plans
+
+Plans:
+- [ ] 06-01-PLAN.md — Remove double SiteFooter from upgrade page; add CLOSED badge for expired firm deadlines (BUG-01, BUG-02)
+- [ ] 06-02-PLAN.md — Fix quiz caching: add quiz:index to storage.ts, remove ?? 18 fallback (BUG-03)
+- [ ] 06-03-PLAN.md — Strengthen talking points prompt in generate.ts and rewrite quiz question rules in quiz.ts (QUAL-01, QUAL-02)
+- [ ] 06-04-PLAN.md — Production verification checkpoint (all 5 requirements)
+
 ## Progress
 
 **Execution Order:**
@@ -110,3 +129,4 @@ Phases execute in strict dependency order: 1 → 2 → 3 → 4 → 5
 | 3. Content Surfaces | 2/3 | Complete    | 2026-03-09 |
 | 4. Conversion Surfaces | 2/3 | Complete    | 2026-03-09 |
 | 5. Utility Pages + Analytics | 3/4 | In Progress|  |
+| 6. Bug Fixes + Content Quality | 0/4 | Planned |  |
