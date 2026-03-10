@@ -144,7 +144,12 @@ Plans:
   1. Scrolling past page content on any route does not bleed the page through the header — the header has a persistent opaque background when scrolled
   2. The mobile navigation dropdown is usable at 375px — tap targets meet minimum size, menus open and close correctly on touch without requiring a second tap
   3. Story cards on the homepage grid lay out without overflow or broken layout at 375px viewport — headline text is readable, topic badges do not clip
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+- [ ] 07-01-PLAN.md — Fix --paper CSS variable (remove hsl wrapper from globals.css) so bg-paper is opaque (MOBILE-01)
+- [ ] 07-02-PLAN.md — Add hamburger button + mobile drawer to Header.tsx; fix pointerdown outside-click in NavDropdowns.tsx (MOBILE-02)
+- [ ] 07-03-PLAN.md — Add min-w-0 to StoryCard outer div and StoryGrid story wrapper div (MOBILE-03)
 
 ### Phase 8: Firms Expansion
 **Goal**: Folio covers the UK TC landscape that students actually target — all 8 priority US and Silver Circle firms have accurate, manually verified profiles
@@ -214,7 +219,7 @@ v1.0 phases (1-6) complete. v1.1 phases execute in numeric order: 7 → 8 → 9 
 | 4. Conversion Surfaces | v1.0 | 3/3 | Complete | 2026-03-09 |
 | 5. Utility Pages + Analytics | v1.0 | 4/4 | Complete | 2026-03-10 |
 | 6. Bug Fixes + Content Quality | v1.0 | 4/4 | Complete | 2026-03-10 |
-| 7. Mobile + Header Polish | v1.1 | 0/? | Not started | - |
+| 7. Mobile + Header Polish | v1.1 | 0/3 | Not started | - |
 | 8. Firms Expansion | v1.1 | 0/? | Not started | - |
 | 9. Podcast Archive | v1.1 | 0/? | Not started | - |
 | 10. Primer Interview Questions | v1.1 | 0/? | Not started | - |
