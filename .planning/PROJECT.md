@@ -33,12 +33,18 @@ Students who use Folio daily walk into TC interviews knowing what's happening in
 
 ### Active
 
-- [ ] Design lift — improve typography, spacing, and visual polish across all pages (keep newspaper/editorial direction, execute it properly)
+<!-- v1.1 — Content & Reach -->
+- [ ] Firms expansion — Add more US firms + Silver Circle coverage (static data, accuracy priority)
+- [ ] Events section — AI-curated networking/professional events, UK cities with filter, .ics export, free tier
+- [ ] Mobile + header fixes — Header scroll background, mobile nav, story card layout on small screens
+- [ ] Primers: interview Qs + answer skeletons — Practice questions + answer frameworks per sector primer
+- [ ] Podcast archive — /podcast/archive listing past audio briefings
+- [ ] Weekly email digest — Sunday Resend digest, viral loop
+
+<!-- Still pending (not yet tackled) -->
 - [ ] Logo/wordmark — proper brand mark, not just text
-- [ ] Social proof — trust signals: student count, testimonials, or credibility cues
+- [ ] Social proof — trust signals: student count, testimonials, or credibility cues (live data when available)
 - [ ] Conversion feature — TBD once user base exists to identify the actual gap
-- [ ] Site footer — links, legal, contact (backlog carry-over)
-- [ ] Primers: sample interview Qs + answer skeletons (backlog carry-over)
 
 ### Out of Scope
 
@@ -48,17 +54,27 @@ Students who use Folio daily walk into TC interviews knowing what's happening in
 - Custom Clerk production instance — requires domain transfer off Cloudflare; dev keys work fine
 - Vercel Blob audio caching — not yet set up; audio regenerates on each request (known issue)
 
+## Current Milestone: v1.1 Content & Reach
+
+**Goal:** Expand content depth (more firms, events, primers), fix mobile experience, and add engagement/retention features (digest, podcast archive).
+
+**Target features:**
+- Firms expansion (US + Silver Circle, static data)
+- Events section (AI-curated networking events, city filter, .ics export)
+- Mobile + header fixes
+- Primers interview Qs + answer skeletons
+- Podcast archive page
+- Weekly email digest (Resend)
+
 ## Context
 
 - **Live product**: folioapp.co.uk, Vercel Pro. Auth (Clerk), payments (Stripe), Redis (Upstash), TTS (ElevenLabs) all active.
+- **v1.0 complete**: Design lift milestone shipped 2026-03-10. Stone/zinc palette, type scale, all pages on token system, analytics live.
 - **Launch promotion**: Free full access for first 15 days from launch date hardcoded in config. After that, free tier (headlines + excerpt only).
 - **Infrastructure budget**: ~£34/month. Owner budget cap £50/month.
 - **ElevenLabs**: 100k chars/month (Creator tier). Daniel voice only. Audio not yet cached (Vercel Blob not set up).
-- **Cron generation**: max_tokens fix pushed (session 4) but not yet manually verified via Vercel "Run".
+- **Marketing channel**: LinkedIn, university law societies, peer networks. Design lift is prerequisite for serious marketing push.
 - **Hardcoded fallback**: app/api/generate/route.ts:16 has old ADMIN_USER_ID as fallback — needs cleanup.
-- **Design direction confirmed**: newspaper/editorial feel (stone/zinc palette, serif headings). The direction is right, the execution needs lifting to feel premium.
-- **Marketing channel**: LinkedIn, university law societies, peer networks.
-- **No user data yet**: Not enough users to diagnose conversion gap — design lift is prerequisite for serious marketing.
 
 ## Constraints
 
@@ -81,4 +97,4 @@ Students who use Folio daily walk into TC interviews knowing what's happening in
 | Conversion feature deferred | No user data yet to identify actual friction point | — Pending |
 
 ---
-*Last updated: 2026-03-09 after initialization*
+*Last updated: 2026-03-10 after v1.0 completion, v1.1 milestone started*
