@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Content & Reach
 status: planning
-stopped_at: Completed 07-mobile-header-polish-02-PLAN.md
-last_updated: "2026-03-10T16:18:49.462Z"
+stopped_at: Completed 08-firms-expansion-01-PLAN.md
+last_updated: "2026-03-10T17:31:32.489Z"
 last_activity: 2026-03-10 — v1.1 roadmap created; phases 7-12 defined
 progress:
   total_phases: 12
-  completed_phases: 7
-  total_plans: 20
-  completed_plans: 20
+  completed_phases: 8
+  total_plans: 21
+  completed_plans: 21
   percent: 0
 ---
 
@@ -54,6 +54,7 @@ Progress: [░░░░░░░░░░] 0% (v1.1 phases)
 | Phase 07-mobile-header-polish P03 | 1 | 1 tasks | 2 files |
 | Phase 07-mobile-header-polish P01 | 1 | 1 tasks | 1 files |
 | Phase 07-mobile-header-polish P02 | 1 | 2 tasks | 2 files |
+| Phase 08-firms-expansion P01 | 4 | 2 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -71,6 +72,9 @@ Recent decisions affecting current work:
 - [Phase 07-mobile-header-polish]: Two wrappers require min-w-0: the direct grid child div in StoryGrid and the outermost card div in StoryCard — both must be present for the CSS Grid overflow fix to work at 375px
 - [Phase 07-mobile-header-polish]: CSS custom property --paper stores bare HSL channels only; Tailwind hsl(var()) wrapper must not be duplicated in the variable value
 - [Phase 07-mobile-header-polish]: MOBILE_NAV_LINKS defined in Header.tsx (not imported from NavDropdowns) to avoid circular dependency; pointerdown replaces mousedown in NavDropdowns for touch support
+- [Phase 08-firms-expansion]: Jones Day seats:4 with non-rotational note in intakeSizeNote
+- [Phase 08-firms-expansion]: TC salaries for CMS/Addleshaw/Pinsent Masons use conservative placeholder ~£40k-£46k pending The Trackr verification
+- [Phase 08-firms-expansion]: DLA Piper classified as US Firms tier (amber accent) to match Folio taxonomy and £130k NQ salary
 
 ### Pending Todos
 
@@ -85,6 +89,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-10T16:15:44.163Z
-Stopped at: Completed 07-mobile-header-polish-02-PLAN.md
+Last session: 2026-03-10T17:31:32.482Z
+Stopped at: Completed 08-firms-expansion-01-PLAN.md
 Resume file: None

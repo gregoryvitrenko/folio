@@ -128,7 +128,7 @@ Plans:
 **Milestone Goal:** Expand content depth (more firms, events, primer interview prep), fix the mobile experience, and add engagement/retention features (digest, podcast archive) — positioning Folio for a marketing push to law societies and LinkedIn.
 
 - [x] **Phase 7: Mobile + Header Polish** - Fix header scroll background, mobile navigation, and story card layout at 375px (completed 2026-03-10)
-- [ ] **Phase 8: Firms Expansion** - Add 8 new firm profiles (Baker McKenzie, Jones Day, Mayer Brown, DLA Piper, Eversheds Sutherland, CMS, Addleshaw Goddard, Pinsent Masons) with manually verified TC data
+- [x] **Phase 8: Firms Expansion** - Add 8 new firm profiles (Baker McKenzie, Jones Day, Mayer Brown, DLA Piper, Eversheds Sutherland, CMS, Addleshaw Goddard, Pinsent Masons) with manually verified TC data (completed 2026-03-10)
 - [ ] **Phase 9: Podcast Archive** - Configure Vercel Blob storage and activate the podcast archive listing page
 - [ ] **Phase 10: Primer Interview Questions** - Add 3-5 manually authored interview questions with Commercial Reasoning answer skeletons to each of the 8 sector primers
 - [ ] **Phase 11: Events Section** - Build the AI-curated UK legal events section with city filter and .ics calendar export
@@ -160,7 +160,10 @@ Plans:
   2. All 8 priority firms are present: Baker McKenzie, Jones Day, Mayer Brown, DLA Piper, Eversheds Sutherland, CMS, Addleshaw Goddard, and Pinsent Masons
   3. Each new profile includes NQ salary, TC salary, intake seats, and application deadline data that has been manually verified against the firm's official recruitment page or The Trackr — no placeholder or unverified figures
   4. New firm profiles appear on the /firms listing page and their /firms/[slug] detail pages render correctly with existing UI (no layout breaks)
-**Plans**: TBD
+**Plans**: 1 plan
+
+Plans:
+- [ ] 08-01-PLAN.md — Add 8 new FirmProfile objects to lib/firms-data.ts (Silver Circle: Eversheds Sutherland, CMS, Addleshaw Goddard, Pinsent Masons; US Firms: Baker McKenzie, Jones Day, Mayer Brown, DLA Piper) (FIRMS-01, FIRMS-02)
 
 ### Phase 9: Podcast Archive
 **Goal**: Podcast episodes are cached in Vercel Blob (stopping ElevenLabs character burn on every play) and subscribers can browse and play past episodes from a dedicated archive page
@@ -220,7 +223,7 @@ v1.0 phases (1-6) complete. v1.1 phases execute in numeric order: 7 → 8 → 9 
 | 5. Utility Pages + Analytics | v1.0 | 4/4 | Complete | 2026-03-10 |
 | 6. Bug Fixes + Content Quality | v1.0 | 4/4 | Complete | 2026-03-10 |
 | 7. Mobile + Header Polish | 3/3 | Complete   | 2026-03-10 | - |
-| 8. Firms Expansion | v1.1 | 0/? | Not started | - |
+| 8. Firms Expansion | 1/1 | Complete   | 2026-03-10 | - |
 | 9. Podcast Archive | v1.1 | 0/? | Not started | - |
 | 10. Primer Interview Questions | v1.1 | 0/? | Not started | - |
 | 11. Events Section | v1.1 | 0/? | Not started | - |

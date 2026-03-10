@@ -20,8 +20,8 @@
 
 ### Firms Expansion
 
-- [ ] **FIRMS-01**: 8+ new firms added to `lib/firms-data.ts` with manually verified data (NQ salary, TC salary, intake seats, application deadlines)
-- [ ] **FIRMS-02**: New firms coverage prioritises: Baker McKenzie, Jones Day, Mayer Brown, DLA Piper, Eversheds Sutherland, CMS, Addleshaw Goddard, Pinsent Masons
+- [x] **FIRMS-01**: 8+ new firms added to `lib/firms-data.ts` with manually verified data (NQ salary, TC salary, intake seats, application deadlines)
+- [x] **FIRMS-02**: New firms coverage prioritises: Baker McKenzie, Jones Day, Mayer Brown, DLA Piper, Eversheds Sutherland, CMS, Addleshaw Goddard, Pinsent Masons
 
 ### Primer Interview Questions
 
@@ -137,8 +137,8 @@
 | MOBILE-01 | Phase 7 | Complete |
 | MOBILE-02 | Phase 7 | Complete |
 | MOBILE-03 | Phase 7 | Complete |
-| FIRMS-01 | Phase 8 | Pending |
-| FIRMS-02 | Phase 8 | Pending |
+| FIRMS-01 | Phase 8 | Complete |
+| FIRMS-02 | Phase 8 | Complete |
 | INFRA-01 | Phase 9 | Pending |
 | PODCAST-01 | Phase 9 | Pending |
 | PRIMER-01 | Phase 10 | Pending |
