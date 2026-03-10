@@ -55,13 +55,13 @@ export function NavDropdowns() {
   const navRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    function handleOutsideClick(e: MouseEvent) {
+    function handleOutsideClick(e: PointerEvent) {
       if (navRef.current && !navRef.current.contains(e.target as Node)) {
         setOpen(null);
       }
     }
-    document.addEventListener('mousedown', handleOutsideClick);
-    return () => document.removeEventListener('mousedown', handleOutsideClick);
+    document.addEventListener('pointerdown', handleOutsideClick);
+    return () => document.removeEventListener('pointerdown', handleOutsideClick);
   }, []);
 
   return (
