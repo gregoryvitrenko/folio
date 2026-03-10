@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 06-bug-fixes-content-quality-03-PLAN.md
-last_updated: "2026-03-10T02:45:24.935Z"
+stopped_at: Completed 06-bug-fixes-content-quality-02-PLAN.md
+last_updated: "2026-03-10T02:46:59.580Z"
 last_activity: 2026-03-09 — Roadmap created; 21 v1 requirements mapped across 5 phases
 progress:
   total_phases: 6
   completed_phases: 5
   total_plans: 17
-  completed_plans: 14
+  completed_plans: 15
   percent: 0
 ---
 
@@ -63,6 +63,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 05-utility-pages-analytics P03 | 2 | 2 tasks | 4 files |
 | Phase 05-utility-pages-analytics P01 | 6 | 3 tasks | 3 files |
 | Phase 06-bug-fixes-content-quality P03 | 5 | 2 tasks | 2 files |
+| Phase 06-bug-fixes-content-quality P02 | 8 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -104,6 +105,7 @@ Recent decisions affecting current work:
 - [Phase 06-bug-fixes-content-quality]: talkingPoints soundbite: BAD/GOOD contrast example embedded inline to steer Claude away from generic filler headlines
 - [Phase 06-bug-fixes-content-quality]: Quiz Q1 renamed to Commercial Inference: explicitly forbids deal-price questions, requires reasoning beyond the headline
 - [Phase 06-bug-fixes-content-quality]: Quiz distractor guidance names specific real firms and regulatory bodies to prevent obviously-wrong options
+- [Phase 06-bug-fixes-content-quality]: quiz:index sorted set added to Redis — populated on save, empty on first deploy (no backfill). listQuizDates() now reads quiz:index not briefing:index.
 
 ### Pending Todos
 
@@ -118,6 +120,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-10T02:45:24.915Z
-Stopped at: Completed 06-bug-fixes-content-quality-03-PLAN.md
+Last session: 2026-03-10T02:46:59.568Z
+Stopped at: Completed 06-bug-fixes-content-quality-02-PLAN.md
 Resume file: None
