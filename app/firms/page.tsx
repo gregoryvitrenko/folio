@@ -28,9 +28,9 @@ export default async function FirmsPage() {
         </div>
 
         {/* Disclaimer */}
-        <div className="flex items-start gap-2.5 rounded-card bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/50 px-4 py-3 mb-8">
-          <AlertTriangle size={13} className="shrink-0 mt-0.5 text-amber-500 dark:text-amber-400" />
-          <p className="text-[12px] text-amber-700 dark:text-amber-300 leading-relaxed">
+        <div className="flex items-start gap-2.5 rounded-card bg-stone-50 dark:bg-stone-900/50 border border-stone-200 dark:border-stone-800 px-4 py-3 mb-8">
+          <AlertTriangle size={13} className="shrink-0 mt-0.5 text-stone-400 dark:text-stone-500" />
+          <p className="text-[12px] text-stone-500 dark:text-stone-400 leading-relaxed">
             Deadline windows shown are approximate and based on typical prior-year cycles.
             Always verify opening and closing dates on each firm&apos;s official graduate recruitment page before applying.
           </p>

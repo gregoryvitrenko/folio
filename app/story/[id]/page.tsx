@@ -2,9 +2,8 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { getBriefing, getLatestBriefing, getTodayDate } from '@/lib/storage';
-import { TOPIC_SLUGS, ALL_TOPICS } from '@/lib/topics';
+import { TOPIC_SLUGS } from '@/lib/topics';
 import { Header } from '@/components/Header';
-import { TabBar } from '@/components/TabBar';
 import { ArticleStory } from '@/components/ArticleStory';
 import { requireSubscription } from '@/lib/paywall';
 import { isValidDate } from '@/lib/security';
@@ -37,15 +36,12 @@ export default async function StoryPage({
   const story = briefing.stories.find(s => s.id === id);
   if (!story) notFound();
 
-  const presentTopics = ALL_TOPICS.filter(t => briefing.stories.some(s => s.topic === t));
   const topicSlug = TOPIC_SLUGS[story.topic];
 
   return (
     <>
       <Header date={briefing.date} />
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
-
-        <TabBar presentTopics={presentTopics} />
 
         {/* Back to topic */}
         <div className="mt-6 mb-8">

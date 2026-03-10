@@ -518,10 +518,10 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
           {/* ── Daily (streak) card ───────────────────────────────────────── */}
           <div
             onClick={() => !streakDone && fetchAndStart('streak', false)}
-            className={`group relative flex flex-col rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 overflow-hidden transition-all duration-200 hover:shadow-lg hover:shadow-amber-500/8 dark:hover:shadow-amber-500/5 hover:-translate-y-0.5 ${!streakDone ? 'cursor-pointer' : ''}`}
+            className={`group relative flex flex-col rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 overflow-hidden transition-all duration-200 hover:shadow-lg hover:shadow-stone-900/5 dark:hover:shadow-stone-950/20 hover:-translate-y-0.5 ${!streakDone ? 'cursor-pointer' : ''}`}
           >
-            {/* Amber top bar */}
-            <div className="h-[3px] bg-amber-400 dark:bg-amber-500/80 flex-shrink-0" />
+            {/* Top bar */}
+            <div className="h-[3px] bg-stone-900 dark:bg-stone-100 flex-shrink-0" />
 
             {/* Hover tint layer */}
             <div className="pointer-events-none absolute inset-0 bg-amber-500/[0.02] opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -530,7 +530,7 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
               {/* Header */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Flame className="w-4 h-4 text-amber-500 dark:text-amber-400 flex-shrink-0" />
+                  <Flame className="w-4 h-4 text-stone-400 dark:text-stone-500 flex-shrink-0" />
                   <span className="text-label font-mono font-semibold tracking-widest uppercase text-stone-900 dark:text-stone-100">
                     Daily
                   </span>
@@ -538,7 +538,7 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
                     {streakCount_}q
                   </span>
                   {isToday && streakCount > 0 && (
-                    <span className="text-label font-mono text-amber-500 dark:text-amber-400">
+                    <span className="text-label font-mono text-stone-500 dark:text-stone-400">
                       · {streakCount}d
                     </span>
                   )}
@@ -609,7 +609,7 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
               {/* Actions — pinned to bottom */}
               <div className="flex items-center gap-2 flex-wrap mt-auto">
                 {uiState === 'loading' && quizMode === 'streak' ? (
-                  <div className="flex items-center gap-2 px-4 py-2.5 rounded-card bg-amber-500 text-white text-caption font-sans font-medium">
+                  <div className="flex items-center gap-2 px-4 py-2.5 rounded-card bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 text-caption font-sans font-medium">
                     <Loader2 className="w-3.5 h-3.5 animate-spin" />
                     Generating…
                   </div>
@@ -639,7 +639,7 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
                 ) : (
                   <button
                     onClick={(e) => { e.stopPropagation(); fetchAndStart('streak', false); }}
-                    className="flex items-center gap-2 px-4 py-2.5 rounded-card bg-amber-500 hover:bg-amber-600 dark:bg-amber-500 dark:hover:bg-amber-600 text-white text-caption font-sans font-medium transition-colors"
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-card bg-stone-900 dark:bg-stone-100 hover:bg-stone-700 dark:hover:bg-stone-300 text-white dark:text-stone-900 text-caption font-sans font-medium transition-colors"
                   >
                     <Flame className="w-3.5 h-3.5" />
                     {quiz ? 'Start daily quiz →' : 'Generate & start →'}
@@ -652,18 +652,18 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
           {/* ── Deep practice card ────────────────────────────────────────── */}
           <div
             onClick={() => fetchAndStart('deep', false)}
-            className="group relative flex flex-col rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 overflow-hidden cursor-pointer transition-all duration-200 hover:shadow-lg hover:shadow-violet-500/8 dark:hover:shadow-violet-500/5 hover:-translate-y-0.5"
+            className="group relative flex flex-col rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 overflow-hidden cursor-pointer transition-all duration-200 hover:shadow-lg hover:shadow-stone-900/5 dark:hover:shadow-stone-950/20 hover:-translate-y-0.5"
           >
-            {/* Violet top bar */}
-            <div className="h-[3px] bg-violet-400 dark:bg-violet-500/80 flex-shrink-0" />
+            {/* Top bar */}
+            <div className="h-[3px] bg-stone-200 dark:bg-stone-700 flex-shrink-0" />
 
             {/* Hover tint layer */}
-            <div className="pointer-events-none absolute inset-0 bg-violet-500/[0.02] opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="pointer-events-none absolute inset-0 bg-stone-500/[0.02] opacity-0 group-hover:opacity-100 transition-opacity" />
 
             <div className="relative flex flex-col flex-1 px-5 pt-5 pb-5 gap-4">
               {/* Header */}
               <div className="flex items-center gap-2">
-                <Zap className="w-4 h-4 text-violet-500 dark:text-violet-400 flex-shrink-0" />
+                <Zap className="w-4 h-4 text-stone-400 dark:text-stone-500 flex-shrink-0" />
                 <span className="text-label font-mono font-semibold tracking-widest uppercase text-stone-900 dark:text-stone-100">
                   Deep Practice
                 </span>
@@ -677,15 +677,15 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
                 <div className="pb-1 leading-tight">
                   {countdown ? (
                     <>
-                      <p className="text-label font-mono font-semibold tracking-[0.14em] uppercase text-violet-500 dark:text-violet-400">days to</p>
-                      <p className="text-label font-mono font-semibold tracking-[0.14em] uppercase text-violet-500 dark:text-violet-400 max-w-[88px] truncate">
+                      <p className="text-label font-mono font-semibold tracking-[0.14em] uppercase text-stone-500 dark:text-stone-400">days to</p>
+                      <p className="text-label font-mono font-semibold tracking-[0.14em] uppercase text-stone-500 dark:text-stone-400 max-w-[88px] truncate">
                         {countdown.shortName}
                       </p>
                     </>
                   ) : (
                     <>
-                      <p className="text-label font-mono font-semibold tracking-[0.14em] uppercase text-violet-500 dark:text-violet-400">full</p>
-                      <p className="text-label font-mono font-semibold tracking-[0.14em] uppercase text-violet-500 dark:text-violet-400">questions</p>
+                      <p className="text-label font-mono font-semibold tracking-[0.14em] uppercase text-stone-500 dark:text-stone-400">full</p>
+                      <p className="text-label font-mono font-semibold tracking-[0.14em] uppercase text-stone-500 dark:text-stone-400">questions</p>
                     </>
                   )}
                 </div>
@@ -700,14 +700,14 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
               {/* Action */}
               <div className="mt-auto">
                 {uiState === 'loading' && quizMode === 'deep' ? (
-                  <div className="flex items-center gap-2 px-4 py-2.5 rounded-card bg-violet-500 text-white text-caption font-sans font-medium">
+                  <div className="flex items-center gap-2 px-4 py-2.5 rounded-card bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 text-caption font-sans font-medium">
                     <Loader2 className="w-3.5 h-3.5 animate-spin" />
                     Generating…
                   </div>
                 ) : (
                   <button
                     onClick={(e) => { e.stopPropagation(); fetchAndStart('deep', false); }}
-                    className="flex items-center gap-2 px-4 py-2.5 rounded-card bg-violet-500 hover:bg-violet-600 dark:bg-violet-500 dark:hover:bg-violet-600 text-white text-caption font-sans font-medium transition-colors"
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-card bg-stone-900 dark:bg-stone-100 hover:bg-stone-700 dark:hover:bg-stone-300 text-white dark:text-stone-900 text-caption font-sans font-medium transition-colors"
                   >
                     <Zap className="w-3.5 h-3.5" />
                     {quiz ? 'Start deep practice →' : 'Generate & start →'}
@@ -782,9 +782,9 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
             {/* Streak earned banner */}
             {justEarnedStreak > 0 && (
               <div className="px-5 pb-5">
-                <div className="flex items-center gap-2 px-4 py-3 rounded-card bg-amber-50 dark:bg-amber-900/15 border border-amber-200 dark:border-amber-800/30">
-                  <Flame className="w-4 h-4 text-amber-500 dark:text-amber-400 flex-shrink-0" />
-                  <p className="text-caption text-amber-800 dark:text-amber-200">
+                <div className="flex items-center gap-2 px-4 py-3 rounded-card bg-stone-50 dark:bg-stone-900/50 border border-stone-200 dark:border-stone-800">
+                  <Flame className="w-4 h-4 text-stone-400 dark:text-stone-500 flex-shrink-0" />
+                  <p className="text-caption text-stone-700 dark:text-stone-300">
                     <span className="font-semibold">{justEarnedStreak}-day streak!</span>
                     {justEarnedStreak === 1
                       ? ' First daily quiz done — come back tomorrow.'
@@ -831,7 +831,7 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
           {quizMode === 'streak' && (
             <button
               onClick={() => fetchAndStart('deep', false)}
-              className="flex items-center gap-2 px-4 py-2 rounded-chrome border border-violet-200 dark:border-violet-800/50 text-violet-700 dark:text-violet-400 text-caption font-sans hover:bg-violet-50 dark:hover:bg-violet-900/10 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 rounded-chrome border border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-400 text-caption font-sans hover:bg-stone-50 dark:hover:bg-stone-800/50 hover:text-stone-900 dark:hover:text-stone-100 transition-colors"
             >
               <Zap className="w-3.5 h-3.5" />
               Deep practice
@@ -891,12 +891,12 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
               {isRetry && ' · retry mode'}
             </span>
             {quizMode === 'streak' ? (
-              <span className="flex items-center gap-1 text-label font-mono text-amber-500 dark:text-amber-400">
+              <span className="flex items-center gap-1 text-label font-mono text-stone-400 dark:text-stone-500">
                 <Flame className="w-2.5 h-2.5" />
                 daily
               </span>
             ) : (
-              <span className="flex items-center gap-1 text-label font-mono text-violet-500 dark:text-violet-400">
+              <span className="flex items-center gap-1 text-label font-mono text-stone-400 dark:text-stone-500">
                 <Zap className="w-2.5 h-2.5" />
                 deep
               </span>
@@ -911,11 +911,7 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
         </div>
         <div className="h-0.5 bg-stone-200 dark:bg-stone-800 rounded-full">
           <div
-            className={`h-full rounded-full transition-all duration-300 ${
-              quizMode === 'streak'
-                ? 'bg-amber-500 dark:bg-amber-400'
-                : 'bg-violet-500 dark:bg-violet-400'
-            }`}
+            className="h-full rounded-full transition-all duration-300 bg-stone-900 dark:bg-stone-400"
             style={{ width: `${progress * 100}%` }}
           />
         </div>
