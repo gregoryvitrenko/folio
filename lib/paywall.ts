@@ -26,6 +26,9 @@ function assertPreviewModeIsSafe(): void {
 export async function requireSubscription() {
   assertPreviewModeIsSafe();
   if (process.env.PREVIEW_MODE === 'true') return; // dev-only bypass (safe: guard above ran)
+  // Launch / free-period bypass — set FREE_ACCESS=true in Vercel env vars to open everything up.
+  // Delete the env var (or set to anything other than 'true') to re-enable the paywall instantly.
+  if (process.env.FREE_ACCESS === 'true') return;
   // Temporary review bypass — cookie set by middleware when ?review_key=SECRET is visited
   const cookieStore = await cookies();
   if (cookieStore.get('folio-review-access')?.value === '1') return;
@@ -45,6 +48,7 @@ export async function requireSubscription() {
 export async function getSubscriptionStatus(): Promise<'subscribed' | 'free' | 'unauthenticated'> {
   assertPreviewModeIsSafe();
   if (process.env.PREVIEW_MODE === 'true') return 'subscribed'; // dev-only bypass (safe: guard above ran)
+  if (process.env.FREE_ACCESS === 'true') return 'subscribed';
   const cookieStore = await cookies();
   if (cookieStore.get('folio-review-access')?.value === '1') return 'subscribed';
   const { userId } = await auth();
