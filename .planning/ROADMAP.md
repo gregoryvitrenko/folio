@@ -129,7 +129,7 @@ Plans:
 
 - [x] **Phase 7: Mobile + Header Polish** - Fix header scroll background, mobile navigation, and story card layout at 375px (completed 2026-03-10)
 - [x] **Phase 8: Firms Expansion** - Add 8 new firm profiles (Baker McKenzie, Jones Day, Mayer Brown, DLA Piper, Eversheds Sutherland, CMS, Addleshaw Goddard, Pinsent Masons) with manually verified TC data (completed 2026-03-10)
-- [ ] **Phase 9: Podcast Archive** - Configure Vercel Blob storage and activate the podcast archive listing page
+- [x] **Phase 9: Podcast Archive** - Configure Vercel Blob storage and activate the podcast archive listing page (completed 2026-03-10)
 - [ ] **Phase 10: Primer Interview Questions** - Add 3-5 manually authored interview questions with Commercial Reasoning answer skeletons to each of the 8 sector primers
 - [ ] **Phase 11: Events Section** - Build the AI-curated UK legal events section with city filter and .ics calendar export
 - [ ] **Phase 12: Digest Compliance + Improvements** - Validate the weekly digest fires in production, add GDPR-compliant unsubscribe, and improve subject lines
@@ -229,7 +229,7 @@ v1.0 phases (1-6) complete. v1.1 phases execute in numeric order: 7 → 8 → 9 
 | 6. Bug Fixes + Content Quality | v1.0 | 4/4 | Complete | 2026-03-10 |
 | 7. Mobile + Header Polish | 3/3 | Complete   | 2026-03-10 | - |
 | 8. Firms Expansion | 1/1 | Complete    | 2026-03-10 | - |
-| 9. Podcast Archive | 1/3 | In Progress|  | - |
+| 9. Podcast Archive | 1/3 | Complete    | 2026-03-10 | - |
 | 10. Primer Interview Questions | v1.1 | 0/? | Not started | - |
 | 11. Events Section | v1.1 | 0/? | Not started | - |
 | 12. Digest Compliance + Improvements | v1.1 | 0/? | Not started | - |
