@@ -122,7 +122,7 @@ export function StoryCard({ story, date, subscribed = false }: StoryCardProps) {
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') router.push(destination);
       }}
-      className="block group cursor-pointer"
+      className="block group cursor-pointer min-w-0"
     >
       {cardInner}
     </div>

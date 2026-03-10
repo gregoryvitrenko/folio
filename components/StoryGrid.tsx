@@ -57,7 +57,7 @@ export function StoryGrid({ stories, date, subscribed = false }: StoryGridProps)
           // `contents` makes this wrapper transparent to the grid layout,
           // so StoryCard and MidGridNudge both become direct grid children.
           <div key={story.id} className="contents">
-            <div id={`story-${story.id}`}>
+            <div id={`story-${story.id}`} className="min-w-0">
               <StoryCard story={story} index={i} date={date} subscribed={subscribed} />
             </div>
             {!subscribed && i === NUDGE_AFTER && <MidGridNudge />}
