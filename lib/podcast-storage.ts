@@ -196,3 +196,65 @@ export async function listPodcastDates(): Promise<string[]> {
     return [];
   }
 }
+
+/**
+ * Returns all podcast dates from both Blob (hasAudio: true) and Redis script keys
+ * (hasAudio: false for script-only), merged and sorted descending.
+ * Single-pass — no per-row head() calls.
+ */
+export async function listPodcastDatesWithStatus(): Promise<Array<{ date: string; hasAudio: boolean }>> {
+  const blobDates = new Set<string>();
+  const scriptDates = new Set<string>();
+
+  if (useBlob()) {
+    const { list } = await import('@vercel/blob');
+    let cursor: string | undefined;
+    do {
+      const result = await list({
+        prefix: 'podcasts/',
+        ...(cursor ? { cursor } : {}),
+      });
+      for (const blob of result.blobs) {
+        const match = blob.pathname.match(/^podcasts\/(\d{4}-\d{2}-\d{2})/);
+        if (match) blobDates.add(match[1]);
+      }
+      cursor = result.hasMore ? result.cursor : undefined;
+    } while (cursor);
+  }
+
+  if (useRedis()) {
+    const redis = getRedis();
+    let cursor = 0;
+    do {
+      const [nextCursor, keys] = await redis.scan(cursor, { match: 'podcast-script:*', count: 100 });
+      cursor = Number(nextCursor);
+      for (const key of keys) {
+        const match = (key as string).match(/^podcast-script:(\d{4}-\d{2}-\d{2})$/);
+        if (match) scriptDates.add(match[1]);
+      }
+    } while (cursor !== 0);
+  }
+
+  if (useBlob() || useRedis()) {
+    const all = new Set([...blobDates, ...scriptDates]);
+    return [...all]
+      .sort((a, b) => b.localeCompare(a))
+      .map((date) => ({ date, hasAudio: blobDates.has(date) }));
+  }
+
+  // Filesystem fallback (dev) — all found dates are playable
+  try {
+    ensureDir();
+    const files = fs.readdirSync(DATA_DIR);
+    const seen = new Set<string>();
+    for (const f of files) {
+      const m = f.match(/^(\d{4}-\d{2}-\d{2})-podcast/);
+      if (m) seen.add(m[1]);
+    }
+    return [...seen]
+      .sort((a, b) => b.localeCompare(a))
+      .map((date) => ({ date, hasAudio: true }));
+  } catch {
+    return [];
+  }
+}
