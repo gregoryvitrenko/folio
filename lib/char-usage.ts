@@ -10,8 +10,19 @@ function getMonthKey(): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
 }
 
+function getDayKey(): string {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+/** Days remaining in the current month, including today (minimum 1). */
+function getRemainingDays(): number {
+  const now = new Date();
+  const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+  return Math.max(1, daysInMonth - now.getDate() + 1);
+}
+
 // ─── Backend detection ─────────────────────────────────────────────────────────
-// Mirrors the pattern in lib/storage.ts — Redis in production, filesystem in dev.
 
 function useRedis(): boolean {
   return !!(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN);
@@ -27,17 +38,31 @@ function getRedis() {
 
 // ─── Redis backend ─────────────────────────────────────────────────────────────
 
-async function redisGetUsed(): Promise<number> {
-  const redis = getRedis();
-  const val = await redis.get(`elevenlabs:chars:${getMonthKey()}`);
+function toNum(val: unknown): number {
   if (val === null || val === undefined) return 0;
   return typeof val === 'number' ? val : parseInt(String(val), 10);
 }
 
+async function redisGetUsed(): Promise<number> {
+  const redis = getRedis();
+  return toNum(await redis.get(`elevenlabs:chars:${getMonthKey()}`));
+}
+
+async function redisGetTodayUsed(): Promise<number> {
+  const redis = getRedis();
+  return toNum(await redis.get(`elevenlabs:chars:${getDayKey()}`));
+}
+
 async function redisIncrUsed(chars: number): Promise<void> {
   const redis = getRedis();
-  // INCRBY is atomic — safe under concurrent requests (no read-modify-write race)
   await redis.incrby(`elevenlabs:chars:${getMonthKey()}`, chars);
+}
+
+async function redisIncrTodayUsed(chars: number): Promise<void> {
+  const redis = getRedis();
+  const key = `elevenlabs:chars:${getDayKey()}`;
+  await redis.incrby(key, chars);
+  await redis.expire(key, 172_800); // auto-expire after 48h — no manual cleanup needed
 }
 
 // ─── Filesystem backend ────────────────────────────────────────────────────────
@@ -60,6 +85,10 @@ function fsGetUsed(): number {
   return fsReadUsage()[getMonthKey()] ?? 0;
 }
 
+function fsGetTodayUsed(): number {
+  return fsReadUsage()[getDayKey()] ?? 0;
+}
+
 function fsIncrUsed(chars: number): void {
   const data = fsReadUsage();
   const key = getMonthKey();
@@ -67,29 +96,64 @@ function fsIncrUsed(chars: number): void {
   fsWriteUsage(data);
 }
 
+function fsIncrTodayUsed(chars: number): void {
+  const data = fsReadUsage();
+  const key = getDayKey();
+  data[key] = (data[key] ?? 0) + chars;
+  fsWriteUsage(data);
+}
+
 // ─── Public API ────────────────────────────────────────────────────────────────
-// All three functions are async so callers must await them.
 
 export async function getMonthlyUsage(): Promise<{
   used: number;
   remaining: number;
   limit: number;
   month: string;
+  dailyBudget: number;
+  usedToday: number;
+  daysRemaining: number;
 }> {
   const key = getMonthKey();
-  const used = useRedis() ? await redisGetUsed() : fsGetUsed();
-  return { used, remaining: Math.max(0, MONTHLY_LIMIT - used), limit: MONTHLY_LIMIT, month: key };
+  const [used, usedToday] = useRedis()
+    ? await Promise.all([redisGetUsed(), redisGetTodayUsed()])
+    : [fsGetUsed(), fsGetTodayUsed()];
+
+  const remaining = Math.max(0, MONTHLY_LIMIT - used);
+  const daysRemaining = getRemainingDays();
+  const dailyBudget = Math.floor(remaining / daysRemaining);
+
+  return { used, remaining, limit: MONTHLY_LIMIT, month: key, dailyBudget, usedToday, daysRemaining };
 }
 
 export async function recordUsage(chars: number): Promise<void> {
   if (useRedis()) {
-    await redisIncrUsed(chars);
+    // Both writes are fire-and-forget in parallel — monthly and daily keys updated atomically
+    await Promise.all([redisIncrUsed(chars), redisIncrTodayUsed(chars)]);
   } else {
     fsIncrUsed(chars);
+    fsIncrTodayUsed(chars);
   }
 }
 
+/**
+ * Returns true if generating `chars` characters is within today's daily budget.
+ *
+ * Daily budget = remaining_monthly_chars / days_left_in_month.
+ * This spreads the remaining allowance evenly so a testing spike on day 10
+ * can't burn the whole month's budget in one session.
+ *
+ * Hard cap: also blocks if `chars` alone would exceed the monthly remaining
+ * (guards the final days of the month when daily budget rounds very small).
+ */
 export async function hasCapacity(chars: number): Promise<boolean> {
-  const { remaining } = await getMonthlyUsage();
-  return chars <= remaining;
+  const { remaining, dailyBudget, usedToday } = await getMonthlyUsage();
+
+  // Hard cap — never exceed monthly limit
+  if (chars > remaining) return false;
+
+  // Daily rate cap — today's usage must stay within the daily allocation
+  if (usedToday + chars > dailyBudget) return false;
+
+  return true;
 }
