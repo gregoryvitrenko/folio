@@ -203,6 +203,35 @@ export async function listQuizDates(): Promise<string[]> {
   return fsListQuizDates();
 }
 
+/**
+ * One-time backfill — scans all quiz:{date} Redis keys and writes missing entries into
+ * quiz:index sorted set. Safe to run multiple times (nx flag). Returns the number of
+ * date keys found.
+ */
+export async function backfillQuizIndex(): Promise<number> {
+  if (!useRedis()) return 0;
+  const redis = getRedis();
+  let cursor = 0;
+  let count = 0;
+  const datePattern = /^quiz:(\d{4}-\d{2}-\d{2})$/;
+  do {
+    const [nextCursor, keys] = await redis.scan(cursor, { match: 'quiz:*', count: 100 });
+    cursor = Number(nextCursor);
+    for (const key of keys as string[]) {
+      const match = datePattern.exec(key);
+      if (!match) continue;
+      const date = match[1];
+      await redis.zadd('quiz:index', {
+        nx: true,
+        score: new Date(date).getTime(),
+        member: date,
+      });
+      count++;
+    }
+  } while (cursor !== 0);
+  return count;
+}
+
 // ─── Podcast date listing ─────────────────────────────────────────────────────
 // Delegates to podcast-storage (Vercel Blob in prod, filesystem in dev).
 export { listPodcastDates } from './podcast-storage';
