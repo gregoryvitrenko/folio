@@ -40,7 +40,7 @@ export default async function QuizDatePage({ params }: { params: Promise<{ date:
     headline: s.headline,
   }));
 
-  const questionCount = quiz?.questions.length ?? 18;
+  const questionCount = quiz?.questions.length ?? 0;
 
   return (
     <>
