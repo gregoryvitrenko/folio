@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Content & Reach
 status: planning
-stopped_at: Completed 11-events-section 11-02-PLAN.md
-last_updated: "2026-03-11T17:04:11.172Z"
+stopped_at: Completed 11-events-section 11-03-PLAN.md
+last_updated: "2026-03-11T17:08:30.676Z"
 last_activity: 2026-03-10 — v1.1 roadmap created; phases 7-12 defined
 progress:
   total_phases: 12
-  completed_phases: 9
+  completed_phases: 10
   total_plans: 27
-  completed_plans: 26
+  completed_plans: 27
   percent: 0
 ---
 
@@ -58,6 +58,7 @@ Progress: [░░░░░░░░░░] 0% (v1.1 phases)
 | Phase 09-podcast-archive P01 | 8 | 2 tasks | 2 files |
 | Phase 11-events-section P01 | 108s | 3 tasks | 3 files |
 | Phase 11-events-section P02 | 3min | 1 tasks | 1 files |
+| Phase 11-events-section P03 | 5min | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -83,6 +84,7 @@ Recent decisions affecting current work:
 - [Phase 11-events-section]: Past events filtered at retrieval time via YYYY-MM-DD string comparison (no Redis TTL) — consistent with Phase 06 isClosed pattern
 - [Phase 11-events-section]: No TTL on events:current Redis key — events refreshed weekly by Monday cron, stale data preferred over no data
 - [Phase 11-events-section]: Single GET handler branches on format=ics+id vs cron — consistent with codebase patterns, no requireSubscription (events free tier)
+- [Phase 11-events-section]: Events placed in Daily nav dropdown alongside Briefing and Podcast — CalendarDays icon used to avoid clash with Calendar icon for Briefings archive
 
 ### Pending Todos
 
@@ -103,6 +105,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-11T17:04:11.166Z
-Stopped at: Completed 11-events-section 11-02-PLAN.md
+Last session: 2026-03-11T17:08:30.670Z
+Stopped at: Completed 11-events-section 11-03-PLAN.md
 Resume file: None
