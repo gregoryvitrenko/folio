@@ -5,7 +5,7 @@ import Link from 'next/link';
 import {
   Newspaper, Headphones, BookOpen, Building2, Calendar,
   PenLine, GraduationCap, Bookmark, ChevronDown, MessageSquare, Compass, Scale,
-  ClipboardList,
+  ClipboardList, CalendarDays,
 } from 'lucide-react';
 
 type NavItem = { label: string; href: string; Icon: React.ElementType };
@@ -17,6 +17,7 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { label: 'Briefing', href: '/', Icon: Newspaper },
       { label: 'Podcast', href: '/podcast', Icon: Headphones },
+      { label: 'Events', href: '/events', Icon: CalendarDays },
     ],
   },
   {

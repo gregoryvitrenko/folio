@@ -5,7 +5,7 @@ import Link from 'next/link';
 import {
   Newspaper, Headphones, BookOpen, Building2, Calendar,
   PenLine, GraduationCap, MessageSquare, Compass, Scale,
-  ClipboardList, Bookmark, Menu, X,
+  ClipboardList, Bookmark, Menu, X, CalendarDays,
 } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
 import { AuthButtons } from './AuthButtons';
@@ -25,6 +25,7 @@ const MOBILE_NAV_LINKS: MobileNavSection[] = [
   { label: 'Daily', items: [
     { label: 'Briefing', href: '/', Icon: Newspaper },
     { label: 'Podcast', href: '/podcast', Icon: Headphones },
+    { label: 'Events', href: '/events', Icon: CalendarDays },
   ]},
   { label: 'Learn', items: [
     { label: 'Primers', href: '/primers', Icon: BookOpen },
