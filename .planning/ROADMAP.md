@@ -217,7 +217,12 @@ Plans:
   2. Every digest email contains a working unsubscribe link — clicking it hits `/api/unsubscribe`, records the opt-out in Redis (`email-opt-out:{userId}`), and the subscriber receives no further digest emails
   3. Digest emails include a `List-Unsubscribe` header — email clients show an unsubscribe option in their UI without the user needing to find the footer link
   4. The digest subject line references the top story topic rather than a generic date format — it reads like editorial, not automation
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+- [ ] 12-01-PLAN.md — Build HMAC-signed unsubscribe endpoint and branded confirmation page (DIGEST-02)
+- [ ] 12-02-PLAN.md — Wire opt-out check, List-Unsubscribe headers, Haiku subject lines, and story de-dup into digest route (DIGEST-01, DIGEST-02)
+- [ ] 12-03-PLAN.md — Build referral system (codes, cookie tracking, Stripe rewards) and add referral CTA to digest email (DIGEST-03)
 
 ## Progress
 
@@ -237,4 +242,4 @@ v1.0 phases (1-6) complete. v1.1 phases execute in numeric order: 7 → 8 → 9 
 | 9. Podcast Archive | 1/3 | Complete    | 2026-03-10 | - |
 | 10. Primer Interview Questions | v1.1 | 0/? | Not started | - |
 | 11. Events Section | 3/3 | Complete    | 2026-03-11 | - |
-| 12. Digest Compliance + Improvements | v1.1 | 0/? | Not started | - |
+| 12. Digest Compliance + Improvements | v1.1 | 0/3 | Not started | - |
