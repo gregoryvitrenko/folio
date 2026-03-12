@@ -192,7 +192,9 @@ Plans:
   2. Clicking a tier filter tab (Magic Circle, Silver Circle, etc.) updates the right column to show only firms in that tier — no page reload
   3. Typing in the search input filters firm cards in real time by firm name — partial matches work
   4. Firm cards in the right column use the rounded-3xl radius and Oxford blue accent from Phase 20 — the directory looks native to the new design system
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [ ] 21-01-PLAN.md — Two-column layout with sticky sidebar tier filter, search, and updated rounded FirmCard
 
 ### Phase 22: Secondary Page Redesigns
 **Goal**: The quiz, primers, tests, and saved pages are redesigned to the new rounded premium aesthetic — each page has a layout treatment suited to its purpose, replacing the generic card-stack pattern
