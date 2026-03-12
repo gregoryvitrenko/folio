@@ -40,7 +40,7 @@ See: `.planning/milestones/v1.1-ROADMAP.md` for full details.
 
 **Milestone Goal:** Elevate Folio's visual register from polished to genuinely editorial — serif headlines, newspaper-style layout hierarchy, tighter spacing rhythm, and a conversion-optimised upgrade page.
 
-- [ ] **Phase 13: Typography & Spacing** - Playfair Display serif, updated type scale sizes, and vertical rhythm improvements across the design system
+- [ ] **Phase 13: Typography & Spacing** (1 plan) - Playfair Display serif, updated type scale sizes, and vertical rhythm improvements across the design system
 - [ ] **Phase 14: Editorial Layout** - Lead story + secondary row + divider + grid hierarchy on the home briefing view
 - [ ] **Phase 15: Conversion Page** - Upgrade page redesigned as editorial section with outcome framing, social proof, and accent CTA
 
@@ -56,7 +56,9 @@ See: `.planning/milestones/v1.1-ROADMAP.md` for full details.
   3. Body text and article text renders at 16px — comfortable for sustained reading sessions
   4. Vertical gap between cards and sections is generous (gap-y-6 or gap-y-8), giving the page room to breathe
   5. Internal card spacing between headline, excerpt, and meta feels balanced — no cramped stacking
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [ ] 13-01-PLAN.md — Type token updates, headline weight correction, grid and card spacing increase
 
 ### Phase 14: Editorial Layout
 **Goal**: The home briefing view has newspaper-style hierarchy — a dominant lead story announces the day's top item, secondary stories frame it, and the remaining grid follows below a clear visual break
@@ -67,7 +69,9 @@ See: `.planning/milestones/v1.1-ROADMAP.md` for full details.
   2. Two secondary stories appear below the lead in a 2-column row, bridging the featured section and the grid
   3. A visual divider (rule or spacing break) cleanly separates the featured section from the remaining stories
   4. The remaining stories render in a standard grid below the divider — consistent with prior layout
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [ ] 13-01-PLAN.md — Type token updates, headline weight correction, grid and card spacing increase
 
 ### Phase 15: Conversion Page
 **Goal**: The upgrade page reads as a premium editorial destination, not a SaaS pricing table — outcome framing, social proof signals, and a visually distinct CTA that earns the click
@@ -77,7 +81,9 @@ See: `.planning/milestones/v1.1-ROADMAP.md` for full details.
   1. The upgrade page layout uses editorial/newspaper section visual language — not card grids, not feature bullet lists in SaaS style
   2. An outcome-framed social proof section is visible — student count or testimonial placeholders that communicate credibility
   3. The primary CTA button uses a differentiated accent colour that stands out clearly from the stone/zinc page palette
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [ ] 13-01-PLAN.md — Type token updates, headline weight correction, grid and card spacing increase
 
 ## Progress
 
@@ -95,6 +101,6 @@ See: `.planning/milestones/v1.1-ROADMAP.md` for full details.
 | 10. Primer Interview Questions | v1.1 | quick | Complete | 2026-03-10 |
 | 11. Events Section | v1.1 | 3/3 | Complete | 2026-03-11 |
 | 12. Digest Compliance + Improvements | v1.1 | 3/3 | Complete | 2026-03-12 |
-| 13. Typography & Spacing | v1.2 | 0/TBD | Not started | - |
+| 13. Typography & Spacing | v1.2 | 0/1 | Planning complete | - |
 | 14. Editorial Layout | v1.2 | 0/TBD | Not started | - |
 | 15. Conversion Page | v1.2 | 0/TBD | Not started | - |
