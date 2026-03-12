@@ -293,7 +293,9 @@ Plans:
   2. Clicking a quiz entry in the Quizzes column navigates to `/quiz/[date]` — the quiz is playable from the archive
   3. Clicking a podcast entry in the Podcasts column plays or navigates to that episode — the podcast column is populated from existing Blob-cached episodes
   4. The main navigation Archive item opens a dropdown with anchor links to Briefings, Quizzes, and Podcasts sections within the unified archive page
-**Plans**: TBD
+**Plans:** 1 plan
+Plans:
+- [ ] 27-01-PLAN.md — Unified 3-column archive page + nav anchor link updates
 
 ### Phase 28: Quiz + Podcast Heroes & Format
 **Goal**: The podcast and quiz pages show evergreen hero sections not tied to today's specific content, and the quiz delivers exactly 8 questions (one per practice area) with per-topic deep practice sets available below
@@ -359,7 +361,7 @@ Plans:
 | 24. Interview Prep Page | v2 | 1/1 | Complete | 2026-03-12 |
 | 25. Accent + Global Headings | v3 | 0/2 | Not started | - |
 | 26. Home Newspaper Layout | v3 | 0/1 | Not started | - |
-| 27. Unified Archive | v3 | 0/TBD | Not started | - |
+| 27. Unified Archive | v3 | 0/1 | Not started | - |
 | 28. Quiz + Podcast Heroes & Format | v3 | 0/TBD | Not started | - |
 | 29. Quiz Gamification | v3 | 0/TBD | Not started | - |
 | 30. Application Tracker | v3 | 0/TBD | Not started | - |
