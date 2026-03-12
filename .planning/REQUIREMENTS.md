@@ -1,16 +1,16 @@
 ---
-milestone: v2
-milestone_name: Premium Experience
+milestone: v3
+milestone_name: Design Refresh & Features
 version: 1.0
 status: active
 created: 2026-03-12
 ---
 
-# Requirements: v2 — Premium Experience
+# Requirements: v3 — Design Refresh & Features
 
 ## Milestone Goal
 
-Shift Folio from a sharp editorial newspaper aesthetic to a softer premium rounded aesthetic — update the design system (radius token, Oxford blue accent colour) sitewide, redesign secondary pages to match, and add a new `/interview` prep page using existing firm interview question data.
+Align the product to the AI Studio mockup aesthetic — replace Oxford blue with the charcoal accent palette, apply a consistent heading pattern across all pages, redesign the briefing home page as a newspaper layout, unify the archive into a single 3-column destination, standardise podcast and quiz heroes, restructure the quiz format (daily 8-question + deep practice per area) with real gamification (XP/level/streak), and add a persistent Application Tracker for students to manage TC applications.
 
 **Core Value:** Students who use Folio daily walk into TC interviews knowing what's happening in the market and how to talk about it — giving them a credible edge over unprepared candidates.
 
@@ -18,49 +18,43 @@ Shift Folio from a sharp editorial newspaper aesthetic to a softer premium round
 
 ## Requirements
 
-### ROUND — Rounded Design System
+### DESIGN — Accent & Global Style
 
-- [x] **ROUND-01**: The `rounded-card` design token is updated to `rounded-3xl` (24px) — all cards, panels, and UI sections adopt the new rounded aesthetic sitewide
-- [x] **ROUND-02**: Chrome elements (buttons, chips, inputs, tabs) use `rounded-full` or `rounded-2xl` — softened from the current sharp `rounded-chrome` (4px)
+- [ ] **DESIGN-01**: The primary accent colour is updated sitewide from Oxford blue (`#002147`) to charcoal (`#2D3436`) — all CTA buttons, active states, hero backgrounds, and accent elements use charcoal
+- [ ] **DESIGN-02**: All primary content pages display a consistent heading block: small uppercase overline label + large serif title + optional description — matching the AI Studio mockup heading pattern
 
-### COL — Colour
+### HOME — Briefing Home Page
 
-- [x] **COL-01**: Oxford blue (`#002147`) replaces amber as the primary action/accent colour — CTA buttons, active navigation states, hero section backgrounds, and featured card accents use Oxford blue across all pages
+- [ ] **HOME-01**: On desktop, the briefing home page uses a newspaper layout — a lead story occupies the main left column (large serif headline, full excerpt, topic badge) and secondary stories fill the right sidebar column
+- [ ] **HOME-02**: The lead story is the first story from today's briefing — the remaining 7 stories appear in the sidebar and/or a grid below
 
-### FDIR — Firms Directory
+### ARCH — Unified Archive
 
-- [x] **FDIR-01**: The firms directory page uses a two-column layout — left sidebar with tier filter tabs and search input, right scrollable grid of rounded firm cards
+- [ ] **ARCH-01**: The `/archive` page shows three sections — Briefings, Quizzes, and Podcasts — each as a column listing past entries by date
+- [ ] **ARCH-02**: Past quiz entries in the archive link to `/quiz/[date]` — the quiz column is fully populated from existing quiz cache
+- [ ] **ARCH-03**: Past podcast entries in the archive link to playback — the podcast column is populated from existing Blob-cached episode list
+- [ ] **ARCH-04**: The main navigation Archive item has a dropdown listing Briefings, Quizzes, and Podcasts as anchor links within the unified archive
 
-### QUIZ — Quiz Page
+### POD — Podcast Hero
 
-- [x] **QUIZ-01**: The quiz page shows a prominent "Today" hero card (current date, question count, Oxford blue start CTA) as the primary visual anchor above the date archive list
+- [ ] **POD-01**: The podcast page hero shows a standardised evergreen title ("Daily Briefing Podcast") and description — not today's specific briefing headline or story title
 
-### PRIM — Primers Page
+### QUIZ — Quiz Page, Format & Gamification
 
-- [x] **PRIM-01**: The primers page uses a card grid layout — each card shows a topic icon, title, short description, and interview question count per primer
+- [ ] **QUIZ-01**: The quiz page hero shows a standardised card ("Today's Commercial Briefing Quiz") — not a story-specific title; the hero is evergreen
+- [ ] **QUIZ-02**: The daily quiz presents exactly 8 questions — one from each of the 8 practice areas (M&A, Capital Markets, Banking & Finance, Energy & Tech, Regulation, Disputes, International, AI & Law)
+- [ ] **QUIZ-03**: The quiz page has a "Deep Practice" section listing per-topic practice sets (one per practice area) that users can enter independently of the daily quiz
+- [ ] **QUIZ-04**: User earns XP on completing the daily quiz or a deep practice set — XP amount is configurable per set (e.g. +100 for daily, +150 for deep practice)
+- [ ] **QUIZ-05**: User has a level derived from cumulative XP (100 XP = 1 level) displayed in the quiz UI with a progress bar showing current XP within the current level
+- [ ] **QUIZ-06**: User daily streak (consecutive days with at least one completed quiz) is tracked in Redis and displayed in the quiz UI
 
-### TESTS — Tests Page
+### TRKR — Application Tracker
 
-- [x] **TESTS-01**: The tests page shows Watson Glaser and SJT as two large feature cards with description, what the test assesses, and a start CTA — replacing the current list treatment
-
-### SAVED — Saved Page
-
-- [x] **SAVED-01**: The saved/bookmarks page uses a card-based layout with rounded treatment and Oxford blue accents matching the new design system
-
-### EVENTS — Events Page
-
-- [x] **EVENTS-01**: The events page card layout adopts the new rounded aesthetic and Oxford blue accent elements (active filter state, date highlight)
-
-### POD — Podcast
-
-- [x] **POD-01**: The podcast hero player gains a subtle Oxford blue ambient glow/gradient background accent — elevating the existing two-column hero layout to a premium feel
-
-### INTVW — Interview Prep Page
-
-- [x] **INTVW-01**: A new `/interview` page exists and is accessible from main navigation
-- [x] **INTVW-02**: The interview page aggregates questions from existing firm packs and primers, organised by topic/practice area (M&A, Banking & Finance, Capital Markets, etc.)
-- [x] **INTVW-03**: Each question has a reveal/hide toggle that shows the model answer on interaction
-- [x] **INTVW-04**: Users can filter questions by category — filtering to a topic shows only questions from that practice area
+- [ ] **TRKR-01**: User can add a law firm application entry with: firm name, status (Applied / In Progress / Submitted / Interview / Offer), deadline date, and notes
+- [ ] **TRKR-02**: User can view all their application entries in a table on a `/tracker` page, sortable by deadline
+- [ ] **TRKR-03**: User can update the status or notes of an existing application entry
+- [ ] **TRKR-04**: User can delete an application entry
+- [ ] **TRKR-05**: Application data is persisted per user in Redis (key: `tracker:{userId}`) and gated behind `requireSubscription()`
 
 ---
 
@@ -69,14 +63,16 @@ Shift Folio from a sharp editorial newspaper aesthetic to a softer premium round
 - Social proof — student count, testimonials, or credibility cues (live data when available)
 - Trainee experience on firm profiles — "Culture & Experience" section per firm
 - Firm interview packs: PDF export
-- Briefing home page rounded aesthetic — the flat 2-column StoryGrid stays as-is (user prefers it)
+- Fit assessment — values-based firm fit quiz (mockup shows but complex to implement without a data model)
 
 ## Out of Scope
 
-- Multi-voice audio — multiplies ElevenLabs spend against 100k/month cap
-- Native mobile app — web-first, no revenue to justify native yet
-- New AI-generated interview content — `/interview` uses existing firm pack + primer data only (no new AI calls)
-- Story grid layout changes — Phase 14 reverted; user prefers flat grid
+| Feature | Reason |
+|---------|--------|
+| Multi-voice audio | Multiplies ElevenLabs spend against 100k/month cap |
+| Native mobile app | Web-first, no revenue to justify native yet |
+| Real-time features | Complexity vs. value unclear |
+| AI-generated tracker suggestions | Out of budget for this milestone |
 
 ---
 
@@ -84,17 +80,32 @@ Shift Folio from a sharp editorial newspaper aesthetic to a softer premium round
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| ROUND-01 | Phase 20 | Complete |
-| ROUND-02 | Phase 20 | Complete |
-| COL-01 | Phase 20 | Complete |
-| FDIR-01 | Phase 21 | Complete |
-| QUIZ-01 | Phase 22 | Complete |
-| PRIM-01 | Phase 22 | Complete |
-| TESTS-01 | Phase 22 | Complete |
-| SAVED-01 | Phase 22 | Complete |
-| EVENTS-01 | Phase 23 | Complete |
-| POD-01 | Phase 23 | Complete |
-| INTVW-01 | Phase 24 | Complete |
-| INTVW-02 | Phase 24 | Complete |
-| INTVW-03 | Phase 24 | Complete |
-| INTVW-04 | Phase 24 | Complete |
+| DESIGN-01 | Phase 25 | Pending |
+| DESIGN-02 | Phase 25 | Pending |
+| HOME-01 | Phase 26 | Pending |
+| HOME-02 | Phase 26 | Pending |
+| ARCH-01 | Phase 27 | Pending |
+| ARCH-02 | Phase 27 | Pending |
+| ARCH-03 | Phase 27 | Pending |
+| ARCH-04 | Phase 27 | Pending |
+| POD-01 | Phase 28 | Pending |
+| QUIZ-01 | Phase 28 | Pending |
+| QUIZ-02 | Phase 28 | Pending |
+| QUIZ-03 | Phase 28 | Pending |
+| QUIZ-04 | Phase 29 | Pending |
+| QUIZ-05 | Phase 29 | Pending |
+| QUIZ-06 | Phase 29 | Pending |
+| TRKR-01 | Phase 30 | Pending |
+| TRKR-02 | Phase 30 | Pending |
+| TRKR-03 | Phase 30 | Pending |
+| TRKR-04 | Phase 30 | Pending |
+| TRKR-05 | Phase 30 | Pending |
+
+**Coverage:**
+- v3 requirements: 20 total
+- Mapped to phases: 20
+- Unmapped: 0 ✓
+
+---
+*Requirements defined: 2026-03-12*
+*Last updated: 2026-03-12 after v3 milestone start*
