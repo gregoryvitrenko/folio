@@ -29,31 +29,31 @@ Shift Folio from a sharp editorial newspaper aesthetic to a softer premium round
 
 ### FDIR — Firms Directory
 
-- [ ] **FDIR-01**: The firms directory page uses a two-column layout — left sidebar with tier filter tabs and search input, right scrollable grid of rounded firm cards
+- [x] **FDIR-01**: The firms directory page uses a two-column layout — left sidebar with tier filter tabs and search input, right scrollable grid of rounded firm cards
 
 ### QUIZ — Quiz Page
 
-- [ ] **QUIZ-01**: The quiz page shows a prominent "Today" hero card (current date, question count, Oxford blue start CTA) as the primary visual anchor above the date archive list
+- [x] **QUIZ-01**: The quiz page shows a prominent "Today" hero card (current date, question count, Oxford blue start CTA) as the primary visual anchor above the date archive list
 
 ### PRIM — Primers Page
 
-- [ ] **PRIM-01**: The primers page uses a card grid layout — each card shows a topic icon, title, short description, and interview question count per primer
+- [x] **PRIM-01**: The primers page uses a card grid layout — each card shows a topic icon, title, short description, and interview question count per primer
 
 ### TESTS — Tests Page
 
-- [ ] **TESTS-01**: The tests page shows Watson Glaser and SJT as two large feature cards with description, what the test assesses, and a start CTA — replacing the current list treatment
+- [x] **TESTS-01**: The tests page shows Watson Glaser and SJT as two large feature cards with description, what the test assesses, and a start CTA — replacing the current list treatment
 
 ### SAVED — Saved Page
 
-- [ ] **SAVED-01**: The saved/bookmarks page uses a card-based layout with rounded treatment and Oxford blue accents matching the new design system
+- [x] **SAVED-01**: The saved/bookmarks page uses a card-based layout with rounded treatment and Oxford blue accents matching the new design system
 
 ### EVENTS — Events Page
 
-- [ ] **EVENTS-01**: The events page card layout adopts the new rounded aesthetic and Oxford blue accent elements (active filter state, date highlight)
+- [x] **EVENTS-01**: The events page card layout adopts the new rounded aesthetic and Oxford blue accent elements (active filter state, date highlight)
 
 ### POD — Podcast
 
-- [ ] **POD-01**: The podcast hero player gains a subtle Oxford blue ambient glow/gradient background accent — elevating the existing two-column hero layout to a premium feel
+- [x] **POD-01**: The podcast hero player gains a subtle Oxford blue ambient glow/gradient background accent — elevating the existing two-column hero layout to a premium feel
 
 ### INTVW — Interview Prep Page
 
@@ -87,13 +87,13 @@ Shift Folio from a sharp editorial newspaper aesthetic to a softer premium round
 | ROUND-01 | Phase 20 | Complete |
 | ROUND-02 | Phase 20 | Complete |
 | COL-01 | Phase 20 | Complete |
-| FDIR-01 | Phase 21 | Pending |
-| QUIZ-01 | Phase 22 | Pending |
-| PRIM-01 | Phase 22 | Pending |
-| TESTS-01 | Phase 22 | Pending |
-| SAVED-01 | Phase 22 | Pending |
-| EVENTS-01 | Phase 23 | Pending |
-| POD-01 | Phase 23 | Pending |
+| FDIR-01 | Phase 21 | Complete |
+| QUIZ-01 | Phase 22 | Complete |
+| PRIM-01 | Phase 22 | Complete |
+| TESTS-01 | Phase 22 | Complete |
+| SAVED-01 | Phase 22 | Complete |
+| EVENTS-01 | Phase 23 | Complete |
+| POD-01 | Phase 23 | Complete |
 | INTVW-01 | Phase 24 | Complete |
 | INTVW-02 | Phase 24 | Complete |
 | INTVW-03 | Phase 24 | Complete |

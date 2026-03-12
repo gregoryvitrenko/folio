@@ -67,7 +67,7 @@ See phase details below for full success criteria.
 
 - [x] **Phase 20: Design System Tokens** — Rounded radius token sitewide, softened chrome elements, Oxford blue replaces amber as primary accent (completed 2026-03-12)
 - [x] **Phase 21: Firms Directory Redesign** — Two-column layout with left sidebar filters and right scrollable firm card grid (completed 2026-03-12)
-- [ ] **Phase 22: Secondary Page Redesigns** — Quiz hero card, primers card grid, tests feature cards, saved card layout — all aligned to new rounded aesthetic
+- [x] **Phase 22: Secondary Page Redesigns** — Quiz hero card, primers card grid, tests feature cards, saved card layout — all aligned to new rounded aesthetic (completed 2026-03-12)
 - [x] **Phase 23: Events + Podcast Accent** — Events rounded cards with Oxford blue active states, podcast hero Oxford blue ambient glow (completed 2026-03-12)
 - [x] **Phase 24: Interview Prep Page** — New `/interview` page aggregating firm pack and primer questions by topic, with reveal/hide model answers and category filter (completed 2026-03-12)
 
@@ -262,6 +262,6 @@ Plans:
 | 19. Podcast Page Redesign | v1.3 | 2/2 | Complete | 2026-03-12 |
 | 20. Design System Tokens | 2/2 | Complete    | 2026-03-12 | - |
 | 21. Firms Directory Redesign | 1/1 | Complete   | 2026-03-12 | - |
-| 22. Secondary Page Redesigns | v2 | 0/2 | Not started | - |
+| 22. Secondary Page Redesigns | 2/2 | Complete   | 2026-03-12 | - |
 | 23. Events + Podcast Accent | 2/2 | Complete   | 2026-03-12 | - |
 | 24. Interview Prep Page | 1/1 | Complete   | 2026-03-12 | - |

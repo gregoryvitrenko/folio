@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 21-01-PLAN.md
-last_updated: "2026-03-12T22:27:21.713Z"
+stopped_at: Completed 22-01-PLAN.md and 22-02-PLAN.md
+last_updated: "2026-03-12T22:28:09.767Z"
 last_activity: 2026-03-12 — v2 roadmap written. v1.3 confirmed complete (phases 16-19).
 progress:
   total_phases: 12
-  completed_phases: 9
+  completed_phases: 10
   total_plans: 18
-  completed_plans: 16
+  completed_plans: 17
   percent: 0
 ---
 
@@ -80,6 +80,9 @@ Progress: [░░░░░░░░░░] 0% (0/5 phases)
 - [Phase 23-events-podcast-accent]: Podcast hero: Oxford blue radial glow at 35% opacity (rgba(0,33,71,0.35)) as absolute z-0 layer, content above via z-10
 - [Phase 21]: Search takes precedence over tier filter in FirmsDirectory — query active greyed-out tier buttons, all firms searched
 - [Phase 21]: [Phase 21]: Jump link anchors removed from firms directory — sidebar tier filter tabs replace navigation
+- [Phase 22-secondary-page-redesigns]: interviewQs (not interviewQuestions) is the correct Primer interface field name
+- [Phase 22-secondary-page-redesigns]: Oxford blue hero card pattern established for quiz page entry (bg-[#002147] rounded-card)
+- [Phase 22-secondary-page-redesigns]: TestCard uses test.description (not strapline) — richer content for feature card treatment
 
 ### Pending Todos
 
@@ -91,7 +94,7 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-12T22:27:14.994Z
-Stopped at: Completed 21-01-PLAN.md
+Last session: 2026-03-12T22:28:09.761Z
+Stopped at: Completed 22-01-PLAN.md and 22-02-PLAN.md
 Resume file: None
 Next action: `/gsd:plan-phase 20`
