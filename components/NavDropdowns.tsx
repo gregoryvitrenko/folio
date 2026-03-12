@@ -30,9 +30,9 @@ const NAV_GROUPS: NavGroup[] = [
   {
     label: 'Archive',
     items: [
-      { label: 'Briefings', href: '/archive', Icon: Calendar },
-      { label: 'Podcasts', href: '/podcast/archive', Icon: Headphones },
-      { label: 'Quizzes', href: '/quiz/archive', Icon: PenLine },
+      { label: 'Briefings', href: '/archive#briefings', Icon: Calendar },
+      { label: 'Podcasts', href: '/archive#podcasts', Icon: Headphones },
+      { label: 'Quizzes', href: '/archive#quizzes', Icon: PenLine },
     ],
   },
   {

@@ -1,106 +1,141 @@
 import Link from 'next/link';
-import { listBriefings, getTodayDate } from '@/lib/storage';
+import { listBriefings, listQuizDates, getTodayDate } from '@/lib/storage';
+import { listPodcastDatesWithStatus } from '@/lib/podcast-storage';
 import { Header } from '@/components/Header';
-import { ChevronRight } from 'lucide-react';
 import { requireSubscription } from '@/lib/paywall';
 
 export const dynamic = 'force-dynamic';
 
-function formatDisplayDate(dateStr: string): string {
+function formatColumnDate(dateStr: string): string {
   const [year, month, day] = dateStr.split('-').map(Number);
   const d = new Date(year, month - 1, day);
-  return d.toLocaleDateString('en-GB', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  });
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
-function groupByMonth(dates: string[]): Record<string, string[]> {
-  const groups: Record<string, string[]> = {};
-  for (const date of dates) {
-    const [year, month] = date.split('-');
-    const key = `${year}-${month}`;
-    if (!groups[key]) groups[key] = [];
-    groups[key].push(date);
-  }
-  return groups;
-}
-
-function formatMonthHeading(key: string): string {
-  const [year, month] = key.split('-').map(Number);
-  const d = new Date(year, month - 1, 1);
-  return d.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+function formatLongDate(dateStr: string): string {
+  const [year, month, day] = dateStr.split('-').map(Number);
+  const d = new Date(year, month - 1, day);
+  return d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 }
 
 export default async function ArchivePage() {
   await requireSubscription();
+
+  const [briefingDates, quizDates, podcastEpisodesRaw] = await Promise.all([
+    listBriefings(),
+    listQuizDates(),
+    listPodcastDatesWithStatus(),
+  ]);
+
   const today = getTodayDate();
-  const dates = await listBriefings();
-  const groups = groupByMonth(dates);
-  const monthKeys = Object.keys(groups).sort((a, b) => b.localeCompare(a));
+  const podcastDates = podcastEpisodesRaw.filter((e) => e.hasAudio).map((e) => e.date);
 
   return (
     <>
       <Header date={today} />
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+        {/* v3 heading block */}
         <div className="space-y-4 mb-12">
           <span className="text-[11px] uppercase tracking-[0.3em] font-semibold opacity-40 font-sans">
-            Historical Record
+            Historical Intelligence
           </span>
-          <h2 className="text-5xl font-serif">Briefing Archive</h2>
-          <p className="max-w-xl opacity-60 text-lg font-light">Past editions, organised by date.</p>
+          <h2 className="text-5xl font-serif">The Archive</h2>
+          <p className="max-w-xl opacity-60 text-lg font-light">
+            Past briefings, quizzes, and podcast episodes — in one place.
+          </p>
         </div>
 
-        {dates.length === 0 ? (
-          <div className="text-center py-20 space-y-2">
-            <p className="text-sm text-stone-500 dark:text-stone-400">No archived briefings yet.</p>
-            <Link
-              href="/"
-              className="text-sm text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-300 underline underline-offset-4"
-            >
-              Generate your first briefing →
-            </Link>
+        {/* Full-width divider */}
+        <div className="h-px bg-stone-200 dark:bg-stone-800 mb-12" />
+
+        {/* 3-column grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+
+          {/* Briefings column */}
+          <div id="briefings">
+            <h3 className="text-2xl font-serif italic border-b border-stone-200 dark:border-stone-800 pb-4 mb-6">
+              Briefings
+            </h3>
+            <div className="space-y-4">
+              {briefingDates.slice(0, 30).map((date) => (
+                <Link
+                  key={date}
+                  href={date === today ? '/' : `/archive/${date}`}
+                  className="group block"
+                >
+                  <div className="flex flex-col gap-0.5">
+                    <span className="section-label">
+                      {formatColumnDate(date)}
+                    </span>
+                    <span className="text-sm font-medium group-hover:underline text-stone-800 dark:text-stone-200">
+                      {formatLongDate(date)}
+                    </span>
+                  </div>
+                </Link>
+              ))}
+              {briefingDates.length === 0 && (
+                <p className="text-caption text-stone-400">No entries yet.</p>
+              )}
+            </div>
           </div>
-        ) : (
-          <div className="space-y-10">
-            {monthKeys.map((monthKey) => (
-              <div key={monthKey}>
-                <h3 className="section-label mb-3">
-                  {formatMonthHeading(monthKey)}
-                </h3>
-                <div className="rounded-card bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 overflow-hidden divide-y divide-stone-100 dark:divide-stone-800">
-                  {groups[monthKey].map((date) => {
-                    const isToday = date === today;
-                    return (
-                      <Link
-                        key={date}
-                        href={isToday ? '/' : `/archive/${date}`}
-                        className="flex items-center justify-between px-5 py-4 hover:bg-stone-50 dark:hover:bg-stone-800/50 transition-colors group"
-                      >
-                        <div className="flex items-baseline gap-3 min-w-0">
-                          <span className="text-sm font-medium text-stone-900 dark:text-stone-100 truncate group-hover:text-stone-700 dark:group-hover:text-stone-50">
-                            {formatDisplayDate(date)}
-                          </span>
-                          {isToday && (
-                            <span className="shrink-0 font-sans text-[10px] tracking-widest uppercase text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
-                              Today
-                            </span>
-                          )}
-                        </div>
-                        <ChevronRight
-                          size={14}
-                          className="shrink-0 text-stone-300 dark:text-stone-600 group-hover:text-stone-500 dark:group-hover:text-stone-400 transition-colors"
-                        />
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
+
+          {/* Quizzes column */}
+          <div id="quizzes">
+            <h3 className="text-2xl font-serif italic border-b border-stone-200 dark:border-stone-800 pb-4 mb-6">
+              Quizzes
+            </h3>
+            <div className="space-y-4">
+              {quizDates.slice(0, 30).map((date) => (
+                <Link
+                  key={date}
+                  href={`/quiz/${date}`}
+                  className="group block"
+                >
+                  <div className="flex flex-col gap-0.5">
+                    <span className="section-label">
+                      {formatColumnDate(date)}
+                    </span>
+                    <span className="text-sm font-medium group-hover:underline text-stone-800 dark:text-stone-200">
+                      {formatLongDate(date)}
+                    </span>
+                  </div>
+                </Link>
+              ))}
+              {quizDates.length === 0 && (
+                <p className="text-caption text-stone-400">No entries yet.</p>
+              )}
+            </div>
           </div>
-        )}
+
+          {/* Podcasts column */}
+          <div id="podcasts">
+            <h3 className="text-2xl font-serif italic border-b border-stone-200 dark:border-stone-800 pb-4 mb-6">
+              Podcasts
+            </h3>
+            <div className="space-y-4">
+              {podcastDates.slice(0, 30).map((date) => (
+                <Link
+                  key={date}
+                  href={date === today ? '/podcast' : `/podcast/${date}`}
+                  className="group block"
+                >
+                  <div className="flex flex-col gap-0.5">
+                    <span className="section-label">
+                      {formatColumnDate(date)}
+                    </span>
+                    <span className="text-sm font-medium group-hover:underline text-stone-800 dark:text-stone-200">
+                      {formatLongDate(date)}
+                    </span>
+                  </div>
+                </Link>
+              ))}
+              {podcastDates.length === 0 && (
+                <p className="text-caption text-stone-400">No entries yet.</p>
+              )}
+            </div>
+          </div>
+
+        </div>
       </main>
     </>
   );
