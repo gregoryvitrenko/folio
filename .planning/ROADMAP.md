@@ -154,6 +154,6 @@ Plans:
 | 13. Typography & Spacing | v1.2 | 1/1 | Complete | 2026-03-12 |
 | 14. Editorial Layout | v1.2 | - | Reverted | 2026-03-12 |
 | 15. Conversion Page | v1.2 | 1/1 | Complete | 2026-03-12 |
-| 16. Global Design + Logo + Header | 2/2 | Complete   | 2026-03-12 | - |
+| 16. Global Design + Logo + Header | 2/2 | Complete    | 2026-03-12 | - |
 | 17. Firm Profile Redesign | v1.3 | 0/TBD | Not started | - |
 | 18. Secondary Pages + Conversion Polish | v1.3 | 0/TBD | Not started | - |
