@@ -38,17 +38,20 @@ Students who use Folio daily walk into TC interviews knowing what's happening in
 
 ### Active
 
-**Current Milestone: v1.2 — Editorial Design**
+**Current Milestone: v1.3 — Editorial Interior**
 
-**Goal:** Elevate Folio's visual register from polished to genuinely editorial — serif headlines, newspaper-style layout hierarchy, tighter spacing rhythm, and a conversion-optimised upgrade page.
+**Goal:** Transform interior pages from a generic card-stack pattern into a genuinely editorial product — warm paper tone sitewide, newspaper masthead header, firm profile redesign with stat strip and varied section treatments, and a dark ink conversion panel on the upgrade page.
 
 **Target features:**
-- Playfair Display serif on story card headlines (semibold, not bold)
-- Editorial layout hierarchy: lead story + 2 secondary + divider + remaining grid
-- More generous spacing and vertical rhythm
-- Upgrade page redesign: newspaper section feel, outcome framing, social proof
+- Warm paper background (#F9F7F2) across all pages
+- JetBrains Mono restored to section labels (lost in v1.2 sweep)
+- New striped-F + "olio" wordmark deployed
+- Editorial dateline in header (Vol. · No. · Day, Date · London Edition)
+- Firm profile: prominent stat strip + varied section visual treatments + editorial "Why This Firm?" callouts
+- Quiz mode selection redesigned as editorial two-panel layout
+- Firms directory tier headers with full-width editorial rule
+- Upgrade page: serif feature titles + dark stone-900 CTA panel
 
-- [ ] Logo/wordmark — proper brand mark, not just text (design-first; implement in v1.3)
 - [ ] Social proof — trust signals: student count, testimonials, or credibility cues (live data when available)
 - [ ] Trainee experience on firm profiles — "Culture & Experience" section per firm
 - [ ] Firm interview packs: PDF export
@@ -96,4 +99,4 @@ Students who use Folio daily walk into TC interviews knowing what's happening in
 | Conversion feature deferred | No user data yet to identify actual friction point | — Pending |
 
 ---
-*Last updated: 2026-03-12 after v1.2 milestone start*
+*Last updated: 2026-03-12 after v1.3 milestone start*

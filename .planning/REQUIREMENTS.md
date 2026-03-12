@@ -30,6 +30,40 @@
 - [ ] **CONV-02**: Upgrade page includes outcome-framed social proof section (student count + testimonial placeholders)
 - [ ] **CONV-03**: Upgrade page primary CTA uses differentiated accent colour to stand out
 
+## v1.3 Requirements
+
+### Global Design (GDES)
+
+- [ ] **GDES-01**: All pages use warm paper background (`#F9F7F2`) replacing cold bg-stone-50/white
+- [ ] **GDES-02**: Section label utility (`.section-label`) uses JetBrains Mono — restored after v1.2 font sweep
+- [ ] **GDES-03**: Striped-F + "olio" wordmark deployed from existing codebase changes
+
+### Header (HDR)
+
+- [ ] **HDR-01**: Header shows editorial dateline (Vol. · No. · Day, Date · London Edition) in small uppercase tracking
+- [ ] **HDR-02**: Folio wordmark uses tight letter-spacing (`-0.03em`) matching brand studio `.folio-wordmark` treatment
+
+### Firm Profile (FIRM)
+
+- [ ] **FIRM-01**: Firm profile displays NQ salary, TC salary, intake/year, and seats in a prominent horizontal stat strip below the firm name
+- [ ] **FIRM-02**: Firm profile content sections use visually differentiated treatments — not all identical left-border cards
+- [ ] **FIRM-03**: "Why This Firm?" section uses editorial numbered callout style with large background numbers
+- [ ] **FIRM-04**: Interview questions use clean typographic numbering — no Q1/Q2 chip/box styling
+
+### Quiz (QUIZ)
+
+- [ ] **QUIZ-01**: Quiz mode selection (Daily vs Deep Practice) uses a clearly differentiated editorial two-panel layout
+- [ ] **QUIZ-02**: Quiz date list shows visual distinction between today, available past dates, and completed dates
+
+### Firms Directory (FDIR)
+
+- [ ] **FDIR-01**: Tier section headers (Magic Circle, Silver Circle, etc.) use a full-width editorial rule treatment
+
+### Conversion (CONV)
+
+- [ ] **CONV-04**: Upgrade page feature grid item titles use `font-serif`
+- [ ] **CONV-05**: Upgrade page CTA panel redesigned as dark stone-900 block with border button
+
 ## Future Requirements
 
 ### Brand
@@ -45,6 +79,8 @@
 | Dark mode overrides for new typography | Follow existing dark mode token patterns; no new dark-mode-specific work |
 | Editorial layout on archive/topic pages | Home page only for v1.2; extend in future milestone once lead story pattern is validated |
 | Real-time content metrics | No live user data yet to display |
+| Lead story hierarchy on homepage | Reverted in v1.2 — user prefers flat 2-column grid; do not re-introduce |
+| Asymmetric 8+4 column layout | Brand studio mockup reference only — not implementing lead story split |
 
 ## Traceability
 
@@ -66,11 +102,16 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CONV-02 | Phase 15 | Pending |
 | CONV-03 | Phase 15 | Pending |
 
-**Coverage:**
+**Coverage (v1.2):**
 - v1.2 requirements: 13 total
 - Mapped to phases: 13
 - Unmapped: 0 ✓
 
+**Coverage (v1.3):**
+- v1.3 requirements: 13 total
+- Mapped to phases: 0 (pending roadmap)
+- Unmapped: 13 ⚠️
+
 ---
 *Requirements defined: 2026-03-12*
-*Last updated: 2026-03-12 after roadmap creation*
+*Last updated: 2026-03-12 after v1.3 milestone start*
