@@ -64,6 +64,12 @@
 - [ ] **CONV-04**: Upgrade page feature grid item titles use `font-serif`
 - [ ] **CONV-05**: Upgrade page CTA panel redesigned as dark stone-900 block with border button
 
+### Podcast Page (POD)
+
+- [ ] **POD-01**: Podcast page hero redesigned as dark `bg-stone-900` immersive player block — episode title, waveform bar visualization, play button, and date badge
+- [ ] **POD-02**: Episode archive list uses editorial layout — date (day/month split) + vertical rule divider + topic chip + title + duration, with hover-reveal play button
+- [ ] **POD-03**: Current episode shows a briefing notes section below the player — numbered talking points sidebar matching the editorial numbered callout style
+
 ## Future Requirements
 
 ### Brand
@@ -115,6 +121,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FDIR-01 | Phase 18 | Pending |
 | CONV-04 | Phase 18 | Pending |
 | CONV-05 | Phase 18 | Pending |
+| POD-01 | Phase 19 | Pending |
+| POD-02 | Phase 19 | Pending |
+| POD-03 | Phase 19 | Pending |
 
 **Coverage (v1.2):**
 - v1.2 requirements: 13 total

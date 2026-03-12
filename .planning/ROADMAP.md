@@ -5,7 +5,7 @@
 - ✅ **v1.0 Market-Ready Design Lift** — Phases 1-6 (shipped 2026-03-10)
 - ✅ **v1.1 Content & Reach** — Phases 7-12 (shipped 2026-03-12)
 - ✅ **v1.2 Editorial Design** — Phases 13-15 (shipped 2026-03-12)
-- 🚧 **v1.3 Editorial Interior** — Phases 16-18 (in progress)
+- 🚧 **v1.3 Editorial Interior** — Phases 16-19 (in progress)
 
 ## Phases
 
@@ -55,6 +55,7 @@ See phase details below for full success criteria.
 - [x] **Phase 16: Global Design + Logo + Header** - Warm paper background sitewide, JetBrains Mono section labels restored, new wordmark deployed, editorial dateline in header (completed 2026-03-12)
 - [ ] **Phase 17: Firm Profile Redesign** - Stat strip, visually differentiated sections, editorial "Why This Firm?" callouts, clean typographic interview question numbering
 - [ ] **Phase 18: Secondary Pages + Conversion Polish** - Quiz mode two-panel layout, quiz date visual states, firms directory tier headers, upgrade page serif titles and dark CTA panel
+- [ ] **Phase 19: Podcast Page Redesign** - Dark immersive hero player, editorial episode archive list, briefing notes with numbered talking points
 
 ## Phase Details
 
@@ -135,6 +136,16 @@ Plans:
   5. The upgrade page CTA panel has a dark stone-900 background with a border-style button — a strong visual anchor that ends the page with authority
 **Plans**: TBD
 
+### Phase 19: Podcast Page Redesign
+**Goal**: The podcast page becomes an editorial destination — a dark immersive hero player anchors the experience, the episode archive reads like a newspaper listings section, and the current episode reveals structured briefing notes with numbered talking points
+**Depends on**: Phase 16 (dark accent block pattern established)
+**Requirements**: POD-01, POD-02, POD-03
+**Success Criteria** (what must be TRUE):
+  1. The podcast hero is a dark stone-900 block with the episode title in large serif, a waveform bar visualization, and a play button — clearly different from every other page
+  2. The episode archive list renders each entry with a date (day + month split), vertical rule divider, topic chip, title, and duration — visually scannable, not a plain list
+  3. Below the player, the current episode shows a briefing notes panel with numbered talking points using the same `font-mono opacity-20` large-number style as firm profile callouts
+**Plans**: TBD
+
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -157,3 +168,4 @@ Plans:
 | 16. Global Design + Logo + Header | 2/2 | Complete    | 2026-03-12 | - |
 | 17. Firm Profile Redesign | v1.3 | 0/TBD | Not started | - |
 | 18. Secondary Pages + Conversion Polish | v1.3 | 0/TBD | Not started | - |
+| 19. Podcast Page Redesign | v1.3 | 0/TBD | Not started | - |
