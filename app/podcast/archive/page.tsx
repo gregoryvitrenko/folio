@@ -37,6 +37,15 @@ function formatMonthHeading(key: string): string {
   return d.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
 }
 
+function parseDateParts(dateStr: string): { day: string; month: string } {
+  const [year, month, day] = dateStr.split('-').map(Number);
+  const d = new Date(year, month - 1, day);
+  return {
+    day: String(day).padStart(2, '0'),
+    month: d.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase(),
+  };
+}
+
 export default async function PodcastArchivePage() {
   await requireSubscription();
   const today = getTodayDate();
@@ -49,21 +58,21 @@ export default async function PodcastArchivePage() {
       <Header date={today} />
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
         <div className="flex items-center gap-3 mb-8">
-          <Headphones size={16} className="text-zinc-400" />
-          <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-50 tracking-tight">
+          <Headphones size={16} className="text-stone-400" />
+          <h2 className="text-lg font-bold text-stone-900 dark:text-stone-50 tracking-tight">
             Podcast Archive
           </h2>
-          <span className="font-sans text-[10px] text-zinc-400 dark:text-zinc-500 tracking-widest uppercase bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded">
+          <span className="section-label text-stone-400">
             {episodes.length} episode{episodes.length !== 1 ? 's' : ''}
           </span>
         </div>
 
         {episodes.length === 0 ? (
           <div className="text-center py-20 space-y-2">
-            <p className="text-sm text-zinc-500 dark:text-zinc-400">No archived episodes yet.</p>
+            <p className="text-sm text-stone-500 dark:text-stone-400">No archived episodes yet.</p>
             <Link
               href="/podcast"
-              className="text-sm text-zinc-400 dark:text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 underline underline-offset-4"
+              className="text-sm text-stone-400 hover:text-stone-600 dark:hover:text-stone-300 underline underline-offset-4"
             >
               Listen to today&apos;s episode →
             </Link>
@@ -72,48 +81,73 @@ export default async function PodcastArchivePage() {
           <div className="space-y-10">
             {monthKeys.map((monthKey) => (
               <div key={monthKey}>
-                <h3 className="font-sans text-[10px] tracking-widest uppercase text-zinc-400 dark:text-zinc-500 mb-3">
+                <h3 className="section-label text-stone-400 dark:text-stone-500 mb-3">
                   {formatMonthHeading(monthKey)}
                 </h3>
-                <div className="rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 overflow-hidden divide-y divide-zinc-100 dark:divide-zinc-800">
+                <div className="divide-y divide-stone-100 dark:divide-stone-800 border border-stone-200 dark:border-stone-800 rounded-card overflow-hidden">
                   {groups[monthKey].map(({ date, hasAudio }) => {
                     const isToday = date === today;
                     const playable = hasAudio || isToday;
+                    const { day, month } = parseDateParts(date);
                     if (playable) {
                       return (
                         <Link
                           key={date}
                           href={isToday ? '/podcast' : `/podcast/${date}`}
-                          className="flex items-center justify-between px-5 py-4 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors group"
+                          className="flex items-center gap-0 px-5 py-4 hover:bg-stone-50 dark:hover:bg-stone-900/50 transition-colors group"
                         >
-                          <div className="flex items-baseline gap-3 min-w-0">
-                            <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100 truncate group-hover:text-zinc-700 dark:group-hover:text-zinc-50">
-                              {formatDisplayDate(date)}
+                          {/* Date column */}
+                          <div className="w-14 shrink-0 flex flex-col items-center leading-none mr-4">
+                            <span className="font-mono text-2xl font-bold text-stone-900 dark:text-stone-100 leading-none tabular-nums">
+                              {day}
                             </span>
+                            <span className="section-label text-stone-400 mt-0.5">
+                              {month}
+                            </span>
+                          </div>
+
+                          {/* Vertical rule */}
+                          <div className="w-px self-stretch bg-stone-200 dark:bg-stone-700 mr-4 shrink-0" />
+
+                          {/* Title + today badge */}
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium text-stone-900 dark:text-stone-100 truncate group-hover:text-stone-700 dark:group-hover:text-stone-50 leading-snug">
+                              {formatDisplayDate(date)}
+                            </p>
                             {isToday && (
-                              <span className="shrink-0 font-sans text-[10px] tracking-widest uppercase text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
+                              <span className="section-label text-emerald-600 dark:text-emerald-400 mt-0.5 block">
                                 Today
                               </span>
                             )}
                           </div>
-                          <ChevronRight
-                            size={14}
-                            className="shrink-0 text-zinc-300 dark:text-zinc-600 group-hover:text-zinc-500 dark:group-hover:text-zinc-400 transition-colors"
-                          />
+
+                          {/* Duration + audio indicator */}
+                          <span className="section-label text-stone-400 shrink-0 ml-4">~8 min</span>
+                          {hasAudio && !isToday && (
+                            <span className="section-label text-stone-400 shrink-0 ml-2">· Audio</span>
+                          )}
+
+                          <ChevronRight size={14} className="shrink-0 text-stone-300 dark:text-stone-600 group-hover:text-stone-500 transition-colors ml-3" />
                         </Link>
                       );
                     }
                     return (
-                      <div
-                        key={date}
-                        className="flex items-center justify-between px-5 py-4"
-                      >
-                        <span className="text-sm font-medium text-zinc-400 dark:text-zinc-600">
-                          {formatDisplayDate(date)}
-                        </span>
-                        <span className="font-sans text-[10px] tracking-widest uppercase text-zinc-300 dark:text-zinc-600">
-                          No audio
-                        </span>
+                      <div key={date} className="flex items-center gap-0 px-5 py-4 opacity-40">
+                        <div className="w-14 shrink-0 flex flex-col items-center leading-none mr-4">
+                          <span className="font-mono text-2xl font-bold text-stone-900 dark:text-stone-100 leading-none tabular-nums">
+                            {day}
+                          </span>
+                          <span className="section-label text-stone-400 mt-0.5">
+                            {month}
+                          </span>
+                        </div>
+                        <div className="w-px self-stretch bg-stone-200 dark:bg-stone-700 mr-4 shrink-0" />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-stone-500 dark:text-stone-400 truncate">
+                            {formatDisplayDate(date)}
+                          </p>
+                        </div>
+                        <span className="section-label text-stone-400 shrink-0 ml-4">No audio</span>
                       </div>
                     );
                   })}
