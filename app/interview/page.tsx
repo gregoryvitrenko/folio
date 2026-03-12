@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { MessageSquare, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { requireSubscription } from '@/lib/paywall';
 import { getTodayDate } from '@/lib/storage';
@@ -54,19 +54,13 @@ export default async function InterviewPage() {
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
 
         {/* Page heading */}
-        <div className="flex items-center gap-3 mb-2">
-          <MessageSquare size={16} className="text-stone-400" />
-          <h2 className="text-lg font-bold text-stone-900 dark:text-stone-50 tracking-tight">
-            Interview Prep
-          </h2>
-          <span className="font-sans text-[10px] text-stone-400 dark:text-stone-500 tracking-widest uppercase bg-stone-100 dark:bg-stone-800 px-2 py-0.5 rounded">
-            {INTERVIEW_QUESTIONS.length} questions
+        <div className="space-y-4 mb-12">
+          <span className="text-[11px] uppercase tracking-[0.3em] font-semibold opacity-40 font-sans">
+            Interview Preparation
           </span>
+          <h2 className="text-5xl font-serif">Practice Questions</h2>
+          <p className="max-w-xl opacity-60 text-lg font-light">Drawn from firm packs and sector primers.</p>
         </div>
-
-        <p className="text-[13px] text-stone-500 dark:text-stone-400 leading-relaxed mb-8 max-w-2xl">
-          Practice the questions asked at TC and vacation scheme interviews. Each question includes a framework, key points firms assess, tips, and common mistakes to avoid.
-        </p>
 
         {/* Category grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

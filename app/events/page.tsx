@@ -18,12 +18,12 @@ export default async function EventsPage() {
           ← Home
         </Link>
         {/* Page heading */}
-        <div className="flex items-center gap-3 mb-8">
-          <Calendar size={16} className="text-stone-400" />
-          <h1 className="font-bold text-heading text-stone-900 dark:text-stone-100">Events</h1>
-          <span className="bg-stone-100 dark:bg-stone-800 text-caption rounded-chrome px-2 py-0.5 text-stone-600 dark:text-stone-400">
-            0
+        <div className="space-y-4 mb-12">
+          <span className="text-[11px] uppercase tracking-[0.3em] font-semibold opacity-40 font-sans">
+            Sector Intelligence
           </span>
+          <h1 className="text-5xl font-serif">Legal Events</h1>
+          <p className="max-w-xl opacity-60 text-lg font-light">Upcoming events across UK legal markets.</p>
         </div>
 
         {/* Empty state */}
@@ -55,12 +55,12 @@ export default async function EventsPage() {
         ← Home
       </Link>
       {/* Page heading */}
-      <div className="flex items-center gap-3 mb-8">
-        <Calendar size={16} className="text-stone-400" />
-        <h1 className="font-bold text-heading text-stone-900 dark:text-stone-100">Events</h1>
-        <span className="bg-stone-100 dark:bg-stone-800 text-caption rounded-chrome px-2 py-0.5 text-stone-600 dark:text-stone-400">
-          {upcoming.length}
+      <div className="space-y-4 mb-12">
+        <span className="text-[11px] uppercase tracking-[0.3em] font-semibold opacity-40 font-sans">
+          Sector Intelligence
         </span>
+        <h1 className="text-5xl font-serif">Legal Events</h1>
+        <p className="max-w-xl opacity-60 text-lg font-light">Upcoming events across UK legal markets.</p>
       </div>
 
       {/* CityFilter wrapped in Suspense — fallback renders all events unfiltered

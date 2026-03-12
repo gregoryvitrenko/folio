@@ -33,6 +33,13 @@ export default async function PodcastPage() {
     <>
       <Header date={today} />
       <main className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
+        <div className="space-y-4 mb-12">
+          <span className="text-[11px] uppercase tracking-[0.3em] font-semibold opacity-40 font-sans">
+            Audio Briefing
+          </span>
+          <h1 className="text-5xl font-serif">Daily Briefing Podcast</h1>
+          <p className="max-w-xl opacity-60 text-lg font-light">The morning briefing, read aloud.</p>
+        </div>
         <PodcastPlayer briefing={briefing} />
         <div className="mt-8 pt-6 border-t border-stone-200 dark:border-stone-800">
           <Link
