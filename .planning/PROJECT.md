@@ -38,9 +38,18 @@ Students who use Folio daily walk into TC interviews knowing what's happening in
 
 ### Active
 
-- [ ] Logo/wordmark — proper brand mark, not just text
+**Current Milestone: v1.2 — Editorial Design**
+
+**Goal:** Elevate Folio's visual register from polished to genuinely editorial — serif headlines, newspaper-style layout hierarchy, tighter spacing rhythm, and a conversion-optimised upgrade page.
+
+**Target features:**
+- Playfair Display serif on story card headlines (semibold, not bold)
+- Editorial layout hierarchy: lead story + 2 secondary + divider + remaining grid
+- More generous spacing and vertical rhythm
+- Upgrade page redesign: newspaper section feel, outcome framing, social proof
+
+- [ ] Logo/wordmark — proper brand mark, not just text (design-first; implement in v1.3)
 - [ ] Social proof — trust signals: student count, testimonials, or credibility cues (live data when available)
-- [ ] Conversion feature — TBD once user base exists to identify the actual gap
 - [ ] Trainee experience on firm profiles — "Culture & Experience" section per firm
 - [ ] Firm interview packs: PDF export
 
@@ -87,4 +96,4 @@ Students who use Folio daily walk into TC interviews knowing what's happening in
 | Conversion feature deferred | No user data yet to identify actual friction point | — Pending |
 
 ---
-*Last updated: 2026-03-12 after v1.1 milestone completion*
+*Last updated: 2026-03-12 after v1.2 milestone start*

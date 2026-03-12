@@ -1,16 +1,16 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.1
-milestone_name: Content & Reach
+milestone: v1.2
+milestone_name: Editorial Design
 status: planning
-stopped_at: Completed 12-digest-compliance 12-03-PLAN.md
-last_updated: "2026-03-12T03:15:22.831Z"
-last_activity: 2026-03-10 — v1.1 roadmap created; phases 7-12 defined
+stopped_at: ""
+last_updated: "2026-03-12T00:00:00.000Z"
+last_activity: 2026-03-12 — Milestone v1.2 started
 progress:
-  total_phases: 12
-  completed_phases: 11
-  total_plans: 30
-  completed_plans: 30
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
   percent: 0
 ---
 
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-10)
 
 **Core value:** Students who use Folio daily walk into TC interviews knowing what's happening in the market and how to talk about it — giving them a credible edge over unprepared candidates.
-**Current focus:** Milestone v1.1 — Content & Reach (Phase 7: Mobile + Header Polish)
+**Current focus:** Milestone v1.2 — Editorial Design (defining requirements)
 
 ## Current Position
 
-Phase: 7 of 12 (Mobile + Header Polish)
-Plan: — (not yet planned)
-Status: Ready to plan
-Last activity: 2026-03-10 — v1.1 roadmap created; phases 7-12 defined
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-03-12 — Milestone v1.2 started
 
-Progress: [░░░░░░░░░░] 0% (v1.1 phases)
+Progress: [░░░░░░░░░░] 0% (v1.2 phases)
 
 ## Performance Metrics
 
