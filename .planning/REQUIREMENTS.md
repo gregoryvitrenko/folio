@@ -36,7 +36,7 @@
 
 - [x] **DIGEST-01**: Sunday 08:00 UTC digest email sent to subscribers via existing Resend cron — activated and verified working
 - [x] **DIGEST-02**: Digest emails include `List-Unsubscribe` header and a working unsubscribe endpoint (UK PECR/GDPR compliance)
-- [ ] **DIGEST-03**: Digest subject lines and content improved for open rates; viral/referral CTA included
+- [x] **DIGEST-03**: Digest subject lines and content improved for open rates; viral/referral CTA included
 
 ### Events Section
 
@@ -149,7 +149,7 @@
 | EVT-04 | Phase 11 | Complete |
 | DIGEST-01 | Phase 12 | Complete |
 | DIGEST-02 | Phase 12 | Complete |
-| DIGEST-03 | Phase 12 | Pending |
+| DIGEST-03 | Phase 12 | Complete |
 
 **Coverage:**
 - v1.1 requirements: 16 total

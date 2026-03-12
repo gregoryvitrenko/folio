@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Content & Reach
 status: planning
-stopped_at: Completed 12-digest-compliance 12-02-PLAN.md
-last_updated: "2026-03-11T19:11:47.082Z"
+stopped_at: Completed 12-digest-compliance 12-03-PLAN.md
+last_updated: "2026-03-12T02:51:52.606Z"
 last_activity: 2026-03-10 — v1.1 roadmap created; phases 7-12 defined
 progress:
   total_phases: 12
-  completed_phases: 10
+  completed_phases: 11
   total_plans: 30
-  completed_plans: 29
+  completed_plans: 30
   percent: 0
 ---
 
@@ -61,6 +61,7 @@ Progress: [░░░░░░░░░░] 0% (v1.1 phases)
 | Phase 11-events-section P03 | 5min | 2 tasks | 5 files |
 | Phase 12-digest-compliance P01 | 8min | 2 tasks | 3 files |
 | Phase 12-digest-compliance P02 | 12min | 2 tasks | 2 files |
+| Phase 12-digest-compliance P03 | 4min | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -91,6 +92,8 @@ Recent decisions affecting current work:
 - [Phase 12-digest-compliance]: Redis opt-out key email-opt-out:{email} has no TTL — permanent opt-out is correct GDPR behaviour; checked by Plan 02 before each digest send
 - [Phase Phase 12-digest-compliance]: sendWeeklyDigest subject param supplied by caller so Haiku generation stays in route layer, keeping email.ts stateless
 - [Phase Phase 12-digest-compliance]: Story de-dup uses 5-word headline fingerprint — DigestStory has no firms field; fingerprint handles same-deal coverage across briefing days
+- [Phase Phase 12-digest-compliance]: Referral reward at every 3rd referral (newCount % 3 === 0) — milestone-based so referrers keep sharing; fresh Stripe coupon per reward (max_redemptions: 1)
+- [Phase Phase 12-digest-compliance]: ReferralTracker validates ?ref= as /^[0-9a-f]{8}$/ before setting cookie — prevents injection; subscriber list refactored to {email, customerId}[] to avoid extra Redis query per digest send
 
 ### Pending Todos
 
@@ -111,6 +114,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-11T19:11:47.074Z
-Stopped at: Completed 12-digest-compliance 12-02-PLAN.md
+Last session: 2026-03-12T02:51:52.596Z
+Stopped at: Completed 12-digest-compliance 12-03-PLAN.md
 Resume file: None

@@ -132,7 +132,7 @@ Plans:
 - [x] **Phase 9: Podcast Archive** - Configure Vercel Blob storage and activate the podcast archive listing page (completed 2026-03-10)
 - [ ] **Phase 10: Primer Interview Questions** - Add 3-5 manually authored interview questions with Commercial Reasoning answer skeletons to each of the 8 sector primers
 - [x] **Phase 11: Events Section** - Build the AI-curated UK legal events section with city filter and .ics calendar export (completed 2026-03-11)
-- [ ] **Phase 12: Digest Compliance + Improvements** - Validate the weekly digest fires in production, add GDPR-compliant unsubscribe, and improve subject lines
+- [x] **Phase 12: Digest Compliance + Improvements** - Validate the weekly digest fires in production, add GDPR-compliant unsubscribe, and improve subject lines (completed 2026-03-12)
 
 ## Phase Details
 
@@ -242,4 +242,4 @@ v1.0 phases (1-6) complete. v1.1 phases execute in numeric order: 7 → 8 → 9 
 | 9. Podcast Archive | 1/3 | Complete    | 2026-03-10 | - |
 | 10. Primer Interview Questions | v1.1 | 0/? | Not started | - |
 | 11. Events Section | 3/3 | Complete    | 2026-03-11 | - |
-| 12. Digest Compliance + Improvements | 2/3 | In Progress|  | - |
+| 12. Digest Compliance + Improvements | 3/3 | Complete   | 2026-03-12 | - |
