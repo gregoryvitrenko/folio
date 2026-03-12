@@ -4,7 +4,7 @@ import { Header } from '@/components/Header';
 import { QuizInterface } from '@/components/QuizInterface';
 import type { CountdownData } from '@/components/QuizInterface';
 import type { TopicCategory } from '@/lib/types';
-import { PenLine, ChevronRight } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { requireSubscription } from '@/lib/paywall';
 import { auth } from '@clerk/nextjs/server';
 import { getOnboarding } from '@/lib/onboarding';
@@ -174,11 +174,12 @@ export default async function QuizPage() {
       <>
         <Header date={today} />
         <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
-          <div className="flex items-center gap-3 mb-8">
-            <PenLine size={16} className="text-stone-400" />
-            <h2 className="text-subheading font-bold text-stone-900 dark:text-stone-50 tracking-tight">
-              Daily Quiz
-            </h2>
+          <div className="space-y-4 mb-12">
+            <span className="text-[11px] uppercase tracking-[0.3em] font-semibold opacity-40 font-sans">
+              Intelligence Training
+            </span>
+            <h2 className="text-5xl font-serif">Daily Quiz</h2>
+            <p className="max-w-xl opacity-60 text-lg font-light">Test your commercial awareness.</p>
           </div>
           {/* Hero card — no question count (briefing unavailable) */}
           <div className="rounded-card bg-charcoal p-6 sm:p-8 mb-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
@@ -219,14 +220,12 @@ export default async function QuizPage() {
     <>
       <Header date={briefing.date} />
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
-        <div className="flex items-center gap-3 mb-8">
-          <PenLine size={16} className="text-stone-400" />
-          <h2 className="text-subheading font-bold text-stone-900 dark:text-stone-50 tracking-tight">
-            Daily Quiz
-          </h2>
-          <span className="section-label bg-stone-100 dark:bg-stone-800 px-2 py-0.5 rounded-chrome">
-            {storyCount} daily · {deepCount} deep
+        <div className="space-y-4 mb-12">
+          <span className="text-[11px] uppercase tracking-[0.3em] font-semibold opacity-40 font-sans">
+            Intelligence Training
           </span>
+          <h2 className="text-5xl font-serif">Daily Quiz</h2>
+          <p className="max-w-xl opacity-60 text-lg font-light">Test your commercial awareness.</p>
         </div>
         {/* Hero card — today's date, question count, charcoal CTA */}
         <div className="rounded-card bg-charcoal p-6 sm:p-8 mb-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">

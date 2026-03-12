@@ -1,4 +1,4 @@
-import { Building2, AlertTriangle } from 'lucide-react';
+import { AlertTriangle } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { FirmsDirectory } from '@/components/FirmsDirectory';
 import { FIRMS } from '@/lib/firms-data';
@@ -17,14 +17,12 @@ export default async function FirmsPage() {
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
 
         {/* Page heading */}
-        <div className="flex items-center gap-3 mb-6">
-          <Building2 size={16} className="text-stone-400" />
-          <h2 className="text-subheading font-bold text-stone-900 dark:text-stone-50 tracking-tight">
-            Firm Profiles
-          </h2>
-          <span className="section-label bg-stone-100 dark:bg-stone-800 px-2 py-0.5 rounded-chrome">
-            {FIRMS.length} firms
+        <div className="space-y-4 mb-12">
+          <span className="text-[11px] uppercase tracking-[0.3em] font-semibold opacity-40 font-sans">
+            Directory
           </span>
+          <h2 className="text-5xl font-serif">Law Firm Profiles</h2>
+          <p className="max-w-xl opacity-60 text-lg font-light">46 firms. Magic Circle to boutique.</p>
         </div>
 
         {/* Disclaimer */}

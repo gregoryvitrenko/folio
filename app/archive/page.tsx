@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { listBriefings, getTodayDate } from '@/lib/storage';
 import { Header } from '@/components/Header';
-import { Calendar, ChevronRight } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { requireSubscription } from '@/lib/paywall';
 
 export const dynamic = 'force-dynamic';
@@ -45,14 +45,12 @@ export default async function ArchivePage() {
     <>
       <Header date={today} />
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
-        <div className="flex items-center gap-3 mb-8">
-          <Calendar size={16} className="text-stone-400" />
-          <h2 className="text-subheading font-bold text-stone-900 dark:text-stone-50 tracking-tight">
-            Briefing Archive
-          </h2>
-          <span className="section-label bg-stone-100 dark:bg-stone-800 px-2 py-0.5 rounded-chrome">
-            {dates.length} briefing{dates.length !== 1 ? 's' : ''}
+        <div className="space-y-4 mb-12">
+          <span className="text-[11px] uppercase tracking-[0.3em] font-semibold opacity-40 font-sans">
+            Historical Record
           </span>
+          <h2 className="text-5xl font-serif">Briefing Archive</h2>
+          <p className="max-w-xl opacity-60 text-lg font-light">Past editions, organised by date.</p>
         </div>
 
         {dates.length === 0 ? (
