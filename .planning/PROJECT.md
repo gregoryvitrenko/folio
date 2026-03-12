@@ -36,21 +36,32 @@ Students who use Folio daily walk into TC interviews knowing what's happening in
 - ✓ GDPR-compliant weekly digest (List-Unsubscribe, Haiku subjects) — v1.1
 - ✓ Viral referral system (codes, cookies, Stripe coupon rewards) — v1.1
 
+### Shipped
+
+- ✓ Warm paper background (#F9F7F2) sitewide, JetBrains Mono section labels — v1.3
+- ✓ New Folio wordmark (striped-F + "olio"), editorial dateline in header — v1.3
+- ✓ Firm profile: stat strip, editorial "Why This Firm?" callouts, dark Interview Focus block — v1.3
+- ✓ Quiz mode selection two-panel layout, date visual states — v1.3
+- ✓ Firms directory tier headers with full-width editorial rule — v1.3
+- ✓ Upgrade page: serif feature titles + dark stone-900 CTA panel — v1.3
+- ✓ Podcast: two-column hero with reactive waveform visualization, editorial archive — v1.3
+
 ### Active
 
-**Current Milestone: v1.3 — Editorial Interior**
+**Current Milestone: v2 — Premium Experience**
 
-**Goal:** Transform interior pages from a generic card-stack pattern into a genuinely editorial product — warm paper tone sitewide, newspaper masthead header, firm profile redesign with stat strip and varied section treatments, and a dark ink conversion panel on the upgrade page.
+**Goal:** Shift the product from a sharp editorial newspaper aesthetic to a softer premium rounded aesthetic — update the design system radius token sitewide, redesign secondary pages (firms directory, quiz, primers, tests, saved, events, podcast) to match, and add a new `/interview` prep page using existing firm interview question data.
 
 **Target features:**
-- Warm paper background (#F9F7F2) across all pages
-- JetBrains Mono restored to section labels (lost in v1.2 sweep)
-- New striped-F + "olio" wordmark deployed
-- Editorial dateline in header (Vol. · No. · Day, Date · London Edition)
-- Firm profile: prominent stat strip + varied section visual treatments + editorial "Why This Firm?" callouts
-- Quiz mode selection redesigned as editorial two-panel layout
-- Firms directory tier headers with full-width editorial rule
-- Upgrade page: serif feature titles + dark stone-900 CTA panel
+- Sitewide rounded aesthetic: `rounded-3xl` (24px) card radius replacing `rounded-card` (2px) — new premium feel
+- Firms directory: two-column layout with left tier/search filters and right scrollable firm cards
+- Quiz page: featured "Today" hero card above the date archive list
+- Primers page: card grid with topic icon, title, description, and question count
+- Tests page: two prominent feature cards (Watson Glaser, SJT) with description and start CTA
+- Saved/bookmarks page: card-based layout matching new rounded aesthetic
+- Events page: rounded card aesthetic aligned with new design system
+- Podcast hero: subtle glow/gradient accent on the existing two-column hero player
+- New `/interview` page: aggregates interview questions from firm packs and primers by topic/category, with reveal/hide model answers
 
 - [ ] Social proof — trust signals: student count, testimonials, or credibility cues (live data when available)
 - [ ] Trainee experience on firm profiles — "Culture & Experience" section per firm
@@ -99,4 +110,4 @@ Students who use Folio daily walk into TC interviews knowing what's happening in
 | Conversion feature deferred | No user data yet to identify actual friction point | — Pending |
 
 ---
-*Last updated: 2026-03-12 after v1.3 milestone start*
+*Last updated: 2026-03-12 after v2 milestone start*
