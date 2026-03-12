@@ -21,12 +21,12 @@ export function FirmCard({ firm }: { firm: FirmProfile }) {
         className={`flex items-center gap-3 sm:gap-5 border-l-[3px] pl-4 pr-4 py-3.5
           bg-white dark:bg-stone-900
           border-t border-r border-b border-stone-100 dark:border-stone-800/80
-          hover:bg-stone-50 dark:hover:bg-stone-800/40 transition-colors rounded-r-sm
+          hover:bg-stone-50 dark:hover:bg-stone-800/40 transition-colors rounded-card
           ${TIER_BORDER[firm.tier]}`}
       >
         {/* ── Name + HQ ───────────────────────────────── */}
         <div className="min-w-0 w-44 sm:w-52 shrink-0">
-          <p className="font-serif text-[14px] sm:text-[15px] font-semibold leading-snug text-stone-900 dark:text-stone-50 truncate group-hover:underline decoration-stone-400 dark:decoration-stone-500 underline-offset-2">
+          <p className="font-serif text-[14px] sm:text-[15px] font-semibold leading-snug text-stone-900 dark:text-stone-50 truncate group-hover:underline decoration-oxford-blue/40 dark:decoration-blue-400/40 underline-offset-2">
             {firm.name}
           </p>
           <p className="text-[10px] font-sans text-stone-400 dark:text-stone-500 mt-0.5">
@@ -39,7 +39,7 @@ export function FirmCard({ firm }: { firm: FirmProfile }) {
           {firm.practiceAreas.slice(0, 3).map((area) => (
             <span
               key={area}
-              className="inline-block text-[9px] font-sans font-medium px-1.5 py-0.5 rounded-sm bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400 border border-stone-200 dark:border-stone-700 whitespace-nowrap"
+              className="inline-block text-[9px] font-sans font-medium px-1.5 py-0.5 rounded-chrome bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400 border border-stone-200 dark:border-stone-700 whitespace-nowrap"
             >
               {area}
             </span>
@@ -61,7 +61,7 @@ export function FirmCard({ firm }: { firm: FirmProfile }) {
           </span>
           <ChevronRight
             size={13}
-            className="shrink-0 text-stone-300 dark:text-stone-600 group-hover:text-stone-500 dark:group-hover:text-stone-400 transition-colors"
+            className="shrink-0 text-stone-300 dark:text-stone-600 group-hover:text-oxford-blue dark:group-hover:text-blue-400 transition-colors"
           />
         </div>
       </div>
