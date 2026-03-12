@@ -147,6 +147,54 @@ function StatStrip({ trainingContract, tierText }: {
   );
 }
 
+/** Editorial numbered callout section for "Why This Firm?" talking points */
+function WhyThisFirmCallout({
+  points,
+  firmShortName,
+  tierText,
+}: {
+  points: string[];
+  firmShortName: string;
+  tierText: string;
+}) {
+  return (
+    <div
+      data-print-section
+      className="bg-stone-50 dark:bg-stone-900/50 border border-stone-200 dark:border-stone-800 rounded-sm px-6 py-6"
+    >
+      <div className="flex items-center gap-2 mb-4">
+        <span className="text-stone-400 dark:text-stone-500"><Lightbulb size={13} /></span>
+        <span className="font-sans text-[10px] font-semibold tracking-[0.15em] uppercase text-stone-500 dark:text-stone-400">
+          Why This Firm?
+        </span>
+      </div>
+      <p className="text-[12px] text-stone-400 dark:text-stone-500 mb-6 leading-relaxed">
+        Concrete talking points for &ldquo;Why {firmShortName}?&rdquo; — anchored to the firm&apos;s market position and recent deals. Adapt to your own voice.
+      </p>
+      <div className="space-y-0">
+        {points.map((bullet, i) => (
+          <div key={i} className="relative overflow-hidden py-4 border-b border-stone-200 dark:border-stone-800 last:border-0">
+            <span
+              aria-hidden="true"
+              className="absolute right-0 top-1/2 -translate-y-1/2 font-mono text-[72px] font-bold leading-none text-stone-900 dark:text-stone-100 opacity-[0.05] select-none pointer-events-none"
+            >
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <div className="relative flex gap-3">
+              <span className={`section-label ${tierText} shrink-0 mt-0.5`}>
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <p className="text-[15px] text-stone-700 dark:text-stone-300 leading-[1.75]">
+                {bullet}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /** Section label — sans-semibold, more readable than mono stone-400 */
 function SectionHeading({ icon, label }: { icon: React.ReactNode; label: string }) {
   return (
@@ -327,35 +375,26 @@ export default async function FirmProfilePage({
           </SectionCard>
 
           {/* ── Interview Focus ──────────────────────────────────────────────── */}
-          <SectionCard accent={tierAccent}>
-            <SectionHeading icon={<Briefcase size={13} />} label="Interview Focus" />
-            <div className="border-l-2 border-amber-400 dark:border-amber-500 pl-4">
-              <p className="text-[15px] text-stone-700 dark:text-stone-300 leading-[1.75]">
-                {firm.interviewFocus}
-              </p>
+          <div
+            data-print-section
+            className="bg-stone-900 dark:bg-stone-950 border border-stone-800 rounded-sm px-6 py-5"
+          >
+            <div className="flex items-center gap-2 mb-4">
+              <span className="text-stone-500"><Briefcase size={13} /></span>
+              <span className="section-label text-stone-400">Interview Focus</span>
             </div>
-          </SectionCard>
+            <p className="text-[15px] text-stone-100 leading-[1.75]">
+              {firm.interviewFocus}
+            </p>
+          </div>
 
           {/* ── Why This Firm? ──────────────────────────────────────────────── */}
           {interviewPack && interviewPack.whyThisFirm && interviewPack.whyThisFirm.length > 0 && (
-            <SectionCard accent={tierAccent}>
-              <SectionHeading icon={<Lightbulb size={13} />} label="Why This Firm?" />
-              <p className="text-[12px] text-stone-400 dark:text-stone-500 mb-4 leading-relaxed">
-                Concrete talking points for &ldquo;Why {firm.shortName}?&rdquo; — anchored to the firm&apos;s market position and recent deals. Adapt to your own voice.
-              </p>
-              <ul className="space-y-3">
-                {interviewPack.whyThisFirm.map((bullet, i) => (
-                  <li key={i} className="flex gap-3">
-                    <span className={`shrink-0 font-sans text-[10px] font-bold mt-0.5 ${tierText}`}>
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                    <p className="text-[14px] text-stone-700 dark:text-stone-300 leading-[1.7]">
-                      {bullet}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            </SectionCard>
+            <WhyThisFirmCallout
+              points={interviewPack.whyThisFirm}
+              firmShortName={firm.shortName}
+              tierText={tierText}
+            />
           )}
 
           {/* ── Assessments ─────────────────────────────────────────────────── */}
