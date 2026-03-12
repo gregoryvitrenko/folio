@@ -74,7 +74,7 @@ export function SavedView({ today }: SavedViewProps) {
         return (
           <div
             key={`${b.date}-${b.storyId}`}
-            className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-sm px-5 py-4"
+            className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-card px-5 py-4"
           >
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1 min-w-0">
@@ -100,7 +100,7 @@ export function SavedView({ today }: SavedViewProps) {
                 </p>
 
                 {note && (
-                  <div className="mt-3 pl-3 border-l-2 border-amber-300 dark:border-amber-700">
+                  <div className="mt-3 pl-3 border-l-2 border-[#002147] dark:border-[#002147]/60">
                     <p className="text-[12px] text-stone-600 dark:text-stone-400 italic leading-relaxed line-clamp-2">
                       {note}
                     </p>
@@ -110,7 +110,7 @@ export function SavedView({ today }: SavedViewProps) {
 
               <button
                 onClick={() => handleRemove(b)}
-                className="flex-shrink-0 p-1.5 text-stone-300 dark:text-stone-600 hover:text-rose-400 dark:hover:text-rose-500 transition-colors"
+                className="flex-shrink-0 p-1.5 text-stone-300 dark:text-stone-600 hover:text-stone-600 dark:hover:text-stone-400 transition-colors"
                 aria-label="Remove bookmark"
               >
                 <BookmarkX className="w-4 h-4" />
