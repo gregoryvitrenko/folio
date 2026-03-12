@@ -150,7 +150,7 @@ Plans:
 **Plans**: 2 plans
 Plans:
 - [ ] 19-01-PLAN.md — Dark hero block, decorative waveform, briefing notes panel (POD-01, POD-03)
-- [ ] 19-02-PLAN.md — Editorial episode archive list with date-split rows (POD-02)
+- [x] 19-02-PLAN.md — Editorial episode archive list with date-split rows (POD-02)
 
 ## Progress
 
@@ -174,4 +174,4 @@ Plans:
 | 16. Global Design + Logo + Header | 2/2 | Complete    | 2026-03-12 | - |
 | 17. Firm Profile Redesign | v1.3 | 0/2 | Not started | - |
 | 18. Secondary Pages + Conversion Polish | v1.3 | 2/TBD | In progress | - |
-| 19. Podcast Page Redesign | v1.3 | 0/2 | Not started | - |
+| 19. Podcast Page Redesign | v1.3 | 1/2 | In progress | - |
