@@ -34,14 +34,14 @@
 
 ### Global Design (GDES)
 
-- [ ] **GDES-01**: All pages use warm paper background (`#F9F7F2`) replacing cold bg-stone-50/white
-- [ ] **GDES-02**: Section label utility (`.section-label`) uses JetBrains Mono — restored after v1.2 font sweep
-- [ ] **GDES-03**: Striped-F + "olio" wordmark deployed from existing codebase changes
+- [x] **GDES-01**: All pages use warm paper background (`#F9F7F2`) replacing cold bg-stone-50/white
+- [x] **GDES-02**: Section label utility (`.section-label`) uses JetBrains Mono — restored after v1.2 font sweep
+- [x] **GDES-03**: Striped-F + "olio" wordmark deployed from existing codebase changes
 
 ### Header (HDR)
 
-- [ ] **HDR-01**: Header shows editorial dateline (Vol. · No. · Day, Date · London Edition) in small uppercase tracking
-- [ ] **HDR-02**: Folio wordmark uses tight letter-spacing (`-0.03em`) matching brand studio `.folio-wordmark` treatment
+- [x] **HDR-01**: Header shows editorial dateline (Vol. · No. · Day, Date · London Edition) in small uppercase tracking
+- [x] **HDR-02**: Folio wordmark uses tight letter-spacing (`-0.03em`) matching brand studio `.folio-wordmark` treatment
 
 ### Firm Profile (FIRM)
 
@@ -88,19 +88,33 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| TYPO-01 | Phase 13 | Pending |
-| TYPO-02 | Phase 13 | Pending |
-| TYPO-03 | Phase 13 | Pending |
-| TYPO-04 | Phase 13 | Pending |
-| SPACE-01 | Phase 13 | Pending |
-| SPACE-02 | Phase 13 | Pending |
-| LAYOUT-01 | Phase 14 | Pending |
-| LAYOUT-02 | Phase 14 | Pending |
-| LAYOUT-03 | Phase 14 | Pending |
-| LAYOUT-04 | Phase 14 | Pending |
-| CONV-01 | Phase 15 | Pending |
-| CONV-02 | Phase 15 | Pending |
-| CONV-03 | Phase 15 | Pending |
+| TYPO-01 | Phase 13 | Complete |
+| TYPO-02 | Phase 13 | Complete |
+| TYPO-03 | Phase 13 | Complete |
+| TYPO-04 | Phase 13 | Complete |
+| SPACE-01 | Phase 13 | Complete |
+| SPACE-02 | Phase 13 | Complete |
+| LAYOUT-01 | Phase 14 | Reverted |
+| LAYOUT-02 | Phase 14 | Reverted |
+| LAYOUT-03 | Phase 14 | Reverted |
+| LAYOUT-04 | Phase 14 | Reverted |
+| CONV-01 | Phase 15 | Complete |
+| CONV-02 | Phase 15 | Complete |
+| CONV-03 | Phase 15 | Complete |
+| GDES-01 | Phase 16 | Complete |
+| GDES-02 | Phase 16 | Complete |
+| GDES-03 | Phase 16 | Complete |
+| HDR-01 | Phase 16 | Complete |
+| HDR-02 | Phase 16 | Complete |
+| FIRM-01 | Phase 17 | Pending |
+| FIRM-02 | Phase 17 | Pending |
+| FIRM-03 | Phase 17 | Pending |
+| FIRM-04 | Phase 17 | Pending |
+| QUIZ-01 | Phase 18 | Pending |
+| QUIZ-02 | Phase 18 | Pending |
+| FDIR-01 | Phase 18 | Pending |
+| CONV-04 | Phase 18 | Pending |
+| CONV-05 | Phase 18 | Pending |
 
 **Coverage (v1.2):**
 - v1.2 requirements: 13 total
@@ -109,9 +123,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 **Coverage (v1.3):**
 - v1.3 requirements: 13 total
-- Mapped to phases: 0 (pending roadmap)
-- Unmapped: 13 ⚠️
+- Mapped to phases: 13
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-03-12*
-*Last updated: 2026-03-12 after v1.3 milestone start*
+*Last updated: 2026-03-12 after v1.3 roadmap creation*

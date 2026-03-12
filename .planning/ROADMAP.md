@@ -52,7 +52,7 @@ See phase details below for full success criteria.
 
 **Milestone Goal:** Transform interior pages from a generic card-stack pattern into a genuinely editorial product — warm paper tone sitewide, newspaper masthead header with dateline, firm profile redesign with stat strip and varied section treatments, and a dark ink conversion panel on the upgrade page.
 
-- [ ] **Phase 16: Global Design + Logo + Header** - Warm paper background sitewide, JetBrains Mono section labels restored, new wordmark deployed, editorial dateline in header
+- [x] **Phase 16: Global Design + Logo + Header** - Warm paper background sitewide, JetBrains Mono section labels restored, new wordmark deployed, editorial dateline in header (completed 2026-03-12)
 - [ ] **Phase 17: Firm Profile Redesign** - Stat strip, visually differentiated sections, editorial "Why This Firm?" callouts, clean typographic interview question numbering
 - [ ] **Phase 18: Secondary Pages + Conversion Polish** - Quiz mode two-panel layout, quiz date visual states, firms directory tier headers, upgrade page serif titles and dark CTA panel
 
@@ -154,6 +154,6 @@ Plans:
 | 13. Typography & Spacing | v1.2 | 1/1 | Complete | 2026-03-12 |
 | 14. Editorial Layout | v1.2 | - | Reverted | 2026-03-12 |
 | 15. Conversion Page | v1.2 | 1/1 | Complete | 2026-03-12 |
-| 16. Global Design + Logo + Header | v1.3 | 0/2 | Not started | - |
+| 16. Global Design + Logo + Header | 2/2 | Complete   | 2026-03-12 | - |
 | 17. Firm Profile Redesign | v1.3 | 0/TBD | Not started | - |
 | 18. Secondary Pages + Conversion Polish | v1.3 | 0/TBD | Not started | - |
