@@ -52,25 +52,25 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| TYPO-01 | TBD | Pending |
-| TYPO-02 | TBD | Pending |
-| TYPO-03 | TBD | Pending |
-| TYPO-04 | TBD | Pending |
-| LAYOUT-01 | TBD | Pending |
-| LAYOUT-02 | TBD | Pending |
-| LAYOUT-03 | TBD | Pending |
-| LAYOUT-04 | TBD | Pending |
-| SPACE-01 | TBD | Pending |
-| SPACE-02 | TBD | Pending |
-| CONV-01 | TBD | Pending |
-| CONV-02 | TBD | Pending |
-| CONV-03 | TBD | Pending |
+| TYPO-01 | Phase 13 | Pending |
+| TYPO-02 | Phase 13 | Pending |
+| TYPO-03 | Phase 13 | Pending |
+| TYPO-04 | Phase 13 | Pending |
+| SPACE-01 | Phase 13 | Pending |
+| SPACE-02 | Phase 13 | Pending |
+| LAYOUT-01 | Phase 14 | Pending |
+| LAYOUT-02 | Phase 14 | Pending |
+| LAYOUT-03 | Phase 14 | Pending |
+| LAYOUT-04 | Phase 14 | Pending |
+| CONV-01 | Phase 15 | Pending |
+| CONV-02 | Phase 15 | Pending |
+| CONV-03 | Phase 15 | Pending |
 
 **Coverage:**
 - v1.2 requirements: 13 total
-- Mapped to phases: 0
-- Unmapped: 13 ⚠️ (pending roadmap)
+- Mapped to phases: 13
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-03-12*
-*Last updated: 2026-03-12 after initial definition*
+*Last updated: 2026-03-12 after roadmap creation*
