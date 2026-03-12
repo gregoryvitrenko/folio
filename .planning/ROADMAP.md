@@ -215,7 +215,10 @@ Plans:
   1. Events cards use rounded-3xl corners and Oxford blue for active filter state and date highlights — the events page looks native to the v2 design system
   2. The podcast hero player has a visible Oxford blue ambient glow or gradient accent in the background — the hero reads as premium and differentiated from other pages
   3. The Oxford blue accent on the podcast hero is subtle enough that it does not overpower the episode title or player controls
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 23-01-PLAN.md — Oxford blue active city filter tabs and date accent in CityFilter (EVENTS-01)
+- [ ] 23-02-PLAN.md — Oxford blue radial gradient glow on podcast hero (POD-01)
 
 ### Phase 24: Interview Prep Page
 **Goal**: A new `/interview` page gives users a single destination to practise interview questions sourced from existing firm packs and primers — questions organised by practice area, with reveal/hide model answers and topic filtering
@@ -257,5 +260,5 @@ Plans:
 | 20. Design System Tokens | 1/2 | In Progress|  | - |
 | 21. Firms Directory Redesign | v2 | 0/TBD | Not started | - |
 | 22. Secondary Page Redesigns | v2 | 0/TBD | Not started | - |
-| 23. Events + Podcast Accent | v2 | 0/TBD | Not started | - |
+| 23. Events + Podcast Accent | v2 | 0/2 | Not started | - |
 | 24. Interview Prep Page | v2 | 0/1 | Not started | - |
