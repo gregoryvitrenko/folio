@@ -43,7 +43,7 @@ function EventCard({ event }: EventCardProps) {
       <h3 className="text-body font-semibold text-stone-900 dark:text-stone-100 mb-1 leading-snug">
         {event.title}
       </h3>
-      <p className="text-caption text-stone-500 mb-1">
+      <p className="text-caption text-[#002147] dark:text-blue-300 font-medium mb-1">
         {formatShortDate(event.date, event.time)}
       </p>
       <p className="text-caption text-stone-500">
@@ -93,16 +93,16 @@ export function CityFilter({ events }: CityFilterProps) {
   const filtered = activeCity ? events.filter((e) => e.city === activeCity) : events;
 
   const tabBase =
-    'pb-2 text-label font-medium whitespace-nowrap border-b-2 -mb-px transition-colors cursor-pointer bg-transparent border-none outline-none font-sans';
-  const tabActive = 'border-stone-900 dark:border-stone-100 text-stone-900 dark:text-stone-100';
+    'text-label font-medium whitespace-nowrap transition-colors cursor-pointer bg-transparent border-none outline-none font-sans py-1.5 px-3 rounded-full';
+  const tabActive = 'bg-[#002147] text-white';
   const tabInactive =
-    'border-transparent text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-300';
+    'text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800';
 
   return (
     <div>
       {/* City tabs */}
       <div className="relative -mx-4 sm:-mx-6 mb-6">
-        <div className="flex items-end overflow-x-auto no-scrollbar border-b border-stone-200 dark:border-stone-800 px-4 sm:px-6 gap-4">
+        <div className="flex items-center overflow-x-auto no-scrollbar px-4 sm:px-6 gap-2 flex-wrap">
           <button
             onClick={() => router.push('/events')}
             className={`${tabBase} ${!activeCity ? tabActive : tabInactive}`}
