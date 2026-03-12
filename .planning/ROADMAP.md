@@ -5,7 +5,8 @@
 - ✅ **v1.0 Market-Ready Design Lift** — Phases 1-6 (shipped 2026-03-10)
 - ✅ **v1.1 Content & Reach** — Phases 7-12 (shipped 2026-03-12)
 - ✅ **v1.2 Editorial Design** — Phases 13-15 (shipped 2026-03-12)
-- 🚧 **v1.3 Editorial Interior** — Phases 16-19 (in progress)
+- ✅ **v1.3 Editorial Interior** — Phases 16-19 (shipped 2026-03-12)
+- 🚧 **v2 Premium Experience** — Phases 20-24 (in progress)
 
 ## Phases
 
@@ -48,14 +49,27 @@ See phase details below for full success criteria.
 
 </details>
 
-### 🚧 v1.3 Editorial Interior (In Progress)
+<details>
+<summary>✅ v1.3 Editorial Interior (Phases 16-19) — SHIPPED 2026-03-12</summary>
 
-**Milestone Goal:** Transform interior pages from a generic card-stack pattern into a genuinely editorial product — warm paper tone sitewide, newspaper masthead header with dateline, firm profile redesign with stat strip and varied section treatments, and a dark ink conversion panel on the upgrade page.
+- [x] Phase 16: Global Design + Logo + Header (2/2 plans) — completed 2026-03-12
+- [x] Phase 17: Firm Profile Redesign (2/2 plans) — completed 2026-03-12
+- [x] Phase 18: Secondary Pages + Conversion Polish (2/2 plans) — completed 2026-03-12
+- [x] Phase 19: Podcast Page Redesign (2/2 plans) — completed 2026-03-12
 
-- [x] **Phase 16: Global Design + Logo + Header** - Warm paper background sitewide, JetBrains Mono section labels restored, new wordmark deployed, editorial dateline in header (completed 2026-03-12)
-- [ ] **Phase 17: Firm Profile Redesign** - Stat strip, visually differentiated sections, editorial "Why This Firm?" callouts, clean typographic interview question numbering
-- [ ] **Phase 18: Secondary Pages + Conversion Polish** - Quiz mode two-panel layout, quiz date visual states, firms directory tier headers, upgrade page serif titles and dark CTA panel
-- [ ] **Phase 19: Podcast Page Redesign** - Dark immersive hero player, editorial episode archive list, briefing notes with numbered talking points
+See phase details below for full success criteria.
+
+</details>
+
+### 🚧 v2 Premium Experience (In Progress)
+
+**Milestone Goal:** Shift Folio from the sharp editorial newspaper aesthetic to a softer premium rounded aesthetic — update the design system (radius token, Oxford blue accent colour) sitewide, redesign secondary pages to match, and add a new `/interview` prep page using existing firm interview question data.
+
+- [ ] **Phase 20: Design System Tokens** — Rounded radius token sitewide, softened chrome elements, Oxford blue replaces amber as primary accent
+- [ ] **Phase 21: Firms Directory Redesign** — Two-column layout with left sidebar filters and right scrollable firm card grid
+- [ ] **Phase 22: Secondary Page Redesigns** — Quiz hero card, primers card grid, tests feature cards, saved card layout — all aligned to new rounded aesthetic
+- [ ] **Phase 23: Events + Podcast Accent** — Events rounded cards with Oxford blue active states, podcast hero Oxford blue ambient glow
+- [ ] **Phase 24: Interview Prep Page** — New `/interview` page aggregating firm pack and primer questions by topic, with reveal/hide model answers and category filter
 
 ## Phase Details
 
@@ -110,8 +124,8 @@ Plans:
   5. The Folio wordmark in the header uses tight letter-spacing (-0.03em) matching the brand studio treatment
 **Plans**: 2 plans
 Plans:
-- [ ] 16-01-PLAN.md — Warm paper CSS variable, body bg-paper, .section-label font-mono
-- [ ] 16-02-PLAN.md — Wordmark letter-spacing, editorial dateline, commit logo files
+- [x] 16-01-PLAN.md — Warm paper CSS variable, body bg-paper, .section-label font-mono
+- [x] 16-02-PLAN.md — Wordmark letter-spacing, editorial dateline, commit logo files
 
 ### Phase 17: Firm Profile Redesign
 **Goal**: The firm profile page feels like a premium editorial dossier — a prominent data strip leads, content sections use visually varied treatments, and "Why This Firm?" reads as a crafted editorial callout rather than a generic card
@@ -124,8 +138,8 @@ Plans:
   4. Interview questions on the firm profile are numbered with clean typographic numbering (1., 2., 3.) — no chip or box styling around the number
 **Plans**: 2 plans
 Plans:
-- [ ] 17-01-PLAN.md — Horizontal stat strip below hero, typographic interview question numbering
-- [ ] 17-02-PLAN.md — Editorial "Why This Firm?" callouts, dark Interview Focus block
+- [x] 17-01-PLAN.md — Horizontal stat strip below hero, typographic interview question numbering
+- [x] 17-02-PLAN.md — Editorial "Why This Firm?" callouts, dark Interview Focus block
 
 ### Phase 18: Secondary Pages + Conversion Polish
 **Goal**: The quiz entry experience, firms directory, and upgrade page all reach the editorial standard set in Phases 16-17 — distinct layouts for distinct purposes, with the upgrade page anchored by a dark conversion panel
@@ -137,7 +151,10 @@ Plans:
   3. Tier headers in the firms directory (Magic Circle, Silver Circle, etc.) use a full-width editorial rule treatment — clearly separating tiers, not just bold text
   4. Upgrade page feature titles use serif font — consistent with the editorial register of the rest of the product
   5. The upgrade page CTA panel has a dark stone-900 background with a border-style button — a strong visual anchor that ends the page with authority
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [x] 18-01-PLAN.md — Quiz two-panel layout, date visual states
+- [x] 18-02-PLAN.md — Firms tier headers, upgrade page serif titles and dark CTA panel
 
 ### Phase 19: Podcast Page Redesign
 **Goal**: The podcast page becomes an editorial destination — a dark immersive hero player anchors the experience, the episode archive reads like a newspaper listings section, and the current episode reveals structured briefing notes with numbered talking points
@@ -149,8 +166,63 @@ Plans:
   3. Below the player, the current episode shows a briefing notes panel with numbered talking points using the same `font-mono opacity-20` large-number style as firm profile callouts
 **Plans**: 2 plans
 Plans:
-- [ ] 19-01-PLAN.md — Dark hero block, decorative waveform, briefing notes panel (POD-01, POD-03)
+- [x] 19-01-PLAN.md — Dark hero block, decorative waveform, briefing notes panel (POD-01, POD-03)
 - [x] 19-02-PLAN.md — Editorial episode archive list with date-split rows (POD-02)
+
+### Phase 20: Design System Tokens
+**Goal**: The design system radius and accent colour tokens are updated sitewide — all cards and panels adopt the new rounded-3xl aesthetic, chrome elements soften to rounded-full/rounded-2xl, and Oxford blue replaces amber as the primary action colour
+**Depends on**: Phase 19
+**Requirements**: ROUND-01, ROUND-02, COL-01
+**Success Criteria** (what must be TRUE):
+  1. Cards and panels across all pages have visibly rounded corners (24px) — the product immediately reads as softer and more premium than before
+  2. Buttons, chips, tabs, and input elements are fully pill-shaped or softly rounded — no sharp square edges on any interactive chrome element
+  3. All CTA buttons, active navigation states, and accent highlights render in Oxford blue (#002147) — amber is no longer present as an action colour anywhere on the site
+  4. The token changes apply consistently across light and dark modes without any colour regression
+**Plans**: TBD
+
+### Phase 21: Firms Directory Redesign
+**Goal**: The firms directory is a structured browsing interface — a persistent left sidebar with tier filter tabs and search lets users narrow to what they want, while the right column shows scrollable rounded firm cards
+**Depends on**: Phase 20
+**Requirements**: FDIR-01
+**Success Criteria** (what must be TRUE):
+  1. On desktop, the firms page shows a left sidebar (tier filter tabs + search input) and a right scrollable grid — the two-column layout is immediately obvious
+  2. Clicking a tier filter tab (Magic Circle, Silver Circle, etc.) updates the right column to show only firms in that tier — no page reload
+  3. Typing in the search input filters firm cards in real time by firm name — partial matches work
+  4. Firm cards in the right column use the rounded-3xl radius and Oxford blue accent from Phase 20 — the directory looks native to the new design system
+**Plans**: TBD
+
+### Phase 22: Secondary Page Redesigns
+**Goal**: The quiz, primers, tests, and saved pages are redesigned to the new rounded premium aesthetic — each page has a layout treatment suited to its purpose, replacing the generic card-stack pattern
+**Depends on**: Phase 20
+**Requirements**: QUIZ-01, PRIM-01, TESTS-01, SAVED-01
+**Success Criteria** (what must be TRUE):
+  1. The quiz page leads with a prominent "Today" hero card showing the current date, question count, and an Oxford blue start CTA — it is the visual focal point before the date archive list
+  2. The primers page shows a card grid where each card displays a topic icon, title, short description, and interview question count — the user can assess what each primer covers without clicking in
+  3. The tests page shows Watson Glaser and SJT as two large feature cards with description, what the test measures, and a start CTA — the current list treatment is gone
+  4. The saved/bookmarks page uses a rounded card layout with Oxford blue accent elements — consistent with the new design system, not the previous sharp treatment
+**Plans**: TBD
+
+### Phase 23: Events + Podcast Accent
+**Goal**: The events page and podcast hero are updated to match the new rounded, Oxford blue aesthetic — completing design system alignment across all pages
+**Depends on**: Phase 20
+**Requirements**: EVENTS-01, POD-01
+**Success Criteria** (what must be TRUE):
+  1. Events cards use rounded-3xl corners and Oxford blue for active filter state and date highlights — the events page looks native to the v2 design system
+  2. The podcast hero player has a visible Oxford blue ambient glow or gradient accent in the background — the hero reads as premium and differentiated from other pages
+  3. The Oxford blue accent on the podcast hero is subtle enough that it does not overpower the episode title or player controls
+**Plans**: TBD
+
+### Phase 24: Interview Prep Page
+**Goal**: A new `/interview` page gives users a single destination to practise interview questions sourced from existing firm packs and primers — questions organised by practice area, with reveal/hide model answers and topic filtering
+**Depends on**: Phase 20
+**Requirements**: INTVW-01, INTVW-02, INTVW-03, INTVW-04
+**Success Criteria** (what must be TRUE):
+  1. The `/interview` route exists and is reachable from main navigation — users can find it without a direct URL
+  2. Opening the page, questions are grouped by topic/practice area (M&A, Banking & Finance, Capital Markets, etc.) — the taxonomy matches the existing primer and firm pack categories
+  3. Each question shows only the question text by default — clicking a reveal toggle shows the model answer inline, and clicking again hides it
+  4. A topic filter (tabs or dropdown) lets the user narrow to one practice area — selecting a topic shows only questions from that area, hiding the rest
+  5. No new AI generation is triggered by this page — all content comes from existing cached firm pack and primer data
+**Plans**: TBD
 
 ## Progress
 
@@ -171,7 +243,12 @@ Plans:
 | 13. Typography & Spacing | v1.2 | 1/1 | Complete | 2026-03-12 |
 | 14. Editorial Layout | v1.2 | - | Reverted | 2026-03-12 |
 | 15. Conversion Page | v1.2 | 1/1 | Complete | 2026-03-12 |
-| 16. Global Design + Logo + Header | 2/2 | Complete    | 2026-03-12 | - |
-| 17. Firm Profile Redesign | v1.3 | 0/2 | Not started | - |
-| 18. Secondary Pages + Conversion Polish | v1.3 | 2/TBD | In progress | - |
-| 19. Podcast Page Redesign | v1.3 | 1/2 | In progress | - |
+| 16. Global Design + Logo + Header | v1.3 | 2/2 | Complete | 2026-03-12 |
+| 17. Firm Profile Redesign | v1.3 | 2/2 | Complete | 2026-03-12 |
+| 18. Secondary Pages + Conversion Polish | v1.3 | 2/2 | Complete | 2026-03-12 |
+| 19. Podcast Page Redesign | v1.3 | 2/2 | Complete | 2026-03-12 |
+| 20. Design System Tokens | v2 | 0/TBD | Not started | - |
+| 21. Firms Directory Redesign | v2 | 0/TBD | Not started | - |
+| 22. Secondary Page Redesigns | v2 | 0/TBD | Not started | - |
+| 23. Events + Podcast Accent | v2 | 0/TBD | Not started | - |
+| 24. Interview Prep Page | v2 | 0/TBD | Not started | - |

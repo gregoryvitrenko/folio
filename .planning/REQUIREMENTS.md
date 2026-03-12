@@ -84,17 +84,17 @@ Shift Folio from a sharp editorial newspaper aesthetic to a softer premium round
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| ROUND-01 | TBD | Pending |
-| ROUND-02 | TBD | Pending |
-| COL-01 | TBD | Pending |
-| FDIR-01 | TBD | Pending |
-| QUIZ-01 | TBD | Pending |
-| PRIM-01 | TBD | Pending |
-| TESTS-01 | TBD | Pending |
-| SAVED-01 | TBD | Pending |
-| EVENTS-01 | TBD | Pending |
-| POD-01 | TBD | Pending |
-| INTVW-01 | TBD | Pending |
-| INTVW-02 | TBD | Pending |
-| INTVW-03 | TBD | Pending |
-| INTVW-04 | TBD | Pending |
+| ROUND-01 | Phase 20 | Pending |
+| ROUND-02 | Phase 20 | Pending |
+| COL-01 | Phase 20 | Pending |
+| FDIR-01 | Phase 21 | Pending |
+| QUIZ-01 | Phase 22 | Pending |
+| PRIM-01 | Phase 22 | Pending |
+| TESTS-01 | Phase 22 | Pending |
+| SAVED-01 | Phase 22 | Pending |
+| EVENTS-01 | Phase 23 | Pending |
+| POD-01 | Phase 23 | Pending |
+| INTVW-01 | Phase 24 | Pending |
+| INTVW-02 | Phase 24 | Pending |
+| INTVW-03 | Phase 24 | Pending |
+| INTVW-04 | Phase 24 | Pending |
