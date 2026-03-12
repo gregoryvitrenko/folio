@@ -7,7 +7,7 @@ import type { Briefing } from '@/lib/types';
 const CHARS_PER_MINUTE = 650;
 const SPEEDS = [0.75, 1, 1.25, 1.5, 2];
 const VOICE_ID = 'onwK4e9ZLuTAKqWW03F9'; // Daniel (British, Broadcaster)
-
+const NUM_BARS = 28;
 const WAVEFORM_HEIGHTS = [12, 28, 18, 40, 24, 36, 16, 44, 20, 32, 14, 38, 22, 48, 18, 34, 26, 42, 16, 30, 20, 44, 14, 36, 24, 40, 18, 28];
 
 function getBestVoice(): SpeechSynthesisVoice | null {
@@ -47,9 +47,50 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
   const speedRef = useRef(1);
   const [speed, setSpeed] = useState(1);
 
+  // ── Web Audio API refs ────────────────────────────────────────────────────
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const analyserRef = useRef<AnalyserNode | null>(null);
+  const sourceRef = useRef<MediaElementAudioSourceNode | null>(null);
+  const rafRef = useRef<number | null>(null);
+  const waveBarRefs = useRef<(HTMLDivElement | null)[]>([]);
+
   function updateStatus(s: typeof status) {
     statusRef.current = s;
     setStatus(s);
+  }
+
+  // ── Waveform animation ────────────────────────────────────────────────────
+
+  function startWaveformAnimation() {
+    const analyser = analyserRef.current;
+    if (!analyser) return;
+
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+
+    function tick() {
+      analyser!.getByteFrequencyData(dataArray);
+      waveBarRefs.current.forEach((bar, i) => {
+        if (!bar) return;
+        const binIndex = Math.floor(i * bufferLength / NUM_BARS);
+        const value = dataArray[binIndex] / 255;
+        const height = Math.max(3, Math.round(3 + value * 45));
+        bar.style.height = `${height}px`;
+      });
+      rafRef.current = requestAnimationFrame(tick);
+    }
+
+    rafRef.current = requestAnimationFrame(tick);
+  }
+
+  function stopWaveformAnimation() {
+    if (rafRef.current !== null) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+    waveBarRefs.current.forEach((bar, i) => {
+      if (bar) bar.style.height = `${WAVEFORM_HEIGHTS[i] ?? 20}px`;
+    });
   }
 
   // ── Init ──────────────────────────────────────────────────────────────────
@@ -63,6 +104,11 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
       .catch(() => {});
 
     return () => {
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+      if (audioCtxRef.current) {
+        audioCtxRef.current.close().catch(() => {});
+        audioCtxRef.current = null;
+      }
       window.speechSynthesis?.cancel();
       if (audioRef.current) {
         audioRef.current.pause();
@@ -104,7 +150,6 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
       throw new Error(`ElevenLabs error ${res.status}: ${text.slice(0, 120)}`);
     }
 
-    // Production returns { url } JSON (Blob CDN), dev returns raw MP3 binary
     let audioUrl: string;
     const contentType = res.headers.get('content-type') ?? '';
     if (contentType.includes('application/json')) {
@@ -118,6 +163,33 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
     const audio = new Audio(audioUrl);
     audioRef.current = audio;
 
+    // ── Web Audio API setup ──────────────────────────────────────────────────
+    try {
+      if (!audioCtxRef.current) {
+        audioCtxRef.current = new AudioContext();
+      }
+      const ctx = audioCtxRef.current;
+      if (ctx.state === 'suspended') await ctx.resume();
+
+      if (sourceRef.current) {
+        try { sourceRef.current.disconnect(); } catch { /* ignore */ }
+        sourceRef.current = null;
+      }
+
+      const analyser = ctx.createAnalyser();
+      analyser.fftSize = 64;
+      analyser.smoothingTimeConstant = 0.8;
+      analyserRef.current = analyser;
+
+      const source = ctx.createMediaElementSource(audio);
+      sourceRef.current = source;
+      source.connect(analyser);
+      analyser.connect(ctx.destination);
+    } catch {
+      // Web Audio API unavailable — visualisation degrades gracefully
+    }
+    // ────────────────────────────────────────────────────────────────────────
+
     audio.ontimeupdate = () => {
       if (audio.duration && isFinite(audio.duration)) {
         setProgress(audio.currentTime / audio.duration);
@@ -127,6 +199,7 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
       if (isFinite(audio.duration)) setDuration(audio.duration);
     };
     audio.onended = () => {
+      stopWaveformAnimation();
       updateStatus('idle');
       setProgress(0);
       audioRef.current = null;
@@ -134,6 +207,7 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
       setAudioReady(true);
     };
     audio.onerror = () => {
+      stopWaveformAnimation();
       updateStatus('error');
       setErrorMsg('Audio playback failed.');
       audioRef.current = null;
@@ -142,6 +216,7 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
 
     audio.playbackRate = speedRef.current;
     await audio.play();
+    startWaveformAnimation();
     updateStatus('playing');
     if (audio.duration && isFinite(audio.duration)) setDuration(audio.duration);
   }
@@ -190,7 +265,11 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
 
     if (status === 'paused') {
       if (audioRef.current) {
+        if (audioCtxRef.current?.state === 'suspended') {
+          await audioCtxRef.current.resume();
+        }
         await audioRef.current.play();
+        startWaveformAnimation();
       } else {
         window.speechSynthesis.resume();
       }
@@ -233,10 +312,15 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
     } else {
       window.speechSynthesis.pause();
     }
+    if (rafRef.current !== null) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
     updateStatus('paused');
   }
 
   function handleStop() {
+    stopWaveformAnimation();
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
@@ -255,11 +339,9 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
     const next = SPEEDS[(idx + 1) % SPEEDS.length];
     speedRef.current = next;
     setSpeed(next);
-    // Apply immediately to whichever playback path is active
     if (audioRef.current) {
       audioRef.current.playbackRate = next;
     } else if (statusRef.current === 'playing' && scriptRef.current) {
-      // Restart TTS from current char position with new rate
       window.speechSynthesis.cancel();
       playTTSFromChar(scriptRef.current, charIndexRef.current);
     }
@@ -347,7 +429,6 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
 
       const contentType = res.headers.get('content-type') ?? '';
       if (contentType.includes('application/json')) {
-        // Production: got Blob CDN URL — trigger download via link
         const data = await res.json();
         const a = document.createElement('a');
         a.href = data.url;
@@ -356,7 +437,6 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
         a.click();
         document.body.removeChild(a);
       } else {
-        // Dev: got raw MP3 binary
         const blob = await res.blob();
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -381,6 +461,8 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
   const isActive = status === 'playing' || status === 'paused';
   const isLoading = status === 'loading';
   const elapsed = duration != null ? progress * duration : null;
+  const episodeTitle = briefing.stories[0]?.headline;
+  const episodeSubtitle = briefing.stories[0]?.talkingPoints?.soundbite ?? briefing.stories[0]?.talkingPoint;
 
   // ── Helpers ───────────────────────────────────────────────────────────────
 
@@ -397,55 +479,100 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
     <div className="space-y-0">
 
       {/* ── Hero block ─────────────────────────────────────────────────────── */}
-      <div className="bg-stone-900 text-stone-50 px-6 pt-8 pb-6">
-        {/* Overline */}
-        <p className="section-label text-stone-500 mb-3">Folio Daily Briefing</p>
+      <div className="bg-stone-900 text-stone-50">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_220px]">
 
-        {/* Episode title */}
-        <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-stone-50 leading-tight tracking-tight mb-5">
-          {formatCoverDate(briefing.date)}
-        </h1>
+          {/* Left: episode info + player */}
+          <div className="px-8 pt-8 pb-7 flex flex-col gap-4">
 
-        {/* Decorative waveform bars */}
-        <div className="flex items-end gap-[3px] h-12 mb-6">
-          {WAVEFORM_HEIGHTS.map((h, i) => (
-            <div
-              key={i}
-              style={{ height: h }}
-              className="w-[3px] rounded-sm bg-white/20 flex-shrink-0"
-            />
-          ))}
-        </div>
+            {/* Overline row */}
+            <div className="flex items-center gap-3">
+              <span className="section-label bg-stone-800 text-stone-400 px-2 py-0.5">Latest Episode</span>
+              <span className="section-label text-stone-600">{formatCoverDate(briefing.date)}</span>
+            </div>
 
-        {/* Play / Pause button */}
-        {status === 'error' ? (
-          <button
-            onClick={() => { updateStatus('idle'); setErrorMsg(null); handlePlay(); }}
-            className="flex items-center gap-1.5 text-[12px] font-sans font-semibold text-rose-400 hover:text-rose-300 transition-colors"
-          >
-            <Play className="w-4 h-4" /> Retry
-          </button>
-        ) : (
-          <button
-            onClick={isPlaying ? handlePause : handlePlay}
-            disabled={isLoading}
-            className="w-14 h-14 rounded-full bg-white text-stone-900 flex items-center justify-center hover:bg-stone-100 disabled:opacity-40 transition-colors shadow-md"
-            aria-label={isPlaying ? 'Pause' : 'Play'}
-          >
-            {isLoading ? (
-              <Loader2 className="w-5 h-5 animate-spin" />
-            ) : isPlaying ? (
-              <Pause className="w-5 h-5" />
-            ) : (
-              <Play className="w-5 h-5 translate-x-[1px]" />
+            {/* Episode title */}
+            <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-stone-50 leading-tight tracking-tight">
+              {episodeTitle ?? formatCoverDate(briefing.date)}
+            </h1>
+
+            {/* Subtitle */}
+            {episodeSubtitle && (
+              <p className="text-sm text-stone-400 leading-relaxed line-clamp-2 max-w-lg">
+                {episodeSubtitle}
+              </p>
             )}
-          </button>
-        )}
 
-        {/* Loading status */}
-        {isLoading && (
-          <p className="section-label text-stone-500 mt-2">Loading...</p>
-        )}
+            {/* Player row: button + waveform + timestamp */}
+            <div className="flex items-end gap-4 pt-1">
+
+              {/* Play / Pause / Error button */}
+              {status === 'error' ? (
+                <button
+                  onClick={() => { updateStatus('idle'); setErrorMsg(null); handlePlay(); }}
+                  className="flex-shrink-0 flex items-center gap-1.5 text-[12px] font-sans font-semibold text-rose-400 hover:text-rose-300 transition-colors"
+                >
+                  <Play className="w-4 h-4" /> Retry
+                </button>
+              ) : (
+                <button
+                  onClick={isPlaying ? handlePause : handlePlay}
+                  disabled={isLoading}
+                  className="flex-shrink-0 w-12 h-12 rounded-full bg-white text-stone-900 flex items-center justify-center hover:bg-stone-100 disabled:opacity-40 transition-colors shadow-md"
+                  aria-label={isPlaying ? 'Pause' : 'Play'}
+                >
+                  {isLoading ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : isPlaying ? (
+                    <Pause className="w-4 h-4" />
+                  ) : (
+                    <Play className="w-4 h-4 translate-x-[1px]" />
+                  )}
+                </button>
+              )}
+
+              {/* Waveform bars — heights driven by Web Audio API when playing */}
+              <div className="flex items-end gap-[2px] h-12 flex-1">
+                {WAVEFORM_HEIGHTS.map((h, i) => (
+                  <div
+                    key={i}
+                    ref={(el) => { waveBarRefs.current[i] = el; }}
+                    style={{ height: h }}
+                    className={`w-[3px] rounded-sm flex-shrink-0 ${isPlaying ? 'bg-white/50' : 'bg-white/20'}`}
+                  />
+                ))}
+              </div>
+
+              {/* Timestamp */}
+              <span className="flex-shrink-0 text-[11px] font-sans tabular-nums text-stone-500 pb-1">
+                {elapsed != null ? formatTime(elapsed) : (duration != null ? formatTime(duration) : '--:--')}
+              </span>
+            </div>
+
+            {/* Loading / error feedback */}
+            {isLoading && <p className="section-label text-stone-600">Generating audio...</p>}
+            {errorMsg && <p className="text-[11px] font-sans text-rose-400 break-all">{errorMsg}</p>}
+          </div>
+
+          {/* Right: cover art card — hidden on mobile */}
+          <div className="hidden lg:flex items-center justify-center p-6">
+            <div className="relative w-44 h-44 rounded-lg bg-stone-800/50 border border-stone-700/50 overflow-hidden flex flex-col items-center justify-center">
+              {/* Decorative circles */}
+              <div className="absolute -top-7 -right-7 w-32 h-32 rounded-full border border-stone-600/40 pointer-events-none" />
+              <div className="absolute -bottom-5 -left-5 w-24 h-24 rounded-full border border-stone-600/40 pointer-events-none" />
+
+              {/* Brand name */}
+              <span className="font-serif text-lg font-semibold text-stone-400 select-none">Folio Daily</span>
+
+              {/* Bottom labels */}
+              <div className="absolute bottom-3 inset-x-0 flex justify-between px-3">
+                <span className="section-label text-stone-600">Intelligence Unit</span>
+                <span className="section-label text-stone-600">Audio Briefing</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
 
       {/* ── Controls strip ─────────────────────────────────────────────────── */}
@@ -463,7 +590,6 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
             className="absolute inset-y-0 left-0 bg-stone-400 group-hover:bg-stone-300 transition-colors"
             style={{ width: `${progress * 100}%` }}
           />
-          {/* Scrubber thumb */}
           <div
             className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-stone-100 shadow opacity-0 group-hover:opacity-100 transition-opacity -translate-x-1/2"
             style={{ left: `${progress * 100}%` }}
@@ -472,15 +598,12 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
 
         {/* Time stamps + controls row */}
         <div className="flex items-center gap-4">
-          {/* Elapsed */}
           <span className="text-[10px] font-sans tabular-nums text-stone-500">
             {elapsed != null ? formatTime(elapsed) : '0:00'}
           </span>
 
-          {/* Spacer */}
           <div className="flex-1" />
 
-          {/* Speed */}
           <button
             onClick={cycleSpeed}
             className="text-[12px] font-sans font-semibold text-stone-500 hover:text-stone-300 transition-colors tabular-nums"
@@ -490,7 +613,6 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
             {speed}&times;
           </button>
 
-          {/* Stop (only when active) */}
           {isActive && (
             <button
               onClick={handleStop}
@@ -501,7 +623,6 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
             </button>
           )}
 
-          {/* Download */}
           <button
             onClick={handleDownload}
             disabled={isDownloading}
@@ -512,37 +633,27 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
             {isDownloading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
           </button>
 
-          {/* Duration */}
           <span className="text-[10px] font-sans tabular-nums text-stone-500">
             {duration != null ? formatTime(duration) : '--:--'}
           </span>
         </div>
-
-        {/* Error message */}
-        {errorMsg && (
-          <p className="text-[11px] font-sans text-rose-400 mt-1 break-all">{errorMsg}</p>
-        )}
       </div>
 
       {/* ── Briefing notes panel ───────────────────────────────────────────── */}
       <div className="border border-stone-200 dark:border-stone-800 rounded-card mt-6 overflow-hidden">
-        {/* Panel header */}
         <div className="px-6 py-4 border-b border-stone-100 dark:border-stone-800">
           <p className="section-label text-stone-400">Briefing Notes</p>
         </div>
 
-        {/* Story list */}
         {briefing.stories.map((story, index) => (
           <div
             key={story.id}
             className="relative px-6 py-5 border-b border-stone-100 dark:border-stone-800 last:border-0 overflow-hidden"
           >
-            {/* Background number */}
             <span className="absolute right-4 top-2 font-mono text-6xl font-bold text-stone-900 dark:text-stone-100 opacity-[0.06] select-none leading-none">
               {String(index + 1).padStart(2, '0')}
             </span>
 
-            {/* Content */}
             <div className="relative">
               <p className="section-label text-stone-400 mb-1">{story.topic}</p>
               <p className="font-serif text-base font-semibold text-stone-900 dark:text-stone-100 leading-snug mb-1">
