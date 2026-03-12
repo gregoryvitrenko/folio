@@ -439,7 +439,7 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
     return (
       <div>
         <h3 className="section-label mb-4">
-          {alreadyDone ? 'Completed' : isToday ? "Today's quiz" : 'Practice quiz'}
+          Choose your practice
         </h3>
 
         {/* ── Lifetime stats banner ──────────────────────────────────────── */}
@@ -518,34 +518,28 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
           {/* ── Daily (streak) card ───────────────────────────────────────── */}
           <div
             onClick={() => !streakDone && fetchAndStart('streak', false)}
-            className={`group relative flex flex-col rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 overflow-hidden transition-all duration-200 hover:shadow-lg hover:shadow-stone-900/5 dark:hover:shadow-stone-950/20 hover:-translate-y-0.5 ${!streakDone ? 'cursor-pointer' : ''}`}
+            className={`group relative flex flex-col rounded-card bg-stone-900 dark:bg-stone-950 overflow-hidden transition-all duration-200 hover:shadow-lg hover:shadow-stone-900/10 hover:-translate-y-0.5 ${!streakDone ? 'cursor-pointer' : ''}`}
           >
-            {/* Top bar */}
-            <div className="h-[3px] bg-stone-900 dark:bg-stone-100 flex-shrink-0" />
-
-            {/* Hover tint layer */}
-            <div className="pointer-events-none absolute inset-0 bg-amber-500/[0.02] opacity-0 group-hover:opacity-100 transition-opacity" />
-
             <div className="relative flex flex-col flex-1 px-5 pt-5 pb-5 gap-4">
               {/* Header */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Flame className="w-4 h-4 text-stone-400 dark:text-stone-500 flex-shrink-0" />
-                  <span className="text-label font-sans font-semibold tracking-widest uppercase text-stone-900 dark:text-stone-100">
+                  <Flame className="w-4 h-4 text-stone-400 flex-shrink-0" />
+                  <span className="text-label font-sans font-semibold tracking-widest uppercase text-stone-50">
                     Daily
                   </span>
-                  <span className="text-label font-sans text-stone-400 dark:text-stone-500">
+                  <span className="text-label font-sans text-stone-400">
                     {streakCount_}q
                   </span>
                   {isToday && streakCount > 0 && (
-                    <span className="text-label font-sans text-stone-500 dark:text-stone-400">
+                    <span className="text-label font-sans text-stone-400">
                       · {streakCount}d
                     </span>
                   )}
                 </div>
                 {isToday && streakDone && (
-                  <span className="text-label font-sans text-emerald-600 dark:text-emerald-400 font-medium">
-                    ✓ done today
+                  <span className="text-label font-sans text-emerald-400 font-medium">
+                    done today
                   </span>
                 )}
               </div>
@@ -557,7 +551,7 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
                 if (!displayResult) {
                   return (
                     <div className="flex items-end min-h-[52px]">
-                      <span className="text-caption text-stone-500 dark:text-stone-400 leading-relaxed">
+                      <span className="text-caption text-stone-400 leading-relaxed">
                         One question per practice area. Keeps your streak alive.
                       </span>
                     </div>
@@ -570,18 +564,18 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
                   ? (pct > lastResult!.prevPct! ? '↑' : pct < lastResult!.prevPct! ? '↓' : '→')
                   : null;
                 const trendColor = trend === '↑'
-                  ? 'text-emerald-500 dark:text-emerald-400'
+                  ? 'text-emerald-400'
                   : trend === '↓'
-                  ? 'text-rose-500 dark:text-rose-400'
-                  : 'text-stone-400 dark:text-stone-500';
+                  ? 'text-rose-400'
+                  : 'text-stone-400';
                 return (
                   <>
                     <div className="flex items-end gap-3 min-h-[52px]">
-                      <span className="text-5xl font-bold text-stone-900 dark:text-stone-50 tracking-tight leading-none">
+                      <span className="text-5xl font-bold text-stone-50 tracking-tight leading-none">
                         {pct}%
                       </span>
                       <div className="pb-1 leading-tight">
-                        <p className="text-label font-sans font-semibold tracking-[0.14em] uppercase text-amber-500 dark:text-amber-400">
+                        <p className="text-label font-sans font-semibold tracking-[0.14em] uppercase text-amber-400">
                           {displayResult.score}/{displayResult.total}
                         </p>
                         {trend && (
@@ -591,7 +585,7 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
                         )}
                       </div>
                     </div>
-                    <p className="text-caption text-stone-500 dark:text-stone-400 leading-relaxed -mt-1">
+                    <p className="text-caption text-stone-400 leading-relaxed -mt-1">
                       {streakResult
                         ? (streakDone ? 'Done for today — come back tomorrow.' : 'Today\'s score')
                         : 'Beat it today →'}
@@ -601,7 +595,7 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
               })()}
 
               {errorMsg && (
-                <p className="text-caption font-sans text-rose-500 dark:text-rose-400">
+                <p className="text-caption font-sans text-rose-400">
                   {errorMsg}
                 </p>
               )}
@@ -609,7 +603,7 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
               {/* Actions — pinned to bottom */}
               <div className="flex items-center gap-2 flex-wrap mt-auto">
                 {uiState === 'loading' && quizMode === 'streak' ? (
-                  <div className="flex items-center gap-2 px-4 py-2.5 rounded-card bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 text-caption font-sans font-medium">
+                  <div className="flex items-center gap-2 px-4 py-2.5 rounded-card bg-stone-50 text-stone-900 text-caption font-sans font-medium">
                     <Loader2 className="w-3.5 h-3.5 animate-spin" />
                     Generating…
                   </div>
@@ -623,7 +617,7 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
                           if (streakResult) setPreviousResult(streakResult);
                           fetchAndStart('streak', true);
                         }}
-                        className="flex items-center gap-2 px-4 py-2.5 rounded-card bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 text-caption font-sans font-medium hover:bg-stone-700 dark:hover:bg-stone-300 transition-colors"
+                        className="flex items-center gap-2 px-4 py-2.5 rounded-card bg-stone-50 text-stone-900 text-caption font-sans font-medium hover:bg-white transition-colors"
                       >
                         <RotateCcw className="w-3.5 h-3.5" />
                         Retry {missedCount} missed
@@ -631,7 +625,7 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
                     )}
                     <button
                       onClick={(e) => { e.stopPropagation(); fetchAndStart('streak', false); }}
-                      className="px-4 py-2.5 rounded-card border border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-400 text-caption font-sans hover:text-stone-900 dark:hover:text-stone-100 hover:border-stone-400 dark:hover:border-stone-500 transition-colors"
+                      className="px-4 py-2.5 rounded-card border border-stone-700 text-stone-400 text-caption font-sans hover:text-stone-100 hover:border-stone-500 transition-colors"
                     >
                       Retake
                     </button>
@@ -639,7 +633,7 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
                 ) : (
                   <button
                     onClick={(e) => { e.stopPropagation(); fetchAndStart('streak', false); }}
-                    className="flex items-center gap-2 px-4 py-2.5 rounded-card bg-stone-900 dark:bg-stone-100 hover:bg-stone-700 dark:hover:bg-stone-300 text-white dark:text-stone-900 text-caption font-sans font-medium transition-colors"
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-card bg-stone-50 hover:bg-white text-stone-900 text-caption font-sans font-medium transition-colors"
                   >
                     <Flame className="w-3.5 h-3.5" />
                     {quiz ? 'Start daily quiz →' : 'Generate & start →'}
@@ -652,13 +646,10 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
           {/* ── Deep practice card ────────────────────────────────────────── */}
           <div
             onClick={() => fetchAndStart('deep', false)}
-            className="group relative flex flex-col rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 overflow-hidden cursor-pointer transition-all duration-200 hover:shadow-lg hover:shadow-stone-900/5 dark:hover:shadow-stone-950/20 hover:-translate-y-0.5"
+            className="group relative flex flex-col rounded-card border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 overflow-hidden cursor-pointer transition-all duration-200 hover:shadow-lg hover:shadow-stone-900/5 dark:hover:shadow-stone-950/20 hover:-translate-y-0.5"
           >
             {/* Top bar */}
             <div className="h-[3px] bg-stone-200 dark:bg-stone-700 flex-shrink-0" />
-
-            {/* Hover tint layer */}
-            <div className="pointer-events-none absolute inset-0 bg-stone-500/[0.02] opacity-0 group-hover:opacity-100 transition-opacity" />
 
             <div className="relative flex flex-col flex-1 px-5 pt-5 pb-5 gap-4">
               {/* Header */}

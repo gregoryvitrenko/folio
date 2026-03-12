@@ -118,47 +118,50 @@ export default async function QuizPage() {
   const dateList = dates.length > 0 && (
     <div className="mb-8">
       <h3 className="section-label mb-3">
-        Available
+        Past Briefings
       </h3>
-      <div className="rounded-card bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 overflow-hidden divide-y divide-stone-100 dark:divide-stone-800">
+      <div className="rounded-card border border-stone-200 dark:border-stone-800 overflow-hidden">
         {dates.map((date) => {
           const isActive = date === activeDate;
           const isToday = date === today;
-          const badge = isToday ? (
-            <span className="shrink-0 font-sans text-[10px] tracking-widest uppercase text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
-              Today
-            </span>
-          ) : null;
 
+          // TODAY row (not yet the active/selected date)
+          if (isToday && !isActive) {
+            return (
+              <Link key={date} href="/quiz" className="flex items-center gap-0 hover:bg-stone-50/80 dark:hover:bg-stone-800/30 transition-colors group">
+                <div className="w-1 self-stretch bg-stone-900 dark:bg-stone-100 flex-shrink-0" />
+                <div className="flex items-center justify-between flex-1 px-5 py-4">
+                  <div className="flex items-baseline gap-3">
+                    <span className="text-sm font-medium text-stone-900 dark:text-stone-100">{formatDisplayDate(date)}</span>
+                    <span className="section-label text-stone-500 dark:text-stone-400">Today</span>
+                  </div>
+                  <ChevronRight size={14} className="text-stone-400 dark:text-stone-500 group-hover:text-stone-600 transition-colors" />
+                </div>
+              </Link>
+            );
+          }
+
+          // ACTIVE row (currently selected/being practiced)
           if (isActive) {
             return (
-              <div key={date} className="flex items-center justify-between px-5 py-4 bg-stone-50 dark:bg-stone-800/30">
-                <div className="flex items-baseline gap-3">
-                  <span className="text-sm font-medium text-stone-900 dark:text-stone-100">
-                    {formatDisplayDate(date)}
-                  </span>
-                  {badge}
+              <div key={date} className="flex items-center gap-0">
+                <div className="w-1 self-stretch bg-stone-300 dark:bg-stone-700 flex-shrink-0" />
+                <div className="flex items-center justify-between flex-1 px-5 py-4 bg-stone-50 dark:bg-stone-800/30">
+                  <span className="text-sm font-medium text-stone-700 dark:text-stone-300">{formatDisplayDate(date)}</span>
+                  {isToday && <span className="section-label text-stone-400 dark:text-stone-500">Today</span>}
                 </div>
               </div>
             );
           }
 
+          // PAST dates (available, not selected)
           return (
-            <Link
-              key={date}
-              href={isToday ? '/quiz' : `/quiz/${date}`}
-              className="flex items-center justify-between px-5 py-4 hover:bg-stone-50 dark:hover:bg-stone-800/50 transition-colors group"
-            >
-              <div className="flex items-baseline gap-3 min-w-0">
-                <span className="text-sm font-medium text-stone-900 dark:text-stone-100 truncate group-hover:text-stone-700 dark:group-hover:text-stone-50">
-                  {formatDisplayDate(date)}
-                </span>
-                {badge}
+            <Link key={date} href={`/quiz/${date}`} className="flex items-center gap-0 hover:bg-stone-50 dark:hover:bg-stone-800/50 transition-colors group">
+              <div className="w-1 self-stretch flex-shrink-0" />
+              <div className="flex items-center justify-between flex-1 px-5 py-4">
+                <span className="text-sm font-medium text-stone-600 dark:text-stone-400 group-hover:text-stone-900 dark:group-hover:text-stone-100 transition-colors">{formatDisplayDate(date)}</span>
+                <ChevronRight size={14} className="text-stone-300 dark:text-stone-600 group-hover:text-stone-500 dark:group-hover:text-stone-400 transition-colors" />
               </div>
-              <ChevronRight
-                size={14}
-                className="shrink-0 text-stone-300 dark:text-stone-600 group-hover:text-stone-500 dark:group-hover:text-stone-400 transition-colors"
-              />
             </Link>
           );
         })}
