@@ -4,11 +4,25 @@ import { Header } from '@/components/Header';
 import { QuizInterface } from '@/components/QuizInterface';
 import type { CountdownData } from '@/components/QuizInterface';
 import type { TopicCategory } from '@/lib/types';
-import { ChevronRight } from 'lucide-react';
+import { TOPIC_STYLES } from '@/lib/types';
+import { ChevronRight, Plus } from 'lucide-react';
 import { requireSubscription } from '@/lib/paywall';
 import { auth } from '@clerk/nextjs/server';
 import { getOnboarding } from '@/lib/onboarding';
 import { FIRMS } from '@/lib/firms-data';
+
+// ── Deep practice topics ───────────────────────────────────────────────────────
+
+const DEEP_PRACTICE_TOPICS = [
+  { slug: 'ma', label: 'M&A' as const, description: 'Deal structures, regulatory clearances, practice group positioning', questionCount: 9, difficulty: 'Advanced' },
+  { slug: 'capital-markets', label: 'Capital Markets' as const, description: 'Equity and debt issuances, listing rules, underwriting mechanics', questionCount: 9, difficulty: 'Advanced' },
+  { slug: 'banking-finance', label: 'Banking & Finance' as const, description: 'Loan structures, LBOs, intercreditor arrangements', questionCount: 9, difficulty: 'Advanced' },
+  { slug: 'energy-tech', label: 'Energy & Tech' as const, description: 'Infrastructure deals, tech M&A, IP structuring', questionCount: 9, difficulty: 'Intermediate' },
+  { slug: 'regulation', label: 'Regulation' as const, description: 'FCA, CMA, PRA enforcement and compliance obligations', questionCount: 9, difficulty: 'Intermediate' },
+  { slug: 'disputes', label: 'Disputes' as const, description: 'Litigation strategy, arbitration, damages frameworks', questionCount: 9, difficulty: 'Intermediate' },
+  { slug: 'international', label: 'International' as const, description: 'Cross-border transactions, governing law, jurisdictional issues', questionCount: 9, difficulty: 'Advanced' },
+  { slug: 'ai-law', label: 'AI & Law' as const, description: 'AI regulation, liability, legal tech and law firm strategy', questionCount: 9, difficulty: 'Intermediate' },
+];
 
 // ── Firm deadline countdown helpers ───────────────────────────────────────────
 
@@ -111,14 +125,11 @@ export default async function QuizPage() {
 
   const activeDate = briefing?.date ?? today;
   const quizQuestions = briefing ? ((await getQuiz(briefing.date))?.questions ?? []) : [];
-  const deepCount = quizQuestions.length || 24;
-  // streak count = 1 question per story
-  const storyCount = briefing?.stories.length ?? 8;
 
   const dateList = dates.length > 0 && (
     <div className="mb-8">
       <h3 className="section-label mb-3">
-        Past Briefings
+        Quiz Archive
       </h3>
       <div className="rounded-card border border-stone-200 dark:border-stone-800 overflow-hidden">
         {dates.map((date) => {
@@ -178,20 +189,7 @@ export default async function QuizPage() {
             <span className="text-[11px] uppercase tracking-[0.3em] font-semibold opacity-40 font-sans">
               Intelligence Training
             </span>
-            <h2 className="text-5xl font-serif">Daily Quiz</h2>
-            <p className="max-w-xl opacity-60 text-lg font-light">Test your commercial awareness.</p>
-          </div>
-          {/* Hero card — no question count (briefing unavailable) */}
-          <div className="rounded-card bg-charcoal p-6 sm:p-8 mb-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
-            <div>
-              <p className="section-label text-stone-300 mb-2">Today&apos;s Quiz</p>
-              <p className="font-serif text-3xl sm:text-4xl font-bold text-white leading-tight">{formatDisplayDate(today)}</p>
-            </div>
-            <div>
-              <Link href="/quiz" className="inline-flex items-center gap-2 bg-white text-charcoal font-semibold text-sm px-5 py-3 rounded-chrome hover:bg-stone-100 transition-colors">
-                Start today&apos;s quiz <ChevronRight size={14} />
-              </Link>
-            </div>
+            <h2 className="text-5xl font-serif text-stone-900 dark:text-stone-50">Commercial Quiz</h2>
           </div>
           {dateList}
           <div className="text-center py-20 space-y-2">
@@ -224,22 +222,68 @@ export default async function QuizPage() {
           <span className="text-[11px] uppercase tracking-[0.3em] font-semibold opacity-40 font-sans">
             Intelligence Training
           </span>
-          <h2 className="text-5xl font-serif">Daily Quiz</h2>
-          <p className="max-w-xl opacity-60 text-lg font-light">Test your commercial awareness.</p>
+          <h2 className="text-5xl font-serif text-stone-900 dark:text-stone-50">Commercial Quiz</h2>
         </div>
-        {/* Hero card — today's date, question count, charcoal CTA */}
-        <div className="rounded-card bg-charcoal p-6 sm:p-8 mb-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
-          <div>
-            <p className="section-label text-stone-300 mb-2">Today&apos;s Quiz</p>
-            <p className="font-serif text-3xl sm:text-4xl font-bold text-white leading-tight">{formatDisplayDate(today)}</p>
-            <p className="text-sm text-stone-300 mt-2">{storyCount} daily · {deepCount} deep practice</p>
+
+        {/* ── Two-column hero grid ────────────────────────────────────────── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+          {/* Left column — Daily quiz hero */}
+          <div className="lg:col-span-7">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="h-px flex-1 bg-stone-200 dark:bg-stone-800" />
+              <span className="section-label flex-shrink-0">Daily Briefing</span>
+              <div className="h-px flex-1 bg-stone-200 dark:bg-stone-800" />
+            </div>
+            <div className="rounded-card bg-[#2D3436] text-white p-10 relative overflow-hidden">
+              <div className="pointer-events-none absolute inset-0 z-0" style={{ background: 'radial-gradient(ellipse 70% 80% at 20% 50%, rgba(255,255,255,0.05) 0%, transparent 70%)' }} aria-hidden="true" />
+              <div className="relative z-10 flex flex-col gap-6">
+                <div>
+                  <p className="section-label text-white/40 mb-3">Today&apos;s Quiz</p>
+                  <p className="font-serif text-3xl sm:text-4xl font-semibold text-white leading-tight mb-4">
+                    Today&apos;s Commercial Briefing Quiz
+                  </p>
+                  <p className="font-mono text-xl text-white/60">{formatDisplayDate(today)}</p>
+                </div>
+                <div className="flex items-center gap-6 text-white/50 text-sm font-sans">
+                  <span>8 Questions</span>
+                  <span className="w-1 h-1 rounded-full bg-white/30" />
+                  <span>10&ndash;15 Mins</span>
+                </div>
+                <div>
+                  <Link href="/quiz" className="inline-block bg-white text-[#2D3436] font-semibold text-sm px-10 py-4 rounded-full hover:bg-stone-100 transition-colors">
+                    Start Daily Quiz
+                  </Link>
+                </div>
+              </div>
+            </div>
           </div>
-          <div>
-            <Link href="/quiz" className="inline-flex items-center gap-2 bg-white text-charcoal font-semibold text-sm px-5 py-3 rounded-chrome hover:bg-stone-100 transition-colors">
-              Start today&apos;s quiz <ChevronRight size={14} />
-            </Link>
+
+          {/* Right column — Deep practice */}
+          <div className="lg:col-span-5">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="h-px flex-1 bg-stone-200 dark:bg-stone-800" />
+              <span className="section-label flex-shrink-0">Deep Practice</span>
+              <div className="h-px flex-1 bg-stone-200 dark:bg-stone-800" />
+            </div>
+            <div className="flex flex-col gap-3">
+              {DEEP_PRACTICE_TOPICS.map((topic) => (
+                <Link key={topic.slug} href={`/quiz/practice/${topic.slug}`}
+                  className="group flex items-center gap-4 p-4 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-card hover:border-[#2D3436] dark:hover:border-stone-500 transition-all duration-200">
+                  <div className={`w-2 h-2 rounded-full flex-shrink-0 ${TOPIC_STYLES[topic.label].dot}`} />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-stone-900 dark:text-stone-100 leading-tight">{topic.label}</p>
+                    <p className="text-caption text-stone-400 dark:text-stone-500 mt-0.5 truncate">{topic.description}</p>
+                  </div>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <span className="section-label text-stone-400 dark:text-stone-500">{topic.difficulty}</span>
+                    <Plus size={14} className="text-stone-300 dark:text-stone-600 group-hover:text-[#2D3436] dark:group-hover:text-stone-400 transition-colors" />
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
+
         {dateList}
         <QuizInterface
           date={briefing.date}
