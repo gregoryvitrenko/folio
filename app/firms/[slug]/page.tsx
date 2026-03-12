@@ -110,6 +110,43 @@ function SectionCard({
   );
 }
 
+/** Horizontal stat strip — surfaces key TC numbers immediately below the hero */
+function StatStrip({ trainingContract, tierText }: {
+  trainingContract: NonNullable<ReturnType<typeof getFirmBySlug>>['trainingContract'];
+  tierText: string;
+}) {
+  return (
+    <div className="border-y border-stone-200 dark:border-stone-800 py-4 mb-8">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div>
+          <p className="section-label mb-1">NQ Salary</p>
+          <p className={`font-sans text-[18px] font-bold leading-tight ${tierText}`}>
+            {trainingContract.nqSalaryNote}
+          </p>
+        </div>
+        <div>
+          <p className="section-label mb-1">TC Salary</p>
+          <p className="font-sans text-[15px] font-semibold text-stone-800 dark:text-stone-200">
+            {trainingContract.tcSalaryNote}
+          </p>
+        </div>
+        <div>
+          <p className="section-label mb-1">Annual Intake</p>
+          <p className="font-sans text-[15px] font-semibold text-stone-800 dark:text-stone-200">
+            {trainingContract.intakeSizeNote}
+          </p>
+        </div>
+        <div>
+          <p className="section-label mb-1">Seats</p>
+          <p className="font-sans text-[15px] font-semibold text-stone-800 dark:text-stone-200">
+            {trainingContract.seats} seats
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /** Section label — sans-semibold, more readable than mono stone-400 */
 function SectionHeading({ icon, label }: { icon: React.ReactNode; label: string }) {
   return (
@@ -257,6 +294,9 @@ export default async function FirmProfilePage({
             {firm.website.replace(/^https?:\/\//, '')}
           </a>
         </div>
+
+        {/* ── Stat Strip ──────────────────────────────────────────────────────── */}
+        <StatStrip trainingContract={firm.trainingContract} tierText={tierText} />
 
         <div className="space-y-4">
 
@@ -667,10 +707,8 @@ export default async function FirmProfilePage({
                     key={i}
                     className="flex gap-4 group"
                   >
-                    <span
-                      className={`shrink-0 font-sans text-[11px] font-bold tracking-tight mt-0.5 ${tierText} opacity-70`}
-                    >
-                      Q{i + 1}
+                    <span className="shrink-0 font-serif text-[15px] font-semibold text-stone-400 dark:text-stone-500 leading-none mt-0.5 w-6 text-right">
+                      {i + 1}.
                     </span>
                     <p className="text-[14px] text-stone-700 dark:text-stone-300 leading-[1.7]">
                       {question}
