@@ -22,7 +22,7 @@ const playfairDisplay = Playfair_Display({
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
-  variable: '--font-sans',
+  variable: '--font-mono',
   display: 'swap',
 });
 
