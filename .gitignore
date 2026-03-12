@@ -44,3 +44,4 @@ data/firms/
 
 # clerk configuration (can include secrets)
 /.clerk/
+.mcp.json
