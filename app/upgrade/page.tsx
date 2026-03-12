@@ -3,16 +3,33 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useUser } from '@clerk/nextjs';
-import { CheckCircle2 } from 'lucide-react';
 import { track } from '@vercel/analytics';
 
-const PREMIUM_FEATURES = [
-  'Walk into interviews with a point of view — full analysis and structured talking points for every deal',
-  'Lock in the facts — 24 daily quiz questions keep your recall interview-sharp',
-  'Know your target firms cold — interview packs with practice Qs and "why this firm?" angles for 38 firms',
-  'Speak the language of deals — sector primers covering M&A, Capital Markets, Disputes & more',
-  'Stay informed on the commute — audio briefing keeps you ahead without adding desk time',
-  'Build your knowledge base — full archive and bookmarks for structured, long-term prep',
+const OUTCOMES = [
+  {
+    label: 'Walk in with a point of view',
+    body: 'Full analysis and structured talking points on every deal — not just the headline.',
+  },
+  {
+    label: 'Quiz-sharp recall',
+    body: '24 daily questions calibrated to TC interview depth, with streaks to keep you consistent.',
+  },
+  {
+    label: 'Know 38 firms cold',
+    body: 'Interview packs with practice questions and "why this firm?" angles, ready to use.',
+  },
+  {
+    label: 'Speak the language',
+    body: 'Sector primers covering M&A, Capital Markets, Disputes, and more — written for interviews.',
+  },
+  {
+    label: 'Stay ahead on the commute',
+    body: 'Audio briefing keeps you informed without adding desk time.',
+  },
+  {
+    label: 'Build for the long run',
+    body: 'Full archive and bookmarks for structured prep that compounds week over week.',
+  },
 ];
 
 export default function UpgradePage() {
@@ -59,83 +76,120 @@ export default function UpgradePage() {
         </div>
       </header>
 
-      <main className="flex-1 flex items-center justify-center px-4 py-16">
-        <div className="w-full max-w-md">
+      <main className="flex-1 max-w-3xl mx-auto w-full px-4 sm:px-6 py-10 lg:py-14">
 
-          {/* Heading */}
-          <div className="text-center mb-8">
-            <p className="section-label mb-3">
-              Premium
-            </p>
-            <h2 className="font-serif text-article tracking-tight text-stone-900 dark:text-stone-50 mb-2">
-              £4 / month
-            </h2>
-            <p className="text-caption text-stone-500 dark:text-stone-400">
-              Turn today&apos;s deals into confident interview answers in 10 minutes a day.
-            </p>
-          </div>
+        {/* Editorial headline */}
+        <div className="mb-8">
+          <p className="section-label mb-3">Premium</p>
+          <h2 className="font-serif text-display font-bold tracking-tight text-stone-900 dark:text-stone-50 leading-tight mb-3">
+            Know the deals.<br />Own the interview.
+          </h2>
+          <p className="text-body text-stone-500 dark:text-stone-400 max-w-lg">
+            Turn today&apos;s market news into confident interview answers — in 10 minutes a day.
+          </p>
+        </div>
 
-          {/* Features card */}
-          <div className="rounded-card bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 overflow-hidden divide-y divide-stone-100 dark:divide-stone-800 mb-6">
-            {PREMIUM_FEATURES.map((feature) => (
-              <div key={feature} className="flex items-start gap-3 px-5 py-4">
-                <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
-                <span className="text-caption text-stone-700 dark:text-stone-300">{feature}</span>
+        {/* Section rule */}
+        <div className="flex items-center gap-4 mb-8">
+          <div className="h-px flex-1 bg-stone-200 dark:bg-stone-800" />
+          <span className="section-label flex-shrink-0">What you get</span>
+          <div className="h-px flex-1 bg-stone-200 dark:bg-stone-800" />
+        </div>
+
+        {/* Two-column: outcomes + pricing */}
+        <div className="lg:grid lg:grid-cols-[1fr_280px] lg:gap-10 mb-10">
+
+          {/* Outcomes grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-stone-200 dark:bg-stone-800 rounded-card overflow-hidden border border-stone-200 dark:border-stone-800 mb-8 lg:mb-0">
+            {OUTCOMES.map((outcome) => (
+              <div
+                key={outcome.label}
+                className="bg-white dark:bg-stone-900 px-5 py-4"
+              >
+                <p className="text-caption font-semibold text-stone-900 dark:text-stone-100 mb-1">
+                  {outcome.label}
+                </p>
+                <p className="text-caption text-stone-500 dark:text-stone-400 leading-relaxed">
+                  {outcome.body}
+                </p>
               </div>
             ))}
           </div>
 
-          {/* Social proof */}
-          <div className="text-center mb-6">
-            <p className="section-label mb-3">
-              Join 200+ law students{/* TODO: update with real count when available */}
-            </p>
-            <blockquote>
-              <p className="text-caption italic text-stone-600 dark:text-stone-400 leading-relaxed mb-1">
-                {/* TODO: replace with real testimonial */}
-                &ldquo;Folio is the only prep tool I actually open every morning — the talking points are sharp enough to use straight in interviews.&rdquo;
+          {/* Pricing card */}
+          <div className="flex flex-col gap-4">
+            <div className="rounded-card bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 px-6 py-6">
+              <p className="section-label mb-2">Monthly</p>
+              <p className="font-serif text-display font-bold tracking-tight text-stone-900 dark:text-stone-50 leading-none mb-1">
+                £4
               </p>
-              <cite className="text-label text-stone-400 dark:text-stone-500 not-italic">
-                — LLB student, University of Bristol
-              </cite>
-            </blockquote>
+              <p className="text-caption text-stone-400 dark:text-stone-500 mb-5">
+                per month
+              </p>
+
+              {error && (
+                <p className="text-label font-mono text-rose-500 dark:text-rose-400 mb-3">
+                  {error}
+                </p>
+              )}
+
+              {/* Amber CTA — deliberate exception to the stone-only button rule for conversion emphasis */}
+              <button
+                onClick={handleUpgrade}
+                disabled={loading}
+                className="w-full py-3 rounded-chrome bg-amber-600 text-stone-50 text-caption font-sans font-medium hover:bg-amber-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading
+                  ? 'Redirecting to checkout…'
+                  : isSignedIn
+                  ? 'Subscribe — £4/month →'
+                  : 'Create account & subscribe →'}
+              </button>
+
+              <p className="text-center text-label text-stone-400 dark:text-stone-500 mt-3">
+                Cancel any time. Billed via Stripe.
+              </p>
+            </div>
+
+            {/* Free tier note */}
+            <div className="rounded-card bg-stone-50 dark:bg-stone-800/40 border border-stone-200 dark:border-stone-700 px-5 py-4">
+              <p className="text-label font-sans font-semibold text-stone-700 dark:text-stone-300 mb-1 uppercase tracking-widest">
+                Free tier
+              </p>
+              <p className="text-caption text-stone-500 dark:text-stone-400 leading-relaxed">
+                Daily briefing headlines and summaries are always free. No credit card required to browse.
+              </p>
+            </div>
           </div>
-
-          {/* Free tier note */}
-          <div className="rounded-card bg-stone-50 dark:bg-stone-800/40 border border-stone-200 dark:border-stone-700 px-5 py-4 mb-6">
-            <p className="text-label text-stone-500 dark:text-stone-400">
-              <span className="font-medium text-stone-700 dark:text-stone-300">Free tier:</span> Daily briefing headlines and summaries are always free. No credit card required to browse.
-            </p>
-          </div>
-
-          {error && (
-            <p className="text-label font-mono text-rose-500 dark:text-rose-400 mb-4 text-center">
-              {error}
-            </p>
-          )}
-
-          {/* CTA */}
-          <button
-            onClick={handleUpgrade}
-            disabled={loading}
-            className="w-full py-3 rounded-chrome bg-stone-900 dark:bg-stone-100 text-stone-50 dark:text-stone-900 text-caption font-sans font-medium hover:bg-stone-700 dark:hover:bg-stone-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {loading ? 'Redirecting to checkout…' : isSignedIn ? 'Subscribe — £4/month →' : 'Create account & subscribe →'}
-          </button>
-
-          <p className="text-center text-label text-stone-400 dark:text-stone-500 mt-4">
-            Cancel any time. Billed monthly via Stripe.
-          </p>
-
-          <div className="text-center mt-6">
-            <Link href="/" className="text-label text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-300 transition-colors">
-              ← Back to briefing
-            </Link>
-          </div>
-
         </div>
-      </main>
 
+        {/* Pull quote */}
+        <div className="flex items-center gap-4 mb-6">
+          <div className="h-px flex-1 bg-stone-200 dark:bg-stone-800" />
+          <span className="section-label flex-shrink-0">From students</span>
+          <div className="h-px flex-1 bg-stone-200 dark:bg-stone-800" />
+        </div>
+
+        <div className="rounded-card bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 px-6 py-6 mb-10">
+          <blockquote>
+            <p className="font-serif text-subheading italic text-stone-700 dark:text-stone-300 leading-snug mb-4">
+              {/* TODO: replace with real testimonial */}
+              &ldquo;Folio is the only prep tool I actually open every morning — the talking points are sharp enough to use straight in interviews.&rdquo;
+            </p>
+            <cite className="section-label not-italic">
+              {/* TODO: update count when live data available */}
+              LLB student, University of Bristol &mdash; one of 200+ using Folio
+            </cite>
+          </blockquote>
+        </div>
+
+        <div className="text-center">
+          <Link href="/" className="text-label text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-300 transition-colors">
+            ← Back to briefing
+          </Link>
+        </div>
+
+      </main>
     </div>
   );
 }
