@@ -6,7 +6,7 @@
 - ✅ **v1.1 Content & Reach** — Phases 7-12 (shipped 2026-03-12)
 - ✅ **v1.2 Editorial Design** — Phases 13-15 (shipped 2026-03-12)
 - ✅ **v1.3 Editorial Interior** — Phases 16-19 (shipped 2026-03-12)
-- 🚧 **v2 Premium Experience** — Phases 20-24 (in progress)
+- ✅ **v2 Premium Experience** — Phases 20-24 (shipped 2026-03-12)
 
 ## Phases
 
