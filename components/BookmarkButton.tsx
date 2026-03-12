@@ -42,7 +42,7 @@ export function BookmarkButton({
         onClick={handleClick}
         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-sm border text-[11px] font-sans font-medium transition-colors ${
           saved
-            ? 'border-amber-300 dark:border-amber-600 bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400'
+            ? 'border-oxford-blue/30 dark:border-oxford-blue/50 bg-oxford-blue/5 dark:bg-oxford-blue/10 text-oxford-blue dark:text-oxford-blue-light'
             : 'border-stone-200 dark:border-stone-700 text-stone-500 dark:text-stone-400 hover:border-stone-400 dark:hover:border-stone-500 hover:text-stone-700 dark:hover:text-stone-300'
         }`}
         aria-label={saved ? 'Remove bookmark' : 'Save this story'}
@@ -58,7 +58,7 @@ export function BookmarkButton({
       onClick={handleClick}
       className={`p-1 rounded transition-colors ${
         saved
-          ? 'text-amber-500 dark:text-amber-400'
+          ? 'text-oxford-blue dark:text-oxford-blue-light'
           : 'text-stone-300 dark:text-stone-600 hover:text-stone-500 dark:hover:text-stone-400'
       }`}
       aria-label={saved ? 'Remove bookmark' : 'Save this story'}
