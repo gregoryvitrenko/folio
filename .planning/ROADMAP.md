@@ -122,7 +122,10 @@ Plans:
   2. The firm profile page has at least two visually distinct section treatments — not all sections use the same left-border card pattern
   3. The "Why This Firm?" section uses editorial numbered callouts with large background numbers behind each point — clearly different from the other sections
   4. Interview questions on the firm profile are numbered with clean typographic numbering (1., 2., 3.) — no chip or box styling around the number
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 17-01-PLAN.md — Horizontal stat strip below hero, typographic interview question numbering
+- [ ] 17-02-PLAN.md — Editorial "Why This Firm?" callouts, dark Interview Focus block
 
 ### Phase 18: Secondary Pages + Conversion Polish
 **Goal**: The quiz entry experience, firms directory, and upgrade page all reach the editorial standard set in Phases 16-17 — distinct layouts for distinct purposes, with the upgrade page anchored by a dark conversion panel
@@ -144,7 +147,10 @@ Plans:
   1. The podcast hero is a dark stone-900 block with the episode title in large serif, a waveform bar visualization, and a play button — clearly different from every other page
   2. The episode archive list renders each entry with a date (day + month split), vertical rule divider, topic chip, title, and duration — visually scannable, not a plain list
   3. Below the player, the current episode shows a briefing notes panel with numbered talking points using the same `font-mono opacity-20` large-number style as firm profile callouts
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 19-01-PLAN.md — Dark hero block, decorative waveform, briefing notes panel (POD-01, POD-03)
+- [ ] 19-02-PLAN.md — Editorial episode archive list with date-split rows (POD-02)
 
 ## Progress
 
@@ -166,6 +172,6 @@ Plans:
 | 14. Editorial Layout | v1.2 | - | Reverted | 2026-03-12 |
 | 15. Conversion Page | v1.2 | 1/1 | Complete | 2026-03-12 |
 | 16. Global Design + Logo + Header | 2/2 | Complete    | 2026-03-12 | - |
-| 17. Firm Profile Redesign | v1.3 | 0/TBD | Not started | - |
-| 18. Secondary Pages + Conversion Polish | v1.3 | 0/TBD | Not started | - |
-| 19. Podcast Page Redesign | v1.3 | 0/TBD | Not started | - |
+| 17. Firm Profile Redesign | v1.3 | 0/2 | Not started | - |
+| 18. Secondary Pages + Conversion Polish | v1.3 | 2/TBD | In progress | - |
+| 19. Podcast Page Redesign | v1.3 | 0/2 | Not started | - |

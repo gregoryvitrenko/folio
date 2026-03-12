@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.3
 milestone_name: Editorial Interior
 status: executing
-stopped_at: Completed 16-global-design-logo-header-02-PLAN.md
-last_updated: "2026-03-12T20:48:23.477Z"
-last_activity: 2026-03-12 — Phase 16 Plan 01 complete (bg-paper sitewide, .section-label font-mono)
+stopped_at: Completed 18-secondary-pages-conversion-polish-02-PLAN.md
+last_updated: "2026-03-12T21:07:00Z"
+last_activity: 2026-03-12 — Phase 18 Plan 02 complete (firms tier rule headers, upgrade page serif titles and dark CTA panel)
 progress:
   total_phases: 6
   completed_phases: 3
@@ -25,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-03-12)
 
 ## Current Position
 
-Phase: 16 of 18 (Global Design + Logo + Header)
-Plan: 01 complete, 02+ pending
+Phase: 18 of 19 (Secondary Pages + Conversion Polish)
+Plan: 02 complete
 Status: In progress
-Last activity: 2026-03-12 — Phase 16 Plan 01 complete (bg-paper sitewide, .section-label font-mono)
+Last activity: 2026-03-12 — Phase 18 Plan 02 complete (firms tier rule headers, upgrade page serif titles and dark CTA panel)
 
-Progress: [█░░░░░░░░░] 10% (Phase 16 Plan 01 done)
+Progress: [████░░░░░░] 40% (Phase 18 Plan 02 done)
 
 ## Performance Metrics
 
@@ -55,6 +55,9 @@ Progress: [█░░░░░░░░░] 10% (Phase 16 Plan 01 done)
 - Phase 14 REVERTED — do not re-introduce lead story hierarchy or asymmetric layout
 - [Phase 16-global-design-logo-header]: Dateline uses font-mono at 9px (below section-label 11px default) — monospace reinforces metadata register
 - [Phase 16-global-design-logo-header]: Striped-F wordmark: olio span at -0.03em letter-spacing, tighter than tracking-tight per brand spec
+- [Phase 18-02]: Dark stone-900 CTA panel on upgrade page — amber button removed (was v1.2 spec exception, now corrected per v1.3 brief)
+- [Phase 18-02]: font-serif at 15px for upgrade outcome titles — text-caption (12px) too small for Playfair Display at title weight
+- [Phase 18-02]: Firms tier header: full-width 1px bg-stone-900 rule above tier name — classic newspaper section separator
 
 ### Pending Todos
 
@@ -66,6 +69,6 @@ None — requirements locked, roadmap written, ready to plan Phase 16.
 
 ## Session Continuity
 
-Last session: 2026-03-12T20:41:04.282Z
-Stopped at: Completed 16-global-design-logo-header-02-PLAN.md
+Last session: 2026-03-12T21:07:00Z
+Stopped at: Completed 18-secondary-pages-conversion-polish-02-PLAN.md
 Resume file: None
