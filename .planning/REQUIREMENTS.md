@@ -20,8 +20,8 @@ Align the product to the AI Studio mockup aesthetic — replace Oxford blue with
 
 ### DESIGN — Accent & Global Style
 
-- [ ] **DESIGN-01**: The primary accent colour is updated sitewide from Oxford blue (`#002147`) to charcoal (`#2D3436`) — all CTA buttons, active states, hero backgrounds, and accent elements use charcoal
-- [ ] **DESIGN-02**: All primary content pages display a consistent heading block: small uppercase overline label + large serif title + optional description — matching the AI Studio mockup heading pattern
+- [x] **DESIGN-01**: The primary accent colour is updated sitewide from Oxford blue (`#002147`) to charcoal (`#2D3436`) — all CTA buttons, active states, hero backgrounds, and accent elements use charcoal
+- [x] **DESIGN-02**: All primary content pages display a consistent heading block: small uppercase overline label + large serif title + optional description — matching the AI Studio mockup heading pattern
 
 ### HOME — Briefing Home Page
 
@@ -80,8 +80,8 @@ Align the product to the AI Studio mockup aesthetic — replace Oxford blue with
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DESIGN-01 | Phase 25 | Pending |
-| DESIGN-02 | Phase 25 | Pending |
+| DESIGN-01 | Phase 25 | Complete |
+| DESIGN-02 | Phase 25 | Complete |
 | HOME-01 | Phase 26 | Pending |
 | HOME-02 | Phase 26 | Pending |
 | ARCH-01 | Phase 27 | Pending |

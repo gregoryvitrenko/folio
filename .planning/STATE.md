@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
-milestone: v3
-milestone_name: Design Refresh & Features
-status: not_started
-stopped_at: Requirements defined, roadmap pending
-last_updated: "2026-03-12T23:30:00.000Z"
-last_activity: 2026-03-12 — Milestone v3 started, requirements defined (20 requirements across 6 phases)
+milestone: v1.0
+milestone_name: milestone
+status: in_progress
+stopped_at: Phase 25 complete — 25-01 (charcoal accent) and 25-02 (global headings) done
+last_updated: "2026-03-12T00:00:00.000Z"
+last_activity: 2026-03-12 — Phase 25 executed (2 plans complete, DESIGN-01 and DESIGN-02 satisfied)
 progress:
   total_phases: 6
-  completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
-  percent: 0
+  completed_phases: 1
+  total_plans: 2
+  completed_plans: 2
+  percent: 17
 ---
 
 # Project State
@@ -21,25 +21,25 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-12)
 
 **Core value:** Students who use Folio daily walk into TC interviews knowing what's happening in the market and how to talk about it — giving them a credible edge over unprepared candidates.
-**Current focus:** v3 Design Refresh & Features — requirements defined, roadmap creating
+**Current focus:** v3 Design Refresh & Features — roadmap complete, ready to execute
 
 ## Current Position
 
-Phase: Not started (defining roadmap)
-Plan: —
-Status: Defining roadmap
-Last activity: 2026-03-12 — Milestone v3 started
+Phase: 25 — Accent + Global Headings (COMPLETE)
+Plan: 25-02 (last completed)
+Status: Phase 25 done — Phase 26 (Home Newspaper Layout) is next
+Last activity: 2026-03-12 — Phase 25 executed
 
-## v3 Phase Map (planned)
+## v3 Phase Map
 
 | Phase | Name | Requirements | Status |
 |-------|------|--------------|--------|
-| 25 | Accent + Global Headings | DESIGN-01, DESIGN-02 | Pending |
-| 26 | Home Newspaper Layout | HOME-01, HOME-02 | Pending |
-| 27 | Unified Archive | ARCH-01, ARCH-02, ARCH-03, ARCH-04 | Pending |
-| 28 | Quiz + Podcast Heroes & Format | POD-01, QUIZ-01, QUIZ-02, QUIZ-03 | Pending |
-| 29 | Quiz Gamification | QUIZ-04, QUIZ-05, QUIZ-06 | Pending |
-| 30 | Application Tracker | TRKR-01, TRKR-02, TRKR-03, TRKR-04, TRKR-05 | Pending |
+| 25 | Accent + Global Headings | DESIGN-01, DESIGN-02 | COMPLETE |
+| 26 | Home Newspaper Layout | HOME-01, HOME-02 | Not started |
+| 27 | Unified Archive | ARCH-01, ARCH-02, ARCH-03, ARCH-04 | Not started |
+| 28 | Quiz + Podcast Heroes & Format | POD-01, QUIZ-01, QUIZ-02, QUIZ-03 | Not started |
+| 29 | Quiz Gamification | QUIZ-04, QUIZ-05, QUIZ-06 | Not started |
+| 30 | Application Tracker | TRKR-01, TRKR-02, TRKR-03, TRKR-04, TRKR-05 | Not started |
 
 **Wave structure:**
 - Wave 1: Phase 25 (colour + heading tokens — everything depends on this)
@@ -71,9 +71,14 @@ Last activity: 2026-03-12 — Milestone v3 started
 - Quiz format: 8 daily questions (1/topic) + deep practice sets per area
 - Gamification: XP 100/level, Redis keys `quiz:xp:{userId}`, `quiz:level:{userId}`, `quiz:streak:{userId}` + `quiz:last-completed:{userId}`
 
+### Decisions (Phase 25)
+
+- [Phase 25]: charcoal (#2D3436) registered as named Tailwind token replacing oxford-blue (#002147) — all CTAs, active states, hero backgrounds now use charcoal
+- [Phase 25]: v3 heading pattern applied to 9 pages — space-y-4 mb-12 block with tracking-[0.3em] overline + text-5xl font-serif title + opacity-60 description
+
 ### Pending Todos
 
-None yet — roadmap creation in progress.
+None — Phase 25 complete, ready to execute Phase 26.
 
 ### Blockers/Concerns
 
@@ -82,6 +87,6 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-12
-Stopped at: Requirements defined — spawning roadmapper
+Stopped at: Completed Phase 25 (25-01 charcoal accent, 25-02 global headings)
 Resume file: None
-Next action: Approve roadmap then execute phases 25-30
+Next action: `/gsd:execute-phase 26` — Home Newspaper Layout (Wave 2)
