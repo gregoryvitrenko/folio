@@ -8,6 +8,8 @@ import {
   INTERVIEW_QUESTIONS,
   type InterviewCategorySlug,
 } from '@/lib/interview-data';
+import { PRIMERS } from '@/lib/primers-data';
+import { TOPIC_STYLES } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
 
@@ -112,8 +114,45 @@ export default async function InterviewPage() {
           })}
         </div>
 
+        {/* Practice area divider */}
+        <div className="flex items-center gap-4 mt-10 mb-6">
+          <div className="h-px flex-1 bg-stone-200 dark:bg-stone-800" />
+          <span className="section-label flex-shrink-0">By Practice Area</span>
+          <div className="h-px flex-1 bg-stone-200 dark:bg-stone-800" />
+        </div>
+
+        <p className="text-[13px] text-stone-500 dark:text-stone-400 leading-relaxed mb-6 max-w-2xl">
+          Questions drawn from sector primers — showing what firms ask about M&A, Capital Markets, disputes, and more.
+        </p>
+
+        {/* Practice area grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
+          {PRIMERS.filter((p) => p.interviewQs && p.interviewQs.length > 0).map((primer) => {
+            const styles = TOPIC_STYLES[primer.category];
+            return (
+              <Link
+                key={primer.slug}
+                href={`/primers/${primer.slug}`}
+                className="group rounded-card border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 px-4 py-4 flex flex-col gap-2 hover:shadow-sm transition-shadow"
+              >
+                <div className="flex items-center gap-2">
+                  <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${styles.dot}`} />
+                  <p className={`section-label ${styles.label}`}>{primer.category}</p>
+                </div>
+                <h3 className="font-serif text-[15px] font-semibold text-stone-900 dark:text-stone-50 leading-snug">
+                  {primer.title}
+                </h3>
+                <div className={`flex items-center gap-1 text-[11px] font-medium mt-auto ${styles.label} group-hover:gap-1.5 transition-all`}>
+                  {primer.interviewQs!.length} questions
+                  <ArrowRight size={10} />
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+
         {/* Tips banner */}
-        <div className="mt-8 rounded-xl bg-stone-100 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700 px-5 py-4">
+        <div className="rounded-xl bg-stone-100 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700 px-5 py-4">
           <p className="font-sans text-[10px] tracking-widest uppercase text-stone-400 dark:text-stone-500 mb-2">
             How to use this
           </p>
