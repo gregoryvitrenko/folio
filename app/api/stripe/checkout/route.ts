@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { auth, currentUser } from '@clerk/nextjs/server';
+import { cookies } from 'next/headers';
 import { checkRateLimit } from '@/lib/rate-limit';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
@@ -21,12 +22,15 @@ export async function POST(request: NextRequest) {
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3001';
 
+  const cookieStore = await cookies();
+  const referralCode = cookieStore.get('folio-ref')?.value ?? '';
+
   const session = await stripe.checkout.sessions.create({
     mode: 'subscription',
     payment_method_types: ['card'],
     line_items: [{ price: process.env.STRIPE_PRICE_ID!, quantity: 1 }],
     customer_email: email,
-    metadata: { clerkUserId: userId },
+    metadata: { clerkUserId: userId, referralCode },
     subscription_data: {
       metadata: { clerkUserId: userId },
     },

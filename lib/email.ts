@@ -135,7 +135,7 @@ export interface DigestStory {
   date: string; // YYYY-MM-DD
 }
 
-function digestHtml(stories: DigestStory[], siteUrl: string, weekLabel: string, unsubscribeUrl: string): string {
+function digestHtml(stories: DigestStory[], siteUrl: string, weekLabel: string, unsubscribeUrl: string, referralLink?: string): string {
   const storyRows = stories
     .map((s) => {
       const color = TOPIC_COLORS[s.topic] ?? '#71717a';
@@ -221,6 +221,18 @@ function digestHtml(stories: DigestStory[], siteUrl: string, weekLabel: string, 
                   </td>
                 </tr>
               </table>
+
+              ${referralLink ? `
+              <!-- Referral CTA -->
+              <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:24px;">
+                <tr>
+                  <td style="background:#fafaf9;border:1px solid #e7e5e4;border-radius:8px;padding:20px 24px;">
+                    <p style="margin:0 0 8px;font-size:14px;font-weight:600;color:#1c1917;">Share Folio with a friend</p>
+                    <p style="margin:0 0 12px;font-size:13px;color:#57534e;line-height:1.5;">Get a free month when 3 friends subscribe.</p>
+                    <p style="margin:0;font-size:12px;font-family:'Courier New',monospace;color:#78716c;word-break:break-all;">${referralLink}</p>
+                  </td>
+                </tr>
+              </table>` : ''}
             </td>
           </tr>
 
@@ -248,6 +260,7 @@ export async function sendWeeklyDigest(
   weekLabel: string,
   subject: string,
   unsubscribeUrl: string,
+  referralLink?: string,
 ): Promise<{ success: boolean; error?: string }> {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
@@ -262,7 +275,7 @@ export async function sendWeeklyDigest(
     from: FROM,
     to,
     subject,
-    html: digestHtml(stories, siteUrl, weekLabel, unsubscribeUrl),
+    html: digestHtml(stories, siteUrl, weekLabel, unsubscribeUrl, referralLink),
     headers: {
       'List-Unsubscribe': `<${unsubscribeUrl}>, <mailto:hello@folioapp.co.uk?subject=unsubscribe>`,
       'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',

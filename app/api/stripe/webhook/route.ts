@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { setSubscription, removeSubscription, setCustomerMapping } from '@/lib/subscription';
 import { sendWelcomeEmail } from '@/lib/email';
+import { recordReferral } from '@/lib/referral';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -91,6 +92,20 @@ export async function POST(request: NextRequest) {
       } catch (err) {
         console.error('[webhook] Failed to save subscription data:', err);
         return NextResponse.json({ error: 'Failed to process subscription' }, { status: 500 });
+      }
+
+      // Record referral (non-fatal — runs inside idempotency guard so no double-counting on retries)
+      const referralCode = session.metadata?.referralCode;
+      if (referralCode && userId) {
+        try {
+          const result = await recordReferral(userId, referralCode);
+          if (result.rewarded) {
+            console.log(`[webhook] Referral reward applied for referrer of ${userId}`);
+          }
+        } catch (err) {
+          console.error('[webhook] Referral recording error:', err);
+          // Non-fatal — don't fail the webhook
+        }
       }
       break;
     }

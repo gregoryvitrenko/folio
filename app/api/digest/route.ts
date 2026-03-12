@@ -3,6 +3,8 @@ import Stripe from 'stripe';
 import Anthropic from '@anthropic-ai/sdk';
 import { listBriefings, getBriefing } from '@/lib/storage';
 import { sendWeeklyDigest, buildUnsubscribeUrl, type DigestStory } from '@/lib/email';
+import { getOrCreateReferralCode } from '@/lib/referral';
+import { getUserIdByCustomer } from '@/lib/subscription';
 
 export const maxDuration = 300; // 5 min — sending to many recipients
 
@@ -125,7 +127,7 @@ export async function GET(req: NextRequest) {
   // ── 2. Get active subscribers from Stripe ───────────────────────────────
 
   const stripe = new Stripe(stripeKey);
-  const emails: string[] = [];
+  const subscribers: Array<{ email: string; customerId: string }> = [];
 
   let hasMore = true;
   let startingAfter: string | undefined;
@@ -143,7 +145,7 @@ export async function GET(req: NextRequest) {
     for (const sub of subs.data) {
       const customer = sub.customer as Stripe.Customer;
       if (customer?.email) {
-        emails.push(customer.email);
+        subscribers.push({ email: customer.email, customerId: customer.id });
       }
     }
 
@@ -153,7 +155,7 @@ export async function GET(req: NextRequest) {
     }
   }
 
-  if (emails.length === 0) {
+  if (subscribers.length === 0) {
     return NextResponse.json({ sent: 0, note: 'No active subscribers' });
   }
 
@@ -164,7 +166,7 @@ export async function GET(req: NextRequest) {
   let skipped = 0;
 
   // Resend free tier: 100/day. Batch with small delay to avoid rate limits.
-  for (const email of emails) {
+  for (const { email, customerId } of subscribers) {
     // Check GDPR opt-out before sending
     const optedOut = await isOptedOut(email);
     if (optedOut) {
@@ -172,8 +174,20 @@ export async function GET(req: NextRequest) {
       continue;
     }
 
+    // Build personalised referral link (non-fatal if lookup fails)
+    let referralLink: string | undefined;
+    try {
+      const userId = await getUserIdByCustomer(customerId);
+      if (userId) {
+        const code = await getOrCreateReferralCode(userId);
+        referralLink = `${siteUrl}/?ref=${code}`;
+      }
+    } catch {
+      // Non-fatal — digest still sends without referral CTA
+    }
+
     const unsubUrl = buildUnsubscribeUrl(email, siteUrl);
-    const result = await sendWeeklyDigest(email, topStories, weekLabel, subject, unsubUrl);
+    const result = await sendWeeklyDigest(email, topStories, weekLabel, subject, unsubUrl, referralLink);
     if (result.success) {
       sent++;
     } else {
@@ -181,12 +195,12 @@ export async function GET(req: NextRequest) {
     }
 
     // 100ms delay between sends to respect rate limits
-    if (emails.length > 10) {
+    if (subscribers.length > 10) {
       await new Promise((r) => setTimeout(r, 100));
     }
   }
 
-  console.log(`[digest] Weekly digest sent: ${sent} ok, ${failed} failed, ${skipped} skipped opt-out (${emails.length} total subscribers)`);
+  console.log(`[digest] Weekly digest sent: ${sent} ok, ${failed} failed, ${skipped} skipped opt-out (${subscribers.length} total subscribers)`);
 
-  return NextResponse.json({ sent, failed, skipped, total: emails.length });
+  return NextResponse.json({ sent, failed, skipped, total: subscribers.length });
 }
