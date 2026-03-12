@@ -40,8 +40,8 @@ See: `.planning/milestones/v1.1-ROADMAP.md` for full details.
 
 **Milestone Goal:** Elevate Folio's visual register from polished to genuinely editorial — serif headlines, newspaper-style layout hierarchy, tighter spacing rhythm, and a conversion-optimised upgrade page.
 
-- [ ] **Phase 13: Typography & Spacing** (1 plan) - Playfair Display serif, updated type scale sizes, and vertical rhythm improvements across the design system
-- [ ] **Phase 14: Editorial Layout** (1 plan) - Lead story + secondary row + divider + grid hierarchy on the home briefing view
+- [x] **Phase 13: Typography & Spacing** (1/1 plans) - Playfair Display serif, updated type scale sizes, and vertical rhythm improvements across the design system — completed 2026-03-12
+- ~~**Phase 14: Editorial Layout**~~ — reverted 2026-03-12 (user preferred flat grid over lead story hierarchy)
 - [ ] **Phase 15: Conversion Page** - Upgrade page redesigned as editorial section with outcome framing, social proof, and accent CTA
 
 ## Phase Details
@@ -58,7 +58,7 @@ See: `.planning/milestones/v1.1-ROADMAP.md` for full details.
   5. Internal card spacing between headline, excerpt, and meta feels balanced — no cramped stacking
 **Plans**: 1 plan
 Plans:
-- [ ] 13-01-PLAN.md — Type token updates, headline weight correction, grid and card spacing increase
+- [x] 13-01-PLAN.md — Type token updates, headline weight correction, grid and card spacing increase
 
 ### Phase 14: Editorial Layout
 **Goal**: The home briefing view has newspaper-style hierarchy — a dominant lead story announces the day's top item, secondary stories frame it, and the remaining grid follows below a clear visual break
@@ -71,7 +71,7 @@ Plans:
   4. The remaining stories render in a standard grid below the divider — consistent with prior layout
 **Plans**: 1 plan
 Plans:
-- [ ] 14-01-PLAN.md — Featured StoryCard variant + editorial layout hierarchy in StoryGrid
+- [x] 14-01-PLAN.md — Featured StoryCard variant + editorial layout hierarchy in StoryGrid
 
 ### Phase 15: Conversion Page
 **Goal**: The upgrade page reads as a premium editorial destination, not a SaaS pricing table — outcome framing, social proof signals, and a visually distinct CTA that earns the click
@@ -101,6 +101,6 @@ Plans:
 | 10. Primer Interview Questions | v1.1 | quick | Complete | 2026-03-10 |
 | 11. Events Section | v1.1 | 3/3 | Complete | 2026-03-11 |
 | 12. Digest Compliance + Improvements | v1.1 | 3/3 | Complete | 2026-03-12 |
-| 13. Typography & Spacing | v1.2 | 0/1 | Planning complete | - |
-| 14. Editorial Layout | v1.2 | 0/1 | Planning complete | - |
+| 13. Typography & Spacing | v1.2 | 1/1 | Complete | 2026-03-12 |
+| 14. Editorial Layout | v1.2 | - | Reverted | 2026-03-12 |
 | 15. Conversion Page | v1.2 | 0/TBD | Not started | - |
