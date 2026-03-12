@@ -103,14 +103,18 @@ export function FirmsDirectory({ firms }: { firms: FirmProfile[] }) {
           if (q && tierFirms.length === 0) return null;
           return (
             <div key={tier} id={tierId(tier)} className="scroll-mt-28">
-              <h3 className="font-sans text-sm tracking-widest uppercase text-stone-900 dark:text-stone-100 mb-3">
-                {tier}
-                {q && (
-                  <span className="ml-2 font-sans normal-case tracking-normal text-stone-400 dark:text-stone-500">
-                    ({tierFirms.length})
-                  </span>
-                )}
-              </h3>
+              <div className="mb-4">
+                {/* Full-width editorial rule above tier name */}
+                <div className="h-px bg-stone-900 dark:bg-stone-100 mb-3" />
+                <h3 className="flex items-baseline gap-3 font-sans text-sm tracking-widest uppercase text-stone-900 dark:text-stone-100">
+                  {tier}
+                  {q && (
+                    <span className="font-sans normal-case tracking-normal text-label text-stone-400 dark:text-stone-500">
+                      {tierFirms.length} firms
+                    </span>
+                  )}
+                </h3>
+              </div>
               <div className="flex flex-col gap-1.5">
                 {tierFirms.map((firm) => (
                   <FirmCard key={firm.slug} firm={firm} />
