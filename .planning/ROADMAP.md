@@ -227,7 +227,9 @@ Plans:
   3. Each question shows only the question text by default — clicking a reveal toggle shows the model answer inline, and clicking again hides it
   4. A topic filter (tabs or dropdown) lets the user narrow to one practice area — selecting a topic shows only questions from that area, hiding the rest
   5. No new AI generation is triggered by this page — all content comes from existing cached firm pack and primer data
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [ ] 24-01-PLAN.md — Interview prep page: topic-filtered primer question bank with reveal/hide model answers
 
 ## Progress
 
@@ -252,8 +254,8 @@ Plans:
 | 17. Firm Profile Redesign | v1.3 | 2/2 | Complete | 2026-03-12 |
 | 18. Secondary Pages + Conversion Polish | v1.3 | 2/2 | Complete | 2026-03-12 |
 | 19. Podcast Page Redesign | v1.3 | 2/2 | Complete | 2026-03-12 |
-| 20. Design System Tokens | v2 | 0/2 | Not started | - |
+| 20. Design System Tokens | 1/2 | In Progress|  | - |
 | 21. Firms Directory Redesign | v2 | 0/TBD | Not started | - |
 | 22. Secondary Page Redesigns | v2 | 0/TBD | Not started | - |
 | 23. Events + Podcast Accent | v2 | 0/TBD | Not started | - |
-| 24. Interview Prep Page | v2 | 0/TBD | Not started | - |
+| 24. Interview Prep Page | v2 | 0/1 | Not started | - |
