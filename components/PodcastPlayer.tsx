@@ -8,6 +8,8 @@ const CHARS_PER_MINUTE = 650;
 const SPEEDS = [0.75, 1, 1.25, 1.5, 2];
 const VOICE_ID = 'onwK4e9ZLuTAKqWW03F9'; // Daniel (British, Broadcaster)
 
+const WAVEFORM_HEIGHTS = [12, 28, 18, 40, 24, 36, 16, 44, 20, 32, 14, 38, 22, 48, 18, 34, 26, 42, 16, 30, 20, 44, 14, 36, 24, 40, 18, 28];
+
 function getBestVoice(): SpeechSynthesisVoice | null {
   const voices = window.speechSynthesis.getVoices();
   return (
@@ -392,197 +394,167 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
   // ── Render ────────────────────────────────────────────────────────────────
 
   return (
-    <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl overflow-hidden shadow-sm">
+    <div className="space-y-0">
 
-      {/* ── Cover art ──────────────────────────────────────────────────────── */}
-      <div className="relative aspect-[4/3] flex flex-col items-center justify-center overflow-hidden select-none"
-        style={{ background: 'linear-gradient(145deg, #1a1510 0%, #0c0a09 35%, #0f1318 65%, #0c0a09 100%)' }}
-      >
+      {/* ── Hero block ─────────────────────────────────────────────────────── */}
+      <div className="bg-stone-900 text-stone-50 px-6 pt-8 pb-6">
+        {/* Overline */}
+        <p className="section-label text-stone-500 mb-3">Folio Daily Briefing</p>
 
-        {/* Ambient golden glow — top */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background: 'radial-gradient(ellipse 80% 50% at 50% -10%, rgba(180,130,50,0.15) 0%, transparent 70%)',
-          }}
-        />
+        {/* Episode title */}
+        <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-stone-50 leading-tight tracking-tight mb-5">
+          {formatCoverDate(briefing.date)}
+        </h1>
 
-        {/* Subtle secondary glow — bottom right */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background: 'radial-gradient(ellipse 60% 40% at 85% 110%, rgba(120,90,40,0.08) 0%, transparent 70%)',
-          }}
-        />
-
-        {/* Fine grid lines */}
-        <div
-          className="absolute inset-0 opacity-[0.04]"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(180,130,50,1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(180,130,50,1) 1px, transparent 1px)
-            `,
-            backgroundSize: '40px 40px',
-          }}
-        />
-
-        {/* Horizontal rule accents */}
-        <div className="absolute top-[25%] left-[8%] right-[8%] h-px bg-gradient-to-r from-transparent via-amber-700/20 to-transparent" />
-        <div className="absolute bottom-[25%] left-[8%] right-[8%] h-px bg-gradient-to-r from-transparent via-amber-700/15 to-transparent" />
-
-        {/* Edge vignette */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_50%,#0c0a09_100%)]" />
-
-        {/* Content */}
-        <div className="relative z-10 flex flex-col items-center gap-5 px-8 text-center">
-
-          {/* EQ bars / spinner */}
-          {isLoading ? (
-            <Loader2 className="w-10 h-10 text-amber-600/60 animate-spin" />
-          ) : (
-            <div className="flex items-end gap-[5px] h-[48px]">
-              {[
-                { anim: 'eq-a', dur: '0.9s',  delay: '0s',    staticH: '8px'  },
-                { anim: 'eq-b', dur: '0.65s', delay: '0.1s',  staticH: '32px' },
-                { anim: 'eq-c', dur: '1.1s',  delay: '0.05s', staticH: '16px' },
-                { anim: 'eq-d', dur: '0.75s', delay: '0.15s', staticH: '24px' },
-                { anim: 'eq-a', dur: '0.85s', delay: '0.08s', staticH: '12px' },
-              ].map((bar, i) => (
-                <div
-                  key={i}
-                  className={`w-[4px] rounded-[2px] transition-colors duration-300 ${
-                    isPlaying ? 'bg-amber-500/80' : 'bg-stone-600'
-                  }`}
-                  style={{
-                    height: bar.staticH,
-                    animation: isPlaying
-                      ? `${bar.anim} ${bar.dur} ease-in-out ${bar.delay} infinite`
-                      : 'none',
-                  }}
-                />
-              ))}
-            </div>
-          )}
-
-          {/* Brand + title + date */}
-          <div>
-            <p className="font-sans text-[8px] tracking-[0.3em] uppercase text-amber-600/70 mb-2">
-              Folio Daily
-            </p>
-            <p className="font-serif text-3xl text-white/95 leading-tight tracking-tight">
-              Daily Briefing
-            </p>
-            <p className="font-sans text-[9px] text-stone-500 mt-2.5 tracking-wide">
-              {isLoading
-                ? duration != null
-                  ? 'Generating audio…'
-                  : 'Fetching script…'
-                : formatCoverDate(briefing.date)}
-            </p>
-          </div>
+        {/* Decorative waveform bars */}
+        <div className="flex items-end gap-[3px] h-12 mb-6">
+          {WAVEFORM_HEIGHTS.map((h, i) => (
+            <div
+              key={i}
+              style={{ height: h }}
+              className="w-[3px] rounded-sm bg-white/20 flex-shrink-0"
+            />
+          ))}
         </div>
+
+        {/* Play / Pause button */}
+        {status === 'error' ? (
+          <button
+            onClick={() => { updateStatus('idle'); setErrorMsg(null); handlePlay(); }}
+            className="flex items-center gap-1.5 text-[12px] font-sans font-semibold text-rose-400 hover:text-rose-300 transition-colors"
+          >
+            <Play className="w-4 h-4" /> Retry
+          </button>
+        ) : (
+          <button
+            onClick={isPlaying ? handlePause : handlePlay}
+            disabled={isLoading}
+            className="w-14 h-14 rounded-full bg-white text-stone-900 flex items-center justify-center hover:bg-stone-100 disabled:opacity-40 transition-colors shadow-md"
+            aria-label={isPlaying ? 'Pause' : 'Play'}
+          >
+            {isLoading ? (
+              <Loader2 className="w-5 h-5 animate-spin" />
+            ) : isPlaying ? (
+              <Pause className="w-5 h-5" />
+            ) : (
+              <Play className="w-5 h-5 translate-x-[1px]" />
+            )}
+          </button>
+        )}
+
+        {/* Loading status */}
+        {isLoading && (
+          <p className="section-label text-stone-500 mt-2">Loading...</p>
+        )}
       </div>
 
-      {/* ── Progress scrubber ──────────────────────────────────────────────── */}
-      <div
-        ref={progressBarRef}
-        className="relative h-1.5 bg-stone-100 dark:bg-stone-800 cursor-pointer select-none touch-none group"
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerCancel}
-      >
+      {/* ── Controls strip ─────────────────────────────────────────────────── */}
+      <div className="bg-stone-950 px-6 py-3">
+        {/* Progress scrubber */}
         <div
-          className="absolute inset-y-0 left-0 bg-stone-500 dark:bg-stone-400 group-hover:bg-stone-700 dark:group-hover:bg-stone-300 transition-colors"
-          style={{ width: `${progress * 100}%` }}
-        />
-        {/* Scrubber thumb */}
-        <div
-          className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-stone-900 dark:bg-stone-100 shadow opacity-0 group-hover:opacity-100 transition-opacity -translate-x-1/2"
-          style={{ left: `${progress * 100}%` }}
-        />
-      </div>
-
-      {/* ── Time stamps ────────────────────────────────────────────────────── */}
-      <div className="flex justify-between px-5 pt-2 pb-0">
-        <span className="text-[10px] font-sans tabular-nums text-stone-400 dark:text-stone-500">
-          {elapsed != null ? formatTime(elapsed) : '0:00'}
-        </span>
-        <span className="text-[10px] font-sans tabular-nums text-stone-400 dark:text-stone-500">
-          {duration != null ? formatTime(duration) : '--:--'}
-        </span>
-      </div>
-
-      {/* ── Controls ───────────────────────────────────────────────────────── */}
-      <div className="flex items-center justify-between px-5 pt-3 pb-5">
-
-        {/* Speed */}
-        <button
-          onClick={cycleSpeed}
-          className="w-10 h-10 flex items-center justify-center text-[12px] font-sans font-semibold text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-200 transition-colors tabular-nums"
-          aria-label="Change playback speed"
-          title="Playback speed"
+          ref={progressBarRef}
+          className="relative h-1.5 bg-stone-800 cursor-pointer select-none touch-none group mb-2"
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerCancel}
         >
-          {speed}×
-        </button>
+          <div
+            className="absolute inset-y-0 left-0 bg-stone-400 group-hover:bg-stone-300 transition-colors"
+            style={{ width: `${progress * 100}%` }}
+          />
+          {/* Scrubber thumb */}
+          <div
+            className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-stone-100 shadow opacity-0 group-hover:opacity-100 transition-opacity -translate-x-1/2"
+            style={{ left: `${progress * 100}%` }}
+          />
+        </div>
 
-        {/* Centre: Stop + Play/Pause */}
-        <div className="flex items-center gap-3">
+        {/* Time stamps + controls row */}
+        <div className="flex items-center gap-4">
+          {/* Elapsed */}
+          <span className="text-[10px] font-sans tabular-nums text-stone-500">
+            {elapsed != null ? formatTime(elapsed) : '0:00'}
+          </span>
+
+          {/* Spacer */}
+          <div className="flex-1" />
+
+          {/* Speed */}
+          <button
+            onClick={cycleSpeed}
+            className="text-[12px] font-sans font-semibold text-stone-500 hover:text-stone-300 transition-colors tabular-nums"
+            aria-label="Change playback speed"
+            title="Playback speed"
+          >
+            {speed}&times;
+          </button>
+
+          {/* Stop (only when active) */}
           {isActive && (
             <button
               onClick={handleStop}
-              className="w-9 h-9 flex items-center justify-center text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-200 transition-colors"
+              className="text-stone-500 hover:text-stone-300 transition-colors"
               aria-label="Stop"
             >
-              <Square className="w-5 h-5" />
+              <Square className="w-4 h-4" />
             </button>
           )}
 
-          {status === 'error' ? (
-            <button
-              onClick={() => { updateStatus('idle'); setErrorMsg(null); handlePlay(); }}
-              className="flex items-center gap-1.5 text-[12px] font-sans font-semibold text-rose-500 hover:text-rose-600 transition-colors px-3 h-14"
-            >
-              <Play className="w-4 h-4" /> Retry
-            </button>
-          ) : (
-            <button
-              onClick={isPlaying ? handlePause : handlePlay}
-              disabled={isLoading}
-              className="w-14 h-14 flex items-center justify-center rounded-full bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 hover:bg-stone-700 dark:hover:bg-stone-300 disabled:opacity-40 transition-colors shadow-md"
-              aria-label={isPlaying ? 'Pause' : 'Play'}
-            >
-              {isLoading ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
-              ) : isPlaying ? (
-                <Pause className="w-5 h-5" />
-              ) : (
-                <Play className="w-5 h-5 translate-x-[1px]" />
-              )}
-            </button>
-          )}
+          {/* Download */}
+          <button
+            onClick={handleDownload}
+            disabled={isDownloading}
+            className="text-stone-500 hover:text-stone-300 transition-colors disabled:opacity-40"
+            aria-label="Download audio"
+            title={audioReady ? 'Download MP3' : 'Generate and download MP3'}
+          >
+            {isDownloading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+          </button>
+
+          {/* Duration */}
+          <span className="text-[10px] font-sans tabular-nums text-stone-500">
+            {duration != null ? formatTime(duration) : '--:--'}
+          </span>
         </div>
 
-        {/* Right: Download */}
-        <button
-          onClick={handleDownload}
-          disabled={isDownloading}
-          className="w-10 h-10 flex items-center justify-center text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-200 transition-colors disabled:opacity-40"
-          aria-label="Download audio"
-          title={audioReady ? 'Download MP3' : 'Generate and download MP3'}
-        >
-          {isDownloading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
-        </button>
-
+        {/* Error message */}
+        {errorMsg && (
+          <p className="text-[11px] font-sans text-rose-400 mt-1 break-all">{errorMsg}</p>
+        )}
       </div>
 
-      {/* ── Error message ──────────────────────────────────────────────────── */}
-      {errorMsg && (
-        <p className="text-[11px] font-sans text-rose-500 text-center px-5 pb-4 -mt-2 break-all">
-          {errorMsg}
-        </p>
-      )}
+      {/* ── Briefing notes panel ───────────────────────────────────────────── */}
+      <div className="border border-stone-200 dark:border-stone-800 rounded-card mt-6 overflow-hidden">
+        {/* Panel header */}
+        <div className="px-6 py-4 border-b border-stone-100 dark:border-stone-800">
+          <p className="section-label text-stone-400">Briefing Notes</p>
+        </div>
+
+        {/* Story list */}
+        {briefing.stories.map((story, index) => (
+          <div
+            key={story.id}
+            className="relative px-6 py-5 border-b border-stone-100 dark:border-stone-800 last:border-0 overflow-hidden"
+          >
+            {/* Background number */}
+            <span className="absolute right-4 top-2 font-mono text-6xl font-bold text-stone-900 dark:text-stone-100 opacity-[0.06] select-none leading-none">
+              {String(index + 1).padStart(2, '0')}
+            </span>
+
+            {/* Content */}
+            <div className="relative">
+              <p className="section-label text-stone-400 mb-1">{story.topic}</p>
+              <p className="font-serif text-base font-semibold text-stone-900 dark:text-stone-100 leading-snug mb-1">
+                {story.headline}
+              </p>
+              <p className="text-sm text-stone-500 dark:text-stone-400 leading-relaxed">
+                {story.talkingPoints?.soundbite ?? story.talkingPoint}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
 
     </div>
   );
