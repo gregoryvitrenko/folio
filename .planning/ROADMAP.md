@@ -260,7 +260,7 @@ Plans:
 | 17. Firm Profile Redesign | v1.3 | 2/2 | Complete | 2026-03-12 |
 | 18. Secondary Pages + Conversion Polish | v1.3 | 2/2 | Complete | 2026-03-12 |
 | 19. Podcast Page Redesign | v1.3 | 2/2 | Complete | 2026-03-12 |
-| 20. Design System Tokens | 2/2 | Complete   | 2026-03-12 | - |
+| 20. Design System Tokens | 2/2 | Complete    | 2026-03-12 | - |
 | 21. Firms Directory Redesign | v2 | 0/1 | Not started | - |
 | 22. Secondary Page Redesigns | v2 | 0/2 | Not started | - |
 | 23. Events + Podcast Accent | v2 | 0/2 | Not started | - |
