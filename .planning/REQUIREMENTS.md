@@ -57,10 +57,10 @@ Shift Folio from a sharp editorial newspaper aesthetic to a softer premium round
 
 ### INTVW — Interview Prep Page
 
-- [ ] **INTVW-01**: A new `/interview` page exists and is accessible from main navigation
-- [ ] **INTVW-02**: The interview page aggregates questions from existing firm packs and primers, organised by topic/practice area (M&A, Banking & Finance, Capital Markets, etc.)
-- [ ] **INTVW-03**: Each question has a reveal/hide toggle that shows the model answer on interaction
-- [ ] **INTVW-04**: Users can filter questions by category — filtering to a topic shows only questions from that practice area
+- [x] **INTVW-01**: A new `/interview` page exists and is accessible from main navigation
+- [x] **INTVW-02**: The interview page aggregates questions from existing firm packs and primers, organised by topic/practice area (M&A, Banking & Finance, Capital Markets, etc.)
+- [x] **INTVW-03**: Each question has a reveal/hide toggle that shows the model answer on interaction
+- [x] **INTVW-04**: Users can filter questions by category — filtering to a topic shows only questions from that practice area
 
 ---
 
@@ -94,7 +94,7 @@ Shift Folio from a sharp editorial newspaper aesthetic to a softer premium round
 | SAVED-01 | Phase 22 | Pending |
 | EVENTS-01 | Phase 23 | Pending |
 | POD-01 | Phase 23 | Pending |
-| INTVW-01 | Phase 24 | Pending |
-| INTVW-02 | Phase 24 | Pending |
-| INTVW-03 | Phase 24 | Pending |
-| INTVW-04 | Phase 24 | Pending |
+| INTVW-01 | Phase 24 | Complete |
+| INTVW-02 | Phase 24 | Complete |
+| INTVW-03 | Phase 24 | Complete |
+| INTVW-04 | Phase 24 | Complete |
