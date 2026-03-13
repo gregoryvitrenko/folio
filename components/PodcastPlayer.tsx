@@ -489,15 +489,15 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
           }}
           aria-hidden="true"
         />
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_220px] relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] relative z-10">
 
           {/* Left: episode info + player */}
           <div className="px-8 pt-8 pb-7 flex flex-col gap-4">
 
             {/* Overline row */}
             <div className="flex items-center gap-3">
-              <span className="section-label bg-stone-800 text-stone-400 px-2 py-0.5">Daily Briefing</span>
-              <span className="section-label text-stone-600">{formatCoverDate(briefing.date)}</span>
+              <span className="section-label bg-white/10 text-white/70 px-3 py-1 rounded-full">Latest Episode</span>
+              <span className="section-label text-stone-500">{formatCoverDate(briefing.date).toUpperCase()}</span>
             </div>
 
             {/* Episode title */}
@@ -511,7 +511,7 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
             </p>
 
             {/* Player row: button + waveform + timestamp */}
-            <div className="flex items-end gap-4 pt-1">
+            <div className="flex items-center gap-4 pt-1">
 
               {/* Play / Pause / Error button */}
               {status === 'error' ? (
@@ -539,19 +539,19 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
               )}
 
               {/* Waveform bars — heights driven by Web Audio API when playing */}
-              <div className="flex items-end gap-[2px] h-12 flex-1">
+              <div className="flex items-center gap-[3px] h-8 flex-1">
                 {WAVEFORM_HEIGHTS.map((h, i) => (
                   <div
                     key={i}
                     ref={(el) => { waveBarRefs.current[i] = el; }}
-                    style={{ height: h }}
-                    className={`w-[3px] rounded-sm flex-shrink-0 ${isPlaying ? 'bg-white/50' : 'bg-white/20'}`}
+                    style={{ height: Math.round(h * 0.55) }}
+                    className={`w-[2px] rounded-full flex-shrink-0 transition-colors ${isPlaying ? 'bg-white/60' : 'bg-white/25'}`}
                   />
                 ))}
               </div>
 
               {/* Timestamp */}
-              <span className="flex-shrink-0 text-[11px] font-sans tabular-nums text-stone-500 pb-1">
+              <span className="flex-shrink-0 text-[11px] font-sans tabular-nums text-stone-500">
                 {elapsed != null ? formatTime(elapsed) : (duration != null ? formatTime(duration) : '--:--')}
               </span>
             </div>
@@ -562,19 +562,19 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
           </div>
 
           {/* Right: cover art card — hidden on mobile */}
-          <div className="hidden lg:flex items-center justify-center p-6">
-            <div className="relative w-44 h-44 rounded-lg bg-stone-800/50 border border-stone-700/50 overflow-hidden flex flex-col items-center justify-center">
+          <div className="hidden lg:block relative p-5">
+            <div className="relative h-full min-h-[200px] rounded-2xl bg-white/5 border border-white/10 overflow-hidden flex flex-col justify-between p-5">
               {/* Decorative circles */}
-              <div className="absolute -top-7 -right-7 w-32 h-32 rounded-full border border-stone-600/40 pointer-events-none" />
-              <div className="absolute -bottom-5 -left-5 w-24 h-24 rounded-full border border-stone-600/40 pointer-events-none" />
+              <div className="absolute -top-10 -right-10 w-44 h-44 rounded-full border border-white/10 pointer-events-none" />
+              <div className="absolute -bottom-8 -left-8 w-36 h-36 rounded-full border border-white/10 pointer-events-none" />
 
-              {/* Brand name */}
-              <span className="font-serif text-lg font-semibold text-stone-400 select-none">Folio</span>
+              {/* Brand name — top */}
+              <span className="font-serif text-2xl font-semibold text-stone-400 select-none relative z-10">Folio Daily</span>
 
               {/* Bottom labels */}
-              <div className="absolute bottom-3 inset-x-0 flex justify-between px-3">
-                <span className="font-sans text-[8px] tracking-widest uppercase text-stone-600">Intelligence Unit</span>
-                <span className="font-sans text-[8px] tracking-widest uppercase text-stone-600">Audio Briefing</span>
+              <div className="flex justify-between relative z-10">
+                <span className="font-sans text-[9px] tracking-widest uppercase text-stone-500">Intelligence Unit</span>
+                <span className="font-sans text-[9px] tracking-widest uppercase text-stone-500">Audio Briefing</span>
               </div>
             </div>
           </div>
@@ -583,7 +583,7 @@ export function PodcastPlayer({ briefing }: { briefing: Briefing }) {
       </div>
 
       {/* ── Controls strip ─────────────────────────────────────────────────── */}
-      <div className="bg-[#111827] px-6 py-3">
+      <div className="bg-[#141C2A] px-6 py-3">
         {/* Progress scrubber */}
         <div
           ref={progressBarRef}
