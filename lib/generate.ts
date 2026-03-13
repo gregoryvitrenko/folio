@@ -215,14 +215,14 @@ async function searchNews(dateLabel: string): Promise<string> {
 
   // Date-specific queries anchored to today so Tavily prioritises fresh results
   const queries = [
-    `UK M&A private equity deal announced ${dateLabel}`,
-    `UK capital markets IPO equity debt bond issuance ${dateLabel}`,
-    `UK leveraged finance loan syndicated lending private credit ${dateLabel}`,
-    `UK EU competition law financial regulation ${dateLabel}`,
-    `energy infrastructure technology legal news ${dateLabel}`,
-    `UK commercial litigation arbitration dispute ${dateLabel}`,
-    `cross-border international trade deal London law firms ${dateLabel}`,
-    `AI artificial intelligence law firms legal practice regulation ${dateLabel}`,
+    `UK M&A private equity deal announced today ${dateLabel}`,
+    `UK capital markets IPO equity debt bond issuance today ${dateLabel}`,
+    `UK leveraged finance loan syndicated lending private credit today ${dateLabel}`,
+    `UK EU competition law financial regulation today ${dateLabel}`,
+    `energy infrastructure technology legal news today ${dateLabel}`,
+    `UK commercial litigation arbitration dispute today ${dateLabel}`,
+    `cross-border international trade deal London law firms today ${dateLabel}`,
+    `AI artificial intelligence law firms legal practice regulation today ${dateLabel}`,
   ];
 
   const TAVILY_TIMEOUT_MS = 12_000; // 12 s per request — fail fast rather than hang
@@ -241,7 +241,7 @@ async function searchNews(dateLabel: string): Promise<string> {
           search_depth: 'basic', // 'advanced' is slow; basic is plenty for news
           topic: 'news',         // news-optimised index — avoids stale evergreen pages
           days: 1,               // only results published in the last 24 hours
-          max_results: 5,
+          max_results: 8,        // larger pool increases chance of capturing morning news
           include_answer: false,
         }),
       })
