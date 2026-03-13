@@ -80,7 +80,7 @@ See phase details below for full success criteria.
 **Milestone Goal:** Align the deployed site to the AI Studio mockup across every page — new header shell (wordmark-left / flat nav / no dropdowns), site footer, and full redesigns of the archive, saved, tracker, events, primers, quiz, tests, interview, and fit assessment pages to match the mockup layout, typography scale, and visual restraint.
 
 - [x] **Phase 32: Header + Footer** — New header shell: wordmark-left, flat nav links (no dropdowns), mobile drawer update. New site footer component added sitewide. (completed 2026-03-13)
-- [ ] **Phase 33: Archive + Saved Pages** — Archive: left-aligned huge serif heading, italic column headers, pure minimal list (no cards). Saved: new heading + card redesign (date, filled bookmark, serif title, tag + read time).
+- [x] **Phase 33: Archive + Saved Pages** — Archive: left-aligned huge serif heading, italic column headers, pure minimal list (no cards). Saved: new heading + card redesign (date, filled bookmark, serif title, tag + read time). (completed 2026-03-13)
 - [x] **Phase 34: Tracker + Events Pages** — Tracker: "The Tracker" heading, table layout with styled status badges, serif firm names. Events: centered huge serif heading, rounded-xl cards, REGISTER INTEREST buttons.
 - [x] **Phase 35: Primers 3-Column Grid** — Switch primers grid from 2-col to 3-col, final PrimerCard polish (outlined category chip, no dot, READ PRIMER link). (completed 2026-03-13)
 - [ ] **Phase 36: Quiz Page Cleanup** — Remove date archive list, move gamification strip to top, clean two-panel hero layout.
