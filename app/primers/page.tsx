@@ -15,12 +15,12 @@ export default async function PrimersPage() {
       <Header date={today} />
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
         {/* Page heading */}
-        <div className="space-y-4 mb-12">
+        <div className="space-y-4 mb-12 text-center">
           <span className="text-[11px] uppercase tracking-[0.3em] font-semibold opacity-40 font-sans">
             Practice Area Primers
           </span>
           <h2 className="text-5xl font-serif">Topic Primers</h2>
-          <p className="max-w-xl opacity-60 text-lg font-light">Eight areas. Essential for interviews.</p>
+          <p className="opacity-60 text-lg font-light">Eight areas. Essential for interviews.</p>
         </div>
 
         {/* Primer grid */}
