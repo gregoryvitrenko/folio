@@ -6,6 +6,7 @@ import { generateAndSavePodcastScript } from '@/lib/podcast';
 import { generateAndCachePodcastAudio } from '@/lib/podcast-audio';
 import { generateQuiz } from '@/lib/quiz';
 import { buildAptitudeBank, BANK_TTL_DAYS } from '@/lib/aptitude';
+import { prewarmAllFirmPacks } from '@/lib/firm-pack';
 import { checkRateLimit } from '@/lib/rate-limit';
 import type { Briefing } from '@/lib/types';
 
@@ -24,10 +25,15 @@ async function refreshStaleBanks(today: string): Promise<void> {
       const age = existing
         ? Math.abs((new Date(today).getTime() - new Date(existing.lastRefreshed).getTime()) / (1000 * 60 * 60 * 24))
         : Infinity;
-      if (age >= BANK_TTL_DAYS) {
+      // Refresh every 3 days (was 7) so users always get a fresh bank without a long wait.
+      // At ~25-40 Haiku questions per bank, generation takes ~10s — acceptable in background.
+      const REFRESH_DAYS = Math.min(BANK_TTL_DAYS, 3);
+      if (age >= REFRESH_DAYS) {
         const questions = await buildAptitudeBank(testType);
         await saveAptitudeBank(testType, { questions, lastRefreshed: today });
         console.log(`[generate] Aptitude bank refreshed: ${testType} (${questions.length} questions)`);
+      } else {
+        console.log(`[generate] Aptitude bank fresh, skipping: ${testType} (age: ${age.toFixed(1)} days)`);
       }
     } catch (err) {
       console.error(`[generate] Aptitude bank refresh failed for ${testType}:`, err);
@@ -74,6 +80,9 @@ async function handleGenerate(request: NextRequest, force = false) {
     // Schedule background work with after() — runs after response is sent,
     // but Vercel keeps the function alive until all after() callbacks complete.
     // This replaces the old fire-and-forget pattern which could get killed early.
+    // Extract today's headlines to give firm packs deal-anchored context
+    const recentHeadlines = briefing.stories.map((s) => s.headline);
+
     after(async () => {
       await Promise.all([
         generateAndSaveQuiz(briefing).catch((err) =>
@@ -86,6 +95,11 @@ async function handleGenerate(request: NextRequest, force = false) {
           ),
         refreshStaleBanks(today).catch((err) =>
           console.error('[generate] Aptitude bank refresh failed:', err)
+        ),
+        // Pre-warm all 38 firm packs in batches of 5 — users should never
+        // land on a firm page and wait for on-demand generation.
+        prewarmAllFirmPacks(recentHeadlines, 5).catch((err) =>
+          console.error('[generate] Firm pack pre-warm failed:', err)
         ),
       ]);
     });

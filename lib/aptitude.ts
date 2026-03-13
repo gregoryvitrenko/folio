@@ -168,20 +168,24 @@ Generate exactly ${count} questions.`;
 
 // ── Bank building ─────────────────────────────────────────────────────────────
 
-// 5 batches × 10 questions = 50 questions per bank.
-// Kept low so on-demand generation (when Redis has no bank) completes reliably
-// within the 120s Vercel function timeout. The cron refreshes weekly — once
-// the bank is warm in Redis, questions are served from cache with no API calls.
-const BANK_BATCHES: Record<string, number> = { 'watson-glaser': 5, 'sjt': 5 };
+// Each batch generates one full test's worth of questions:
+//   Watson Glaser: 5 batches × 40 questions = 200 questions total
+//   SJT:          5 batches × 25 questions = 125 questions total
+// Users can complete 5 full practice sessions before seeing any repeats.
+// Generation runs in the daily cron background — never on-demand.
+const BANK_CONFIG: Record<string, { batches: number; questionsPerBatch: number }> = {
+  'watson-glaser': { batches: 5, questionsPerBatch: 40 },
+  'sjt':           { batches: 5, questionsPerBatch: 25 },
+};
 export const BANK_TTL_DAYS = 7;
 
 /** Build a full question bank for a test type by running parallel batches. */
 export async function buildAptitudeBank(
   testType: 'watson-glaser' | 'sjt',
 ): Promise<AptitudeQuestion[]> {
-  const batches = BANK_BATCHES[testType] ?? 2;
+  const { batches, questionsPerBatch } = BANK_CONFIG[testType] ?? { batches: 2, questionsPerBatch: 10 };
   const results = await Promise.all(
-    Array.from({ length: batches }, () => generateAptitudeQuestions(testType, 10)),
+    Array.from({ length: batches }, () => generateAptitudeQuestions(testType, questionsPerBatch)),
   );
   const all = results.flat();
   all.forEach((q, i) => { q.id = `${testType}-${i + 1}`; });

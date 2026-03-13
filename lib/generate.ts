@@ -213,8 +213,12 @@ async function searchNews(dateLabel: string): Promise<string> {
   const apiKey = process.env.TAVILY_API_KEY;
   if (!apiKey) return '(no web search — Tavily API key not set)';
 
-  // Date-specific queries anchored to today so Tavily prioritises fresh results
+  // Date-specific queries anchored to today so Tavily prioritises fresh results.
+  // 8 topic queries + 4 supplementary queries = 12 total (~360 credits/month, well within 1000/month free tier).
+  // Supplementary queries target FT/Reuters/Bloomberg sources and broader City deal flow
+  // to increase the chance of capturing high-quality stories published this morning.
   const queries = [
+    // ── Primary: one per practice area ──────────────────────────────────────
     `UK M&A private equity deal announced today ${dateLabel}`,
     `UK capital markets IPO equity debt bond issuance today ${dateLabel}`,
     `UK leveraged finance loan syndicated lending private credit today ${dateLabel}`,
@@ -223,6 +227,11 @@ async function searchNews(dateLabel: string): Promise<string> {
     `UK commercial litigation arbitration dispute today ${dateLabel}`,
     `cross-border international trade deal London law firms today ${dateLabel}`,
     `AI artificial intelligence law firms legal practice regulation today ${dateLabel}`,
+    // ── Supplementary: high-quality sources + broader deal flow ───────────
+    `Financial Times Reuters City of London deal merger acquisition ${dateLabel}`,
+    `Magic Circle Silver Circle law firm mandate instruction today ${dateLabel}`,
+    `UK High Court Court of Appeal judgment ruling enforcement today ${dateLabel}`,
+    `FCA PRA CMA regulatory decision enforcement action UK today ${dateLabel}`,
   ];
 
   const TAVILY_TIMEOUT_MS = 12_000; // 12 s per request — fail fast rather than hang

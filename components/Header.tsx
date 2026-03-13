@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Bookmark, Menu, X } from 'lucide-react';
+import { Bookmark, Menu, X, ChevronDown } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
 import { AuthButtons } from './AuthButtons';
 import { FolioMark } from './FolioLogo';
@@ -14,9 +14,9 @@ interface HeaderProps {
   archiveDate?: string;
 }
 
+// Flat nav links (no dropdown)
 const NAV_LINKS = [
-  { label: 'Daily', href: '/' },
-  { label: 'Podcast', href: '/podcast' },
+  { label: 'Quiz', href: '/quiz' },
   { label: 'Tests', href: '/tests' },
   { label: 'Interview', href: '/interview' },
   { label: 'Fit', href: '/firm-fit' },
@@ -28,13 +28,33 @@ const NAV_LINKS = [
   { label: 'Primers', href: '/primers' },
 ];
 
+// Sub-items under the "Daily" dropdown
+const DAILY_LINKS = [
+  { label: 'Briefing', href: '/' },
+  { label: 'Podcast', href: '/podcast' },
+];
+
 export function Header({ date, isArchive = false, archiveDate }: HeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [dailyOpen, setDailyOpen] = useState(false);
+  const dailyTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pathname = usePathname();
 
   function isActive(href: string): boolean {
     if (href === '/') return pathname === '/';
     return pathname === href || pathname.startsWith(href + '/');
+  }
+
+  // "Daily" parent is active when on briefing or podcast
+  const dailyActive = pathname === '/' || pathname === '/podcast' || pathname.startsWith('/podcast/');
+
+  function handleDailyMouseEnter() {
+    if (dailyTimeout.current) clearTimeout(dailyTimeout.current);
+    setDailyOpen(true);
+  }
+
+  function handleDailyMouseLeave() {
+    dailyTimeout.current = setTimeout(() => setDailyOpen(false), 120);
   }
 
   return (
@@ -54,8 +74,64 @@ export function Header({ date, isArchive = false, archiveDate }: HeaderProps) {
             <span className="font-serif text-display tracking-tight" style={{ letterSpacing: '-0.03em' }}>olio</span>
           </Link>
 
-          {/* Centre: flat nav — desktop only */}
+          {/* Centre: nav — desktop only */}
           <nav className="hidden md:flex items-center gap-0.5 flex-1 justify-center">
+
+            {/* Daily dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={handleDailyMouseEnter}
+              onMouseLeave={handleDailyMouseLeave}
+            >
+              <button
+                className={[
+                  'flex items-center gap-0.5 px-2.5 py-1 font-sans text-label uppercase tracking-wide transition-colors',
+                  dailyActive
+                    ? 'text-stone-900 dark:text-stone-100 border-b-2 border-stone-900 dark:border-stone-100'
+                    : 'text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-300',
+                ].join(' ')}
+                aria-expanded={dailyOpen}
+                aria-haspopup="true"
+              >
+                Daily
+                <ChevronDown
+                  size={11}
+                  className={[
+                    'transition-transform duration-150',
+                    dailyOpen ? 'rotate-180' : '',
+                  ].join(' ')}
+                />
+              </button>
+
+              {dailyOpen && (
+                <div
+                  className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-36 bg-paper border border-stone-200 dark:border-stone-700 rounded-card shadow-sm py-1 z-50"
+                  onMouseEnter={handleDailyMouseEnter}
+                  onMouseLeave={handleDailyMouseLeave}
+                >
+                  {DAILY_LINKS.map(({ label, href }) => {
+                    const active = isActive(href);
+                    return (
+                      <Link
+                        key={href}
+                        href={href}
+                        className={[
+                          'flex items-center px-3 py-2 font-sans text-label uppercase tracking-wide transition-colors',
+                          active
+                            ? 'text-stone-900 dark:text-stone-100 font-semibold'
+                            : 'text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100',
+                        ].join(' ')}
+                        onClick={() => setDailyOpen(false)}
+                      >
+                        {label}
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            {/* Flat nav links */}
             {NAV_LINKS.map(({ label, href }) => {
               const active = isActive(href);
               return (
@@ -119,10 +195,34 @@ export function Header({ date, isArchive = false, archiveDate }: HeaderProps) {
 
       </div>
 
-      {/* Mobile drawer — flat list of all nav links */}
+      {/* Mobile drawer — flat list including Daily sub-items */}
       {!isArchive && mobileOpen && (
         <div className="md:hidden border-t border-stone-200 dark:border-stone-800 bg-paper">
           <nav className="max-w-5xl mx-auto px-4 py-2">
+            {/* Daily sub-items shown inline with indentation */}
+            <div className="flex items-center px-4 py-2">
+              <span className="font-sans text-label uppercase tracking-wide text-stone-400 dark:text-stone-500">Daily</span>
+            </div>
+            {DAILY_LINKS.map(({ label, href }) => {
+              const active = isActive(href);
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={() => setMobileOpen(false)}
+                  className={[
+                    'flex items-center pl-8 pr-4 py-3 font-sans text-caption transition-colors min-h-[44px]',
+                    active
+                      ? 'text-stone-900 dark:text-stone-100 font-medium'
+                      : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100',
+                  ].join(' ')}
+                >
+                  {label}
+                </Link>
+              );
+            })}
+
+            {/* Rest of nav */}
             {NAV_LINKS.map(({ label, href }) => {
               const active = isActive(href);
               return (

@@ -179,6 +179,51 @@ Return ONLY valid JSON in this exact format, no other text:
 // ─── Public API ───────────────────────────────────────────────────────────────
 
 /**
+ * Pre-warms interview packs for all firms in batches.
+ * Called from the daily cron after briefing generation — ensures users never
+ * wait for on-demand pack generation. Stale or absent packs are refreshed.
+ *
+ * @param recentHeadlines - Headlines from today's briefing for deal-anchored context
+ * @param concurrency     - Parallel Haiku calls per batch (default 5, stays within rate limits)
+ */
+export async function prewarmAllFirmPacks(
+  recentHeadlines: string[],
+  concurrency = 5,
+): Promise<void> {
+  // Lazy import to avoid circular dependency issues at module load time
+  const { FIRMS } = await import('./firms-data');
+  const firms = FIRMS;
+
+  for (let i = 0; i < firms.length; i += concurrency) {
+    const batch = firms.slice(i, i + concurrency);
+    await Promise.allSettled(
+      batch.map(async (firm) => {
+        try {
+          // Check cache first — only regenerate if stale or absent
+          const cached = useRedis()
+            ? await redisGetPack(firm.slug)
+            : fsGetPack(firm.slug);
+
+          if (cached && !isStale(cached)) return; // still fresh, skip
+
+          const pack = await generatePack(firm, recentHeadlines);
+          if (useRedis()) {
+            await redisSavePack(pack);
+          } else {
+            fsSavePack(pack);
+          }
+          console.log(`[firm-pack] Pre-warmed: ${firm.name}`);
+        } catch (err) {
+          // Log but don't throw — one failed firm shouldn't abort the whole batch
+          console.error(`[firm-pack] Pre-warm failed for ${firm.slug}:`, err);
+        }
+      }),
+    );
+  }
+  console.log('[firm-pack] Pre-warm complete for all firms');
+}
+
+/**
  * Returns the cached interview pack for a firm, regenerating if stale or absent.
  * Throws if generation fails — callers should wrap in try/catch.
  */
