@@ -19,7 +19,7 @@ export function SiteFooter() {
 
         {/* Center: copyright */}
         <p className="font-sans text-label uppercase tracking-widest text-stone-400 dark:text-stone-500">
-          © {year} Folio
+          © {year} Brand Guidelines
         </p>
 
         {/* Right: nav links */}
