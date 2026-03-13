@@ -13,7 +13,7 @@ export default async function PrimersPage() {
   return (
     <>
       <Header date={today} />
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
         {/* Page heading */}
         <div className="space-y-4 mb-12 text-center">
           <span className="text-[11px] uppercase tracking-[0.3em] font-semibold opacity-40 font-sans">
@@ -24,7 +24,7 @@ export default async function PrimersPage() {
         </div>
 
         {/* Primer grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {PRIMERS.map((primer) => (
             <PrimerCard key={primer.slug} primer={primer} />
           ))}
