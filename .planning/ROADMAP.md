@@ -81,10 +81,10 @@ See phase details below for full success criteria.
 
 - [x] **Phase 32: Header + Footer** — New header shell: wordmark-left, flat nav links (no dropdowns), mobile drawer update. New site footer component added sitewide. (completed 2026-03-13)
 - [ ] **Phase 33: Archive + Saved Pages** — Archive: left-aligned huge serif heading, italic column headers, pure minimal list (no cards). Saved: new heading + card redesign (date, filled bookmark, serif title, tag + read time).
-- [ ] **Phase 34: Tracker + Events Pages** — Tracker: "The Tracker" heading, table layout with styled status badges, serif firm names. Events: centered huge serif heading, rounded-xl cards, REGISTER INTEREST buttons.
+- [x] **Phase 34: Tracker + Events Pages** — Tracker: "The Tracker" heading, table layout with styled status badges, serif firm names. Events: centered huge serif heading, rounded-xl cards, REGISTER INTEREST buttons.
 - [ ] **Phase 35: Primers 3-Column Grid** — Switch primers grid from 2-col to 3-col, final PrimerCard polish (outlined category chip, no dot, READ PRIMER link).
 - [ ] **Phase 36: Quiz Page Cleanup** — Remove date archive list, move gamification strip to top, clean two-panel hero layout.
-- [ ] **Phase 37: Tests + Interview + Fit Assessment** — Tests: card redesign with icon square + feature bullets. Interview: remove colored card backgrounds, add gray icon squares, remove "By Practice Area" section. Fit: new landing page with two cards.
+- [x] **Phase 37: Tests + Interview + Fit Assessment** — Tests: card redesign with icon square + feature bullets. Interview: remove colored card backgrounds, add gray icon squares, remove "By Practice Area" section. Fit: new landing page with two cards.
 
 ### v3.1 Design Polish (Next)
 
@@ -328,7 +328,7 @@ Plans:
   4. Category chips have no colour — plain outlined chip, dark text
 **Plans**: 1 plan
 Plans:
-- [ ] 35-01-PLAN.md — Primers grid 3-col + final PrimerCard redesign
+- [x] 35-01-PLAN.md — Primers grid 3-col + final PrimerCard redesign
 
 ### Phase 36: Quiz Page Cleanup
 **Goal**: The quiz page is clean and focused — no date archive list, gamification strip at the top, and a clear two-panel hero layout matching the mockup
@@ -341,7 +341,7 @@ Plans:
   4. The layout is clean and uncluttered — matches the mockup's two-panel hero structure
 **Plans**: 1 plan
 Plans:
-- [ ] 36-01-PLAN.md — Quiz page: remove date list, gamification strip to top, clean two-panel layout
+- [x] 36-01-PLAN.md — Quiz page: remove date list, gamification strip to top, clean two-panel layout
 
 ### Phase 37: Tests + Interview + Fit Assessment
 **Goal**: The tests, interview, and fit assessment pages are redesigned to match the mockup — cleaner cards, gray icon squares on interview categories, and a new fit assessment landing page with two cards
@@ -353,8 +353,8 @@ Plans:
   3. Visiting /firm-fit or /area-fit shows a landing page with two cards (Firm Fit + Area Fit) before entering the quiz — not the quiz directly
 **Plans**: 2 plans
 Plans:
-- [ ] 37-01-PLAN.md — Tests card redesign (icon square, feature bullets, button)
-- [ ] 37-02-PLAN.md — Interview page: gray icon squares, remove colored backgrounds, remove "By Practice Area". Fit Assessment: new landing page with two cards.
+- [x] 37-01-PLAN.md — Tests card redesign (icon square, feature bullets, button)
+- [x] 37-02-PLAN.md — Interview page: gray icon squares, remove colored backgrounds, remove "By Practice Area". Fit Assessment: new landing page with two cards.
 
 ### Phase 25: Accent + Global Headings
 **Goal**: The charcoal accent colour (#2D3436) is live sitewide and every primary content page displays a consistent heading block — the visual identity is reset to match the AI Studio mockup palette before any layout work begins
@@ -493,5 +493,5 @@ Plans:
 | 33. Archive + Saved Pages | v3.2 | 0/2 | Not started | - |
 | 34. Tracker + Events Pages | v3.2 | 0/2 | Not started | - |
 | 35. Primers 3-Column Grid | v3.2 | 0/1 | Not started | - |
-| 36. Quiz Page Cleanup | v3.2 | 0/1 | Not started | - |
-| 37. Tests + Interview + Fit Assessment | v3.2 | 0/2 | Not started | - |
+| 36. Quiz Page Cleanup | v3.2 | 1/1 | Complete | 2026-03-13 |
+| 37. Tests + Interview + Fit Assessment | v3.2 | 2/2 | Complete | 2026-03-13 |
