@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { getBriefing, getLatestBriefing, getTodayDate } from '@/lib/storage';
 import { Header } from '@/components/Header';
 import { TOPIC_STYLES } from '@/lib/types';
-import { Flame, Plus } from 'lucide-react';
+import { Sparkles, Plus } from 'lucide-react';
 import { requireSubscription } from '@/lib/paywall';
 import { auth } from '@clerk/nextjs/server';
 import { getGamificationData } from '@/lib/quiz-gamification';
@@ -48,27 +48,30 @@ export default async function QuizPage() {
   const activeDate = briefing?.date ?? today;
 
   // ── Gamification stat cards ────────────────────────────────────────────────
-  const streakDots = gamification ? Math.min(gamification.streak, 5) : 0;
+  const streakBars = gamification ? Math.min(gamification.streak, 7) : 0;
   const xpInLevel = gamification ? gamification.xp % 100 : 0;
 
   const statsStrip = gamification && (
     <div className="flex items-center gap-4 flex-wrap">
-      {/* Streak card */}
-      <div className="rounded-card border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 px-5 py-4 min-w-[180px]">
-        <p className="section-label text-stone-400 dark:text-stone-500 mb-2">Daily Streak</p>
-        <div className="flex items-center gap-2 mb-3">
-          <Flame size={18} className="text-stone-700 dark:text-stone-300 flex-shrink-0" />
-          <span className="text-xl font-bold text-stone-900 dark:text-stone-50 tracking-tight">
-            {gamification.streak > 0 ? `${gamification.streak} Days` : 'No streak yet'}
-          </span>
+      {/* Streak card — horizontal split: text | divider | bars */}
+      <div className="rounded-card border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 px-6 py-5 flex items-center gap-5">
+        <div className="flex flex-col gap-1">
+          <p className="section-label text-stone-400 dark:text-stone-500">Daily Streak</p>
+          <div className="flex items-center gap-2">
+            <Sparkles size={18} className="text-[#1B2333] dark:text-stone-300 flex-shrink-0" />
+            <span className="font-serif text-2xl font-semibold text-stone-900 dark:text-stone-50 tracking-tight">
+              {gamification.streak > 0 ? `${gamification.streak} Days` : 'No streak yet'}
+            </span>
+          </div>
         </div>
-        <div className="flex items-center gap-1">
-          {Array.from({ length: 5 }).map((_, i) => (
+        <div className="w-px h-10 bg-stone-200 dark:bg-stone-700 flex-shrink-0" />
+        <div className="flex items-center gap-1.5">
+          {Array.from({ length: 7 }).map((_, i) => (
             <div
               key={i}
-              className={`w-6 h-2 rounded-sm ${
-                i < streakDots
-                  ? 'bg-stone-700 dark:bg-stone-300'
+              className={`w-3 h-7 rounded-full ${
+                i < streakBars
+                  ? 'bg-[#1B2333] dark:bg-stone-300'
                   : 'bg-stone-100 dark:bg-stone-800'
               }`}
             />
@@ -77,8 +80,8 @@ export default async function QuizPage() {
       </div>
 
       {/* XP / Level card */}
-      <div className="rounded-card border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 px-5 py-4 min-w-[180px]">
-        <div className="flex items-center justify-between mb-2">
+      <div className="rounded-card border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 px-6 py-5 min-w-[200px]">
+        <div className="flex items-center justify-between mb-3">
           <p className="section-label text-stone-400 dark:text-stone-500">
             Level {gamification.level}
           </p>
@@ -88,13 +91,10 @@ export default async function QuizPage() {
         </div>
         <div className="h-2 bg-stone-100 dark:bg-stone-800 rounded-full overflow-hidden">
           <div
-            className="h-full bg-charcoal dark:bg-stone-300 rounded-full transition-all"
+            className="h-full bg-[#1B2333] dark:bg-stone-300 rounded-full transition-all"
             style={{ width: `${xpInLevel}%` }}
           />
         </div>
-        <p className="section-label text-stone-400 dark:text-stone-500 mt-2">
-          {gamification.xp} total XP
-        </p>
       </div>
     </div>
   );
