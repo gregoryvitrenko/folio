@@ -75,6 +75,17 @@ See phase details below for full success criteria.
 
 </details>
 
+### v3.2 Mockup Alignment (Next)
+
+**Milestone Goal:** Align the deployed site to the AI Studio mockup across every page — new header shell (wordmark-left / flat nav / no dropdowns), site footer, and full redesigns of the archive, saved, tracker, events, primers, quiz, tests, interview, and fit assessment pages to match the mockup layout, typography scale, and visual restraint.
+
+- [ ] **Phase 32: Header + Footer** — New header shell: wordmark-left, flat nav links (no dropdowns), mobile drawer update. New site footer component added sitewide.
+- [ ] **Phase 33: Archive + Saved Pages** — Archive: left-aligned huge serif heading, italic column headers, pure minimal list (no cards). Saved: new heading + card redesign (date, filled bookmark, serif title, tag + read time).
+- [ ] **Phase 34: Tracker + Events Pages** — Tracker: "The Tracker" heading, table layout with styled status badges, serif firm names. Events: centered huge serif heading, rounded-xl cards, REGISTER INTEREST buttons.
+- [ ] **Phase 35: Primers 3-Column Grid** — Switch primers grid from 2-col to 3-col, final PrimerCard polish (outlined category chip, no dot, READ PRIMER link).
+- [ ] **Phase 36: Quiz Page Cleanup** — Remove date archive list, move gamification strip to top, clean two-panel hero layout.
+- [ ] **Phase 37: Tests + Interview + Fit Assessment** — Tests: card redesign with icon square + feature bullets. Interview: remove colored card backgrounds, add gray icon squares, remove "By Practice Area" section. Fit: new landing page with two cards.
+
 ### v3.1 Design Polish (Next)
 
 **Milestone Goal:** Close the gap between the deployed v3 site and the AI Studio mockups — fixing layout, heading alignment, component styles, and the quiz page to match the reference designs as closely as possible.
@@ -263,6 +274,88 @@ Plans:
 Plans:
 - [ ] 24-01-PLAN.md — Interview prep page: topic-filtered primer question bank with reveal/hide model answers
 
+### Phase 32: Header + Footer
+**Goal**: Every page uses the new header shell (wordmark-left, flat nav links, no dropdowns) and has a site footer — the two structural changes that affect every page and establish the visual framework for all subsequent redesign work
+**Depends on**: Phase 31
+**Requirements**: SHELL-01, SHELL-02
+**Success Criteria** (what must be TRUE):
+  1. The header shows the Folio wordmark at left, flat horizontal nav links in the centre (no dropdowns, no chevrons), and a bookmark icon at the right — matching the mockup structure exactly
+  2. Every nav link (Daily, Test, Interview, Fit, Tracker, Events, Archive, Saved, Firms, Primers) is directly accessible as a top-level link — no grouped menus
+  3. The active page nav link has an underline indicator — the user can see which section they are in
+  4. A site footer appears on every page: Folio wordmark left, "© 2026 BRAND GUIDELINES" centre, Legal / Privacy / Contact links right
+  5. The mobile hamburger menu is updated to reflect the new flat nav structure — all individual links accessible from mobile
+**Plans**: 2 plans
+Plans:
+- [ ] 32-01-PLAN.md — Header restructure: wordmark-left, flat nav links, active underline, mobile drawer update
+- [x] 32-02-PLAN.md — Footer component: Folio wordmark + copyright + Legal/Privacy/Contact, added to all page templates
+
+### Phase 33: Archive + Saved Pages
+**Goal**: The archive and saved pages match the mockup — the archive becomes a minimal three-column list (no cards), and saved stories uses a large serif heading with date/bookmark card layout
+**Depends on**: Phase 32
+**Requirements**: ARCH-01, SAVED-01
+**Success Criteria** (what must be TRUE):
+  1. The archive page heading shows "HISTORICAL INTELLIGENCE" overline + "The Archive" in large serif (~56px) + short rule underline + description — left-aligned
+  2. Archive content renders as three equal columns (Briefings, Quizzes, Podcasts) with italic serif column headers, a thin horizontal rule under each header, and simple date + title list items — no card backgrounds
+  3. The saved page heading shows "PERSONAL ARCHIVE" overline + "Saved Stories" in large serif — left-aligned
+  4. Saved story cards show: date (top-left, muted), filled bookmark icon (top-right, dark), large serif title, topic tag chip + "8 MIN READ" — matching the mockup card layout
+**Plans**: 2 plans
+Plans:
+- [ ] 33-01-PLAN.md — Archive page: new heading, italic serif column headers, pure list format
+- [ ] 33-02-PLAN.md — Saved page: new heading + card redesign
+
+### Phase 34: Tracker + Events Pages
+**Goal**: The tracker and events pages match the mockup — the tracker becomes a clean table with serif firm names and styled status badges, events gets a centered huge-serif heading and rounded cards
+**Depends on**: Phase 32
+**Requirements**: TRKR-01, EVENTS-01
+**Success Criteria** (what must be TRUE):
+  1. The tracker heading shows "APPLICATION MANAGEMENT" overline + "The Tracker" in large serif (~56px) — left-aligned, with "+ ADD APPLICATION" pill button top-right
+  2. Tracker firm names render in serif font; status badges are styled per status (outlined for In Progress, tinted for Submitted/Interview/Applied)
+  3. The events heading is centered: "PROFESSIONAL NETWORK" overline + "Upcoming Events" in large serif (~64px) + centered description
+  4. Events cards use visibly large border radius (rounded-2xl), category chip top-left, date top-right, and a full-width outlined "REGISTER INTEREST" button
+**Plans**: 2 plans
+Plans:
+- [ ] 34-01-PLAN.md — Tracker: heading, table styling, serif firm names, status badge variants
+- [ ] 34-02-PLAN.md — Events: centered heading, rounded-2xl cards, REGISTER INTEREST button
+
+### Phase 35: Primers 3-Column Grid
+**Goal**: The primers page uses a 3-column grid and the PrimerCard matches the mockup exactly — outlined category chip, clock + read time, large serif title, thin divider, "READ PRIMER ↗" link
+**Depends on**: Phase 32
+**Requirements**: PRIM-01
+**Success Criteria** (what must be TRUE):
+  1. The primers grid is 3 columns on desktop (not 2), 2 on tablet, 1 on mobile
+  2. Each PrimerCard shows: outlined rounded category chip (no coloured dot), clock icon + read time (top row), large serif title (~28–32px), short description, thin divider line, "READ PRIMER ↗" uppercase text link
+  3. No section count or key terms count visible on the card
+  4. Category chips have no colour — plain outlined chip, dark text
+**Plans**: 1 plan
+Plans:
+- [ ] 35-01-PLAN.md — Primers grid 3-col + final PrimerCard redesign
+
+### Phase 36: Quiz Page Cleanup
+**Goal**: The quiz page is clean and focused — no date archive list, gamification strip at the top, and a clear two-panel hero layout matching the mockup
+**Depends on**: Phase 32
+**Requirements**: QUIZ-01
+**Success Criteria** (what must be TRUE):
+  1. The date archive list (AVAILABLE section with list of past quiz dates) is removed from the quiz page
+  2. The gamification stats strip (XP, level, streak) appears at the top of the page — before the quiz panels
+  3. The quiz page shows exactly two panels side by side: Daily (left) and Deep Practice (right) — no other content sections
+  4. The layout is clean and uncluttered — matches the mockup's two-panel hero structure
+**Plans**: 1 plan
+Plans:
+- [ ] 36-01-PLAN.md — Quiz page: remove date list, gamification strip to top, clean two-panel layout
+
+### Phase 37: Tests + Interview + Fit Assessment
+**Goal**: The tests, interview, and fit assessment pages are redesigned to match the mockup — cleaner cards, gray icon squares on interview categories, and a new fit assessment landing page with two cards
+**Depends on**: Phase 32
+**Requirements**: TESTS-01, INTVW-01, FIT-01
+**Success Criteria** (what must be TRUE):
+  1. Test cards show a gray icon square, feature bullet list describing what the test measures, and a correctly styled CTA button
+  2. Interview category cards have no coloured backgrounds — gray icon squares replace the coloured card backgrounds; the "By Practice Area" section is removed
+  3. Visiting /firm-fit or /area-fit shows a landing page with two cards (Firm Fit + Area Fit) before entering the quiz — not the quiz directly
+**Plans**: 2 plans
+Plans:
+- [ ] 37-01-PLAN.md — Tests card redesign (icon square, feature bullets, button)
+- [ ] 37-02-PLAN.md — Interview page: gray icon squares, remove colored backgrounds, remove "By Practice Area". Fit Assessment: new landing page with two cards.
+
 ### Phase 25: Accent + Global Headings
 **Goal**: The charcoal accent colour (#2D3436) is live sitewide and every primary content page displays a consistent heading block — the visual identity is reset to match the AI Studio mockup palette before any layout work begins
 **Depends on**: Nothing (Wave 1 — must run first)
@@ -396,3 +489,9 @@ Plans:
 | 29. Quiz Gamification | v3 | 0/2 | Not started | - |
 | 30. Application Tracker | v3 | 0/2 | Not started | - |
 | 31. Complete Design Overhaul | v3.1 | Complete    | 2026-03-13 | 2026-03-13 |
+| 32. Header + Footer | v3.2 | 1/2 | In progress | 2026-03-13 |
+| 33. Archive + Saved Pages | v3.2 | 0/2 | Not started | - |
+| 34. Tracker + Events Pages | v3.2 | 0/2 | Not started | - |
+| 35. Primers 3-Column Grid | v3.2 | 0/1 | Not started | - |
+| 36. Quiz Page Cleanup | v3.2 | 0/1 | Not started | - |
+| 37. Tests + Interview + Fit Assessment | v3.2 | 0/2 | Not started | - |

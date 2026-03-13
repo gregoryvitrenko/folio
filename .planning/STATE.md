@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v3.1
 milestone_name: Design Polish
-status: completed
-stopped_at: Completed 31-04 (editorial masthead + POLISH-06 verification)
-last_updated: "2026-03-13T12:56:17.287Z"
-last_activity: 2026-03-13 — Phase 31 plan 04 executed (editorial masthead + POLISH-06 verification)
+status: active
+stopped_at: Completed 32-02 (SiteFooter three-zone redesign)
+last_updated: "2026-03-13T13:30:00.000Z"
+last_activity: 2026-03-13 — Phase 32 plan 02 executed (SiteFooter three-zone redesign)
 progress:
   total_phases: 19
   completed_phases: 16
   total_plans: 29
-  completed_plans: 32
+  completed_plans: 33
 ---
 
 # Project State
@@ -24,10 +24,10 @@ See: .planning/PROJECT.md (updated 2026-03-12)
 
 ## Current Position
 
-Phase: 31 — Complete Design Overhaul (COMPLETE)
-Plan: 31-04 (last completed)
-Status: Phase 31 all plans done — POLISH-01 through POLISH-06 satisfied.
-Last activity: 2026-03-13 — Phase 31 plan 04 executed (editorial masthead + POLISH-06 verification)
+Phase: 32 — Header + Footer (in progress)
+Plan: 32-02 (last completed)
+Status: Phase 32 plan 02 complete — SiteFooter redesigned to three-zone layout. Plan 32-01 (header restructure) is separate.
+Last activity: 2026-03-13 — Phase 32 plan 02 executed (SiteFooter three-zone redesign)
 
 ## v3 Phase Map
 
@@ -82,6 +82,10 @@ Last activity: 2026-03-13 — Phase 31 plan 04 executed (editorial masthead + PO
 - [Phase 31-04]: POLISH-02: Editorial masthead added to BriefingView above StoryGrid — issue number calculated from days since 2026-03-01 launch date
 - [Phase 31-04]: POLISH-06: FirmQuiz IntroScreen already centers heading via text-center wrapper — no change needed to firm-fit/page.tsx
 
+### Decisions (Phase 32)
+
+- [Phase 32-02]: SHELL-02: SiteFooter redesigned to three-zone layout (FolioMark left, copyright center, Legal/Privacy/Contact right); bg-paper replaces bg-stone-50; Feedback and LinkedIn links removed
+
 ### Pending Todos
 
 None — Phase 25 complete, ready to execute Phase 26.
@@ -93,6 +97,6 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-13
-Stopped at: Completed 31-04 (editorial masthead + POLISH-06 verification)
+Stopped at: Completed 32-02 (SiteFooter three-zone redesign)
 Resume file: None
-Next action: Phase 31 complete — all POLISH requirements satisfied
+Next action: Phase 32 plan 02 complete — SHELL-02 satisfied. Phase 32 plan 01 (header restructure) still pending.
