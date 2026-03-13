@@ -82,7 +82,7 @@ See phase details below for full success criteria.
 - [x] **Phase 32: Header + Footer** — New header shell: wordmark-left, flat nav links (no dropdowns), mobile drawer update. New site footer component added sitewide. (completed 2026-03-13)
 - [ ] **Phase 33: Archive + Saved Pages** — Archive: left-aligned huge serif heading, italic column headers, pure minimal list (no cards). Saved: new heading + card redesign (date, filled bookmark, serif title, tag + read time).
 - [x] **Phase 34: Tracker + Events Pages** — Tracker: "The Tracker" heading, table layout with styled status badges, serif firm names. Events: centered huge serif heading, rounded-xl cards, REGISTER INTEREST buttons.
-- [ ] **Phase 35: Primers 3-Column Grid** — Switch primers grid from 2-col to 3-col, final PrimerCard polish (outlined category chip, no dot, READ PRIMER link).
+- [x] **Phase 35: Primers 3-Column Grid** — Switch primers grid from 2-col to 3-col, final PrimerCard polish (outlined category chip, no dot, READ PRIMER link). (completed 2026-03-13)
 - [ ] **Phase 36: Quiz Page Cleanup** — Remove date archive list, move gamification strip to top, clean two-panel hero layout.
 - [x] **Phase 37: Tests + Interview + Fit Assessment** — Tests: card redesign with icon square + feature bullets. Interview: remove colored card backgrounds, add gray icon squares, remove "By Practice Area" section. Fit: new landing page with two cards.
 
@@ -314,8 +314,8 @@ Plans:
   4. Events cards use visibly large border radius (rounded-2xl), category chip top-left, date top-right, and a full-width outlined "REGISTER INTEREST" button
 **Plans**: 2 plans
 Plans:
-- [ ] 34-01-PLAN.md — Tracker: heading, table styling, serif firm names, status badge variants
-- [ ] 34-02-PLAN.md — Events: centered heading, rounded-2xl cards, REGISTER INTEREST button
+- [x] 34-01-PLAN.md — Tracker: heading, table styling, serif firm names, status badge variants
+- [x] 34-02-PLAN.md — Events: centered heading, rounded-2xl cards, REGISTER INTEREST button
 
 ### Phase 35: Primers 3-Column Grid
 **Goal**: The primers page uses a 3-column grid and the PrimerCard matches the mockup exactly — outlined category chip, clock + read time, large serif title, thin divider, "READ PRIMER ↗" link
@@ -491,7 +491,7 @@ Plans:
 | 31. Complete Design Overhaul | v3.1 | Complete    | 2026-03-13 | 2026-03-13 |
 | 32. Header + Footer | 2/2 | Complete    | 2026-03-13 | 2026-03-13 |
 | 33. Archive + Saved Pages | v3.2 | 0/2 | Not started | - |
-| 34. Tracker + Events Pages | v3.2 | 0/2 | Not started | - |
+| 34. Tracker + Events Pages | v3.2 | 2/2 | Complete | 2026-03-13 |
 | 35. Primers 3-Column Grid | v3.2 | 0/1 | Not started | - |
 | 36. Quiz Page Cleanup | v3.2 | 1/1 | Complete | 2026-03-13 |
 | 37. Tests + Interview + Fit Assessment | v3.2 | 2/2 | Complete | 2026-03-13 |
