@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Loader2, CheckCircle2, XCircle, RotateCcw, ArrowLeft, Trophy, Flame, Zap, BarChart3 } from 'lucide-react';
 import type { DailyQuiz, QuizQuestion, TopicCategory } from '@/lib/types';
 import { TOPIC_STYLES } from '@/lib/types';
+import type { GamificationData } from '@/lib/quiz-gamification';
 
 // ── localStorage schema ───────────────────────────────────────────────────────
 
@@ -282,6 +283,9 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
   // Lifetime quiz stats
   const [stats, setStats] = useState<QuizStats>({ total: 0, correct: 0, topics: {} });
 
+  // Server-persisted gamification (XP / level / streak)
+  const [gamificationData, setGamificationData] = useState<GamificationData | null>(null);
+
   useEffect(() => {
     // Load streak-specific result for the daily card — never overwritten by deep practice
     const saved = loadStreakResult(date);
@@ -426,6 +430,19 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
       }
 
       setUIState('results');
+
+      // Fire-and-forget gamification POST on first completion only
+      if (!isRetry) {
+        const completionType = quizMode === 'streak' ? 'daily' : 'practice';
+        fetch('/api/quiz/gamification', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ type: completionType }),
+        })
+          .then((r) => r.json())
+          .then((data: GamificationData) => setGamificationData(data))
+          .catch(() => {});
+      }
     }
   }
 
@@ -786,6 +803,47 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown }: QuizI
             )}
           </div>
         </div>
+
+        {/* Gamification panel — XP earned, shown after first completion only */}
+        {gamificationData && !isRetry && (
+          <div className="rounded-card bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 px-5 py-4">
+            <p className="section-label mb-3">XP Earned</p>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+              {/* Level */}
+              <div className="flex items-baseline gap-1.5">
+                <span className="text-2xl font-bold text-stone-900 dark:text-stone-50 tracking-tight">
+                  Lvl {gamificationData.level}
+                </span>
+                <span className="text-label font-sans text-stone-400 dark:text-stone-500">
+                  +{quizMode === 'streak' ? 100 : 150} XP
+                </span>
+              </div>
+              {/* XP progress bar */}
+              <div className="flex-1 min-w-[120px]">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-label font-sans text-stone-500 dark:text-stone-400">
+                    {gamificationData.xp % 100}/100 XP
+                  </span>
+                </div>
+                <div className="h-2 bg-stone-100 dark:bg-stone-800 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-charcoal dark:bg-stone-300 rounded-full transition-all duration-500"
+                    style={{ width: `${gamificationData.xp % 100}%` }}
+                  />
+                </div>
+              </div>
+              {/* Streak */}
+              <div className="flex items-baseline gap-1.5">
+                <span className="text-2xl font-bold text-stone-900 dark:text-stone-50 tracking-tight">
+                  {gamificationData.streak}
+                </span>
+                <span className="text-label font-sans text-stone-400 dark:text-stone-500">
+                  day streak
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Per-topic breakdown */}
         <div>

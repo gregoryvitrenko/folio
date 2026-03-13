@@ -8,6 +8,7 @@ import { TOPIC_STYLES } from '@/lib/types';
 import { ChevronRight, Plus } from 'lucide-react';
 import { requireSubscription } from '@/lib/paywall';
 import { auth } from '@clerk/nextjs/server';
+import { getGamificationData } from '@/lib/quiz-gamification';
 import { getOnboarding } from '@/lib/onboarding';
 import { FIRMS } from '@/lib/firms-data';
 
@@ -145,6 +146,16 @@ export default async function QuizPage() {
   const activeDate = briefing?.date ?? today;
   const quizQuestions = briefing ? ((await getQuiz(briefing.date))?.questions ?? []) : [];
 
+  // Server-side gamification fetch — fails silently so the page always renders
+  let gamification: { xp: number; level: number; streak: number; lastCompleted: string | null } | null = null;
+  if (userId) {
+    try {
+      gamification = await getGamificationData(userId);
+    } catch {
+      // fail silently — gamification is non-critical
+    }
+  }
+
   const dateList = dates.length > 0 && (
     <div className="mb-8">
       <h3 className="section-label mb-3">
@@ -210,6 +221,48 @@ export default async function QuizPage() {
             </span>
             <h2 className="text-5xl font-serif text-stone-900 dark:text-stone-50">Commercial Quiz</h2>
           </div>
+          {gamification && (
+            <div className="rounded-card border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 px-5 py-4 mb-8">
+              <p className="section-label mb-3">Your Progress</p>
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+                <div className="flex items-baseline gap-1.5">
+                  <span className="text-2xl font-bold text-stone-900 dark:text-stone-50 tracking-tight">
+                    Lvl {gamification.level}
+                  </span>
+                </div>
+                <div className="flex-1 min-w-[140px]">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-label font-sans text-stone-500 dark:text-stone-400">
+                      {gamification.xp % 100}/100 XP
+                    </span>
+                    <span className="text-label font-sans text-stone-400 dark:text-stone-500">
+                      {gamification.xp} total
+                    </span>
+                  </div>
+                  <div className="h-2 bg-stone-100 dark:bg-stone-800 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-charcoal dark:bg-stone-300 rounded-full"
+                      style={{ width: `${gamification.xp % 100}%` }}
+                    />
+                  </div>
+                </div>
+                <div className="flex items-baseline gap-1.5">
+                  {gamification.streak > 0 ? (
+                    <>
+                      <span className="text-2xl font-bold text-stone-900 dark:text-stone-50 tracking-tight">
+                        {gamification.streak}
+                      </span>
+                      <span className="text-label font-sans text-stone-400 dark:text-stone-500">
+                        day streak
+                      </span>
+                    </>
+                  ) : (
+                    <span className="text-label font-sans text-stone-400 dark:text-stone-500">No streak yet</span>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
           {dateList}
           <div className="text-center py-20 space-y-2">
             <p className="text-sm text-stone-500 dark:text-stone-400">No briefing available yet.</p>
@@ -305,6 +358,50 @@ export default async function QuizPage() {
             </div>
           </div>
         </div>
+
+        {/* Gamification stats strip */}
+        {gamification && (
+          <div className="rounded-card border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 px-5 py-4 mb-8">
+            <p className="section-label mb-3">Your Progress</p>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+              <div className="flex items-baseline gap-1.5">
+                <span className="text-2xl font-bold text-stone-900 dark:text-stone-50 tracking-tight">
+                  Lvl {gamification.level}
+                </span>
+              </div>
+              <div className="flex-1 min-w-[140px]">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-label font-sans text-stone-500 dark:text-stone-400">
+                    {gamification.xp % 100}/100 XP
+                  </span>
+                  <span className="text-label font-sans text-stone-400 dark:text-stone-500">
+                    {gamification.xp} total
+                  </span>
+                </div>
+                <div className="h-2 bg-stone-100 dark:bg-stone-800 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-charcoal dark:bg-stone-300 rounded-full"
+                    style={{ width: `${gamification.xp % 100}%` }}
+                  />
+                </div>
+              </div>
+              <div className="flex items-baseline gap-1.5">
+                {gamification.streak > 0 ? (
+                  <>
+                    <span className="text-2xl font-bold text-stone-900 dark:text-stone-50 tracking-tight">
+                      {gamification.streak}
+                    </span>
+                    <span className="text-label font-sans text-stone-400 dark:text-stone-500">
+                      day streak
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-label font-sans text-stone-400 dark:text-stone-500">No streak yet</span>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
 
         {dateList}
         <QuizInterface
