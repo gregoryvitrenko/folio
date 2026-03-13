@@ -79,7 +79,7 @@ See phase details below for full success criteria.
 
 **Milestone Goal:** Close the gap between the deployed v3 site and the AI Studio mockups — fixing layout, heading alignment, component styles, and the quiz page to match the reference designs as closely as possible.
 
-- [ ] **Phase 31: Complete Design Overhaul** — Quiz page rework, home masthead, centered page headings, primer card redesign, topic tab dots removal, fit assessment heading, and any other visual gaps vs AI Studio mockups
+- [x] **Phase 31: Complete Design Overhaul** — Quiz page rework, home masthead, centered page headings, primer card redesign, topic tab dots removal, fit assessment heading, and any other visual gaps vs AI Studio mockups (completed 2026-03-13)
 
 ### 🚧 v3 Design Refresh & Features (Active)
 
@@ -395,4 +395,4 @@ Plans:
 | 28. Quiz + Podcast Heroes & Format | v3 | 0/TBD | Not started | - |
 | 29. Quiz Gamification | v3 | 0/2 | Not started | - |
 | 30. Application Tracker | v3 | 0/2 | Not started | - |
-| 31. Complete Design Overhaul | v3.1 | 0/4 | Not started | - |
+| 31. Complete Design Overhaul | 2/1 | Complete   | 2026-03-13 | - |
