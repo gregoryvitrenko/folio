@@ -300,8 +300,8 @@ Plans:
   4. Saved story cards show: date (top-left, muted), filled bookmark icon (top-right, dark), large serif title, topic tag chip + "8 MIN READ" — matching the mockup card layout
 **Plans**: 2 plans
 Plans:
-- [ ] 33-01-PLAN.md — Archive page: new heading, italic serif column headers, pure list format
-- [ ] 33-02-PLAN.md — Saved page: new heading + card redesign
+- [x] 33-01-PLAN.md — Archive page: new heading, italic serif column headers, pure list format
+- [x] 33-02-PLAN.md — Saved page: new heading + card redesign
 
 ### Phase 34: Tracker + Events Pages
 **Goal**: The tracker and events pages match the mockup — the tracker becomes a clean table with serif firm names and styled status badges, events gets a centered huge-serif heading and rounded cards
@@ -490,7 +490,7 @@ Plans:
 | 30. Application Tracker | v3 | 0/2 | Not started | - |
 | 31. Complete Design Overhaul | v3.1 | Complete    | 2026-03-13 | 2026-03-13 |
 | 32. Header + Footer | 2/2 | Complete    | 2026-03-13 | 2026-03-13 |
-| 33. Archive + Saved Pages | v3.2 | 0/2 | Not started | - |
+| 33. Archive + Saved Pages | v3.2 | 2/2 | Complete | 2026-03-13 |
 | 34. Tracker + Events Pages | v3.2 | 2/2 | Complete | 2026-03-13 |
 | 35. Primers 3-Column Grid | v3.2 | 0/1 | Not started | - |
 | 36. Quiz Page Cleanup | v3.2 | 1/1 | Complete | 2026-03-13 |
