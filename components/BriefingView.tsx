@@ -17,11 +17,6 @@ export function BriefingView({ briefing, subscribed = false }: BriefingViewProps
   return (
     <main className="max-w-5xl mx-auto px-4 sm:px-6 pt-10 pb-10">
 
-      {/* Strapline — always visible, orients new visitors */}
-      <p className="font-sans text-caption text-stone-400 dark:text-stone-500 mb-8 leading-relaxed">
-        Daily commercial law briefings for future City trainees — curated stories, talking points, and firm intelligence, every morning.
-      </p>
-
       {/* Start Here callouts — guide non-subscribers to high-value content */}
       {!subscribed && (
         <div className="mb-8">
@@ -54,6 +49,11 @@ export function BriefingView({ briefing, subscribed = false }: BriefingViewProps
           </div>
         </div>
       )}
+
+      {/* Strapline */}
+      <p className="font-serif text-base sm:text-lg italic text-stone-400 dark:text-stone-500 text-center mb-3 leading-relaxed">
+        Daily commercial law briefings for future City trainees — curated stories, talking points, and firm intelligence, every morning.
+      </p>
 
       {/* Editorial masthead */}
       <div className="flex items-center justify-between gap-4 py-5 mb-2 border-b border-stone-200 dark:border-stone-800">
