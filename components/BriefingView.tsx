@@ -57,7 +57,7 @@ export function BriefingView({ briefing, subscribed = false }: BriefingViewProps
 
       {/* Editorial masthead */}
       <div className="flex items-center justify-between gap-4 py-5 mb-2 border-b border-stone-200 dark:border-stone-800">
-        <span className="section-label text-stone-400 dark:text-stone-500 flex-shrink-0">London Edition</span>
+        <span className="section-label flex-shrink-0 invisible" aria-hidden="true">Vol. 1 / No. 00</span>
         <h1 className="font-serif text-4xl sm:text-5xl font-bold tracking-tight text-stone-900 dark:text-stone-50 text-center flex-1">
           Folio
         </h1>
