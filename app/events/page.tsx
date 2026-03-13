@@ -19,7 +19,7 @@ export default async function EventsPage() {
         {/* Page heading — centered */}
         <div className="text-center space-y-3 mb-12">
           <span className="section-label opacity-40">Professional Network</span>
-          <h1 className="text-[64px] leading-none font-serif font-bold text-stone-900 dark:text-stone-50">
+          <h1 className="text-[64px] leading-none font-serif font-semibold text-stone-900 dark:text-stone-50">
             Upcoming Events
           </h1>
           <p className="opacity-60 text-lg font-light max-w-xl mx-auto">
@@ -30,7 +30,7 @@ export default async function EventsPage() {
         {/* Empty state */}
         <div className="flex flex-col items-center justify-center py-16 gap-3 text-center">
           <Calendar size={16} className="text-stone-400" />
-          <h2 className="font-serif text-heading font-bold text-stone-900 dark:text-stone-100">
+          <h2 className="font-serif text-heading font-semibold text-stone-900 dark:text-stone-100">
             No upcoming events
           </h2>
           <p className="text-caption text-stone-500 max-w-sm">
@@ -58,7 +58,7 @@ export default async function EventsPage() {
       {/* Page heading — centered */}
       <div className="text-center space-y-3 mb-12">
         <span className="section-label opacity-40">Professional Network</span>
-        <h1 className="text-[64px] leading-none font-serif font-bold text-stone-900 dark:text-stone-50">
+        <h1 className="text-[64px] leading-none font-serif font-semibold text-stone-900 dark:text-stone-50">
           Upcoming Events
         </h1>
         <p className="opacity-60 text-lg font-light max-w-xl mx-auto">
