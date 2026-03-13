@@ -21,12 +21,16 @@ export async function generateAndSavePodcastScript(briefing: Briefing): Promise<
     day: 'numeric',
   });
 
+  // Top 3 by leadScore — already sorted descending by generate.ts
+  const topStories = briefing.stories.slice(0, 3);
+
   const storiesJson = JSON.stringify(
-    briefing.stories.map((s) => ({
+    topStories.map((s) => ({
       topic: s.topic,
       headline: s.headline,
       summary: s.summary,
       whyItMatters: s.whyItMatters,
+      talkingPoints: s.talkingPoints,
     })),
     null,
     2
@@ -34,7 +38,9 @@ export async function generateAndSavePodcastScript(briefing: Briefing): Promise<
 
   const prompt = `You are writing a podcast script for "Folio Daily" — a morning audio briefing for law students targeting Magic Circle, Silver Circle, and elite US law firms.
 
-Write a 3–4 minute script (450–550 words of spoken content) for ${dateStr}.
+Write a 4–5 minute script (550–650 words of spoken content) for ${dateStr}.
+
+You have exactly three stories. These are the three highest-importance stories from today's briefing, selected by lead score. Do not add others. Go deeper on each one — this is a considered briefing, not a headline ticker.
 
 VOICE & RHYTHM — this will be read aloud by a single TTS voice. Every word must sound natural when spoken, not read:
 - ALWAYS use contractions: it's, don't, that's, won't, hasn't, they're, we've. Never write "it is", "do not", "that is" etc.
@@ -51,12 +57,10 @@ TRANSITIONS — ban all of these: "Meanwhile", "Furthermore", "In addition", "Tu
 - Silence IS a transition. A full stop and a new paragraph is enough.
 
 STRUCTURE:
-- Open with a crisp greeting. Give the date. One sentence on what's ahead — don't list all eight topics.
-- Lead with the single most striking story. Hit the headline number first.
-- Cover 5–6 stories total. Skip the weakest 2–3 — better to go deeper on fewer than to rush all eight. This is audio, not a written briefing.
-- For each story: one headline fact, one "so what for law firms" line, done. Two to three sentences max per story.
+- Open with a crisp greeting. Give the date. One sentence on what's ahead — name the three topics, no more.
+- For each story: spend 4–6 sentences. Hit the headline fact first. Then the commercial context — which practice areas, which firms. Then one concrete interview line the listener can actually use. End each story cleanly before moving on.
 - Address the listener directly at least twice: "Worth knowing for interviews." "If a partner asks you about this — here's your line."
-- Close with Sector Watch and One to Follow as a quick "what to watch" segment — 2 sentences each, max.
+- After the three stories, close with Sector Watch and One to Follow as a quick "what to watch" segment — 2 sentences each, max.
 - Sign off: "That's your Folio Daily for ${dateStr}. Good morning."
 
 BANNED PATTERNS — these sound robotic when read aloud:
@@ -69,7 +73,7 @@ BANNED PATTERNS — these sound robotic when read aloud:
 
 OUTPUT: Plain spoken text only. No headings, no bullets, no brackets, no stage directions. Just the words the presenter would say, paragraph by paragraph.
 
-Today's stories:
+Today's top three stories:
 ${storiesJson}
 
 Sector Watch: ${briefing.sectorWatch}
