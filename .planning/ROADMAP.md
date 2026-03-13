@@ -75,6 +75,12 @@ See phase details below for full success criteria.
 
 </details>
 
+### v3.1 Design Polish (Next)
+
+**Milestone Goal:** Close the gap between the deployed v3 site and the AI Studio mockups — fixing layout, heading alignment, component styles, and the quiz page to match the reference designs as closely as possible.
+
+- [ ] **Phase 31: Complete Design Overhaul** — Quiz page rework, home masthead, centered page headings, primer card redesign, topic tab dots removal, fit assessment heading, and any other visual gaps vs AI Studio mockups
+
 ### 🚧 v3 Design Refresh & Features (Active)
 
 **Milestone Goal:** Align to AI Studio mockup palette (charcoal #2D3436 accent), apply consistent heading pattern sitewide, redesign briefing home page as newspaper layout, unify archive into a 3-column page, standardise podcast and quiz heroes, restructure quiz format (daily 1/topic + deep practice per area) with real Redis-persisted gamification (XP/level/streak), and add an Application Tracker.
@@ -322,6 +328,24 @@ Plans:
 - [ ] 29-01-PLAN.md — Backend: lib/quiz-gamification.ts dual-backend functions + API route GET/POST
 - [ ] 29-02-PLAN.md — Frontend: QuizInterface completion POST + results XP panel + quiz page stats strip
 
+### Phase 31: Complete Design Overhaul
+**Goal**: The deployed site matches the AI Studio mockups as closely as possible — quiz page is fully reworked with correct layout and gamification placement, the home masthead is added, all applicable page headings are centered, primer cards match the minimal mockup style, topic tabs have no colored dots, and the fit assessment heading is centered
+**Depends on**: Phases 25–30 (all v3 features complete)
+**Requirements**: POLISH-01, POLISH-02, POLISH-03, POLISH-04, POLISH-05, POLISH-06
+**Success Criteria** (what must be TRUE):
+  1. Quiz page: gamification stats strip appears at the top-right of the heading row; "Start Daily Quiz" button links to `/quiz/[today]` not `/quiz`; no archive date list on this page; layout matches mockup (dark navy card, serif section headers, practice area cards without colored dots)
+  2. Home masthead: a centered serif "Folio" wordmark with "VOL. XX / NO. XX" and "LONDON EDITION" flanking text appears above the topic tabs on the briefing home page
+  3. Page headings on primers, quiz/practice/[topic], tests, interview, firm-fit, and area-fit pages are centered (overline + serif title + description all `text-center`)
+  4. Primer cards match the mockup: minimal white card, category chip (text only, no colored icon), clock + read time, serif title, thin divider, "READ PRIMER ↗" link text
+  5. Topic filter tabs have no colored dot next to each topic name — clean uppercase text only with bottom border on active tab
+  6. Fit Assessment page heading is centered, matching the studio version
+**Plans**: 4 plans
+Plans:
+- [ ] 31-01-PLAN.md — POLISH-05 tab dot removal + POLISH-03 centered headings (4 pages + interview practice grid dots)
+- [ ] 31-02-PLAN.md — POLISH-04 primer card redesign (minimal: category chip, clock + read time, divider, READ PRIMER link)
+- [ ] 31-03-PLAN.md — POLISH-01 quiz page audit and fix (stats strip position, href, navy card, section headers, no dots)
+- [ ] 31-04-PLAN.md — POLISH-02 home masthead (London Edition + Folio wordmark + Vol/No) + POLISH-06 firm-fit heading verification
+
 ### Phase 30: Application Tracker
 **Goal**: Users can manage their TC application pipeline in Folio — adding, viewing, updating, and deleting application entries that persist in Redis and are accessible only to subscribers
 **Depends on**: Phase 25
@@ -371,3 +395,4 @@ Plans:
 | 28. Quiz + Podcast Heroes & Format | v3 | 0/TBD | Not started | - |
 | 29. Quiz Gamification | v3 | 0/2 | Not started | - |
 | 30. Application Tracker | v3 | 0/2 | Not started | - |
+| 31. Complete Design Overhaul | v3.1 | 0/4 | Not started | - |
