@@ -79,6 +79,8 @@ Last activity: 2026-03-13 — Phase 31 plan 04 executed (editorial masthead + PO
 
 - [Phase 31-01]: POLISH-05: Removed colored dot spans from TabBar and interview practice area grid — tabs show clean uppercase text only with active underline border
 - [Phase 31-01]: POLISH-03: text-center + max-w-xl removal applied to heading blocks on primers, tests, interview, quiz practice pages
+- [Phase 31-04]: POLISH-02: Editorial masthead added to BriefingView above StoryGrid — issue number calculated from days since 2026-03-01 launch date
+- [Phase 31-04]: POLISH-06: FirmQuiz IntroScreen already centers heading via text-center wrapper — no change needed to firm-fit/page.tsx
 
 ### Pending Todos
 
@@ -91,6 +93,6 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-13
-Stopped at: Completed 31-01 (tab dot removal + centered headings)
+Stopped at: Completed 31-04 (editorial masthead + POLISH-06 verification)
 Resume file: None
-Next action: Execute plan 31-02 (PrimerCard redesign)
+Next action: Phase 31 complete — all POLISH requirements satisfied
