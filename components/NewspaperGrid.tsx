@@ -43,7 +43,27 @@ export function NewspaperGrid({ stories, date, subscribed }: NewspaperGridProps)
             className="group cursor-pointer"
           >
             <article>
-              {/* Hero image */}
+              {/* Top story label */}
+              <div className="flex items-center gap-2 mb-4">
+                <span className="section-label text-stone-400">Top Story</span>
+                <span className="text-stone-300 dark:text-stone-600">/</span>
+                <span className={`section-label ${leadStyles.label}`}>{lead.topic}</span>
+              </div>
+
+              {/* Large serif headline */}
+              <h1 className="font-serif text-5xl font-bold leading-tight text-stone-900 dark:text-stone-50 tracking-tight mb-4 group-hover:opacity-80 transition-opacity">
+                {lead.headline}
+              </h1>
+
+              {/* Topic colour bar */}
+              <div className={`h-0.5 w-16 mb-5 ${leadStyles.dot}`} />
+
+              {/* Full untruncated excerpt */}
+              <p className="text-body text-stone-600 dark:text-stone-300 leading-relaxed mb-6">
+                {stripBold(lead.summary)}
+              </p>
+
+              {/* Hero image — below the headline */}
               {lead.imageUrl && (
                 <div className="relative mb-6 overflow-hidden rounded-card">
                   <div className="relative w-full" style={{ paddingBottom: '52%' }}>
@@ -70,25 +90,6 @@ export function NewspaperGrid({ stories, date, subscribed }: NewspaperGridProps)
                 </div>
               )}
 
-              {/* Topic badge */}
-              <div className="flex items-center gap-2 mb-6">
-                <span className={`inline-block w-2 h-2 rounded-full ${leadStyles.dot}`} />
-                <span className={`section-label ${leadStyles.label}`}>{lead.topic}</span>
-              </div>
-
-              {/* Large serif headline */}
-              <h1 className="font-serif text-5xl font-bold leading-tight text-stone-900 dark:text-stone-50 tracking-tight mb-6 group-hover:opacity-80 transition-opacity">
-                {lead.headline}
-              </h1>
-
-              {/* Topic colour bar */}
-              <div className={`h-0.5 w-16 mb-6 ${leadStyles.dot}`} />
-
-              {/* Full untruncated excerpt */}
-              <p className="text-body text-stone-600 dark:text-stone-300 leading-relaxed mb-8">
-                {stripBold(lead.summary)}
-              </p>
-
               {/* Read link */}
               <p className="text-label font-sans font-medium tracking-wide text-stone-400 dark:text-stone-500 group-hover:text-stone-700 dark:group-hover:text-stone-300 transition-colors flex items-center gap-1.5">
                 {subscribed ? (
@@ -105,60 +106,61 @@ export function NewspaperGrid({ stories, date, subscribed }: NewspaperGridProps)
         </div>
 
         {/* Sidebar — right column */}
-        <div className="lg:col-span-4">
-          <div className="space-y-0 divide-y divide-stone-100 dark:divide-stone-800">
-            {sidebarStories.map((s, i) => {
-              const styles = TOPIC_STYLES[s.topic] ?? TOPIC_STYLES['International'];
-              const dest = subscribed ? `/story/${s.id}?date=${date}` : '/upgrade';
-              return (
-                <div
-                  key={s.id}
-                  className="py-5 first:pt-0"
-                >
+        <div className="lg:col-span-4 space-y-6">
+
+          {/* Subscription CTA — top of sidebar, non-subscribed users only */}
+          {!subscribed && (
+            <div className="rounded-card bg-[#2D3436] text-white p-6">
+              <p className="font-serif text-xl font-semibold italic leading-snug mb-3">
+                The Daily Briefing
+              </p>
+              <p className="text-caption text-stone-300 leading-relaxed mb-5">
+                Daily commercial law briefings for future City trainees — curated stories, talking points, and firm intelligence, every morning.
+              </p>
+              <Link
+                href="/upgrade"
+                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-chrome bg-white text-[#2D3436] text-caption font-semibold hover:bg-stone-100 transition-colors tracking-wide uppercase"
+              >
+                Subscribe for £4/month
+              </Link>
+            </div>
+          )}
+
+          {/* Market Intelligence list */}
+          <div>
+            <p className="section-label text-stone-400 mb-4">Market Intelligence</p>
+            <div className="space-y-0 divide-y divide-stone-100 dark:divide-stone-800">
+              {sidebarStories.map((s, i) => {
+                const dest = subscribed ? `/story/${s.id}?date=${date}` : '/upgrade';
+                return (
                   <div
-                    className="flex gap-4 cursor-pointer group"
-                    role="link"
-                    tabIndex={0}
-                    onClick={() => router.push(dest)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') router.push(dest);
-                    }}
+                    key={s.id}
+                    className="py-4 first:pt-0"
                   >
-                    {/* Large faded number */}
-                    <span className="font-serif text-4xl font-bold text-stone-200 dark:text-stone-700 leading-none select-none flex-shrink-0 w-8">
-                      {i + 1}
-                    </span>
-                    {/* Content */}
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-1.5 mb-2">
-                        <span className={`inline-block w-1.5 h-1.5 rounded-full flex-shrink-0 ${styles.dot}`} />
-                        <span className={`section-label ${styles.label}`}>{s.topic}</span>
-                      </div>
-                      <h3 className="font-serif text-subheading font-semibold text-stone-900 dark:text-stone-50 leading-snug group-hover:underline decoration-stone-400 underline-offset-2">
+                    <div
+                      className="flex gap-3 cursor-pointer group"
+                      role="link"
+                      tabIndex={0}
+                      onClick={() => router.push(dest)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') router.push(dest);
+                      }}
+                    >
+                      {/* Small italic number */}
+                      <span className="font-serif text-sm italic text-stone-300 dark:text-stone-600 leading-none select-none flex-shrink-0 w-5 pt-0.5">
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                      {/* Headline only — compact */}
+                      <h3 className="font-serif text-base font-semibold text-stone-800 dark:text-stone-100 leading-snug line-clamp-2 group-hover:underline decoration-stone-300 underline-offset-2">
                         {s.headline}
                       </h3>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
 
-          {/* Sidebar subscription CTA — non-subscribed users only */}
-          {!subscribed && (
-            <div className="mt-6 rounded-card bg-[#2D3436] text-white p-6">
-              <p className="section-label text-stone-400 mb-2">Subscriber access</p>
-              <p className="font-serif text-lg font-semibold leading-snug mb-4">
-                Full articles, quiz, firm packs &amp; podcast.
-              </p>
-              <Link
-                href="/upgrade"
-                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-chrome bg-white text-[#2D3436] text-caption font-semibold hover:bg-stone-100 transition-colors"
-              >
-                Subscribe — £4/mo →
-              </Link>
-            </div>
-          )}
         </div>
       </div>
 
