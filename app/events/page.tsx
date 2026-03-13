@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { Calendar } from 'lucide-react';
 import { getEvents } from '@/lib/events';
 import { CityFilter, EventsGrid } from './CityFilter';
+import { Header } from '@/components/Header';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,6 +13,8 @@ export default async function EventsPage() {
 
   if (!store || upcoming.length === 0) {
     return (
+      <>
+      <Header date={today} />
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
         {/* Page heading — centered */}
         <div className="text-center space-y-3 mb-12">
@@ -44,10 +47,13 @@ export default async function EventsPage() {
           )}
         </div>
       </main>
+      </>
     );
   }
 
   return (
+    <>
+    <Header date={today} />
     <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
       {/* Page heading — centered */}
       <div className="text-center space-y-3 mb-12">
@@ -66,5 +72,6 @@ export default async function EventsPage() {
         <CityFilter events={upcoming} />
       </Suspense>
     </main>
+    </>
   );
 }
