@@ -494,6 +494,32 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown, isPract
 
   // ── Idle / loading state ───────────────────────────────────────────────────
 
+  // When navigating directly from the hub CTA (autoStart=true), skip the card
+  // selection screen entirely. Show a clean spinner while the quiz loads, or an
+  // inline error if generation fails. The card-selection screen is only relevant
+  // when the user browses to /quiz/[date] manually (e.g. from the archive).
+  if (autoStart && (uiState === 'idle' || uiState === 'loading') && !errorMsg) {
+    return (
+      <div className="flex items-center justify-center py-24">
+        <Loader2 className="w-6 h-6 animate-spin text-stone-400" />
+      </div>
+    );
+  }
+
+  if (autoStart && uiState === 'idle' && errorMsg) {
+    return (
+      <div className="py-12 text-center space-y-3">
+        <p className="text-caption font-sans text-rose-500">{errorMsg}</p>
+        <button
+          onClick={() => fetchAndStart('streak')}
+          className="text-caption font-sans text-stone-500 underline underline-offset-2 hover:text-stone-700 transition-colors"
+        >
+          Try again
+        </button>
+      </div>
+    );
+  }
+
   if (uiState === 'idle' || uiState === 'loading') {
     // Daily card always uses streak-specific result — never contaminated by deep practice
     const alreadyDone = streakResult !== null;
