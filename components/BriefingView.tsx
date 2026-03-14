@@ -48,7 +48,7 @@ export function BriefingView({ briefing, subscribed = false }: BriefingViewProps
                 Firm Profiles
               </span>
               <p className="text-caption font-semibold text-stone-800 dark:text-stone-100 group-hover:text-stone-900 dark:group-hover:text-stone-50 leading-snug">
-                Deadlines, salaries &amp; culture notes for 37 City firms →
+                Deadlines, salaries &amp; culture notes for 46 City firms →
               </p>
             </Link>
           </div>
