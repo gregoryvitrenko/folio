@@ -37,7 +37,7 @@ export default function FitPage() {
         {/* Heading */}
         <div className="text-center space-y-3 mb-16">
           <span className="section-label opacity-40">Strategic Alignment</span>
-          <h1 className="font-serif text-5xl font-semibold text-stone-900 dark:text-stone-50">
+          <h1 className="font-serif text-5xl text-stone-900 dark:text-stone-50">
             Fit Assessment
           </h1>
           <p className="text-base text-stone-500 dark:text-stone-400 max-w-md mx-auto">
@@ -60,7 +60,7 @@ export default function FitPage() {
                 <p className={`section-label ${a.dark ? 'text-stone-500' : 'text-stone-400'}`}>
                   Assessment {a.number}
                 </p>
-                <h2 className={`font-serif text-3xl font-semibold ${a.dark ? 'text-white' : 'text-stone-900 dark:text-stone-50'}`}>
+                <h2 className={`font-serif text-3xl ${a.dark ? 'text-white' : 'text-stone-900 dark:text-stone-50'}`}>
                   {a.title}
                 </h2>
                 <p className={`text-sm leading-relaxed ${a.dark ? 'text-stone-400' : 'text-stone-500 dark:text-stone-400'}`}>
