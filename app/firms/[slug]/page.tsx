@@ -87,7 +87,7 @@ function SectionCard({
   return (
     <div
       data-print-section
-      className={`bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-sm px-6 py-5 ${className}`}
+      className={`bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-3xl px-6 py-6 ${className}`}
     >
       {children}
     </div>
@@ -99,18 +99,6 @@ function SectionHeading({ icon, label }: { icon: React.ReactNode; label: string 
     <div className="flex items-center gap-2 mb-4">
       <span className="text-stone-400 dark:text-stone-500">{icon}</span>
       <span className="section-label">{label}</span>
-    </div>
-  );
-}
-
-/** Individual stat box used in the hero 2×2 grid */
-function StatBox({ label, value, accent = '' }: { label: string; value: string; accent?: string }) {
-  return (
-    <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-sm px-4 py-3">
-      <p className="section-label mb-1.5">{label}</p>
-      <p className={`font-sans text-body font-medium text-stone-800 dark:text-stone-100 ${accent}`}>
-        {value}
-      </p>
     </div>
   );
 }
@@ -136,7 +124,7 @@ export default async function FirmProfilePage({
   const today = getTodayDate();
   const diversitySchemes = getDiversitySchemes(slug);
 
-  // ── Recent Stories: scan last 30 days ──────────────────────────────────────
+  // ── Recent Stories ─────────────────────────────────────────────────────────
   const allDates = await listBriefings();
   const cutoff = new Date();
   cutoff.setDate(cutoff.getDate() - 30);
@@ -190,7 +178,7 @@ export default async function FirmProfilePage({
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
 
         {/* Back link + print */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-6">
           <Link
             href="/firms"
             data-print-hide
@@ -202,113 +190,198 @@ export default async function FirmProfilePage({
           <PrintButton />
         </div>
 
-        {/* ── Hero: name left / stats right ────────────────────────────────── */}
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-8 mb-10 pb-10 border-b border-stone-200 dark:border-stone-800">
+        {/* ── Hero card ────────────────────────────────────────────────────── */}
+        <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-3xl px-8 py-8 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-8 items-start">
 
-          {/* Left: firm name + meta */}
-          <div>
-            <p className="section-label mb-3">Firm Intelligence</p>
-            <h1 className="font-serif text-4xl sm:text-5xl tracking-tight text-stone-900 dark:text-stone-50 leading-[1.1] mb-5">
-              {firm.name}
-            </h1>
+            {/* Left: firm identity */}
+            <div>
+              <p className="section-label mb-3">Firm Intelligence</p>
+              <h1 className="font-serif text-4xl sm:text-5xl tracking-tight text-stone-900 dark:text-stone-50 leading-[1.1] mb-4">
+                {firm.name}
+              </h1>
 
-            {/* Tier + HQ */}
-            <div className="flex flex-wrap items-center gap-2 mb-3">
-              <span className={`inline-block text-label font-semibold tracking-wide uppercase px-2.5 py-1 rounded-sm ${TIER_BADGE[firm.tier]}`}>
-                {firm.tier}
-              </span>
-              <span className="text-stone-300 dark:text-stone-700">·</span>
-              <div className="flex items-center gap-1 text-caption text-stone-500 dark:text-stone-400">
-                <MapPin size={11} className="shrink-0" />
-                <span className="font-medium">{firm.hq}</span>
+              <div className="flex flex-wrap items-center gap-2 mb-3">
+                <span className={`inline-block text-label font-semibold tracking-wide uppercase px-2.5 py-1 rounded-full ${TIER_BADGE[firm.tier]}`}>
+                  {firm.tier}
+                </span>
+                <span className="text-stone-300 dark:text-stone-700">·</span>
+                <div className="flex items-center gap-1 text-caption text-stone-500 dark:text-stone-400">
+                  <MapPin size={11} className="shrink-0" />
+                  <span className="font-medium">{firm.hq}</span>
+                </div>
+              </div>
+
+              {firm.offices.length > 0 && (
+                <div className="flex flex-wrap gap-1 mb-5">
+                  {firm.offices.map((office) => (
+                    <span
+                      key={office}
+                      className="text-label px-2 py-0.5 bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400 rounded-full border border-stone-200 dark:border-stone-700"
+                    >
+                      {office}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              <div className="flex flex-wrap items-center gap-2" data-print-hide>
+                <a
+                  href={firm.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-caption font-medium px-5 py-2 rounded-full border border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-stone-800 transition-colors"
+                >
+                  Website
+                  <ExternalLink size={11} />
+                </a>
+                <a
+                  href={firm.trainingContract.applyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-caption font-medium px-5 py-2 rounded-full bg-stone-900 dark:bg-stone-100 text-stone-50 dark:text-stone-900 hover:opacity-80 transition-opacity"
+                >
+                  Apply Now
+                  <ExternalLink size={11} />
+                </a>
               </div>
             </div>
 
-            {/* Offices */}
-            {firm.offices.length > 0 && (
-              <div className="flex flex-wrap gap-1 mb-5">
-                {firm.offices.map((office) => (
-                  <span
-                    key={office}
-                    className="text-label px-1.5 py-0.5 bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400 rounded-sm border border-stone-200 dark:border-stone-700"
-                  >
-                    {office}
-                  </span>
-                ))}
-              </div>
-            )}
-
-            {/* CTA buttons */}
-            <div className="flex flex-wrap items-center gap-2" data-print-hide>
-              <a
-                href={firm.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-caption font-medium px-4 py-2 rounded-sm border border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-stone-800 transition-colors"
-              >
-                Website
-                <ExternalLink size={11} />
-              </a>
-              <a
-                href={firm.trainingContract.applyUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-caption font-medium px-4 py-2 rounded-sm bg-stone-900 dark:bg-stone-100 text-stone-50 dark:text-stone-900 hover:opacity-80 transition-opacity"
-              >
-                Apply Now
-                <ExternalLink size={11} />
-              </a>
+            {/* Right: 2×2 stat grid */}
+            <div className="grid grid-cols-2 gap-3 md:min-w-[280px]">
+              {[
+                { label: 'NQ Salary', value: firm.trainingContract.nqSalaryNote, accent: tierText },
+                { label: 'TC Salary', value: firm.trainingContract.tcSalaryNote, accent: '' },
+                { label: 'Annual Intake', value: firm.trainingContract.intakeSizeNote, accent: '' },
+                { label: 'Seats', value: `${firm.trainingContract.seats} seats`, accent: '' },
+              ].map(({ label, value, accent }) => (
+                <div
+                  key={label}
+                  className="bg-stone-50 dark:bg-stone-800/60 border border-stone-200 dark:border-stone-700 rounded-2xl px-4 py-3"
+                >
+                  <p className="section-label mb-1.5">{label}</p>
+                  <p className={`font-sans text-subheading leading-tight text-stone-800 dark:text-stone-100 ${accent}`}>
+                    {value}
+                  </p>
+                </div>
+              ))}
             </div>
-          </div>
-
-          {/* Right: 2×2 stat grid */}
-          <div className="grid grid-cols-2 gap-3 content-start md:min-w-[280px]">
-            <StatBox label="NQ Salary" value={firm.trainingContract.nqSalaryNote} accent={tierText} />
-            <StatBox label="TC Salary" value={firm.trainingContract.tcSalaryNote} />
-            <StatBox label="Annual Intake" value={firm.trainingContract.intakeSizeNote} />
-            <StatBox label="Seats" value={`${firm.trainingContract.seats} seats`} />
           </div>
         </div>
 
         {/* ── Sections ─────────────────────────────────────────────────────── */}
         <div className="space-y-4">
 
-          {/* At a Glance */}
-          <SectionCard>
-            <SectionHeading icon={<TrendingUp size={13} />} label="At a Glance" />
-            <p className="text-body text-stone-700 dark:text-stone-300 leading-relaxed mb-4">
-              {firm.knownFor}
-            </p>
-            <div className="flex flex-wrap gap-1.5">
-              {firm.practiceAreas.map((area) => (
-                <span
-                  key={area}
-                  className="inline-block text-label font-medium px-2 py-0.5 rounded-sm bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400 border border-stone-200 dark:border-stone-700"
+          {/* About the Firm + Culture | Deadlines sidebar */}
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-4 items-start">
+
+            {/* About + Culture combined */}
+            <SectionCard>
+              <SectionHeading icon={<TrendingUp size={13} />} label="About the Firm" />
+              <p className="text-body text-stone-700 dark:text-stone-300 leading-relaxed mb-4">
+                {firm.knownFor}
+              </p>
+              <div className="flex flex-wrap gap-1.5 mb-6">
+                {firm.practiceAreas.map((area) => (
+                  <span
+                    key={area}
+                    className="inline-block text-label font-medium px-2.5 py-1 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400 border border-stone-200 dark:border-stone-700"
+                  >
+                    {area}
+                  </span>
+                ))}
+              </div>
+
+              <div className="border-l-2 border-stone-200 dark:border-stone-700 pl-4">
+                <p className="section-label mb-2">Culture & Values</p>
+                <p className="text-body text-stone-600 dark:text-stone-400 leading-relaxed italic">
+                  {firm.culture}
+                </p>
+              </div>
+            </SectionCard>
+
+            {/* Application Deadlines — dark sidebar */}
+            <div
+              data-print-section
+              className="bg-stone-900 dark:bg-stone-950 rounded-3xl px-5 py-5"
+            >
+              <div className="flex items-start justify-between gap-3 mb-4">
+                <h2 className="font-serif italic text-subheading text-stone-100 leading-snug">
+                  Application Deadlines
+                </h2>
+                <a
+                  href="https://app.the-trackr.com/uk-law/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-print-hide
+                  className="shrink-0 inline-flex items-center gap-1 text-label font-medium text-stone-400 hover:text-stone-200 transition-colors mt-0.5"
                 >
-                  {area}
-                </span>
-              ))}
+                  <ExternalLink size={10} />
+                  Trackr
+                </a>
+              </div>
+              <div className="space-y-2">
+                {firm.trainingContract.deadlines.map((deadline) => {
+                  const fmtDate = (iso: string) => {
+                    const [y, m, d] = iso.split('-').map(Number);
+                    return new Date(y, m - 1, d).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+                  };
+                  const hasExact = deadline.openDate || deadline.closeDate;
+                  const isClosed = deadline.closeDate ? deadline.closeDate < today : false;
+                  return (
+                    <div
+                      key={deadline.label}
+                      className={`bg-stone-800 dark:bg-stone-900 rounded-2xl px-4 py-3${isClosed ? ' opacity-50' : ''}`}
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="min-w-0">
+                          <p className={`text-caption font-semibold leading-snug mb-0.5 ${isClosed ? 'text-stone-400 line-through' : 'text-stone-100'}`}>
+                            {deadline.label}
+                          </p>
+                          {hasExact ? (
+                            <p className="text-label font-sans text-stone-400">
+                              {deadline.openDate && deadline.closeDate
+                                ? `${fmtDate(deadline.openDate)} – ${fmtDate(deadline.closeDate)}`
+                                : deadline.closeDate
+                                ? `Closes ${fmtDate(deadline.closeDate)}`
+                                : `Opens ${fmtDate(deadline.openDate!)}`}
+                            </p>
+                          ) : null}
+                          <p className="text-label font-sans text-stone-500 mt-0.5">
+                            {deadline.typically}
+                          </p>
+                        </div>
+                        {!isClosed && deadline.rolling && (
+                          <span className="shrink-0 inline-block text-label font-semibold uppercase px-1.5 py-0.5 rounded-full bg-amber-900/40 text-amber-300 border border-amber-700/50">
+                            Rolling
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              <a
+                href={firm.trainingContract.applyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-print-hide
+                className="mt-4 w-full inline-flex items-center justify-center gap-2 text-caption font-medium px-4 py-2.5 rounded-full bg-stone-700 hover:bg-stone-600 text-stone-100 transition-colors"
+              >
+                Apply for Training Contract
+              </a>
             </div>
-          </SectionCard>
+          </div>
 
-          {/* Culture */}
-          <SectionCard>
-            <SectionHeading icon={<Users size={13} />} label="Culture" />
-            <p className="text-body text-stone-700 dark:text-stone-300 leading-relaxed">
-              {firm.culture}
-            </p>
-          </SectionCard>
-
-          {/* ── Interview Prep: 2-col sidebar layout ─────────────────────── */}
+          {/* ── Interview Prep: sidebar layout ───────────────────────────── */}
           <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-4">
 
             {/* Left sidebar */}
             <div className="space-y-4">
-
-              {/* Strategic Advice — dark card */}
+              {/* Strategic Advice */}
               <div
                 data-print-section
-                className="bg-stone-900 dark:bg-stone-950 border border-stone-800 rounded-sm px-5 py-5"
+                className="bg-stone-900 dark:bg-stone-950 border border-stone-800 rounded-3xl px-5 py-5"
               >
                 <p className="section-label text-stone-400 mb-3">Strategic Advice</p>
                 <p className="text-body text-stone-200 leading-relaxed italic">
@@ -356,12 +429,11 @@ export default async function FirmProfilePage({
             <SectionCard>
               <div className="flex items-start justify-between gap-4 mb-6">
                 <SectionHeading icon={<MessageSquare size={13} />} label="Interview Prep" />
-                <span className="shrink-0 mt-0.5 inline-block text-label font-medium uppercase px-2 py-1 rounded-sm bg-stone-100 dark:bg-stone-800 text-stone-400 dark:text-stone-500 border border-stone-200 dark:border-stone-700 print:hidden">
+                <span className="shrink-0 mt-0.5 inline-block text-label font-medium uppercase px-2.5 py-1 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-400 dark:text-stone-500 border border-stone-200 dark:border-stone-700 print:hidden">
                   Refreshes weekly
                 </span>
               </div>
 
-              {/* Talking Points */}
               <p className="section-label mb-3">Talking Points</p>
               <p className="text-caption text-stone-400 dark:text-stone-500 mb-5 leading-relaxed">
                 Arguments for &ldquo;Why {firm.shortName}?&rdquo; and ready-made observations from recent news. Adapt to your own voice.
@@ -373,7 +445,7 @@ export default async function FirmProfilePage({
                   {interviewPack.whyThisFirm.map((bullet, i) => (
                     <div
                       key={`why-${i}`}
-                      className="relative overflow-hidden bg-stone-50 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700 rounded-sm p-4"
+                      className="relative overflow-hidden bg-stone-50 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700 rounded-2xl p-4"
                     >
                       <span
                         aria-hidden="true"
@@ -430,10 +502,8 @@ export default async function FirmProfilePage({
                 </p>
               )}
 
-              {/* Divider */}
               <div className="border-t border-stone-200 dark:border-stone-800 my-6" />
 
-              {/* Practice Questions */}
               <p className="section-label mb-3">Practice Questions</p>
               <p className="text-caption text-stone-400 dark:text-stone-500 mb-5 leading-relaxed">
                 10 questions tailored to {firm.shortName} — drawn from the firm&apos;s profile, practice areas, and recent news. Try answering each one aloud.
@@ -468,7 +538,7 @@ export default async function FirmProfilePage({
                 <Link
                   href="/tests"
                   data-print-hide
-                  className="shrink-0 inline-flex items-center gap-1.5 text-label font-medium px-2.5 py-1 rounded-sm bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400 border border-stone-200 dark:border-stone-700 hover:bg-stone-200 dark:hover:bg-stone-700 transition-colors -mt-0.5"
+                  className="shrink-0 inline-flex items-center gap-1.5 text-label font-medium px-3 py-1 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400 border border-stone-200 dark:border-stone-700 hover:bg-stone-200 dark:hover:bg-stone-700 transition-colors -mt-0.5"
                 >
                   Practice tests →
                 </Link>
@@ -477,7 +547,7 @@ export default async function FirmProfilePage({
                 {firm.assessments.map((assessment) => (
                   <div
                     key={assessment.programme}
-                    className="bg-stone-50 dark:bg-stone-800/60 border border-stone-200 dark:border-stone-700 rounded-sm px-4 py-3"
+                    className="bg-stone-50 dark:bg-stone-800/60 border border-stone-200 dark:border-stone-700 rounded-2xl px-4 py-3"
                   >
                     <p className="section-label mb-2">{assessment.programme}</p>
                     {assessment.tests.length === 0 ? (
@@ -489,7 +559,7 @@ export default async function FirmProfilePage({
                         {assessment.tests.map((test) => (
                           <span
                             key={test}
-                            className="inline-block text-label font-semibold px-2 py-0.5 rounded-sm bg-white dark:bg-stone-900 text-stone-600 dark:text-stone-300 border border-stone-300 dark:border-stone-600"
+                            className="inline-block text-label font-semibold px-2.5 py-0.5 rounded-full bg-white dark:bg-stone-900 text-stone-600 dark:text-stone-300 border border-stone-300 dark:border-stone-600"
                           >
                             {test}
                           </span>
@@ -507,82 +577,6 @@ export default async function FirmProfilePage({
             </SectionCard>
           )}
 
-          {/* Application Deadlines */}
-          <SectionCard>
-            <div className="flex items-start justify-between gap-3 mb-4">
-              <SectionHeading icon={<Calendar size={13} />} label="Application Deadlines" />
-              <a
-                href="https://app.the-trackr.com/uk-law/"
-                target="_blank"
-                rel="noopener noreferrer"
-                data-print-hide
-                className="shrink-0 inline-flex items-center gap-1.5 text-label font-medium px-2.5 py-1 rounded-sm bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400 border border-stone-200 dark:border-stone-700 hover:bg-stone-200 dark:hover:bg-stone-700 transition-colors -mt-0.5"
-              >
-                <ExternalLink size={10} />
-                Live dates · The Trackr
-              </a>
-            </div>
-            <div className="space-y-3">
-              {firm.trainingContract.deadlines.map((deadline) => {
-                const fmtDate = (iso: string) => {
-                  const [y, m, d] = iso.split('-').map(Number);
-                  return new Date(y, m - 1, d).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-                };
-                const hasExact = deadline.openDate || deadline.closeDate;
-                const isClosed = deadline.closeDate ? deadline.closeDate < today : false;
-                return (
-                  <div
-                    key={deadline.label}
-                    className={`flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-stone-50 dark:bg-stone-800/60 border border-stone-200 dark:border-stone-700 rounded-sm px-4 py-3${isClosed ? ' opacity-60' : ''}`}
-                  >
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-2 mb-0.5">
-                        <p className={`text-caption font-semibold ${isClosed ? 'text-stone-500 dark:text-stone-400' : 'text-stone-900 dark:text-stone-100'}`}>
-                          {deadline.label}
-                        </p>
-                        {isClosed && (
-                          <span className="inline-block font-sans text-label font-semibold uppercase px-1.5 py-0.5 rounded-sm bg-stone-100 dark:bg-stone-800 text-stone-400 dark:text-stone-500 border border-stone-200 dark:border-stone-700">
-                            Closed
-                          </span>
-                        )}
-                        {!isClosed && deadline.rolling && (
-                          <span className="inline-block text-label font-semibold uppercase px-1.5 py-0.5 rounded-sm bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
-                            Rolling
-                          </span>
-                        )}
-                      </div>
-                      {hasExact ? (
-                        <p className={`text-label font-sans ${isClosed ? 'line-through text-stone-400 dark:text-stone-500' : 'text-stone-600 dark:text-stone-300'}`}>
-                          {deadline.openDate && deadline.closeDate
-                            ? `${fmtDate(deadline.openDate)} – ${fmtDate(deadline.closeDate)}`
-                            : deadline.closeDate
-                            ? `Closes ${fmtDate(deadline.closeDate)}`
-                            : `Opens ${fmtDate(deadline.openDate!)}`}
-                          <span className="text-stone-400 dark:text-stone-500 ml-2">({deadline.typically})</span>
-                        </p>
-                      ) : (
-                        <p className="text-label font-sans text-stone-400 dark:text-stone-500">
-                          {deadline.typically}
-                        </p>
-                      )}
-                    </div>
-                    {!isClosed && (
-                      <a
-                        href={deadline.applyUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        data-print-hide
-                        className="shrink-0 inline-flex items-center gap-1.5 text-label font-medium px-3 py-1.5 rounded-sm border border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-700 transition-colors"
-                      >
-                        Apply →
-                      </a>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </SectionCard>
-
           {/* Virtual Experience */}
           {firm.forageUrl && (
             <SectionCard>
@@ -595,7 +589,7 @@ export default async function FirmProfilePage({
                 target="_blank"
                 rel="noopener noreferrer"
                 data-print-hide
-                className="inline-flex items-center gap-1.5 text-caption font-medium px-4 py-2 rounded-sm border border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-stone-800 transition-colors"
+                className="inline-flex items-center gap-1.5 text-caption font-medium px-5 py-2 rounded-full border border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-stone-800 transition-colors"
               >
                 View Forage simulations
                 <ExternalLink size={11} />
@@ -611,13 +605,13 @@ export default async function FirmProfilePage({
                 {diversitySchemes.map((scheme) => (
                   <div
                     key={scheme.name}
-                    className="flex flex-col bg-stone-50 dark:bg-stone-800/60 border border-stone-200 dark:border-stone-700 rounded-sm px-4 py-4"
+                    className="flex flex-col bg-stone-50 dark:bg-stone-800/60 border border-stone-200 dark:border-stone-700 rounded-2xl px-4 py-4"
                   >
                     <div className="flex flex-wrap items-center gap-2 mb-2">
                       <p className="text-caption font-semibold text-stone-900 dark:text-stone-100">
                         {scheme.name}
                       </p>
-                      <span className={`inline-block text-label font-semibold uppercase px-2 py-0.5 rounded-sm ${SCHEME_TYPE_BADGE[scheme.type]}`}>
+                      <span className={`inline-block text-label font-semibold uppercase px-2 py-0.5 rounded-full ${SCHEME_TYPE_BADGE[scheme.type]}`}>
                         {SCHEME_TYPE_LABEL[scheme.type]}
                       </span>
                     </div>
@@ -632,7 +626,7 @@ export default async function FirmProfilePage({
                       target="_blank"
                       rel="noopener noreferrer"
                       data-print-hide
-                      className="self-start inline-flex items-center gap-1.5 text-label font-medium px-3 py-1.5 rounded-sm border border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-700 transition-colors"
+                      className="self-start inline-flex items-center gap-1.5 text-label font-medium px-3 py-1.5 rounded-full border border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-700 transition-colors"
                     >
                       Apply →
                     </a>
@@ -643,7 +637,7 @@ export default async function FirmProfilePage({
           )}
 
           {/* Disclaimer */}
-          <div className="flex items-start gap-2.5 rounded-sm bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/50 px-4 py-3">
+          <div className="flex items-start gap-2.5 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/50 px-4 py-3">
             <AlertTriangle size={13} className="shrink-0 mt-0.5 text-amber-500 dark:text-amber-400" />
             <p className="text-caption text-amber-700 dark:text-amber-300 leading-relaxed">
               Salary and deadline information is approximate and based on publicly available data from prior recruitment cycles.
