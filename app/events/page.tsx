@@ -19,7 +19,7 @@ export default async function EventsPage() {
         {/* Page heading — centered */}
         <div className="text-center space-y-3 mb-12">
           <span className="section-label opacity-40">Professional Network</span>
-          <h1 className="text-[64px] leading-none font-serif font-semibold text-stone-900 dark:text-stone-50">
+          <h1 className="text-[64px] leading-none font-serif text-stone-900 dark:text-stone-50">
             Upcoming Events
           </h1>
           <p className="opacity-60 text-lg font-light max-w-xl mx-auto">
@@ -58,7 +58,7 @@ export default async function EventsPage() {
       {/* Page heading — centered */}
       <div className="text-center space-y-3 mb-12">
         <span className="section-label opacity-40">Professional Network</span>
-        <h1 className="text-[64px] leading-none font-serif font-semibold text-stone-900 dark:text-stone-50">
+        <h1 className="text-[64px] leading-none font-serif text-stone-900 dark:text-stone-50">
           Upcoming Events
         </h1>
         <p className="opacity-60 text-lg font-light max-w-xl mx-auto">

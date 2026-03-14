@@ -103,7 +103,7 @@ export function TrackerView() {
       <div className="flex items-end justify-between mb-12">
         <div className="space-y-2">
           <span className="section-label opacity-40">Application Management</span>
-          <h2 className="text-[56px] leading-none font-serif font-semibold text-stone-900 dark:text-stone-50">The Tracker</h2>
+          <h2 className="text-[56px] leading-none font-serif text-stone-900 dark:text-stone-50">The Tracker</h2>
         </div>
         <button
           onClick={() => { resetForm(); setShowForm(true); }}
