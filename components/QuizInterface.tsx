@@ -253,12 +253,14 @@ interface QuizInterfaceProps {
   isPractice?: boolean;
   /** When true: auto-start in streak mode immediately, bypassing the card selection screen */
   autoStart?: boolean;
+  /** Topic slug for practice mode — used as the per-topic weekly XP cap key */
+  topic?: string;
 }
 
 type QuizMode = 'streak' | 'practice';
 type UIState = 'idle' | 'loading' | 'quiz' | 'results';
 
-export function QuizInterface({ date, initialQuiz, storyMeta, countdown, isPractice = false, autoStart = false }: QuizInterfaceProps) {
+export function QuizInterface({ date, initialQuiz, storyMeta, countdown, isPractice = false, autoStart = false, topic }: QuizInterfaceProps) {
   // Streak only applies to today's quiz — not archive dates
   const isToday = date === new Date().toLocaleDateString('en-CA');
 
@@ -459,10 +461,18 @@ export function QuizInterface({ date, initialQuiz, storyMeta, countdown, isPract
       // Fire-and-forget gamification POST on first completion only
       if (!isRetry) {
         const completionType = isPractice ? 'practice' : 'daily';
+        const finalScore = activeQuestions.filter(
+          (aq) => nextAnswers[aq.id] === aq.correctLetter
+        ).length;
         fetch('/api/quiz/gamification', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ type: completionType }),
+          body: JSON.stringify({
+            type: completionType,
+            score: finalScore,
+            total: activeQuestions.length,
+            ...(isPractice && topic ? { topic } : {}),
+          }),
         })
           .then((r) => r.json())
           .then((data: GamificationData) => {

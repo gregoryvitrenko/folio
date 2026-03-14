@@ -5,15 +5,16 @@
  * Dual-backend: Upstash Redis in production, JSON file in dev.
  *
  * Redis key schema:
- *   quiz:xp:{userId}             — cumulative XP integer
- *   quiz:level:{userId}          — current level integer (derived from XP, kept in sync)
- *   quiz:streak:{userId}         — current streak count integer
- *   quiz:last-completed:{userId} — ISO date YYYY-MM-DD of last completion
- *   quiz:practice-week:{userId}  — ISO week string of last practice XP award (e.g. "2026-W11")
+ *   quiz:xp:{userId}                      — cumulative XP integer
+ *   quiz:level:{userId}                   — current level integer (derived from XP, kept in sync)
+ *   quiz:streak:{userId}                  — current streak count integer
+ *   quiz:last-completed:{userId}          — ISO date YYYY-MM-DD of last completion
+ *   quiz:practice-week:{userId}:{topic}   — ISO week string of last XP award for that practice topic
  *
  * XP formula (triangular — each level costs 100 more than the last):
- *   daily quiz:    +100 XP (once per day)
- *   deep practice: +150 XP (once per week)
+ *   daily quiz:    score-scaled, base 100 XP (once per day)
+ *   deep practice: score-scaled, base 150 XP (once per week per topic)
+ *   XP awarded = Math.round(base * Math.max(0.25, score / total))
  *   level 0→1: 100 XP, 1→2: 200 XP, 2→3: 300 XP ...
  *   cumulative XP to reach level N: N*(N+1)/2 * 100
  */
@@ -54,6 +55,18 @@ export function xpForNextLevel(level: number): number {
   return (level + 1) * 100;
 }
 
+// ── Score-based XP ───────────────────────────────────────────────────────────
+
+/**
+ * Calculate XP to award based on score.
+ * Scales linearly from base. Minimum floor of 25% so attempting always earns something.
+ * e.g. daily base 100: 8/8 → 100 XP, 4/8 → 50 XP, 0/8 → 25 XP
+ */
+function calculateXP(base: number, score: number, total: number): number {
+  if (total === 0) return 0;
+  return Math.round(base * Math.max(0.25, score / total));
+}
+
 // ── ISO week helper ──────────────────────────────────────────────────────────
 
 function getCurrentWeekKey(): string {
@@ -87,7 +100,8 @@ interface FsData {
   level: number;
   streak: number;
   lastCompleted: string | null;
-  lastPracticeWeek?: string;
+  /** topic → ISO week string, e.g. { "ma": "2026-W11", "disputes": "2026-W10" } */
+  practiceWeeks?: Record<string, string>;
 }
 
 function sanitizeUserId(userId: string): string {
@@ -115,18 +129,22 @@ function fsGetData(userId: string): GamificationData {
   return { xp, level: levelFromXP(xp), streak, lastCompleted };
 }
 
-function fsGetPracticeWeek(userId: string): string | null {
-  return fsReadRaw(userId).lastPracticeWeek ?? null;
+function fsGetPracticeWeek(userId: string, topic: string): string | null {
+  return fsReadRaw(userId).practiceWeeks?.[topic] ?? null;
 }
 
-function fsSetData(userId: string, data: GamificationData, practiceWeek?: string): void {
+function fsSetData(userId: string, data: GamificationData, topic?: string, weekKey?: string): void {
   const existing = fsReadRaw(userId);
+  const practiceWeeks = { ...(existing.practiceWeeks ?? {}) };
+  if (topic && weekKey) {
+    practiceWeeks[topic] = weekKey;
+  }
   const updated: FsData = {
     xp: data.xp,
     level: data.level,
     streak: data.streak,
     lastCompleted: data.lastCompleted,
-    lastPracticeWeek: practiceWeek ?? existing.lastPracticeWeek,
+    practiceWeeks,
   };
   fs.writeFileSync(getFsPath(userId), JSON.stringify(updated, null, 2));
 }
@@ -152,13 +170,18 @@ async function redisGetData(userId: string): Promise<GamificationData> {
   };
 }
 
-async function redisGetPracticeWeek(userId: string): Promise<string | null> {
+async function redisGetPracticeWeek(userId: string, topic: string): Promise<string | null> {
   const redis = getRedis();
-  const val = await redis.get(`quiz:practice-week:${userId}`);
+  const val = await redis.get(`quiz:practice-week:${userId}:${topic}`);
   return val ? String(val) : null;
 }
 
-async function redisSetData(userId: string, data: GamificationData, practiceWeek?: string): Promise<void> {
+async function redisSetData(
+  userId: string,
+  data: GamificationData,
+  topic?: string,
+  weekKey?: string,
+): Promise<void> {
   const redis = getRedis();
   const writes = [
     redis.set(`quiz:xp:${userId}`, data.xp),
@@ -166,8 +189,8 @@ async function redisSetData(userId: string, data: GamificationData, practiceWeek
     redis.set(`quiz:streak:${userId}`, data.streak),
     redis.set(`quiz:last-completed:${userId}`, data.lastCompleted ?? ''),
   ];
-  if (practiceWeek !== undefined) {
-    writes.push(redis.set(`quiz:practice-week:${userId}`, practiceWeek));
+  if (topic && weekKey) {
+    writes.push(redis.set(`quiz:practice-week:${userId}:${topic}`, weekKey));
   }
   await Promise.all(writes);
 }
@@ -186,15 +209,20 @@ export async function getGamificationData(userId: string): Promise<GamificationD
 /**
  * Records a quiz completion, updates XP/level/streak, and returns the new state.
  *
- * Daily: idempotent per calendar day — calling twice on the same day does not
- * double-increment XP or streak.
+ * XP is score-scaled: Math.round(base * Math.max(0.25, score / total))
+ * Daily base: 100 XP — idempotent per calendar day.
+ * Practice base: 150 XP — idempotent per ISO week per topic.
  *
- * Practice: XP awarded once per ISO week. Subsequent calls the same week
- * return xpAwarded: 0 (state unchanged).
+ * Returns xpAwarded: 0 without mutating state if the cap has already been hit.
+ *
+ * @param topic  Required for practice type — used as the per-topic weekly cap key.
  */
 export async function recordQuizCompletion(
   userId: string,
   type: 'daily' | 'practice',
+  score: number,
+  total: number,
+  topic?: string,
 ): Promise<GamificationData> {
   const current = await getGamificationData(userId);
 
@@ -205,23 +233,26 @@ export async function recordQuizCompletion(
     return { ...current, xpAwarded: 0 };
   }
 
-  // ── Weekly practice cap ──────────────────────────────────────────────────
-  let practiceWeekToWrite: string | undefined;
+  // ── Weekly practice cap (per topic) ─────────────────────────────────────
+  let practiceTopicToWrite: string | undefined;
+  let weekKeyToWrite: string | undefined;
   let xpDelta: number;
 
   if (type === 'practice') {
+    const topicKey = topic ?? 'unknown';
     const currentWeek = getCurrentWeekKey();
     const lastPracticeWeek = useRedis()
-      ? await redisGetPracticeWeek(userId)
-      : fsGetPracticeWeek(userId);
+      ? await redisGetPracticeWeek(userId, topicKey)
+      : fsGetPracticeWeek(userId, topicKey);
 
     if (lastPracticeWeek === currentWeek) {
       return { ...current, xpAwarded: 0 };
     }
-    xpDelta = 150;
-    practiceWeekToWrite = currentWeek;
+    xpDelta = calculateXP(150, score, total);
+    practiceTopicToWrite = topicKey;
+    weekKeyToWrite = currentWeek;
   } else {
-    xpDelta = 100;
+    xpDelta = calculateXP(100, score, total);
   }
 
   // ── XP + level ──────────────────────────────────────────────────────────
@@ -252,9 +283,9 @@ export async function recordQuizCompletion(
   };
 
   if (useRedis()) {
-    await redisSetData(userId, updated, practiceWeekToWrite);
+    await redisSetData(userId, updated, practiceTopicToWrite, weekKeyToWrite);
   } else {
-    fsSetData(userId, updated, practiceWeekToWrite);
+    fsSetData(userId, updated, practiceTopicToWrite, weekKeyToWrite);
   }
 
   return updated;

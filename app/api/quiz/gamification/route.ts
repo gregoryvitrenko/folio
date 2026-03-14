@@ -40,7 +40,7 @@ export async function GET(): Promise<NextResponse> {
 
 // ── POST /api/quiz/gamification ────────────────────────────────────────────────
 // Records a quiz completion and returns updated gamification state.
-// Body: { type: 'daily' | 'practice' }
+// Body: { type: 'daily' | 'practice', score: number, total: number, topic?: string }
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const result = await getEffectiveUserId();
@@ -50,12 +50,27 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   const limited = await checkRateLimit(userId, 'quiz-gamification-post', 30, 3600);
   if (limited) return limited;
 
-  const body = await request.json().catch(() => ({})) as { type?: string };
+  const body = await request.json().catch(() => ({})) as {
+    type?: string;
+    score?: number;
+    total?: number;
+    topic?: string;
+  };
 
   if (body.type !== 'daily' && body.type !== 'practice') {
     return NextResponse.json({ error: 'Invalid type' }, { status: 400 });
   }
 
-  const data = await recordQuizCompletion(userId, body.type as 'daily' | 'practice');
+  // Default total to 1 if missing to avoid division by zero in XP calc
+  const score = typeof body.score === 'number' ? body.score : 0;
+  const total = typeof body.total === 'number' && body.total > 0 ? body.total : 1;
+
+  const data = await recordQuizCompletion(
+    userId,
+    body.type as 'daily' | 'practice',
+    score,
+    total,
+    body.topic,
+  );
   return NextResponse.json(data);
 }

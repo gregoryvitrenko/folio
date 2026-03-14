@@ -80,6 +80,7 @@ export default async function QuizPracticePage({
             initialQuiz={{ date: today, generatedAt: practiceSet.generatedAt, questions: practiceSet.questions }}
             storyMeta={[]}
             isPractice={true}
+            topic={topicSlug}
           />
         ) : (
           <div className="rounded-card border border-stone-200 dark:border-stone-800 p-10 text-center space-y-3">
