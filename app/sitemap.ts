@@ -13,6 +13,8 @@ const FIRM_SLUGS = [
   'mishcon-de-reya', 'bird-bird', 'stewarts', 'bristows', 'simmons-simmons',
   'white-case', 'milbank', 'debevoise-plimpton', 'simpson-thacher', 'willkie-farr',
   'sidley-austin', 'goodwin-procter', 'dechert', 'covington-burling',
+  'bclp', 'reed-smith', 'clyde-co', 'taylor-wessing', 'watson-farley-williams',
+  'kennedys', 'morrison-foerster', 'winston-strawn', 'cooley',
 ];
 
 const PRIMER_SLUGS = [
