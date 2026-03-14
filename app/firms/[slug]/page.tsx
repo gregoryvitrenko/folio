@@ -14,8 +14,6 @@ import {
   Heart,
   GraduationCap,
   MessageSquare,
-  HelpCircle,
-  Lightbulb,
 } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { PrintButton } from '@/components/PrintButton';
@@ -147,51 +145,6 @@ function StatStrip({ trainingContract, tierText }: {
   );
 }
 
-/** Editorial numbered callout section for "Why This Firm?" talking points */
-function WhyThisFirmCallout({
-  points,
-  firmShortName,
-  tierText,
-}: {
-  points: string[];
-  firmShortName: string;
-  tierText: string;
-}) {
-  return (
-    <div
-      data-print-section
-      className="bg-stone-50 dark:bg-stone-900/50 border border-stone-200 dark:border-stone-800 rounded-sm px-6 py-6"
-    >
-      <div className="flex items-center gap-2 mb-4">
-        <span className="text-stone-400 dark:text-stone-500"><Lightbulb size={13} /></span>
-        <span className="section-label">Why This Firm?</span>
-      </div>
-      <p className="text-caption text-stone-400 dark:text-stone-500 mb-6 leading-relaxed">
-        Concrete talking points for &ldquo;Why {firmShortName}?&rdquo; — anchored to the firm&apos;s market position and recent deals. Adapt to your own voice.
-      </p>
-      <div className="space-y-0">
-        {points.map((bullet, i) => (
-          <div key={i} className="relative overflow-hidden py-4 border-b border-stone-200 dark:border-stone-800 last:border-0">
-            <span
-              aria-hidden="true"
-              className="absolute right-0 top-1/2 -translate-y-1/2 font-sans text-[72px] font-bold leading-none text-stone-900 dark:text-stone-100 opacity-[0.05] select-none pointer-events-none"
-            >
-              {String(i + 1).padStart(2, '0')}
-            </span>
-            <div className="relative flex gap-3">
-              <span className={`section-label ${tierText} shrink-0 mt-0.5`}>
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <p className="text-body text-stone-700 dark:text-stone-300 leading-relaxed">
-                {bullet}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 /** Section heading — icon + label using design system tokens */
 function SectionHeading({ icon, label }: { icon: React.ReactNode; label: string }) {
@@ -384,14 +337,111 @@ export default async function FirmProfilePage({
             </p>
           </div>
 
-          {/* ── Why This Firm? ──────────────────────────────────────────────── */}
-          {interviewPack && interviewPack.whyThisFirm && interviewPack.whyThisFirm.length > 0 && (
-            <WhyThisFirmCallout
-              points={interviewPack.whyThisFirm}
-              firmShortName={firm.shortName}
-              tierText={tierText}
-            />
-          )}
+          {/* ── Interview Prep ───────────────────────────────────────────────── */}
+          <SectionCard accent={tierAccent}>
+            <div className="flex items-start justify-between gap-4 mb-6">
+              <SectionHeading icon={<MessageSquare size={13} />} label="Interview Prep" />
+              <span className="shrink-0 mt-0.5 inline-block text-label font-medium uppercase px-2 py-1 rounded-sm bg-stone-100 dark:bg-stone-800 text-stone-400 dark:text-stone-500 border border-stone-200 dark:border-stone-700 print:hidden">
+                Refreshes weekly
+              </span>
+            </div>
+
+            {/* Talking Points */}
+            <p className="section-label mb-4">Talking Points</p>
+            <p className="text-caption text-stone-400 dark:text-stone-500 mb-5 leading-relaxed">
+              Arguments for &ldquo;Why {firm.shortName}?&rdquo; and ready-made observations from recent news. Adapt to your own voice.
+            </p>
+
+            {/* Why This Firm bullets — strategic positioning */}
+            {interviewPack && interviewPack.whyThisFirm && interviewPack.whyThisFirm.length > 0 && (
+              <div className="space-y-0 mb-4">
+                {interviewPack.whyThisFirm.map((bullet, i) => (
+                  <div key={`why-${i}`} className="relative overflow-hidden py-4 border-b border-stone-100 dark:border-stone-800 last:border-0">
+                    <span
+                      aria-hidden="true"
+                      className="absolute right-0 top-1/2 -translate-y-1/2 font-sans text-[72px] font-bold leading-none text-stone-900 dark:text-stone-100 opacity-[0.04] select-none pointer-events-none"
+                    >
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <div className="relative flex gap-3">
+                      <span className={`section-label ${tierText} shrink-0 mt-0.5`}>
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                      <p className="text-body text-stone-700 dark:text-stone-300 leading-relaxed">
+                        {bullet}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* News-anchored talking points */}
+            {recentStories.filter((s) => s.talkingPoint).length > 0 && (
+              <div className="space-y-4 mb-2">
+                {recentStories
+                  .filter((s) => s.talkingPoint)
+                  .map((story) => {
+                    const styles =
+                      TOPIC_STYLES[story.topic as keyof typeof TOPIC_STYLES] ??
+                      TOPIC_STYLES['International'];
+                    return (
+                      <div
+                        key={`tp-${story.date}-${story.id}`}
+                        className="border-l-2 border-stone-200 dark:border-stone-700 pl-4"
+                      >
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className={`inline-block w-1.5 h-1.5 shrink-0 rounded-full ${styles.dot}`} />
+                          <p className="section-label">
+                            {formatDisplayDate(story.date)} · {story.topic}
+                          </p>
+                        </div>
+                        <p className="text-label font-medium text-stone-500 dark:text-stone-400 leading-snug mb-1.5">
+                          {story.headline}
+                        </p>
+                        <p className="text-body text-stone-700 dark:text-stone-300 leading-relaxed">
+                          {story.talkingPoint}
+                        </p>
+                      </div>
+                    );
+                  })}
+              </div>
+            )}
+
+            {!interviewPack && (
+              <p className="text-caption text-stone-400 dark:text-stone-500 italic mb-2">
+                Talking points are being generated — refresh the page in a moment.
+              </p>
+            )}
+
+            {/* Divider */}
+            <div className="border-t border-stone-200 dark:border-stone-800 my-6" />
+
+            {/* Practice Questions */}
+            <p className="section-label mb-4">Practice Questions</p>
+            <p className="text-caption text-stone-400 dark:text-stone-500 mb-5 leading-relaxed">
+              10 questions tailored to {firm.shortName} — drawn from the firm&apos;s profile, practice areas, and recent news. Try answering each one aloud.
+            </p>
+
+            {interviewPack && interviewPack.practiceQuestions.length > 0 ? (
+              <ol className="space-y-4">
+                {interviewPack.practiceQuestions.map((question, i) => (
+                  <li key={i} className="flex gap-4">
+                    <span className="shrink-0 font-serif text-body text-stone-400 dark:text-stone-500 leading-none mt-0.5 w-6 text-right">
+                      {i + 1}.
+                    </span>
+                    <p className="text-body text-stone-700 dark:text-stone-300 leading-relaxed">
+                      {question}
+                    </p>
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <p className="text-caption text-stone-400 dark:text-stone-500 italic">
+                Practice questions are being generated — refresh the page in a moment.
+              </p>
+            )}
+          </SectionCard>
 
           {/* ── Assessments ─────────────────────────────────────────────────── */}
           {firm.assessments && firm.assessments.length > 0 && (
@@ -670,83 +720,6 @@ export default async function FirmProfilePage({
             )}
           </SectionCard>
 
-          {/* ── News Talking Points ──────────────────────────────────────────── */}
-          {recentStories.length > 0 && (
-            <SectionCard accent={tierAccent}>
-              <SectionHeading icon={<MessageSquare size={13} />} label="Interview Talking Points" />
-              <p className="text-caption text-stone-400 dark:text-stone-500 leading-relaxed mb-4">
-                These are the interview angles on recent stories mentioning {firm.shortName}. Each
-                one gives you a ready-made observation to deploy when an interviewer asks{' '}
-                &ldquo;What&apos;s caught your attention in the news recently?&rdquo;
-              </p>
-              <div className="space-y-4">
-                {recentStories
-                  .filter((s) => s.talkingPoint)
-                  .map((story) => {
-                    const styles =
-                      TOPIC_STYLES[story.topic as keyof typeof TOPIC_STYLES] ??
-                      TOPIC_STYLES['International'];
-                    return (
-                      <div
-                        key={`tp-${story.date}-${story.id}`}
-                        className="border-l-2 border-stone-200 dark:border-stone-700 pl-4"
-                      >
-                        <div className="flex items-center gap-2 mb-1.5">
-                          <span className={`inline-block w-1.5 h-1.5 shrink-0 rounded-full ${styles.dot}`} />
-                          <p className="section-label">
-                            {formatDisplayDate(story.date)} · {story.topic}
-                          </p>
-                        </div>
-                        <p className="text-label font-medium text-stone-500 dark:text-stone-400 leading-snug mb-1.5">
-                          {story.headline}
-                        </p>
-                        <p className="text-body text-stone-700 dark:text-stone-300 leading-relaxed">
-                          {story.talkingPoint}
-                        </p>
-                      </div>
-                    );
-                  })}
-              </div>
-            </SectionCard>
-          )}
-
-          {/* ── Practice Interview Questions ──────────────────────────────────── */}
-          <SectionCard accent={tierAccent}>
-            <div className="flex items-start justify-between gap-4 mb-5">
-              <div>
-                <SectionHeading icon={<HelpCircle size={13} />} label="Practice Interview Questions" />
-                <p className="text-caption text-stone-400 dark:text-stone-500 leading-relaxed -mt-1">
-                  10 questions tailored to {firm.shortName} — drawn from the firm&apos;s profile,
-                  practice areas, and recent news. Try answering each one aloud before reading on.
-                </p>
-              </div>
-              <span className="shrink-0 mt-0.5 inline-block text-label font-medium uppercase px-2 py-1 rounded-sm bg-stone-100 dark:bg-stone-800 text-stone-400 dark:text-stone-500 border border-stone-200 dark:border-stone-700 print:hidden">
-                Refreshes weekly
-              </span>
-            </div>
-
-            {interviewPack && interviewPack.practiceQuestions.length > 0 ? (
-              <ol className="space-y-4">
-                {interviewPack.practiceQuestions.map((question, i) => (
-                  <li
-                    key={i}
-                    className="flex gap-4 group"
-                  >
-                    <span className="shrink-0 font-serif text-body text-stone-400 dark:text-stone-500 leading-none mt-0.5 w-6 text-right">
-                      {i + 1}.
-                    </span>
-                    <p className="text-body text-stone-700 dark:text-stone-300 leading-relaxed">
-                      {question}
-                    </p>
-                  </li>
-                ))}
-              </ol>
-            ) : (
-              <p className="text-caption text-stone-400 dark:text-stone-500 italic">
-                Interview questions are being generated — refresh the page in a moment.
-              </p>
-            )}
-          </SectionCard>
 
           {/* ── Disclaimer footer ────────────────────────────────────────────── */}
           <div className="flex items-start gap-2.5 rounded-sm bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/50 px-4 py-3">
