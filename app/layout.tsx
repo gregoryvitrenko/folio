@@ -80,34 +80,55 @@ export default function RootLayout({
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{
-              __html: JSON.stringify({
-                '@context': 'https://schema.org',
-                '@type': 'WebApplication',
-                name: 'Folio',
-                url: 'https://www.folioapp.co.uk',
-                description: siteDescription,
-                applicationCategory: 'EducationalApplication',
-                operatingSystem: 'Web',
-                offers: {
-                  '@type': 'Offer',
-                  price: '4.00',
-                  priceCurrency: 'GBP',
-                  description: 'Monthly subscription for full access',
+              __html: JSON.stringify([
+                {
+                  '@context': 'https://schema.org',
+                  '@type': 'SoftwareApplication',
+                  name: 'Folio',
+                  url: 'https://www.folioapp.co.uk',
+                  description: siteDescription,
+                  applicationCategory: 'EducationalApplication',
+                  applicationSubCategory: 'LegalEducation',
+                  operatingSystem: 'Web',
+                  inLanguage: 'en-GB',
+                  offers: {
+                    '@type': 'Offer',
+                    price: '4.00',
+                    priceCurrency: 'GBP',
+                    description: 'Monthly subscription — full access to all features',
+                    availability: 'https://schema.org/InStock',
+                  },
+                  audience: {
+                    '@type': 'EducationalAudience',
+                    educationalRole: 'student',
+                    audienceType: 'UK law students preparing for Magic Circle and US firm training contract applications',
+                  },
+                  featureList: [
+                    'Daily commercial awareness briefings curated from FT, Reuters, and legal press',
+                    'AI-generated interview talking points and "Why this firm?" answers',
+                    'Watson Glaser and SJT aptitude test practice banks',
+                    'Training contract interview preparation with firm-specific practice questions',
+                    'Firm profiles for 46 UK and US law firms including Magic Circle and Silver Circle',
+                    'Audio briefings narrated by AI voice',
+                    'Daily quiz with XP streak tracking',
+                    'Legal events and deadline calendar with .ics export',
+                    'Sector primers covering M&A, Capital Markets, Banking, Energy, Regulation, Disputes, International, and AI & Law',
+                  ],
+                  keywords: 'commercial awareness, training contract, Magic Circle, law student, TC preparation, Watson Glaser, SJT, legal news briefing, UK law firms',
                 },
-                audience: {
-                  '@type': 'Audience',
-                  audienceType: 'UK law students preparing for training contract applications',
+                {
+                  '@context': 'https://schema.org',
+                  '@type': 'Organization',
+                  name: 'Folio',
+                  url: 'https://www.folioapp.co.uk',
+                  description: 'Daily commercial law briefings for future City trainees.',
+                  contactPoint: {
+                    '@type': 'ContactPoint',
+                    email: 'feedbackfolioapp@gmail.com',
+                    contactType: 'customer support',
+                  },
                 },
-                featureList: [
-                  'Daily commercial awareness briefings with AI-curated legal news',
-                  'Watson Glaser and SJT aptitude test practice',
-                  'Training contract interview preparation',
-                  'Firm profiles for 46 UK and US law firms',
-                  'Audio briefings with human-quality voice',
-                  'Daily quiz with streak tracking',
-                  'Legal events calendar with .ics export',
-                ],
-              }),
+              ]),
             }}
           />
           <Providers>

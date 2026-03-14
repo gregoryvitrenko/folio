@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { Calendar } from 'lucide-react';
 import { getEvents } from '@/lib/events';
@@ -5,6 +6,15 @@ import { CityFilter, EventsGrid } from './CityFilter';
 import { Header } from '@/components/Header';
 
 export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+  title: 'Legal Events & Deadlines',
+  description: 'Upcoming UK legal events, training contract deadlines, law firm open days, and vacation scheme application windows — updated weekly for law students.',
+  openGraph: {
+    title: 'Legal Events & Deadlines | Folio',
+    description: 'Upcoming UK legal events, TC deadlines, open days, and vac scheme windows — updated weekly.',
+  },
+};
 
 export default async function EventsPage() {
   const store = await getEvents();

@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { ShieldCheck } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { FirmsDirectory } from '@/components/FirmsDirectory';
@@ -6,6 +7,15 @@ import { requireSubscription } from '@/lib/paywall';
 import { getTodayDate } from '@/lib/storage';
 
 export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+  title: 'Law Firm Profiles',
+  description: 'Profiles for 46 UK and US law firms — Magic Circle, Silver Circle, and top US firms. Salaries, training contract deadlines, practice areas, diversity schemes, and interview prep.',
+  openGraph: {
+    title: 'Law Firm Profiles | Folio',
+    description: 'Profiles for 46 firms including Allen & Overy Shearman, Clifford Chance, Freshfields, Linklaters, Slaughter and May, Latham & Watkins, and more.',
+  },
+};
 
 export default async function FirmsPage() {
   await requireSubscription();

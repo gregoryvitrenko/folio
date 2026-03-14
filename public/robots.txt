@@ -1,17 +1,19 @@
 User-agent: *
-# Allow public landing page and marketing content
+# Public marketing + indexable content
 Allow: /$
 Allow: /upgrade
 Allow: /sign-in
 Allow: /sign-up
 Allow: /terms
 Allow: /privacy
-Allow: /firm-fit
-Allow: /area-fit
 Allow: /events
 Allow: /events/
+Allow: /firms
+Allow: /firms/
+Allow: /primers
+Allow: /primers/
 
-# Block premium content routes from indexing
+# Block user-specific and premium-only routes
 Disallow: /quiz
 Disallow: /quiz/
 Disallow: /archive
@@ -19,10 +21,6 @@ Disallow: /archive/
 Disallow: /story/
 Disallow: /topic/
 Disallow: /saved
-Disallow: /firms
-Disallow: /firms/
-Disallow: /primers
-Disallow: /primers/
 Disallow: /podcast
 Disallow: /podcast/
 Disallow: /tests
@@ -32,8 +30,10 @@ Disallow: /interview/
 Disallow: /tracker
 Disallow: /onboarding
 Disallow: /success
+Disallow: /firm-fit
+Disallow: /area-fit
 
-# Block all API routes from crawlers
+# Block all API routes
 Disallow: /api/
 
-Sitemap: https://folioapp.co.uk/sitemap.xml
+Sitemap: https://www.folioapp.co.uk/sitemap.xml
