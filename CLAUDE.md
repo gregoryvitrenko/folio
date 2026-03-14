@@ -38,7 +38,7 @@ Clean, newspaper-style design (light mode default, dark opt-in). The free tier i
 - `lib/paywall.ts` — `requireSubscription()` / `getSubscriptionStatus()`. PREVIEW_MODE=true bypasses all checks in dev.
 - `lib/rate-limit.ts` — Redis fixed-window rate limiter; fails open in dev (no Redis)
 - `lib/security.ts` — `isValidDate()`, `isValidStoryId()` validators
-- `lib/firms-data.ts` — 38 firm profiles across 5 tiers
+- `lib/firms-data.ts` — 46 firm profiles across 5 tiers
 - `lib/onboarding.ts` — OnboardingData (stage, targetFirms[], completedAt)
 - `app/api/generate/route.ts` — POST (admin-only) + GET (Vercel cron at 06:00 UTC). Generates: briefing + quiz + podcast script + aptitude bank refresh (last 3 fire-and-forget).
 - `app/api/quiz/route.ts` — POST, generates and caches quiz for a date (premium, subscription-gated)
@@ -176,3 +176,4 @@ Requires `CRON_SECRET` env var set in Vercel — GET handler checks `Authorizati
 4. **Site footer** — feedback link, terms/privacy, contact/LinkedIn
 5. **Podcast archive** — `/podcast/archive` listing page
 6. **Weekly email digest** (Resend, viral loop)
+7. **Custom firm notes** — per-user per-firm freetext notes on firm profile pages. Redis key: `firm-note:{userId}:{firmSlug}`. New API route (GET + POST). Client component with autosave + debounce. ~2-3 hours of work.

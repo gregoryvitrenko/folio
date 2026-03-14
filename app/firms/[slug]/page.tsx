@@ -23,6 +23,7 @@ import { requireSubscription } from '@/lib/paywall';
 import { listBriefings, getBriefing, getTodayDate } from '@/lib/storage';
 import { TOPIC_STYLES, type FirmTier, type DiversitySchemeType } from '@/lib/types';
 import { getFirmInterviewPack, type FirmInterviewPack } from '@/lib/firm-pack';
+import { CollapsibleQuestions } from '@/components/CollapsibleQuestions';
 
 export const dynamic = 'force-dynamic';
 
@@ -206,19 +207,19 @@ export default async function FirmProfilePage({
                   href={firm.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-caption font-semibold uppercase tracking-wide px-5 py-2.5 rounded-full bg-stone-900 dark:bg-stone-100 text-stone-50 dark:text-stone-900 hover:opacity-80 transition-opacity"
+                  className="inline-flex items-center gap-1.5 text-label font-semibold uppercase tracking-wide px-4 py-1.5 rounded-full bg-stone-900 dark:bg-stone-100 text-stone-50 dark:text-stone-900 hover:opacity-80 transition-opacity"
                 >
                   Website
-                  <ExternalLink size={11} />
+                  <ExternalLink size={10} />
                 </a>
                 <a
                   href={firm.trainingContract.applyUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-caption font-semibold uppercase tracking-wide px-5 py-2.5 rounded-full bg-[#1B2333] text-stone-100 hover:opacity-80 transition-opacity"
+                  className="inline-flex items-center gap-1.5 text-label font-semibold uppercase tracking-wide px-4 py-1.5 rounded-full bg-[#1B2333] text-stone-100 hover:opacity-80 transition-opacity"
                 >
                   Apply Now
-                  <ExternalLink size={11} />
+                  <ExternalLink size={10} />
                 </a>
               </div>
             </div>
@@ -440,38 +441,6 @@ export default async function FirmProfilePage({
                 </div>
               )}
 
-              {/* News-anchored talking points */}
-              {recentStories.filter((s) => s.talkingPoint).length > 0 && (
-                <div className="space-y-4 mb-2">
-                  {recentStories
-                    .filter((s) => s.talkingPoint)
-                    .map((story) => {
-                      const styles =
-                        TOPIC_STYLES[story.topic as keyof typeof TOPIC_STYLES] ??
-                        TOPIC_STYLES['International'];
-                      return (
-                        <div
-                          key={`tp-${story.date}-${story.id}`}
-                          className="border-l-2 border-stone-200 dark:border-stone-700 pl-4"
-                        >
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className={`inline-block w-1.5 h-1.5 shrink-0 rounded-full ${styles.dot}`} />
-                            <p className="section-label">
-                              {formatDisplayDate(story.date)} · {story.topic}
-                            </p>
-                          </div>
-                          <p className="text-label font-medium text-stone-500 dark:text-stone-400 leading-snug mb-1.5">
-                            {story.headline}
-                          </p>
-                          <p className="text-body text-stone-700 dark:text-stone-300 leading-relaxed">
-                            {story.talkingPoint}
-                          </p>
-                        </div>
-                      );
-                    })}
-                </div>
-              )}
-
               {!interviewPack && (
                 <p className="text-caption text-stone-400 dark:text-stone-500 italic mb-2">
                   Talking points are being generated — refresh the page in a moment.
@@ -480,24 +449,11 @@ export default async function FirmProfilePage({
 
               <div className="border-t border-stone-200 dark:border-stone-800 my-6" />
 
-              <p className="section-label mb-3">Practice Questions</p>
-              <p className="text-caption text-stone-400 dark:text-stone-500 mb-5 leading-relaxed">
-                10 questions tailored to {firm.shortName} — drawn from the firm&apos;s profile, practice areas, and recent news. Try answering each one aloud.
-              </p>
-
               {interviewPack && interviewPack.practiceQuestions.length > 0 ? (
-                <ol className="space-y-4">
-                  {interviewPack.practiceQuestions.map((question, i) => (
-                    <li key={i} className="flex gap-4">
-                      <span className="shrink-0 font-serif text-body text-stone-400 dark:text-stone-500 leading-none mt-0.5 w-6 text-right">
-                        {i + 1}.
-                      </span>
-                      <p className="text-body text-stone-700 dark:text-stone-300 leading-relaxed">
-                        {question}
-                      </p>
-                    </li>
-                  ))}
-                </ol>
+                <CollapsibleQuestions
+                  questions={interviewPack.practiceQuestions}
+                  firmShortName={firm.shortName}
+                />
               ) : (
                 <p className="text-caption text-stone-400 dark:text-stone-500 italic">
                   Practice questions are being generated — refresh the page in a moment.
