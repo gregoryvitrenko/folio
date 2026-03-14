@@ -1,4 +1,4 @@
-import { AlertTriangle } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { FirmsDirectory } from '@/components/FirmsDirectory';
 import { FIRMS } from '@/lib/firms-data';
@@ -26,12 +26,17 @@ export default async function FirmsPage() {
         </div>
 
         {/* Disclaimer */}
-        <div className="flex items-start gap-2.5 rounded-card bg-stone-50 dark:bg-stone-900/50 border border-stone-200 dark:border-stone-800 px-4 py-3 mb-8">
-          <AlertTriangle size={13} className="shrink-0 mt-0.5 text-stone-400 dark:text-stone-500" />
-          <p className="text-[12px] text-stone-500 dark:text-stone-400 leading-relaxed">
-            Deadline windows shown are approximate and based on typical prior-year cycles.
-            Always verify opening and closing dates on each firm&apos;s official graduate recruitment page before applying.
-          </p>
+        <div className="flex items-start gap-4 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 px-5 py-4 mb-8">
+          <div className="shrink-0 flex items-center justify-center w-8 h-8 rounded-xl bg-stone-100 dark:bg-stone-800">
+            <ShieldCheck size={14} className="text-stone-400 dark:text-stone-500" />
+          </div>
+          <div>
+            <p className="section-label mb-1.5">Data Verification</p>
+            <p className="text-caption text-stone-500 dark:text-stone-400 leading-relaxed">
+              Deadline windows shown are approximate and based on typical prior-year cycles.
+              Always verify opening and closing dates on each firm&apos;s official graduate recruitment page before applying.
+            </p>
+          </div>
         </div>
 
         {/* Search + tier jump links + firm grid — all client-side */}
