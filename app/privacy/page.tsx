@@ -55,8 +55,8 @@ export default function PrivacyPage() {
           </p>
           <p>
             To contact us about your data, email{' '}
-            <a href="mailto:folioapp@gmail.com" className="underline underline-offset-2 text-stone-700 dark:text-stone-300">
-              folioapp@gmail.com
+            <a href="mailto:feedbackfolio@gmail.com" className="underline underline-offset-2 text-stone-700 dark:text-stone-300">
+              feedbackfolio@gmail.com
             </a>.
           </p>
         </Section>
@@ -147,8 +147,8 @@ export default function PrivacyPage() {
           </ul>
           <p>
             To exercise any of these rights, contact us at{' '}
-            <a href="mailto:folioapp@gmail.com" className="underline underline-offset-2 text-stone-700 dark:text-stone-300">
-              folioapp@gmail.com
+            <a href="mailto:feedbackfolio@gmail.com" className="underline underline-offset-2 text-stone-700 dark:text-stone-300">
+              feedbackfolio@gmail.com
             </a>. We will respond within 30 days. You also have the right to lodge a complaint with the Information Commissioner&apos;s Office (ICO) at{' '}
             <a href="https://ico.org.uk" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 text-stone-700 dark:text-stone-300">
               ico.org.uk
