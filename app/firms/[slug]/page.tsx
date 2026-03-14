@@ -197,40 +197,16 @@ export default async function FirmProfilePage({
             {/* Left: firm identity */}
             <div>
               <p className="section-label mb-3">Firm Intelligence</p>
-              <h1 className="font-serif text-4xl sm:text-5xl tracking-tight text-stone-900 dark:text-stone-50 leading-[1.1] mb-4">
+              <h1 className="font-serif text-5xl sm:text-6xl tracking-tight text-stone-900 dark:text-stone-50 leading-[1.05] mb-6">
                 {firm.name}
               </h1>
-
-              <div className="flex flex-wrap items-center gap-2 mb-3">
-                <span className={`inline-block text-label font-semibold tracking-wide uppercase px-2.5 py-1 rounded-full ${TIER_BADGE[firm.tier]}`}>
-                  {firm.tier}
-                </span>
-                <span className="text-stone-300 dark:text-stone-700">·</span>
-                <div className="flex items-center gap-1 text-caption text-stone-500 dark:text-stone-400">
-                  <MapPin size={11} className="shrink-0" />
-                  <span className="font-medium">{firm.hq}</span>
-                </div>
-              </div>
-
-              {firm.offices.length > 0 && (
-                <div className="flex flex-wrap gap-1 mb-5">
-                  {firm.offices.map((office) => (
-                    <span
-                      key={office}
-                      className="text-label px-2 py-0.5 bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400 rounded-full border border-stone-200 dark:border-stone-700"
-                    >
-                      {office}
-                    </span>
-                  ))}
-                </div>
-              )}
 
               <div className="flex flex-wrap items-center gap-2" data-print-hide>
                 <a
                   href={firm.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-caption font-medium px-5 py-2 rounded-full border border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-stone-800 transition-colors"
+                  className="inline-flex items-center gap-1.5 text-caption font-semibold uppercase tracking-wide px-5 py-2.5 rounded-full bg-stone-900 dark:bg-stone-100 text-stone-50 dark:text-stone-900 hover:opacity-80 transition-opacity"
                 >
                   Website
                   <ExternalLink size={11} />
@@ -239,7 +215,7 @@ export default async function FirmProfilePage({
                   href={firm.trainingContract.applyUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-caption font-medium px-5 py-2 rounded-full bg-stone-900 dark:bg-stone-100 text-stone-50 dark:text-stone-900 hover:opacity-80 transition-opacity"
+                  className="inline-flex items-center gap-1.5 text-caption font-semibold uppercase tracking-wide px-5 py-2.5 rounded-full bg-[#1B2333] text-stone-100 hover:opacity-80 transition-opacity"
                 >
                   Apply Now
                   <ExternalLink size={11} />
@@ -257,10 +233,10 @@ export default async function FirmProfilePage({
               ].map(({ label, value, accent }) => (
                 <div
                   key={label}
-                  className="bg-stone-50 dark:bg-stone-800/60 border border-stone-200 dark:border-stone-700 rounded-2xl px-4 py-3"
+                  className="bg-stone-50 dark:bg-stone-800/60 border border-stone-100 dark:border-stone-700 rounded-2xl px-4 py-3 text-center"
                 >
-                  <p className="section-label mb-1.5">{label}</p>
-                  <p className={`font-sans text-subheading leading-tight text-stone-800 dark:text-stone-100 ${accent}`}>
+                  <p className="section-label mb-2">{label}</p>
+                  <p className={`font-serif text-subheading leading-tight text-stone-800 dark:text-stone-100 ${accent}`}>
                     {value}
                   </p>
                 </div>
