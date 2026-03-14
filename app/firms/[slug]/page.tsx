@@ -308,47 +308,42 @@ export default async function FirmProfilePage({
                   const hasExact = deadline.openDate || deadline.closeDate;
                   const isClosed = deadline.closeDate ? deadline.closeDate < today : false;
                   return (
-                    <div
+                    <a
                       key={deadline.label}
-                      className={`bg-[#141C2A] rounded-2xl px-4 py-3${isClosed ? ' opacity-50' : ''}`}
+                      href={deadline.applyUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`group flex items-start justify-between gap-2 bg-[#141C2A] rounded-2xl px-4 py-3 hover:bg-[#1f2d42] transition-colors${isClosed ? ' opacity-50' : ''}`}
                     >
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="min-w-0">
-                          <p className={`text-caption font-semibold leading-snug mb-0.5 ${isClosed ? 'text-stone-400 line-through' : 'text-stone-100'}`}>
-                            {deadline.label}
+                      <div className="min-w-0">
+                        <p className={`text-caption font-semibold leading-snug mb-0.5 ${isClosed ? 'text-stone-400 line-through' : 'text-stone-100'}`}>
+                          {deadline.label}
+                        </p>
+                        {hasExact ? (
+                          <p className="text-label font-sans text-stone-400">
+                            {deadline.openDate && deadline.closeDate
+                              ? `${fmtDate(deadline.openDate)} – ${fmtDate(deadline.closeDate)}`
+                              : deadline.closeDate
+                              ? `Closes ${fmtDate(deadline.closeDate)}`
+                              : `Opens ${fmtDate(deadline.openDate!)}`}
                           </p>
-                          {hasExact ? (
-                            <p className="text-label font-sans text-stone-400">
-                              {deadline.openDate && deadline.closeDate
-                                ? `${fmtDate(deadline.openDate)} – ${fmtDate(deadline.closeDate)}`
-                                : deadline.closeDate
-                                ? `Closes ${fmtDate(deadline.closeDate)}`
-                                : `Opens ${fmtDate(deadline.openDate!)}`}
-                            </p>
-                          ) : null}
-                          <p className="text-label font-sans text-stone-500 mt-0.5">
-                            {deadline.typically}
-                          </p>
-                        </div>
+                        ) : null}
+                        <p className="text-label font-sans text-stone-500 mt-0.5">
+                          {deadline.typically}
+                        </p>
+                      </div>
+                      <div className="shrink-0 flex items-center gap-1.5 mt-0.5">
                         {!isClosed && deadline.rolling && (
-                          <span className="shrink-0 inline-block text-label font-semibold uppercase px-1.5 py-0.5 rounded-full bg-amber-900/40 text-amber-300 border border-amber-700/50">
+                          <span className="inline-block text-label font-semibold uppercase px-1.5 py-0.5 rounded-full bg-amber-900/40 text-amber-300 border border-amber-700/50">
                             Rolling
                           </span>
                         )}
+                        <ArrowUpRight size={13} className="text-stone-500 group-hover:text-stone-300 transition-colors" />
                       </div>
-                    </div>
+                    </a>
                   );
                 })}
               </div>
-              <a
-                href={firm.trainingContract.applyUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-print-hide
-                className="mt-4 w-full inline-flex items-center justify-center gap-2 text-caption font-medium px-4 py-2.5 rounded-full bg-stone-700 hover:bg-stone-600 text-stone-100 transition-colors"
-              >
-                Apply for Training Contract
-              </a>
             </div>
           </div>
 
