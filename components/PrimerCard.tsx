@@ -20,7 +20,7 @@ export function PrimerCard({ primer }: { primer: Primer }) {
         </div>
 
         {/* Large serif title */}
-        <h3 className="font-serif text-[28px] leading-tight font-bold text-stone-900 dark:text-stone-50 tracking-tight mb-3 group-hover:underline decoration-stone-400 dark:decoration-stone-500 underline-offset-2">
+        <h3 className="font-serif text-[28px] leading-tight text-stone-900 dark:text-stone-50 tracking-tight mb-3 group-hover:underline decoration-stone-400 dark:decoration-stone-500 underline-offset-2">
           {primer.title}
         </h3>
 
