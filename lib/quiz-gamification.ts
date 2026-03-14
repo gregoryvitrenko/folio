@@ -109,8 +109,10 @@ function fsReadRaw(userId: string): FsData {
 }
 
 function fsGetData(userId: string): GamificationData {
-  const { xp, level, streak, lastCompleted } = fsReadRaw(userId);
-  return { xp, level, streak, lastCompleted };
+  const { xp, streak, lastCompleted } = fsReadRaw(userId);
+  // Always derive level from XP — never trust the stored value, which may
+  // have been set under a different formula in a previous session.
+  return { xp, level: levelFromXP(xp), streak, lastCompleted };
 }
 
 function fsGetPracticeWeek(userId: string): string | null {
@@ -139,9 +141,12 @@ async function redisGetData(userId: string): Promise<GamificationData> {
     redis.get(`quiz:streak:${userId}`),
     redis.get(`quiz:last-completed:${userId}`),
   ]);
+  const xp = xpRaw ? Number(xpRaw) : 0;
   return {
-    xp: xpRaw ? Number(xpRaw) : 0,
-    level: levelRaw ? Number(levelRaw) : 0,
+    xp,
+    // Always derive level from XP — never trust the stored value, which may
+    // have been set under a different formula in a previous session.
+    level: levelFromXP(xp),
     streak: streakRaw ? Number(streakRaw) : 0,
     lastCompleted: lastRaw ? String(lastRaw) : null,
   };
