@@ -229,17 +229,17 @@ export default async function FirmProfilePage({
             {/* Right: 2×2 stat grid */}
             <div className="grid grid-cols-2 gap-3 md:min-w-[280px]">
               {[
-                { label: 'NQ Salary', value: firm.trainingContract.nqSalaryNote, accent: tierText },
-                { label: 'TC Salary', value: firm.trainingContract.tcSalaryNote, accent: '' },
-                { label: 'Annual Intake', value: firm.trainingContract.intakeSizeNote, accent: '' },
-                { label: 'Seats', value: `${firm.trainingContract.seats} seats`, accent: '' },
-              ].map(({ label, value, accent }) => (
+                { label: 'NQ Salary', value: firm.trainingContract.nqSalaryNote },
+                { label: 'TC Salary', value: firm.trainingContract.tcSalaryNote },
+                { label: 'Annual Intake', value: firm.trainingContract.intakeSizeNote },
+                { label: 'Seats', value: `${firm.trainingContract.seats} seats` },
+              ].map(({ label, value }) => (
                 <div
                   key={label}
                   className="bg-stone-50 dark:bg-stone-800/60 border border-stone-100 dark:border-stone-700 rounded-2xl px-4 py-3 text-center"
                 >
                   <p className="section-label mb-2">{label}</p>
-                  <p className={`font-serif text-subheading leading-tight text-stone-800 dark:text-stone-100 ${accent}`}>
+                  <p className="font-serif text-subheading leading-tight text-stone-800 dark:text-stone-100">
                     {value}
                   </p>
                 </div>
