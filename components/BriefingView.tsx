@@ -57,7 +57,7 @@ export function BriefingView({ briefing, subscribed = false }: BriefingViewProps
 
       {/* Strapline */}
       <p className="font-serif text-base sm:text-lg italic text-stone-400 dark:text-stone-500 text-center mb-3 leading-relaxed">
-        From commercial awareness to commercial fluency — briefings, quiz, firm intelligence, and interview prep, every morning.
+        Where commercial awareness becomes fluency.
       </p>
 
       {/* Date line */}
