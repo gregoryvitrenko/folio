@@ -9,8 +9,8 @@ import { NextRequest, NextResponse } from 'next/server';
  * Get the Clerk Frontend API URL to proxy to.
  *
  * Priority:
- * 1. CLERK_PROXY_TARGET env var (the .clerk.accounts.dev URL for the new
- *    Clerk app that bypasses the Cloudflare cross-account conflict)
+ * 1. CLERK_PROXY_TARGET env var — set to https://frontend-api.clerk.services
+ *    to bypass the Cloudflare cross-account conflict on clerk.folioapp.co.uk
  * 2. Decoded from NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY (fallback)
  *
  * NOTE: We intentionally use CLERK_PROXY_TARGET (not CLERK_API_URL) because
@@ -29,6 +29,16 @@ function getClerkFrontendApi(): string {
   const encoded = key.replace(/^pk_(test|live)_/, '');
   const decoded = Buffer.from(encoded, 'base64').toString('utf-8').replace(/\$$/, '');
   return `https://${decoded}`;
+}
+
+/** Hostname decoded from publishable key — used as Host header when proxying
+ *  to a different target (e.g. frontend-api.clerk.services) so Clerk routes
+ *  to the correct instance. */
+function getClerkFrontendApiHost(): string | null {
+  const key = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+  if (!key) return null;
+  const encoded = key.replace(/^pk_(test|live)_/, '');
+  return Buffer.from(encoded, 'base64').toString('utf-8').replace(/\$$/, '');
 }
 
 async function handler(request: NextRequest) {
@@ -53,6 +63,13 @@ async function handler(request: NextRequest) {
     // Clerk requires the secret key when requests come through a proxy
     if (process.env.CLERK_SECRET_KEY) {
       headers.set('Clerk-Secret-Key', process.env.CLERK_SECRET_KEY);
+    }
+    // When proxying to a different target (e.g. frontend-api.clerk.services),
+    // set Host to the actual Clerk frontend API hostname so Clerk routes to
+    // the correct instance (avoids Cloudflare cross-account Error 1000).
+    if (process.env.CLERK_PROXY_TARGET) {
+      const clerkHost = getClerkFrontendApiHost();
+      if (clerkHost) headers.set('Host', clerkHost);
     }
 
     const res = await fetch(target, {
