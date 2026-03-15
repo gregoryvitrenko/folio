@@ -45,6 +45,7 @@ async function handler(request: NextRequest) {
   try {
     const clerkApi = getClerkFrontendApi();
     const url = new URL(request.url);
+    console.log('[clerk-proxy] target:', clerkApi, '| path:', url.pathname);
     const clerkPath = url.pathname.replace(/^\/api\/clerk-proxy/, '') || '/';
     const target = `${clerkApi}${clerkPath}${url.search}`;
 
@@ -72,14 +73,13 @@ async function handler(request: NextRequest) {
       if (clerkHost) headers.set('Host', clerkHost);
     }
 
+    const hasBody = request.method !== 'GET' && request.method !== 'HEAD';
+    const body = hasBody ? await request.arrayBuffer() : undefined;
+
     const res = await fetch(target, {
       method: request.method,
       headers,
-      body: request.method !== 'GET' && request.method !== 'HEAD'
-        ? request.body
-        : undefined,
-      // @ts-expect-error -- duplex is required for streaming request bodies
-      duplex: 'half',
+      body: body ? Buffer.from(body) : undefined,
       redirect: 'manual',
     });
 
@@ -92,9 +92,10 @@ async function handler(request: NextRequest) {
       headers: responseHeaders,
     });
   } catch (err) {
-    console.error('[clerk-proxy] error:', err);
+    const cause = (err as { cause?: { message?: string; code?: string } })?.cause;
+    console.error('[clerk-proxy] error:', err, '| cause:', cause?.message, cause?.code);
     return NextResponse.json(
-      { error: 'Clerk proxy error', detail: String(err) },
+      { error: 'Clerk proxy error', detail: String(err), cause: cause?.message, code: cause?.code },
       { status: 502 },
     );
   }
