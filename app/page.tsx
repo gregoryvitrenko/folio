@@ -59,13 +59,13 @@ export default async function HomePage() {
       <Header date={today} />
       {(subscriptionStatus === 'unauthenticated' || subscriptionStatus === 'free') && <LandingHero />}
       {showFirmsStrip && <YourFirmsStrip slugs={onboardingData!.targetFirms} />}
-      {isStale && (
+      {isStale && isAdmin && (
         <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-5">
           <div className="flex items-center justify-between gap-4 px-4 py-3 rounded-card bg-stone-50 dark:bg-stone-900/50 border border-stone-200 dark:border-stone-800">
             <p className="text-xs text-stone-500 dark:text-stone-400">
               Showing briefing from {briefing.date} — today&apos;s hasn&apos;t been generated yet.
             </p>
-            {isAdmin && <GenerateButton />}
+            <GenerateButton />
           </div>
         </div>
       )}
